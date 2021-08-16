@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LemonBot": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
