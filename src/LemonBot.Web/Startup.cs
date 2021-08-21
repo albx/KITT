@@ -43,6 +43,19 @@ namespace LemonBot.Web
 
             app.UseAuthorization();
 
+            app.Map("/console", app =>
+            {
+                app.UseBlazorFrameworkFiles();
+                app.UseRouting();
+
+                //app.UseAuthorization();
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapFallbackToFile("index.html");
+                });
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
