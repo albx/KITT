@@ -1,0 +1,60 @@
+﻿@page "/lives/create"
+
+<PageLayout PageTitle="Create new live">
+    <Toolbar>
+        <a href="lives" class="btn btn-primary">Back</a>
+    </Toolbar>
+    <PageContent>
+        <EditForm Model="model" OnValidSubmit="CreateLiveAsync" class="col-md-12 mt-3">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <InputText @bind-Value="model.Title" class="form-control" id="title" />
+                <ValidationMessage For="() => model.Title" />
+            </div>
+
+            <div class="form-group">
+                <label for="scheduleDate">Schedule date</label>
+                <InputDate @bind-Value="model.ScheduleDate" class="form-control" id="scheduleDate" />
+                <ValidationMessage For="() => model.ScheduleDate" />
+            </div>
+
+            <div class="form-group">
+                <label for="startingTime">Starting time</label>
+                <TimeEdit @bind-Time="model.StartingTime" Class="form-control" id="startingTime" />
+                <ValidationMessage For="() => model.StartingTime" />
+            </div>
+
+            <div class="form-group">
+                <label for="endingTime">Ending time</label>
+                <TimeEdit @bind-Time="model.EndingTime" Class="form-control" id="endingTime" />
+                <ValidationMessage For="() => model.EndingTime" />
+            </div>
+
+            <div class="form-group">
+                <label for="twitchChannelUrl">Twitch url</label>
+                <InputText @bind-Value="model.TwitchChannelUrl" class="form-control" id="twitchChannelUrl" />
+                <ValidationMessage For="() => model.TwitchChannelUrl" />
+            </div>
+
+            <div class="form-group">
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="model.IsRecurring" id="isRecurring" />
+                    <label class="form-check-label" for="isRecurring">Recurring</label>
+                </div>
+            </div>
+
+            <div class="form-group align-content-end">
+                <button type="reset" class="btn btn-outline-primary mr-3">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </EditForm>
+    </PageContent>
+</PageLayout>
+
+@code {
+    private CreateLiveModel model = new();
+
+    Task CreateLiveAsync() => Task.CompletedTask;
+}

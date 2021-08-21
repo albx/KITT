@@ -1,0 +1,21 @@
+﻿<div class="row">
+    <div class="col">
+        <h3>My Lives</h3>
+    </div>
+    <div class="col-auto align-content-center">
+        @Toolbar
+    </div>
+</div>
+<hr />
+@PageContent
+
+@code {
+    [Parameter]
+    public string PageTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment Toolbar { get; set; }
+
+    [Parameter]
+    public RenderFragment PageContent { get; set; }
+}

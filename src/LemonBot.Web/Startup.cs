@@ -1,4 +1,6 @@
+using LemonBot.Web.Extensions;
 using LemonBot.Web.Hubs;
+using LemonBot.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,8 @@ namespace LemonBot.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<LivesControllerServices>();
+
             services.AddSignalR();
             services.AddControllersWithViews();
         }
@@ -43,18 +47,7 @@ namespace LemonBot.Web
 
             app.UseAuthorization();
 
-            app.Map("/console", app =>
-            {
-                app.UseBlazorFrameworkFiles();
-                app.UseRouting();
-
-                //app.UseAuthorization();
-
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapFallbackToFile("index.html");
-                });
-            });
+            app.UseKITTConsole();
 
             app.UseEndpoints(endpoints =>
             {

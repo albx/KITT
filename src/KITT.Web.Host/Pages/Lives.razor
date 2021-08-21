@@ -1,0 +1,69 @@
+﻿@page "/lives"
+@inject HttpClient Http
+
+<PageLayout PageTitle="My lives">
+    <Toolbar>
+        <a href="lives/create" class="btn btn-primary">Add new live</a>
+    </Toolbar>
+    <PageContent>
+        <div class="row">
+            <div class="col">
+                @if (model.Items is null)
+                {
+                    <h2>No lives here :(</h2>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Twitch link</th>
+                                <th>YouTube link</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var live in model.Items)
+                            {
+                                <tr>
+                                    <td>@live.Title</td>
+                                    <td>@live.ScheduledOn.ToShortDateString()</td>
+                                    <td>@live.StartingTime.ToString() - @live.EndingTime.ToString()</td>
+                                    <td><a href="@live.TwitchChannelUrl" target="_blank">link</a></td>
+                                    <td><a href="@live.YouTubeVideoUrl" target="_blank">link</a></td>
+                                    <td>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <button type="button" class="btn btn-outline-primary">
+                                                <span class="oi oi-pencil"></span> Edit
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary">
+                                                <span class="oi oi-calendar"></span> Schedule
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger">
+                                                <span class="oi oi-trash"></span> Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </PageContent>
+</PageLayout>
+
+@code {
+    private LiveListModel model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        model = await Http.GetFromJsonAsync<LiveListModel>("/api/lives");
+    }
+}
