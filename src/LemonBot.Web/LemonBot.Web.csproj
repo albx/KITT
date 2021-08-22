@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KITT.Web.Host\KITT.Web.Host.csproj" />
+    <ProjectReference Include="..\KITT.Web.App\KITT.Web.App.csproj" />
   </ItemGroup>
 
 </Project>
