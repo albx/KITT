@@ -1,16 +1,16 @@
-﻿@page "/lives"
+﻿@page "/streamings"
 @inject HttpClient Http
 
-<PageLayout PageTitle="My lives">
+<PageLayout PageTitle="My streamings">
     <Toolbar>
-        <a href="lives/create" class="btn btn-primary">Add new live</a>
+        <a href="streamings/schedule" class="btn btn-primary">Schedule new streaming</a>
     </Toolbar>
     <PageContent>
         <div class="row">
             <div class="col">
                 @if (model.Items is null)
                 {
-                    <h2>No lives here :(</h2>
+                    <h2>No streamings here :(</h2>
                 }
                 else
                 {
@@ -58,12 +58,12 @@
 </PageLayout>
 
 @code {
-    private LiveListModel model = new();
+    private StreamingsListModel model = new();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        model = await Http.GetFromJsonAsync<LiveListModel>("/api/lives");
+        model = await Http.GetFromJsonAsync<StreamingsListModel>("/api/streamings");
     }
 }

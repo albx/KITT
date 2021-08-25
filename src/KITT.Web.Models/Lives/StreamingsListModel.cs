@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace KITT.Web.Models.Lives
 {
-    public class LiveListModel
+    public class StreamingsListModel
     {
-        public IEnumerable<LiveListItemModel> Items { get; set; }
+        public IEnumerable<StreamingListItemModel> Items { get; set; }
 
-        public record LiveListItemModel
+        public record StreamingListItemModel
         {
             public Guid Id { get; set; }
 

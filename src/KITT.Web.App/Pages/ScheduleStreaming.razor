@@ -1,11 +1,11 @@
-﻿@page "/lives/create"
+﻿@page "/streamings/schedule"
 
-<PageLayout PageTitle="Create new live">
+<PageLayout PageTitle="Schedule streaming">
     <Toolbar>
-        <a href="lives" class="btn btn-primary">Back</a>
+        <a href="streamings" class="btn btn-primary">Back</a>
     </Toolbar>
     <PageContent>
-        <EditForm Model="model" OnValidSubmit="CreateLiveAsync" class="col-md-12 mt-3">
+        <EditForm Model="model" OnValidSubmit="ScheduleStreamingAsync" class="col-md-12 mt-3">
             <DataAnnotationsValidator />
 
             <div class="form-group">
@@ -33,8 +33,13 @@
             </div>
 
             <div class="form-group">
-                <label for="twitchChannelUrl">Twitch url</label>
-                <InputText @bind-Value="model.TwitchChannelUrl" class="form-control" id="twitchChannelUrl" />
+                <label for="twitchChannelUrl">Twitch channel</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
+                    </div>
+                    <InputText @bind-Value="model.TwitchChannelUrl" class="form-control" id="twitchChannelUrl" />
+                </div>
                 <ValidationMessage For="() => model.TwitchChannelUrl" />
             </div>
 
@@ -54,7 +59,7 @@
 </PageLayout>
 
 @code {
-    private CreateLiveModel model = new();
+    private ScheduleStreamingModel model = new();
 
-    Task CreateLiveAsync() => Task.CompletedTask;
+    Task ScheduleStreamingAsync() => Task.CompletedTask;
 }
