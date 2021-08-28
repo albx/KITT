@@ -16,6 +16,8 @@ namespace LemonBot.Web.Extensions
                 app.UseBlazorFrameworkFiles();
                 app.UseRouting();
 
+                //app.UseIdentityServer();
+                //app.UseAuthentication();
                 //app.UseAuthorization();
 
                 app.UseEndpoints(endpoints =>
