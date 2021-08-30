@@ -1,3 +1,4 @@
+using KITT.Auth;
 using KITT.Auth.Models;
 using KITT.Auth.Persistence;
 using LemonBot.Web.Extensions;
@@ -6,11 +7,11 @@ using LemonBot.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
 
 namespace LemonBot.Web
 {
@@ -31,7 +32,9 @@ namespace LemonBot.Web
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<KittUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services
+                .AddDefaultIdentity<KittUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<KittIdentityDbContext>();
 
             services.AddIdentityServer(options =>
@@ -43,6 +46,14 @@ namespace LemonBot.Web
             services
                 .AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddDataInitializer(options =>
+            {
+                options.UserName = Configuration["AdministratorUser:UserName"];
+                options.Password = Configuration["AdministratorUser:Password"];
+                options.TwitchChannel = Configuration["AdministratorUser:TwitchChannel"];
+                options.Email = Configuration["AdministratorUser:Email"];
+            });
 
             services.AddScoped<StreamingsControllerServices>();
 
@@ -57,7 +68,6 @@ namespace LemonBot.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
-                app.UseWebAssemblyDebugging();
             }
             else
             {
@@ -67,7 +77,6 @@ namespace LemonBot.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -76,22 +85,16 @@ namespace LemonBot.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseKITTConsole(env);
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.Map("/console", ctx =>
-                {
-                    endpoints.MapFallbackToFile("console/index.html");
-                    return Task.CompletedTask;
-                });
-
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHub<BotMessageHub>("/bot");
             });
-
-            //app.UseKITTConsole();
         }
     }
 }

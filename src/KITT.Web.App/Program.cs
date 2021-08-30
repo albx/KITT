@@ -26,12 +26,19 @@ namespace KITT.Web.App
                 .AddFontAwesomeIcons();
 
             builder.Services
-                .AddHttpClient("LemonBot.Web.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) )
+                .AddHttpClient("IdentityAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) )
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("LemonBot.Web.ServerAPI"));
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("IdentityAPI"));
 
-            builder.Services.AddApiAuthorization();
+            builder.Services.AddApiAuthorization(options =>
+            {
+                options.AuthenticationPaths.LogInCallbackPath = "/console/authentication/login-callback";
+                options.AuthenticationPaths.LogInPath = "/Account/Login";
+                options.AuthenticationPaths.LogInPath = "/Account/Logout";
+
+                options.ProviderOptions.ConfigurationEndpoint = "/_configuration/KITT.Console";
+            });
 
             await builder.Build().RunAsync();
         }

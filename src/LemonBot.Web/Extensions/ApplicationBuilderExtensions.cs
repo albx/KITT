@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
 namespace LemonBot.Web.Extensions
 {
@@ -9,10 +10,15 @@ namespace LemonBot.Web.Extensions
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseKITTConsole(this IApplicationBuilder app)
+        public static IApplicationBuilder UseKITTConsole(this IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             app.Map("/console", app =>
             {
+                if (env.IsDevelopment())
+                {
+                    app.UseWebAssemblyDebugging();
+                }
+
                 app.UseBlazorFrameworkFiles();
                 app.UseRouting();
 
