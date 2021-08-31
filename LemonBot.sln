@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B32B1475
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Core.Test", "tests\KITT.Core.Test\KITT.Core.Test.csproj", "{AB7A75D3-84BA-4AFD-BC49-D0C7545FB235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Auth", "src\KITT.Auth\KITT.Auth.csproj", "{2C3678D9-743A-4320-886A-029BF0116E2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Auth", "src\KITT.Auth\KITT.Auth.csproj", "{2C3678D9-743A-4320-886A-029BF0116E2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

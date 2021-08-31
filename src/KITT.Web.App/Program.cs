@@ -34,8 +34,10 @@ namespace KITT.Web.App
             builder.Services.AddApiAuthorization(options =>
             {
                 options.AuthenticationPaths.LogInCallbackPath = "/console/authentication/login-callback";
+                options.AuthenticationPaths.LogOutCallbackPath = "/console/authentication/logout-callback";
+
                 options.AuthenticationPaths.LogInPath = "/Account/Login";
-                options.AuthenticationPaths.LogInPath = "/Account/Logout";
+                options.AuthenticationPaths.LogOutPath = "/Account/Logout";
 
                 options.ProviderOptions.ConfigurationEndpoint = "/_configuration/KITT.Console";
             });

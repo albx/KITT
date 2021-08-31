@@ -55,6 +55,7 @@ namespace LemonBot.Web
                 options.Email = Configuration["AdministratorUser:Email"];
             });
 
+            services.AddScoped<AccountControllerServices>();
             services.AddScoped<StreamingsControllerServices>();
 
             services.AddSignalR();
