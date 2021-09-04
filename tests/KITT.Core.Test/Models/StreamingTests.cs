@@ -10,6 +10,24 @@ namespace KITT.Core.Test.Models
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
+        public void Schedule_Should_Throw_ArgumentException_If_Title_Is_Empty(string title)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void Schedule_Should_Throw_ArgumentException_If_Slug_Is_Empty(string slug)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
         public void Schedule_Should_Throw_ArgumentException_If_Twitch_Channel_Is_Empty(string twitchChannel)
         {
             throw new NotImplementedException();

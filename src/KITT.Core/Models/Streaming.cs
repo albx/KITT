@@ -10,6 +10,8 @@ namespace KITT.Core.Models
 
         public string Title { get; protected set; }
 
+        public string Slug { get; protected set; }
+
         public DateTime ScheduleDate { get; protected set; }
 
         public TimeSpan StartingTime { get; protected set; }
@@ -27,6 +29,11 @@ namespace KITT.Core.Models
         #endregion
 
         #region Behaviors
+        public void ChangeTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ChangeSchedule(DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
         {
             throw new NotImplementedException();
@@ -44,7 +51,7 @@ namespace KITT.Core.Models
         #endregion
 
         #region Factory
-        public static Streaming Schedule(string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl)
+        public static Streaming Schedule(string title, string slug, string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl)
         {
             throw new NotImplementedException();
         }
