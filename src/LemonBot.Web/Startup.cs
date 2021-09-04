@@ -1,6 +1,7 @@
 using KITT.Auth;
 using KITT.Auth.Models;
 using KITT.Auth.Persistence;
+using KITT.Core.Persistence;
 using LemonBot.Web.Extensions;
 using LemonBot.Web.Hubs;
 using LemonBot.Web.Services;
@@ -30,6 +31,9 @@ namespace LemonBot.Web
             services.AddDbContext<KittIdentityDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
 
+            services.AddDbContext<KittDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
@@ -47,7 +51,7 @@ namespace LemonBot.Web
                 .AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddDataInitializer(options =>
+            services.AddAuthDataInitializer(options =>
             {
                 options.UserName = Configuration["AdministratorUser:UserName"];
                 options.Password = Configuration["AdministratorUser:Password"];

@@ -26,7 +26,7 @@ namespace KITT.Web.App
                 .AddFontAwesomeIcons();
 
             builder.Services
-                .AddHttpClient("IdentityAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) )
+                .AddHttpClient("IdentityAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("IdentityAPI"));

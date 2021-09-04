@@ -19,4 +19,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KITT.Core\KITT.Core.csproj" />
+  </ItemGroup>
+
 </Project>

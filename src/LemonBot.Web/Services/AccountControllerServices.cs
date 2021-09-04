@@ -12,7 +12,7 @@ namespace LemonBot.Web.Services
 
         public AccountControllerServices(SignInManager<KittUser> signInManager)
         {
-            SignInManager = signInManager ?? throw new System.ArgumentNullException(nameof(signInManager));
+            SignInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
         public LoginViewModel GetLoginViewModel(string returnUrl)
@@ -23,7 +23,12 @@ namespace LemonBot.Web.Services
 
         public async Task<bool> SignInAsync(LoginViewModel model)
         {
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberLogin, lockoutOnFailure: false);
+            var result = await SignInManager.PasswordSignInAsync(
+                model.UserName, 
+                model.Password, 
+                model.RememberLogin, 
+                lockoutOnFailure: false);
+
             return result.Succeeded;
         }
 

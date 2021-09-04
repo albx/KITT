@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KITT.Auth\KITT.Auth.csproj" />
+    <ProjectReference Include="..\KITT.Core\KITT.Core.csproj" />
     <ProjectReference Include="..\KITT.Web.App\KITT.Web.App.csproj" />
   </ItemGroup>
 
