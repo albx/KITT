@@ -1,7 +1,11 @@
+using FluentValidation;
 using KITT.Auth;
 using KITT.Auth.Models;
 using KITT.Auth.Persistence;
+using KITT.Core.Commands;
 using KITT.Core.Persistence;
+using KITT.Core.ReadModels;
+using KITT.Core.Validators;
 using LemonBot.Web.Extensions;
 using LemonBot.Web.Hubs;
 using LemonBot.Web.Services;
@@ -59,6 +63,13 @@ namespace LemonBot.Web
                 options.Email = Configuration["AdministratorUser:Email"];
             });
 
+            services
+                .AddValidatorsFromAssemblyContaining<StreamingValidator>()
+                .AddScoped<IDatabase, Database>()
+                .AddScoped<IStreamingCommands, StreamingCommands>();
+
+            services.AddScoped<Areas.Console.Services.StreamingsControllerServices>();
+
             services.AddScoped<AccountControllerServices>();
             services.AddScoped<StreamingsControllerServices>();
 
@@ -94,6 +105,10 @@ namespace LemonBot.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Area",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

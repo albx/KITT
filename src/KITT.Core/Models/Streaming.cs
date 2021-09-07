@@ -31,7 +31,12 @@ namespace KITT.Core.Models
         #region Behaviors
         public void ChangeTitle(string title)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("value cannot be empty", nameof(title));
+            }
+
+            this.Title = title;
         }
 
         public void ChangeSchedule(DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
@@ -59,6 +64,11 @@ namespace KITT.Core.Models
         public void SetRegistrationYoutubeUrl(string youtubeUrl)
         {
             this.YouTubeVideoUrl = youtubeUrl;
+        }
+
+        public void ChangeHostingChannelUrl(string hostingChannelUrl)
+        {
+            this.HostingChannelUrl = hostingChannelUrl;
         }
         #endregion
 

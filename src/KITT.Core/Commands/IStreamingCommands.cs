@@ -5,10 +5,10 @@ namespace KITT.Core.Commands
 {
     public interface IStreamingCommands
     {
-        Task ScheduleStreamingAsync(string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract);
+        Task<Guid> ScheduleStreamingAsync(string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract);
 
-        Task UpdateStreamingAsync(Guid streamingId, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink);
+        Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink);
 
-        Task RemoveStreamingAsync(Guid streamingId);
+        Task DeleteStreamingAsync(Guid streamingId);
     }
 }

@@ -148,6 +148,30 @@ namespace KITT.Core.Test.Models
         }
         #endregion
 
+        #region ChangeTitle tests
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void ChangeTitle_Should_Throw_ArgumentException_If_Title_Is_Empty(string title)
+        {
+            var streaming = CreateStreamingForTests();
+
+            var ex = Assert.Throws<ArgumentException>(() => streaming.ChangeTitle(title));
+            Assert.Equal(nameof(title), ex.ParamName);
+        }
+
+        [Fact]
+        public void ChangeTitle_Should_Change_Streaming_Title_With_Specified_Value()
+        {
+            var streaming = CreateStreamingForTests();
+            string title = "new title";
+
+            streaming.ChangeTitle(title);
+            Assert.Equal(title, streaming.Title);
+        }
+        #endregion
+
         #region ChangeSchedule tests
         [Fact]
         public void ChangeSchedule_Should_Throw_ArgumentException_If_Schedule_Date_Is_Past_Date()
@@ -190,9 +214,27 @@ namespace KITT.Core.Test.Models
         #endregion
 
         #region SetAbstract tests
+        [Fact]
+        public void SetAbstract_Should_Set_Streaming_Abstract_With_Specified_Value()
+        {
+            var streaming = CreateStreamingForTests();
+            string streamingAbstract = "test abstract";
+
+            streaming.SetAbstract(streamingAbstract);
+            Assert.Equal(streamingAbstract, streaming.Abstract);
+        }
         #endregion
 
         #region SetRegistrationYoutubeUrl tests
+        [Fact]
+        public void SetRegistrationYoutubeUrl_Should_Set_Youtube_Registration_Url_With_Specified_Value()
+        {
+            var streaming = CreateStreamingForTests();
+            string youtubeUrl = "https://www.youtube.com";
+
+            streaming.SetRegistrationYoutubeUrl(youtubeUrl);
+            Assert.Equal(youtubeUrl, streaming.YouTubeVideoUrl);
+        }
         #endregion
 
         #region Helpers
