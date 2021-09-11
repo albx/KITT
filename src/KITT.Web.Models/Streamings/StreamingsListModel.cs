@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KITT.Web.Models.Lives
+namespace KITT.Web.Models.Streamings
 {
     public class StreamingsListModel
     {
@@ -15,11 +15,11 @@ namespace KITT.Web.Models.Lives
 
             public DateTime ScheduledOn { get; set; }
 
-            public TimeSpan StartingTime { get; set; }
+            public DateTime StartingTime { get; set; }
 
-            public TimeSpan EndingTime { get; set; }
+            public DateTime EndingTime { get; set; }
 
-            public string TwitchChannelUrl { get; set; }
+            public string HostingChannelUrl { get; set; }
 
             public string YouTubeVideoUrl { get; set; }
         }

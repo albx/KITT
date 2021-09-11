@@ -1,4 +1,6 @@
 ﻿@page "/streamings/schedule"
+
+@inject IStreamingsClient Client
 @attribute [Authorize]
 
 <PageLayout PageTitle="Schedule streaming">
@@ -9,10 +11,23 @@
         <EditForm Model="model" OnValidSubmit="ScheduleStreamingAsync" class="col-md-12 mt-3">
             <DataAnnotationsValidator />
 
+            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                <div class="alert alert-danger">
+                    @errorMessage
+                </div>
+            }
+
             <div class="form-group">
                 <label for="title">Title</label>
                 <InputText @bind-Value="model.Title" class="form-control" id="title" />
                 <ValidationMessage For="() => model.Title" />
+            </div>
+
+            <div class="form-group">
+                <label for="slug">Slug</label>
+                <InputText @bind-Value="model.Slug" class="form-control" id="title" />
+                <ValidationMessage For="() => model.Slug" />
             </div>
 
             <div class="form-group">
@@ -39,16 +54,15 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
                     </div>
-                    <InputText @bind-Value="model.TwitchChannelUrl" class="form-control" id="twitchChannelUrl" />
+                    <InputText @bind-Value="model.HostingChannelUrl" class="form-control" id="twitchChannelUrl" />
                 </div>
-                <ValidationMessage For="() => model.TwitchChannelUrl" />
+                <ValidationMessage For="() => model.HostingChannelUrl" />
             </div>
 
             <div class="form-group">
-                <div class="form-check">
-                    <InputCheckbox @bind-Value="model.IsRecurring" id="isRecurring" />
-                    <label class="form-check-label" for="isRecurring">Recurring</label>
-                </div>
+                <label id="streamingAbstract">Abstract</label>
+                <InputTextArea @bind-Value="model.StreamingAbstract" class="form-control" id="streamingAbstract" />
+                <ValidationMessage For="() => model.StreamingAbstract" />
             </div>
 
             <div class="form-group align-content-end">
@@ -60,7 +74,56 @@
 </PageLayout>
 
 @code {
-    private ScheduleStreamingModel model = new();
+    private ViewModel model = new();
 
-    Task ScheduleStreamingAsync() => Task.CompletedTask;
+    private string errorMessage;
+
+    async Task ScheduleStreamingAsync()
+    {
+        try
+        {
+            await Client.ScheduleStreamingAsync(model.ToApiModel());
+        }
+        catch (ApplicationException ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+
+    class ViewModel
+    {
+        [Required]
+        public string Title { get; set; }
+
+        [Required]
+        public string Slug { get; set; }
+
+        [Required]
+        public DateTime ScheduleDate { get; set; } = DateTime.Now;
+
+        [Required]
+        public TimeSpan StartingTime { get; set; } = DateTime.Now.TimeOfDay;
+
+        [Required]
+        public TimeSpan EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+
+        [Required]
+        public string HostingChannelUrl { get; set; }
+
+        public string StreamingAbstract { get; set; }
+
+        public ScheduleStreamingModel ToApiModel()
+        {
+            return new ScheduleStreamingModel
+            {
+                Title = this.Title,
+                ScheduleDate = this.ScheduleDate,
+                EndingTime = this.ScheduleDate.Add(this.EndingTime),
+                HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
+                Slug = this.Slug,
+                StartingTime = this.ScheduleDate.Add(this.StartingTime),
+                StreamingAbstract = this.StreamingAbstract
+            };
+        }
+    }
 }

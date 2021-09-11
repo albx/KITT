@@ -1,5 +1,7 @@
 ﻿@page "/streamings"
-@inject HttpClient Http
+
+@inject IStreamingsClient Client
+@attribute [Authorize]
 
 <PageLayout PageTitle="My streamings">
     <Toolbar>
@@ -31,8 +33,8 @@
                                 <tr>
                                     <td>@live.Title</td>
                                     <td>@live.ScheduledOn.ToShortDateString()</td>
-                                    <td>@live.StartingTime.ToString() - @live.EndingTime.ToString()</td>
-                                    <td><a href="@live.TwitchChannelUrl" target="_blank">link</a></td>
+                                    <td>@live.StartingTime.ToString("HH:mm") - @live.EndingTime.ToString("HH:mm")</td>
+                                    <td><a href="@live.HostingChannelUrl" target="_blank">link</a></td>
                                     <td><a href="@live.YouTubeVideoUrl" target="_blank">link</a></td>
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
@@ -64,6 +66,6 @@
     {
         await base.OnInitializedAsync();
 
-        model = await Http.GetFromJsonAsync<StreamingsListModel>("/api/streamings");
+        model = await Client.GetAllStreamingsAsync();
     }
 }

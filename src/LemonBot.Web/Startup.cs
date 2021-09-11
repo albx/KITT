@@ -71,7 +71,6 @@ namespace LemonBot.Web
             services.AddScoped<Areas.Console.Services.StreamingsControllerServices>();
 
             services.AddScoped<AccountControllerServices>();
-            services.AddScoped<StreamingsControllerServices>();
 
             services.AddSignalR();
             services.AddControllersWithViews();

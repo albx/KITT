@@ -1,11 +1,13 @@
-﻿using KITT.Web.Models.Lives;
+﻿using KITT.Web.Models.Streamings;
 using LemonBot.Web.Areas.Console.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace LemonBot.Web.Areas.Console.Controllers
 {
+    //[Authorize]
     [Route("api/console/[controller]")]
     [ApiController]
     public class StreamingsController : ControllerBase

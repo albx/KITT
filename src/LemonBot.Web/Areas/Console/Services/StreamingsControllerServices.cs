@@ -1,7 +1,8 @@
 ﻿using KITT.Core.Commands;
 using KITT.Core.ReadModels;
-using KITT.Web.Models.Lives;
+using KITT.Web.Models.Streamings;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LemonBot.Web.Areas.Console.Services
@@ -18,9 +19,26 @@ namespace LemonBot.Web.Areas.Console.Services
             Commands = commands ?? throw new ArgumentNullException(nameof(commands));
         }
 
-        public object GetAllStreamings()
+        public StreamingsListModel GetAllStreamings()
         {
-            throw new NotImplementedException();
+            var streamings = Database.Streamings
+                .Where(s => s.TwitchChannel == "albx87")
+                .OrderByDescending(s => s.ScheduleDate)
+                .ThenBy(s => s.StartingTime)
+                .ThenBy(s => s.EndingTime)
+                .Select(s => new StreamingsListModel.StreamingListItemModel
+                {
+                    Id = s.Id,
+                    EndingTime = s.ScheduleDate.Add(s.EndingTime),
+                    ScheduledOn = s.ScheduleDate,
+                    StartingTime = s.ScheduleDate.Add(s.StartingTime),
+                    Title = s.Title,
+                    HostingChannelUrl = s.HostingChannelUrl,
+                    YouTubeVideoUrl = s.YouTubeVideoUrl
+                }).ToArray();
+
+            var model = new StreamingsListModel { Items = streamings };
+            return model;
         }
 
         public object GetStreamingDetail(Guid streamingId)
@@ -31,14 +49,14 @@ namespace LemonBot.Web.Areas.Console.Services
         public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model)
         {
             return Commands.ScheduleStreamingAsync(
-                model.TwitchChannelUrl,
+                "albx87",
                 model.Title,
-                "",
+                model.Slug,
                 model.ScheduleDate,
-                model.StartingTime,
-                model.EndingTime,
-                "",
-                "");
+                model.StartingTime.TimeOfDay,
+                model.EndingTime.TimeOfDay,
+                model.HostingChannelUrl,
+                model.StreamingAbstract);
         }
 
         public Task UpdateStreamingAsync(Guid streamingId)

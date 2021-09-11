@@ -21,4 +21,8 @@
     <ProjectReference Include="..\KITT.Web.App\KITT.Web.App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\KITT\" />
+  </ItemGroup>
+
 </Project>
