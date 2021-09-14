@@ -1,4 +1,3 @@
-using KITT.Auth;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace LemonBot.Web
         {
             var host = CreateHostBuilder(args).Build();
 
-            await host.InitializeAuthAsync();
+            //await host.InitializeAuthAsync();
             await host.RunAsync();
         }
 

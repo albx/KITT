@@ -1,22 +1,18 @@
 using FluentValidation;
-using KITT.Auth;
-using KITT.Auth.Models;
-using KITT.Auth.Persistence;
 using KITT.Core.Commands;
 using KITT.Core.Persistence;
 using KITT.Core.ReadModels;
 using KITT.Core.Validators;
 using LemonBot.Web.Extensions;
 using LemonBot.Web.Hubs;
-using LemonBot.Web.Services;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 
 namespace LemonBot.Web
 {
@@ -32,36 +28,52 @@ namespace LemonBot.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<KittIdentityDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
+            //services.AddDbContext<KittIdentityDbContext>(
+            //    options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
+
+            //services.AddDbContext<KittDbContext>(
+            //    options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
 
             services.AddDbContext<KittDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
+                options => options.UseInMemoryDatabase("KITT-InMemory"));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            #region IS4
+            //services
+            //    .AddDefaultIdentity<KittUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<KittIdentityDbContext>();
+
+            //services.AddIdentityServer(options =>
+            //{
+            //    options.UserInteraction.LoginUrl = "/Account/Login";
+            //    options.UserInteraction.LogoutUrl = "/Account/Logout";
+            //}).AddApiAuthorization<KittUser, KittIdentityDbContext>();
+
+            //services
+            //    .AddAuthentication()
+            //    .AddIdentityServerJwt();
+
+            //services.AddAuthDataInitializer(options =>
+            //{
+            //    options.UserName = Configuration["AdministratorUser:UserName"];
+            //    options.Password = Configuration["AdministratorUser:Password"];
+            //    options.TwitchChannel = Configuration["AdministratorUser:TwitchChannel"];
+            //    options.Email = Configuration["AdministratorUser:Email"];
+            //});
+            #endregion
+
             services
-                .AddDefaultIdentity<KittUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<KittIdentityDbContext>();
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
 
-            services.AddIdentityServer(options =>
-            {
-                options.UserInteraction.LoginUrl = "/Account/Login";
-                options.UserInteraction.LogoutUrl = "/Account/Logout";
-            }).AddApiAuthorization<KittUser, KittIdentityDbContext>();
-
-            services
-                .AddAuthentication()
-                .AddIdentityServerJwt();
-
-            services.AddAuthDataInitializer(options =>
-            {
-                options.UserName = Configuration["AdministratorUser:UserName"];
-                options.Password = Configuration["AdministratorUser:Password"];
-                options.TwitchChannel = Configuration["AdministratorUser:TwitchChannel"];
-                options.Email = Configuration["AdministratorUser:Email"];
-            });
+            services.Configure<JwtBearerOptions>(
+                JwtBearerDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.TokenValidationParameters.NameClaimType = "name";
+                });
 
             services
                 .AddValidatorsFromAssemblyContaining<StreamingValidator>()
@@ -70,7 +82,7 @@ namespace LemonBot.Web
 
             services.AddScoped<Areas.Console.Services.StreamingsControllerServices>();
 
-            services.AddScoped<AccountControllerServices>();
+            //services.AddScoped<AccountControllerServices>();
 
             services.AddSignalR();
             services.AddControllersWithViews();
@@ -96,7 +108,7 @@ namespace LemonBot.Web
 
             app.UseRouting();
 
-            app.UseIdentityServer();
+            //app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 

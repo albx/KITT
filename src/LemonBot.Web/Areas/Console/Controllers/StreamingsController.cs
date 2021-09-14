@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Web.Areas.Console.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/console/[controller]")]
     [ApiController]
     public class StreamingsController : ControllerBase
