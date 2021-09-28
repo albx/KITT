@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Commands
 {
-    [BotCommand("!follow", HelpText = "Display the twitch url of the specified channel")]
+    [BotCommand("!follow", Comparison = CommandComparison.StartsWith, HelpText = "Display the twitch url of the specified channel")]
     public class FollowCommand : IBotCommand
     {
         private readonly TwitchClientProxy _client;

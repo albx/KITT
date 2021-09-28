@@ -25,7 +25,8 @@ namespace LemonBot.Commands.Services
                 {
                     CommandType = t,
                     HelpText = t.GetCustomAttribute<BotCommandAttribute>().HelpText,
-                    Prefix = t.GetCustomAttribute<BotCommandAttribute>().Prefix
+                    Prefix = t.GetCustomAttribute<BotCommandAttribute>().Prefix,
+                    Comparison = t.GetCustomAttribute<BotCommandAttribute>().Comparison
                 }).ToArray();
 
             return commandTypes;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Commands
 {
-    [BotCommand("!github", HelpText = "Show the full repository url, based on the specified name")]
+    [BotCommand("!github", Comparison = CommandComparison.StartsWith, HelpText = "Show the full repository url, based on the specified name")]
     public class GithubCommand : IBotCommand
     {
         private readonly TwitchClientProxy _client;

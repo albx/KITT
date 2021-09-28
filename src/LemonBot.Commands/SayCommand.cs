@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Commands
 {
-    [BotCommand("!say", HelpText = "Say something to the chat")]
+    [BotCommand("!say", Comparison = CommandComparison.StartsWith, HelpText = "Say something to the chat")]
     public class SayCommand : IBotCommand
     {
         private readonly TwitchClientProxy _client;
