@@ -36,18 +36,18 @@ namespace LemonBot.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/bot")
-                .Build();
+            //_connection = new HubConnectionBuilder()
+            //    .WithUrl("https://localhost:5001/bot")
+            //    .Build();
 
-            try
-            {
-                await _connection.StartAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Connection failed: {Message}", ex.Message);
-            }
+            //try
+            //{
+            //    await _connection.StartAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogWarning(ex, "Connection failed: {Message}", ex.Message);
+            //}
 
             InitializeTwitchClient();
             ConnectToTwitch();
