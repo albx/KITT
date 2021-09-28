@@ -14,7 +14,8 @@ namespace LemonBot.Commands.Extensions
                 .AddSingleton<TodayCommand>()
                 .AddSingleton<SayCommand>()
                 .AddSingleton<ImageCommand>()
-                .AddSingleton<GithubCommand>();
+                .AddSingleton<GithubCommand>()
+                .AddSingleton<FollowCommand>();
 
             return services;
         }
