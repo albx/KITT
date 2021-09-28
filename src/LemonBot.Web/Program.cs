@@ -11,7 +11,7 @@ namespace LemonBot.Web
         {
             var host = CreateHostBuilder(args).Build();
 
-            await host.InitializeAuthAsync();
+            //await host.InitializeAuthAsync();
             await host.RunAsync();
         }
 

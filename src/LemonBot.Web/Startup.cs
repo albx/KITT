@@ -32,28 +32,28 @@ namespace LemonBot.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<KittIdentityDbContext>(
-            //    options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
+            services.AddDbContext<KittIdentityDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
 
-            //services.AddDbContext<KittDbContext>(
-            //    options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
+            services.AddDbContext<KittDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
 
-            //services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
-            //services
-            //    .AddDefaultIdentity<KittUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<KittIdentityDbContext>();
+            services
+                .AddDefaultIdentity<KittUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<KittIdentityDbContext>();
 
-            //services.AddIdentityServer(options =>
-            //{
-            //    options.UserInteraction.LoginUrl = "/Account/Login";
-            //    options.UserInteraction.LogoutUrl = "/Account/Logout";
-            //}).AddApiAuthorization<KittUser, KittIdentityDbContext>();
+            services.AddIdentityServer(options =>
+            {
+                options.UserInteraction.LoginUrl = "/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Account/Logout";
+            }).AddApiAuthorization<KittUser, KittIdentityDbContext>();
 
-            //services
-            //    .AddAuthentication()
-            //    .AddIdentityServerJwt();
+            services
+                .AddAuthentication()
+                .AddIdentityServerJwt();
 
             //services.AddAuthDataInitializer(options =>
             //{
@@ -63,14 +63,14 @@ namespace LemonBot.Web
             //    options.Email = Configuration["AdministratorUser:Email"];
             //});
 
-            //services
-            //    .AddValidatorsFromAssemblyContaining<StreamingValidator>()
-            //    .AddScoped<IDatabase, Database>()
-            //    .AddScoped<IStreamingCommands, StreamingCommands>();
+            services
+                .AddValidatorsFromAssemblyContaining<StreamingValidator>()
+                .AddScoped<IDatabase, Database>()
+                .AddScoped<IStreamingCommands, StreamingCommands>();
 
-            //services.AddScoped<Areas.Console.Services.StreamingsControllerServices>();
+            services.AddScoped<Areas.Console.Services.StreamingsControllerServices>();
 
-            //services.AddScoped<AccountControllerServices>();
+            services.AddScoped<AccountControllerServices>();
 
             services.AddSignalR();
             services.AddControllersWithViews();
@@ -82,7 +82,7 @@ namespace LemonBot.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseMigrationsEndPoint();
+                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -96,11 +96,11 @@ namespace LemonBot.Web
 
             app.UseRouting();
 
-            //app.UseIdentityServer();
+            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseKITTConsole(env);
+            app.UseKITTConsole(env);
 
             app.UseEndpoints(endpoints =>
             {
