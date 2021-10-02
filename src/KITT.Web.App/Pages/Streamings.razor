@@ -1,7 +1,7 @@
 ﻿@page "/streamings"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-@inject HttpClient Http
+@inject IStreamingsClient Client
 @attribute [Authorize]
 
 <PageLayout PageTitle="My streamings">
@@ -65,11 +65,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //await base.OnInitializedAsync();
+        await base.OnInitializedAsync();
 
         try
         {
-            model = await Http.GetFromJsonAsync<StreamingsListModel>("/api/console/streamings");
+            model = await Client.GetAllStreamingsAsync();
         }
         catch (AccessTokenNotAvailableException exception)
         {

@@ -29,19 +29,27 @@ namespace KITT.Web.App
                 .AddFontAwesomeIcons();
 
             builder.Services
+                .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+                .AddHttpMessageHandler(provider =>
+                {
+                    var handler = provider.GetRequiredService<AuthorizationMessageHandler>()
+                        .ConfigureHandler(authorizedUrls: new[] { builder.Configuration["Endpoints:ConsoleApi"] });
+
+                    return handler;
+                });
+
+            builder.Services
                 .AddHttpClient("KITT.Web.App.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler(provider =>
                 {
                     var handler = provider.GetRequiredService<AuthorizationMessageHandler>()
-                        .ConfigureHandler(authorizedUrls: new[] { "https://localhost:5001/api/console" });
+                        .ConfigureHandler(authorizedUrls: new[] { builder.Configuration["Endpoints:ConsoleApi"] });
 
                     return handler;
                 });
 
             builder.Services
                 .AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("KITT.Web.App.ServerAPI"));
-
-            //builder.Services.AddScoped<IStreamingsClient, StreamingsHttpClient>();
 
             builder.Services.AddMsalAuthentication(options =>
             {
@@ -50,41 +58,6 @@ namespace KITT.Web.App
 
                 options.ProviderOptions.LoginMode = "redirect";
             });
-
-            #region IS4
-            //builder.Services
-            //    .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-            //    .AddHttpMessageHandler(provider =>
-            //    {
-            //        var handler = provider.GetRequiredService<AuthorizationMessageHandler>()
-            //            .ConfigureHandler(authorizedUrls: new[] { builder.HostEnvironment.BaseAddress });
-
-            //        return handler;
-            //    });
-
-            //builder.Services
-            //    .AddHttpClient("IdentityAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-            //    .AddHttpMessageHandler(provider =>
-            //    {
-            //        var handler = provider.GetRequiredService<AuthorizationMessageHandler>()
-            //            .ConfigureHandler(authorizedUrls: new[] { builder.HostEnvironment.BaseAddress });
-
-            //        return handler;
-            //    });
-
-            //builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("IdentityAPI"));
-
-            //builder.Services.AddApiAuthorization(options =>
-            //{
-            //    //options.AuthenticationPaths.LogInCallbackPath = "/console/authentication/login-callback";
-            //    //options.AuthenticationPaths.LogOutCallbackPath = "/console/authentication/logout-callback";
-
-            //    //options.AuthenticationPaths.LogInPath = "/Account/Login";
-            //    //options.AuthenticationPaths.LogOutPath = "/Account/Logout";
-
-            //    options.ProviderOptions.ConfigurationEndpoint = "/_configuration/KITT.Console";
-            //});
-            #endregion
 
             await builder.Build().RunAsync();
         }
