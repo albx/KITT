@@ -13,8 +13,7 @@ namespace LemonBot.Web.Extensions
         {
             app.Map("/console", app =>
             {
-                app.UseBlazorFrameworkFiles();
-                app.UseRouting();
+                
 
                 //app.UseIdentityServer();
                 //app.UseAuthentication();
@@ -22,7 +21,7 @@ namespace LemonBot.Web.Extensions
 
                 app.UseEndpoints(endpoints =>
                 {
-                    endpoints.MapFallbackToFile("console/index.html");
+                    
                 });
             });
 

@@ -79,12 +79,11 @@ namespace LemonBot.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseBlazorFrameworkFiles();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseKITTConsole();
 
             app.UseEndpoints(endpoints =>
             {
@@ -97,6 +96,8 @@ namespace LemonBot.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHub<BotMessageHub>("/bot");
+
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

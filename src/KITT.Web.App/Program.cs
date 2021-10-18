@@ -30,23 +30,11 @@ namespace KITT.Web.App
 
             builder.Services
                 .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-                .AddHttpMessageHandler(provider =>
-                {
-                    var handler = provider.GetRequiredService<AuthorizationMessageHandler>()
-                        .ConfigureHandler(authorizedUrls: new[] { builder.Configuration["Endpoints:ConsoleApi"] });
-
-                    return handler;
-                });
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
             builder.Services
                 .AddHttpClient("KITT.Web.App.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-                .AddHttpMessageHandler(provider =>
-                {
-                    var handler = provider.GetRequiredService<AuthorizationMessageHandler>()
-                        .ConfigureHandler(authorizedUrls: new[] { builder.Configuration["Endpoints:ConsoleApi"] });
-
-                    return handler;
-                });
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
             builder.Services
                 .AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("KITT.Web.App.ServerAPI"));
