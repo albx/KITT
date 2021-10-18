@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -20,10 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\KITT.Core\KITT.Core.csproj" />
     <ProjectReference Include="..\KITT.Web.App\KITT.Web.App.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\KITT\" />
   </ItemGroup>
 
 </Project>

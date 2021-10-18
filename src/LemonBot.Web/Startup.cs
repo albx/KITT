@@ -3,7 +3,6 @@ using KITT.Core.Commands;
 using KITT.Core.Persistence;
 using KITT.Core.ReadModels;
 using KITT.Core.Validators;
-using LemonBot.Web.Extensions;
 using LemonBot.Web.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -36,16 +35,16 @@ namespace LemonBot.Web
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
-
             services.Configure<JwtBearerOptions>(
                 JwtBearerDefaults.AuthenticationScheme,
                 options =>
                 {
                     options.TokenValidationParameters.NameClaimType = "name";
                 });
+
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
 
             services
                 .AddValidatorsFromAssemblyContaining<StreamingValidator>()
@@ -77,9 +76,9 @@ namespace LemonBot.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
-            app.UseBlazorFrameworkFiles();
             app.UseRouting();
 
             app.UseAuthentication();
