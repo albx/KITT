@@ -1,4 +1,5 @@
-﻿@page "/streamings"
+﻿@page "/console/streamings"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 @inject IStreamingsClient Client
 @attribute [Authorize]
@@ -66,6 +67,13 @@
     {
         await base.OnInitializedAsync();
 
-        model = await Client.GetAllStreamingsAsync();
+        try
+        {
+            model = await Client.GetAllStreamingsAsync();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
     }
 }

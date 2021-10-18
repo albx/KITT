@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "KITT.Web.Host": {
+    "KITT.Web.App": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
