@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Commands
 {
-    [BotCommand("!help", HelpText = "Show some help for BOT commands")]
+    [BotCommand("!help", Comparison = CommandComparison.Equal, HelpText = "Show some help for BOT commands")]
     public class HelpCommand : IBotCommand
     {
         private readonly TwitchClientProxy _client;

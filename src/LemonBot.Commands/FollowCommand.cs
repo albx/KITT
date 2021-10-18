@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Commands
 {
-    [BotCommand("!say", Comparison = CommandComparison.StartsWith, HelpText = "Say something to the chat")]
-    public class SayCommand : IBotCommand
+    [BotCommand("!follow", Comparison = CommandComparison.StartsWith, HelpText = "Display the twitch url of the specified channel")]
+    public class FollowCommand : IBotCommand
     {
         private readonly TwitchClientProxy _client;
-        private readonly ILogger<SayCommand> _logger;
+        private readonly ILogger<FollowCommand> _logger;
 
-        public SayCommand(TwitchClientProxy client, ILogger<SayCommand> logger)
+        public FollowCommand(TwitchClientProxy client, ILogger<FollowCommand> logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -20,12 +20,10 @@ namespace LemonBot.Commands
 
         public Task ExecuteAsync(BotCommandContext context)
         {
-            var userName = context.UserName;
             var message = context.Message;
+            var twichChannelName = message.Replace("!follow", string.Empty).Trim();
 
-            var messageToSend = $"{userName} says: {message.Replace("!say", string.Empty)}";
-            _client.SendMessage(messageToSend);
-
+            _client.SendMessage($"https://www.twitch.tv/{twichChannelName}");
             return Task.CompletedTask;
         }
     }
