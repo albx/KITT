@@ -11,6 +11,9 @@ namespace KITT.Core.Persistence.Mapping
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Id).ValueGeneratedNever();
 
+            builder.Property(s => s.UserId).HasMaxLength(36).IsRequired();
+            builder.HasIndex(s => s.UserId);
+
             builder.Property(s => s.TwitchChannel).HasMaxLength(50).IsRequired();
             builder.HasIndex(s => s.TwitchChannel);
             

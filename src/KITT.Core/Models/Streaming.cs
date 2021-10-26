@@ -6,6 +6,8 @@ namespace KITT.Core.Models
     {
         public Guid Id { get; protected set; }
 
+        public string UserId { get; protected set; }
+
         public string TwitchChannel { get; protected set; }
 
         public string Title { get; protected set; }
@@ -73,7 +75,7 @@ namespace KITT.Core.Models
         #endregion
 
         #region Factory
-        public static Streaming Schedule(string title, string slug, string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl)
+        public static Streaming Schedule(string title, string slug, string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string userId)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -105,9 +107,15 @@ namespace KITT.Core.Models
                 throw new ArgumentException("value cannot be empty", nameof(hostingChannelUrl));
             }
 
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("value cannot be empty", nameof(userId));
+            }
+
             var streaming = new Streaming
             {
                 Id = Guid.NewGuid(),
+                UserId = userId,
                 Title = title,
                 Slug = slug,
                 TwitchChannel = twitchChannel,

@@ -1,5 +1,6 @@
 ﻿using KITT.Web.Models.Streamings;
 using LemonBot.Web.Areas.Console.Services;
+using LemonBot.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,6 +23,8 @@ namespace LemonBot.Web.Areas.Console.Controllers
         [HttpGet]
         public IActionResult GetAllStreamings()
         {
+            var userId = User.GetUserId();
+
             var model = ControllerServices.GetAllStreamings();
             return Ok(model);
         }
@@ -36,7 +39,7 @@ namespace LemonBot.Web.Areas.Console.Controllers
         [HttpPost]
         public async Task<IActionResult> ScheduleStreaming([FromBody]ScheduleStreamingModel model)
         {
-            var scheduledStreamingId = await ControllerServices.ScheduleStreamingAsync(model);
+            var scheduledStreamingId = await ControllerServices.ScheduleStreamingAsync(model, User.GetUserId());
             return CreatedAtAction(nameof(GetStreamingDetail), new { id = scheduledStreamingId }, model);
         }
 

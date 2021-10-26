@@ -19,9 +19,10 @@ namespace KITT.Core.Test.Models
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(18);
             string hostingChannelUrl = "albx87";
+            string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl));
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
 
             Assert.Equal(nameof(title), ex.ParamName);
         }
@@ -38,9 +39,10 @@ namespace KITT.Core.Test.Models
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(18);
             string hostingChannelUrl = "albx87";
+            string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl));
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
 
             Assert.Equal(nameof(slug), ex.ParamName);
         }
@@ -57,9 +59,10 @@ namespace KITT.Core.Test.Models
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(18);
             string hostingChannelUrl = "albx87";
+            string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl));
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
 
             Assert.Equal(nameof(twitchChannel), ex.ParamName);
         }
@@ -74,9 +77,10 @@ namespace KITT.Core.Test.Models
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(18);
             string hostingChannelUrl = "albx87";
+            string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl));
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
 
             Assert.Equal(nameof(scheduleDate), ex.ParamName);
         }
@@ -91,9 +95,10 @@ namespace KITT.Core.Test.Models
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(15);
             string hostingChannelUrl = "albx87";
+            string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl));
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
 
             Assert.Equal(nameof(endingTime), ex.ParamName);
         }
@@ -110,11 +115,32 @@ namespace KITT.Core.Test.Models
             DateTime scheduleDate = DateTime.Today;
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(18);
+            string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl));
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
 
             Assert.Equal(nameof(hostingChannelUrl), ex.ParamName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void Schedule_Should_Throw_ArgumentException_If_UserId_Is_Empty(string userId)
+        {
+            string title = "test";
+            string slug = "test";
+            string twitchChannel = "albx87";
+            string hostingChannelUrl = "albx87";
+            DateTime scheduleDate = DateTime.Today;
+            TimeSpan startingTime = TimeSpan.FromHours(16);
+            TimeSpan endingTime = TimeSpan.FromHours(18);
+
+            var ex = Assert.Throws<ArgumentException>(
+                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+
+            Assert.Equal(nameof(userId), ex.ParamName);
         }
 
         [Fact]
@@ -127,6 +153,7 @@ namespace KITT.Core.Test.Models
             TimeSpan startingTime = TimeSpan.FromHours(16);
             TimeSpan endingTime = TimeSpan.FromHours(18);
             string hostingChannelUrl = "albx87";
+            string userId = Guid.NewGuid().ToString();
 
             var streaming = Streaming.Schedule(
                 title, 
@@ -135,7 +162,8 @@ namespace KITT.Core.Test.Models
                 scheduleDate, 
                 startingTime, 
                 endingTime, 
-                hostingChannelUrl);
+                hostingChannelUrl, 
+                userId);
 
             Assert.Equal(title, streaming.Title);
             Assert.Equal(slug, streaming.Slug);
@@ -145,6 +173,7 @@ namespace KITT.Core.Test.Models
             Assert.Equal(endingTime, streaming.EndingTime);
             Assert.Equal(hostingChannelUrl, streaming.HostingChannelUrl);
             Assert.NotEqual(Guid.Empty, streaming.Id);
+            Assert.Equal(userId, streaming.UserId);
         }
         #endregion
 
@@ -240,6 +269,7 @@ namespace KITT.Core.Test.Models
         #region Helpers
         private Streaming CreateStreamingForTests()
         {
+            string userId = Guid.NewGuid().ToString();
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
@@ -255,7 +285,8 @@ namespace KITT.Core.Test.Models
                 scheduleDate,
                 startingTime,
                 endingTime,
-                hostingChannelUrl);
+                hostingChannelUrl,
+                userId);
 
             return streaming;
         }

@@ -27,11 +27,8 @@ namespace LemonBot.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<KittDbContext>(
-            //    options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
-
             services.AddDbContext<KittDbContext>(
-                options => options.UseInMemoryDatabase("KITT-InMemory"));
+                options => options.UseSqlServer(Configuration.GetConnectionString("KittDatabase")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

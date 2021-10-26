@@ -46,6 +46,7 @@ namespace KITT.Core.Test.Commands
         [Fact]
         public async Task ScheduleStreamingAsync_Should_Throw_ValidationException_If_Streaming_Slug_Already_Exists()
         {
+            string userId = Guid.NewGuid().ToString();
             _fixture.PrepareData(context =>
             {
                 var streaming = Streaming.Schedule(
@@ -55,7 +56,8 @@ namespace KITT.Core.Test.Commands
                     DateTime.Today.AddDays(1), 
                     TimeSpan.FromHours(16), 
                     TimeSpan.FromHours(18), 
-                    "https://www.twitch.tv/albx87");
+                    "https://www.twitch.tv/albx87",
+                    userId);
 
                 context.Add(streaming);
                 context.SaveChanges();
@@ -75,6 +77,7 @@ namespace KITT.Core.Test.Commands
 
             var ex = await Assert.ThrowsAsync<ValidationException>(
                 () => commands.ScheduleStreamingAsync(
+                    userId,
                     twitchChannel,
                     streamingTitle,
                     streamingSlug,
@@ -93,6 +96,7 @@ namespace KITT.Core.Test.Commands
             var validator = new StreamingValidator(_fixture.Context);
             var commands = new StreamingCommands(_fixture.Context, validator);
 
+            string userId = Guid.NewGuid().ToString();
             string twitchChannel = "albx87";
             string streamingTitle = "test";
             string streamingSlug = "test-schedule-streaming-slug";
@@ -103,6 +107,7 @@ namespace KITT.Core.Test.Commands
             string streamingAbstract = "streaming abstract";
 
             var scheduledStreamingId = await commands.ScheduleStreamingAsync(
+                userId,
                 twitchChannel,
                 streamingTitle,
                 streamingSlug,
@@ -137,6 +142,7 @@ namespace KITT.Core.Test.Commands
 
             _fixture.PrepareData(context =>
             {
+                string userId = Guid.NewGuid().ToString();
                 var newStreaming = Streaming.Schedule(
                     "title",
                     "slug",
@@ -144,7 +150,8 @@ namespace KITT.Core.Test.Commands
                     DateTime.Today,
                     TimeSpan.FromHours(19),
                     TimeSpan.FromHours(20),
-                    "https://www.twitch.tv/albx87");
+                    "https://www.twitch.tv/albx87",
+                    userId);
 
                 context.Add(newStreaming);
                 context.SaveChanges();

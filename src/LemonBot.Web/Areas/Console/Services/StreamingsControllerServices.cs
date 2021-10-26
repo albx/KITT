@@ -46,9 +46,10 @@ namespace LemonBot.Web.Areas.Console.Services
             throw new NotImplementedException();
         }
 
-        public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model)
+        public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)
         {
             return Commands.ScheduleStreamingAsync(
+                userId,
                 "albx87",
                 model.Title,
                 model.Slug,

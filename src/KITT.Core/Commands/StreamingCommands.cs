@@ -19,7 +19,7 @@ namespace KITT.Core.Commands
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
-        public async Task<Guid> ScheduleStreamingAsync(string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract)
+        public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract)
         {
             var streaming = Streaming.Schedule(
                 streamingTitle,
@@ -28,7 +28,8 @@ namespace KITT.Core.Commands
                 scheduleDate,
                 startingTime,
                 endingTime,
-                hostingChannelUrl);
+                hostingChannelUrl,
+                userId);
 
             if (!string.IsNullOrWhiteSpace(streamingAbstract))
             {
