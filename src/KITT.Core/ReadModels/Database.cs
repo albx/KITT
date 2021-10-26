@@ -16,5 +16,7 @@ namespace KITT.Core.ReadModels
         }
 
         public IQueryable<Streaming> Streamings => _context.Streamings.AsNoTracking();
+
+        public IQueryable<Settings> Settings => _context.Settings.AsNoTracking();
     }
 }

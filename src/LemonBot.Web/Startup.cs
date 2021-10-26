@@ -46,9 +46,12 @@ namespace LemonBot.Web
             services
                 .AddValidatorsFromAssemblyContaining<StreamingValidator>()
                 .AddScoped<IDatabase, Database>()
+                .AddScoped<ISettingsCommands, SettingsCommands>()
                 .AddScoped<IStreamingCommands, StreamingCommands>();
 
-            services.AddScoped<Areas.Console.Services.StreamingsControllerServices>();
+            services
+                .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
+                .AddScoped<Areas.Console.Services.SettingsControllerServices>();
 
             //services.AddScoped<AccountControllerServices>();
 

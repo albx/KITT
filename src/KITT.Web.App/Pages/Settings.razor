@@ -1,0 +1,48 @@
+﻿@page "/settings"
+
+@inject ISettingsClient Client
+@attribute [Authorize]
+
+<PageLayout PageTitle="Settings">
+	<Toolbar>
+        <a href="settings/new" class="btn btn-primary">Create new settings</a>
+    </Toolbar>
+    <PageContent>
+        <div class="row">
+            <div class="col">
+                @if (model.Items is null)
+                {
+                    <h2>No settings configured</h2>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Twitch channel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in model.Items)
+                            {
+                                <tr>
+                                    <td>@item.TwitchChannel</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </PageContent>
+</PageLayout>
+
+@code {
+    private SettingsListModel model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        model = await Client.GetAllSettingsAsync();
+    }
+}
