@@ -21,7 +21,7 @@ namespace LemonBot.Web.Areas.Console.Services
         public SettingsListModel GetAllSettings(string userId)
         {
             var settings = Database.Settings
-                .Where(s => s.UserId == userId)
+                .ByUserId(userId)
                 .OrderBy(s => s.TwitchChannel)
                 .Select(s => new SettingsListModel.SettingsDescriptor
                 {

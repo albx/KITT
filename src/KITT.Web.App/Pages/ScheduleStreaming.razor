@@ -1,6 +1,7 @@
-﻿@page "/console/streamings/schedule"
+﻿@page "/streamings/schedule"
 
 @inject IStreamingsClient Client
+@inject NavigationManager Navigation
 @attribute [Authorize]
 
 <PageLayout PageTitle="Schedule streaming">
@@ -24,44 +25,55 @@
                 <ValidationMessage For="() => model.Title" />
             </div>
 
-            <div class="form-group">
-                <label for="slug">Slug</label>
-                <InputText @bind-Value="model.Slug" class="form-control" id="title" />
-                <ValidationMessage For="() => model.Slug" />
-            </div>
-
-            <div class="form-group">
-                <label for="scheduleDate">Schedule date</label>
-                <InputDate @bind-Value="model.ScheduleDate" class="form-control" id="scheduleDate" />
-                <ValidationMessage For="() => model.ScheduleDate" />
-            </div>
-
-            <div class="form-group">
-                <label for="startingTime">Starting time</label>
-                <TimeEdit @bind-Time="model.StartingTime" Class="form-control" id="startingTime" />
-                <ValidationMessage For="() => model.StartingTime" />
-            </div>
-
-            <div class="form-group">
-                <label for="endingTime">Ending time</label>
-                <TimeEdit @bind-Time="model.EndingTime" Class="form-control" id="endingTime" />
-                <ValidationMessage For="() => model.EndingTime" />
-            </div>
-
-            <div class="form-group">
-                <label for="twitchChannelUrl">Twitch channel</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label for="slug">Slug</label>
+                        <InputText @bind-Value="model.Slug" class="form-control" id="title" />
+                        <ValidationMessage For="() => model.Slug" />
                     </div>
-                    <InputText @bind-Value="model.HostingChannelUrl" class="form-control" id="twitchChannelUrl" />
                 </div>
-                <ValidationMessage For="() => model.HostingChannelUrl" />
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="twitchChannelUrl">Hosting channel</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
+                            </div>
+                            <InputText @bind-Value="model.HostingChannelUrl" class="form-control" id="twitchChannelUrl" />
+                        </div>
+                        <ValidationMessage For="() => model.HostingChannelUrl" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="scheduleDate">Schedule date</label>
+                        <InputDate @bind-Value="model.ScheduleDate" class="form-control" id="scheduleDate" />
+                        <ValidationMessage For="() => model.ScheduleDate" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="startingTime">Starting time</label>
+                        <TimeEdit @bind-Time="model.StartingTime" Class="form-control" id="startingTime" />
+                        <ValidationMessage For="() => model.StartingTime" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="endingTime">Ending time</label>
+                        <TimeEdit @bind-Time="model.EndingTime" Class="form-control" id="endingTime" />
+                        <ValidationMessage For="() => model.EndingTime" />
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label id="streamingAbstract">Abstract</label>
-                <InputTextArea @bind-Value="model.StreamingAbstract" class="form-control" id="streamingAbstract" />
+                <InputTextArea @bind-Value="model.StreamingAbstract" class="form-control" id="streamingAbstract" rows="5" />
                 <ValidationMessage For="() => model.StreamingAbstract" />
             </div>
 
@@ -83,6 +95,7 @@
         try
         {
             await Client.ScheduleStreamingAsync(model.ToApiModel());
+            Navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
         {
