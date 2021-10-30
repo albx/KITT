@@ -11,7 +11,7 @@ namespace KITT.Core.ReadModels
         public static IQueryable<Streaming> OrderedBySchedule(this IQueryable<Streaming> streamings)
         {
             return streamings
-                .OrderByDescending(s => s.ScheduleDate)
+                .OrderBy(s => s.ScheduleDate)
                 .ThenBy(s => s.StartingTime)
                 .ThenBy(s => s.EndingTime);
         }
