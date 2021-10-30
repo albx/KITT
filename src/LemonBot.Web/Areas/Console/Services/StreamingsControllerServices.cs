@@ -19,13 +19,11 @@ namespace LemonBot.Web.Areas.Console.Services
             Commands = commands ?? throw new ArgumentNullException(nameof(commands));
         }
 
-        public StreamingsListModel GetAllStreamings()
+        public StreamingsListModel GetAllStreamings(string userId)
         {
             var streamings = Database.Streamings
-                .Where(s => s.TwitchChannel == "albx87")
-                .OrderByDescending(s => s.ScheduleDate)
-                .ThenBy(s => s.StartingTime)
-                .ThenBy(s => s.EndingTime)
+                .ByUserId(userId)
+                .OrderedBySchedule()
                 .Select(s => new StreamingsListModel.StreamingListItemModel
                 {
                     Id = s.Id,
@@ -48,9 +46,18 @@ namespace LemonBot.Web.Areas.Console.Services
 
         public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)
         {
+            var settings = Database.Settings
+                .ByUserId(userId)
+                .FirstOrDefault();
+
+            if (settings is null)
+            {
+                throw new InvalidOperationException("No settings configured");
+            }
+
             return Commands.ScheduleStreamingAsync(
                 userId,
-                "albx87",
+                settings.TwitchChannel,
                 model.Title,
                 model.Slug,
                 model.ScheduleDate,

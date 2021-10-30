@@ -1,11 +1,10 @@
-﻿@page "/console"
-@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
-@inject IWebAssemblyHostEnvironment HostEnvironment
+﻿@page "/"
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<p>ENV: @HostEnvironment.Environment</p>
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<AuthorizeView>
+	<Authorized>
+		<h1>KITT - Console</h1>
+	</Authorized>
+	<NotAuthorized>
+		<RedirectToLogin />
+	</NotAuthorized>
+</AuthorizeView>

@@ -25,7 +25,7 @@ namespace LemonBot.Web.Areas.Console.Controllers
         {
             var userId = User.GetUserId();
 
-            var model = ControllerServices.GetAllStreamings();
+            var model = ControllerServices.GetAllStreamings(userId);
             return Ok(model);
         }
 

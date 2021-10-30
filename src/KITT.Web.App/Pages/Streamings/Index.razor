@@ -1,7 +1,4 @@
-﻿@page "/console/streamings"
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-
-@inject IStreamingsClient Client
+﻿@page "/streamings"
 @attribute [Authorize]
 
 <PageLayout PageTitle="My streamings">
@@ -24,7 +21,6 @@
                                 <th>Date</th>
                                 <th>Duration</th>
                                 <th>Twitch link</th>
-                                <th>YouTube link</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -35,18 +31,14 @@
                                     <td>@live.Title</td>
                                     <td>@live.ScheduledOn.ToShortDateString()</td>
                                     <td>@live.StartingTime.ToString("HH:mm") - @live.EndingTime.ToString("HH:mm")</td>
-                                    <td><a href="@live.HostingChannelUrl" target="_blank">link</a></td>
-                                    <td><a href="@live.YouTubeVideoUrl" target="_blank">link</a></td>
+                                    <td><a href="@live.HostingChannelUrl" target="_blank">@live.HostingChannelUrl</a></td>
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
                                             <button type="button" class="btn btn-outline-primary">
-                                                <span class="oi oi-pencil"></span> Edit
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary">
-                                                <span class="oi oi-calendar"></span> Schedule
+                                                <span class="fas fa-eye"></span> View
                                             </button>
                                             <button type="button" class="btn btn-outline-danger">
-                                                <span class="oi oi-trash"></span> Delete
+                                                <span class="fas fa-trash"></span> Delete
                                             </button>
                                         </div>
                                     </td>
@@ -59,21 +51,3 @@
         </div>
     </PageContent>
 </PageLayout>
-
-@code {
-    private StreamingsListModel model = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        try
-        {
-            model = await Client.GetAllStreamingsAsync();
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
-    }
-}
