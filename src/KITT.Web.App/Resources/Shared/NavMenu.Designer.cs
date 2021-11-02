@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KITT.Web.App.Resources {
+namespace KITT.Web.App.Resources.Shared {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace KITT.Web.App.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Shared {
+    internal class NavMenu {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Shared() {
+        internal NavMenu() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Shared", typeof(Shared).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Shared.NavMenu", typeof(NavMenu).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,29 @@ namespace KITT.Web.App.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
+        ///   Looks up a localized string similar to Dashboard.
         /// </summary>
-        internal static string Back {
+        internal static string DashboardMenuLabel {
             get {
-                return ResourceManager.GetString("Back", resourceCulture);
+                return ResourceManager.GetString("DashboardMenuLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
-        internal static string Cancel {
+        internal static string SettingsMenuLabel {
             get {
-                return ResourceManager.GetString("Cancel", resourceCulture);
+                return ResourceManager.GetString("SettingsMenuLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to My streamings.
         /// </summary>
-        internal static string Save {
+        internal static string StreamingsMenuLabel {
             get {
-                return ResourceManager.GetString("Save", resourceCulture);
+                return ResourceManager.GetString("StreamingsMenuLabel", resourceCulture);
             }
         }
     }

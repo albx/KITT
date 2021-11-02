@@ -31,10 +31,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Shared.Designer.cs">
+    <Compile Update="Resources\Common.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Shared.resx</DependentUpon>
+      <DependentUpon>Common.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Shared\NavMenu.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NavMenu.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -62,12 +67,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Shared.it.resx">
+    <EmbeddedResource Update="Resources\Common.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Shared.resx">
+    <EmbeddedResource Update="Resources\Common.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Shared.Designer.cs</LastGenOutput>
+      <LastGenOutput>Common.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Shared\NavMenu.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Shared\NavMenu.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NavMenu.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
