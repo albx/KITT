@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LemonBot.Commands
 {
-    [BotCommand("!follow", Comparison = CommandComparison.StartsWith, HelpText = "Display the twitch url of the specified channel")]
-    public class FollowCommand : IBotCommand
+    [BotCommand("!so", Comparison = CommandComparison.StartsWith, HelpText = "Display the twitch url of the specified channel")]
+    public class SoCommand : TextResponse, IBotCommand
     {
         private readonly TwitchClientProxy _client;
-        private readonly ILogger<FollowCommand> _logger;
+        private readonly ILogger<SoCommand> _logger;
 
-        public FollowCommand(TwitchClientProxy client, ILogger<FollowCommand> logger)
+        public SoCommand(TwitchClientProxy client, ILogger<SoCommand> logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -21,9 +21,9 @@ namespace LemonBot.Commands
         public Task ExecuteAsync(BotCommandContext context)
         {
             var message = context.Message;
-            var twichChannelName = message.Replace("!follow", string.Empty).Trim();
+            var twichChannelName = this.RemovePrefixFromMessage(message);
 
-            _client.SendMessage($"https://www.twitch.tv/{twichChannelName}");
+            _client.SendMessage($"Seguite https://www.twitch.tv/{twichChannelName} per mirabolanti contenuti");
             return Task.CompletedTask;
         }
     }
