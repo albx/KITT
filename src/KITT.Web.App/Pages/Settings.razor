@@ -1,25 +1,27 @@
 ﻿@page "/settings"
 
 @inject ISettingsClient Client
+@inject IStringLocalizer<Resources.Pages.Settings> Localizer
+
 @attribute [Authorize]
 
-<PageLayout PageTitle="Settings">
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Settings.PageTitle)]">
 	<Toolbar>
-        <a href="settings/new" class="btn btn-primary">Create new settings</a>
+        <a href="settings/new" class="btn btn-primary">@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]</a>
     </Toolbar>
     <PageContent>
         <div class="row">
             <div class="col">
                 @if (model.Items is null)
                 {
-                    <h2>No settings configured</h2>
+                    <h2>@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
                 }
                 else
                 {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Twitch channel</th>
+                                <th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
                             </tr>
                         </thead>
                         <tbody>

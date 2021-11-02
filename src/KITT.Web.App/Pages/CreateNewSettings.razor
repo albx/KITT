@@ -3,11 +3,14 @@
 @inject ISettingsClient Client
 @inject NavigationManager Navigation
 
+@inject IStringLocalizer<Resources.Shared> SharedLocalizer
+@inject IStringLocalizer<Resources.Pages.CreateNewSettings> Localizer
+
 @attribute [Authorize]
 
-<PageLayout PageTitle="Create new settings">
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]">
 	<Toolbar>
-		<a href="settings" class="btn btn-primary">Back</a>
+		<a href="settings" class="btn btn-primary">@SharedLocalizer[nameof(Resources.Shared.Back)]</a>
 	</Toolbar>
 	<PageContent>
 		<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" class="col-md-12 mt-3">
@@ -21,7 +24,7 @@
             }
 
 			<div class="form-group">
-                <label for="twitchChannelUrl">Twitch channel</label>
+                <label for="twitchChannelUrl">@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
@@ -32,8 +35,8 @@
             </div>
 
 			<div class="form-group align-content-end">
-                <button type="reset" class="btn btn-outline-primary mr-3">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-outline-primary mr-3">@SharedLocalizer[nameof(Resources.Shared.Cancel)]</button>
+                <button type="submit" class="btn btn-primary">@SharedLocalizer[nameof(Resources.Shared.Save)]</button>
             </div>
 		</EditForm>
 	</PageContent>
