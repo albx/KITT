@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace LemonBot.Commands
 {
     [BotCommand("!github", Comparison = CommandComparison.StartsWith, HelpText = "Show the full repository url, based on the specified name")]
-    public class GithubCommand : IBotCommand
+    public class GithubCommand : TextResponse, IBotCommand
     {
         private readonly TwitchClientProxy _client;
         private readonly ILogger<GithubCommand> _logger;
@@ -25,7 +25,7 @@ namespace LemonBot.Commands
         public Task ExecuteAsync(BotCommandContext context)
         {
             var message = context.Message;
-            var repositoryName = message.Replace("!github", string.Empty).Trim();
+            var repositoryName = this.RemovePrefixFromMessage(message);
             var fullRepositoryUrl = $"{_options.BaseUrl}/{repositoryName}";
 
             _client.SendMessage(fullRepositoryUrl);
