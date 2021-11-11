@@ -1,9 +1,9 @@
 ﻿@page "/streamings/schedule"
 @attribute [Authorize]
 
-<PageLayout PageTitle="Schedule streaming">
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
     <Toolbar>
-        <a href="streamings" class="btn btn-primary">Back</a>
+        <a href="streamings" class="btn btn-primary">@CommonLocalizer[nameof(Resources.Common.Back)]</a>
     </Toolbar>
     <PageContent>
         <EditForm Model="model" OnValidSubmit="ScheduleStreamingAsync" class="col-md-12 mt-3">
@@ -17,7 +17,7 @@
             }
 
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title">@Localizer[nameof(Resources.Pages.Streamings.Schedule.TitleLabel)]</label>
                 <InputText @bind-Value="model.Title" class="form-control" id="title" />
                 <ValidationMessage For="() => model.Title" />
             </div>
@@ -25,14 +25,14 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="form-group">
-                        <label for="slug">Slug</label>
+                        <label for="slug">@Localizer[nameof(Resources.Pages.Streamings.Schedule.SlugLabel)]</label>
                         <InputText @bind-Value="model.Slug" class="form-control" id="title" />
                         <ValidationMessage For="() => model.Slug" />
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="twitchChannelUrl">Hosting channel</label>
+                        <label for="twitchChannelUrl">@Localizer[nameof(Resources.Pages.Streamings.Schedule.HostingChannelLabel)]</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
@@ -47,21 +47,21 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="scheduleDate">Schedule date</label>
+                        <label for="scheduleDate">@Localizer[nameof(Resources.Pages.Streamings.Schedule.ScheduleDateLabel)]</label>
                         <InputDate @bind-Value="model.ScheduleDate" class="form-control" id="scheduleDate" />
                         <ValidationMessage For="() => model.ScheduleDate" />
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="startingTime">Starting time</label>
+                        <label for="startingTime">@Localizer[nameof(Resources.Pages.Streamings.Schedule.StartingTimeLabel)]</label>
                         <TimeEdit @bind-Time="model.StartingTime" Class="form-control" id="startingTime" />
                         <ValidationMessage For="() => model.StartingTime" />
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="endingTime">Ending time</label>
+                        <label for="endingTime">@Localizer[nameof(Resources.Pages.Streamings.Schedule.EndingTimeLabel)]</label>
                         <TimeEdit @bind-Time="model.EndingTime" Class="form-control" id="endingTime" />
                         <ValidationMessage For="() => model.EndingTime" />
                     </div>
@@ -69,14 +69,14 @@
             </div>
 
             <div class="form-group">
-                <label id="streamingAbstract">Abstract</label>
+                <label id="streamingAbstract">@Localizer[nameof(Resources.Pages.Streamings.Schedule.AbstractLabel)]</label>
                 <InputTextArea @bind-Value="model.StreamingAbstract" class="form-control" id="streamingAbstract" rows="5" />
                 <ValidationMessage For="() => model.StreamingAbstract" />
             </div>
 
             <div class="form-group align-content-end">
-                <button type="reset" class="btn btn-outline-primary mr-3">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-outline-primary mr-3">@CommonLocalizer[nameof(Resources.Common.Cancel)]</button>
+                <button type="submit" class="btn btn-primary">@CommonLocalizer[nameof(Resources.Common.Save)]</button>
             </div>
         </EditForm>
     </PageContent>

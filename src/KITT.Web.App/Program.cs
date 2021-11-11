@@ -28,6 +28,8 @@ namespace KITT.Web.App
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
+            builder.Services.AddLocalization();
+
             builder.Services
                 .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();

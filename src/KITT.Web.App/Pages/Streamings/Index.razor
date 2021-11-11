@@ -1,26 +1,26 @@
 ﻿@page "/streamings"
 @attribute [Authorize]
 
-<PageLayout PageTitle="My streamings">
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]">
     <Toolbar>
-        <a href="streamings/schedule" class="btn btn-primary">Schedule new streaming</a>
+        <a href="streamings/schedule" class="btn btn-primary">@Localizer[nameof(Resources.Pages.Streamings.Index.ScheduleNewStreamingLabel)]</a>
     </Toolbar>
     <PageContent>
         <div class="row">
             <div class="col">
                 @if (model.Items is null)
                 {
-                    <h2>No streamings here :(</h2>
+                    <h2>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)] :(</h2>
                 }
                 else
                 {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Duration</th>
-                                <th>Twitch link</th>
+                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]</th>
+                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]</th>
+                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]</th>
+                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -35,10 +35,10 @@
                                     <td>
                                         <div class="btn-toolbar" role="toolbar">
                                             <button type="button" class="btn btn-outline-primary">
-                                                <span class="fas fa-eye"></span> View
+                                                <span class="fas fa-eye"></span> @CommonLocalizer[nameof(Resources.Common.View)]
                                             </button>
                                             <button type="button" class="btn btn-outline-danger">
-                                                <span class="fas fa-trash"></span> Delete
+                                                <span class="fas fa-trash"></span> @CommonLocalizer[nameof(Resources.Common.Delete)]
                                             </button>
                                         </div>
                                     </td>
