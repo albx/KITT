@@ -117,19 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>Indietro</value>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Data</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Annulla</value>
+  <data name="DurationLabel" xml:space="preserve">
+    <value>Durata</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Cancella</value>
+  <data name="NoStreamingsFoundLabel" xml:space="preserve">
+    <value>Nessuna diretta trovata</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Salva</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Le mie dirette</value>
   </data>
-  <data name="View" xml:space="preserve">
-    <value>Dettagli</value>
+  <data name="ScheduleNewStreamingLabel" xml:space="preserve">
+    <value>Pianifica una nuova diretta</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="TwitchLinkLabel" xml:space="preserve">
+    <value>Twitch link</value>
   </data>
 </root>

@@ -2,6 +2,7 @@
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
 
 namespace KITT.Web.App.Pages.Streamings
@@ -10,6 +11,12 @@ namespace KITT.Web.App.Pages.Streamings
     {
         [Inject]
         public IStreamingsClient Client { get; set; }
+
+        [Inject]
+        internal IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
+
+        [Inject]
+        internal IStringLocalizer<Resources.Pages.Streamings.Index> Localizer { get; set; }
 
         private StreamingsListModel model = new();
 

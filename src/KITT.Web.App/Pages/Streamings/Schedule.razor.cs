@@ -2,6 +2,7 @@
 using KITT.Web.App.Clients;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
@@ -18,6 +19,12 @@ namespace KITT.Web.App.Pages.Streamings
 
         [Inject]
         public INotificationService Notification { get; set; }
+
+        [Inject]
+        internal IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
+
+        [Inject]
+        internal IStringLocalizer<Resources.Pages.Streamings.Schedule> Localizer { get; set; }
 
         private ViewModel model = new();
 

@@ -117,19 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>Indietro</value>
+  <data name="AbstractLabel" xml:space="preserve">
+    <value>Abstract</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Annulla</value>
+  <data name="EndingTimeLabel" xml:space="preserve">
+    <value>Ending time</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Cancella</value>
+  <data name="HostingChannelLabel" xml:space="preserve">
+    <value>Hosting channel</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Salva</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Schedule streaming</value>
   </data>
-  <data name="View" xml:space="preserve">
-    <value>Dettagli</value>
+  <data name="ScheduleDateLabel" xml:space="preserve">
+    <value>Schedule date</value>
+  </data>
+  <data name="SlugLabel" xml:space="preserve">
+    <value>Slug</value>
+  </data>
+  <data name="StartingTimeLabel" xml:space="preserve">
+    <value>Starting time</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Title</value>
   </data>
 </root>
