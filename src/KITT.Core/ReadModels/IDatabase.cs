@@ -1,12 +1,8 @@
-﻿using KITT.Core.Models;
-using System.Linq;
+﻿namespace KITT.Core.ReadModels;
 
-namespace KITT.Core.ReadModels
+public interface IDatabase
 {
-    public interface IDatabase
-    {
-        IQueryable<Streaming> Streamings { get; }
+    IQueryable<Streaming> Streamings { get; }
 
-        IQueryable<Settings> Settings { get; }
-    }
+    IQueryable<Settings> Settings { get; }
 }
