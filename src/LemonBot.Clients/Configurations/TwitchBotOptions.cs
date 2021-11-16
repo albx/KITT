@@ -1,11 +1,10 @@
-﻿namespace LemonBot.Clients.Configurations
+﻿namespace LemonBot.Clients.Configurations;
+
+public record TwitchBotOptions
 {
-    public record TwitchBotOptions
-    {
-        public string BotUsername { get; init; }
+    public string BotUsername { get; init; } = string.Empty;
 
-        public string AccessToken { get; init; }
+    public string AccessToken { get; init; } = string.Empty;
 
-        public string ChannelName { get; init; }
-    }
+    public string ChannelName { get; init; } = string.Empty;
 }

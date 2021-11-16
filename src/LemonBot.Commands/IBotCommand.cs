@@ -1,9 +1,6 @@
-using System.Threading.Tasks;
+namespace LemonBot.Commands;
 
-namespace LemonBot.Commands
+public interface IBotCommand
 {
-    public interface IBotCommand
-    {
-        Task ExecuteAsync(BotCommandContext context);
-    }
+    Task ExecuteAsync(BotCommandContext context);
 }
