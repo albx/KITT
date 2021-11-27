@@ -1,5 +1,4 @@
 ﻿using KITT.Core.Models;
-using System;
 using Xunit;
 
 namespace KITT.Core.Test.Models

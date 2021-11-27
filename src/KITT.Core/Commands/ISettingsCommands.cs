@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace KITT.Core.Commands;
 
-namespace KITT.Core.Commands
+public interface ISettingsCommands
 {
-    public interface ISettingsCommands
-    {
-        Task<Guid> CreateNewSettingsAsync(string userId, string twitchChannel);
-    }
+    Task<Guid> CreateNewSettingsAsync(string userId, string twitchChannel);
 }

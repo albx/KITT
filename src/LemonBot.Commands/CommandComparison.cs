@@ -1,9 +1,8 @@
-﻿namespace LemonBot.Commands
+﻿namespace LemonBot.Commands;
+
+public enum CommandComparison
 {
-    public enum CommandComparison
-    {
-        Equal,
-        StartsWith,
-        Contains
-    }
+    Equal,
+    StartsWith,
+    Contains
 }

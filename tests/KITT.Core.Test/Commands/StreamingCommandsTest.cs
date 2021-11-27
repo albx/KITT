@@ -4,9 +4,6 @@ using KITT.Core.Models;
 using KITT.Core.Persistence;
 using KITT.Core.Test.Fixtures;
 using KITT.Core.Validators;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace KITT.Core.Test.Commands

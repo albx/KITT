@@ -1,35 +1,31 @@
 ﻿using KITT.Web.Models.Settings;
-using System;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 
-namespace KITT.Web.App.Clients.Http
+namespace KITT.Web.App.Clients.Http;
+
+public class SettingsHttpClient : ISettingsClient
 {
-    public class SettingsHttpClient : ISettingsClient
+    public HttpClient Client { get; }
+
+    public string ApiResource { get; } = "/api/settings";
+
+    public SettingsHttpClient(HttpClient client)
     {
-        public HttpClient Client { get; }
+        Client = client ?? throw new ArgumentNullException(nameof(client));
+    }
 
-        public string ApiResource { get; } = "/api/settings";
-
-        public SettingsHttpClient(HttpClient client)
+    public async Task CreateNewSettingsAsync(CreateNewSettingsModel model)
+    {
+        var response = await Client.PostAsJsonAsync(ApiResource, model);
+        if (!response.IsSuccessStatusCode)
         {
-            Client = client ?? throw new ArgumentNullException(nameof(client));
+            throw new ApplicationException("Error scheduling streaming");
         }
+    }
 
-        public async Task CreateNewSettingsAsync(CreateNewSettingsModel model)
-        {
-            var response = await Client.PostAsJsonAsync(ApiResource, model);
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ApplicationException("Error scheduling streaming");
-            }
-        }
-
-        public async Task<SettingsListModel> GetAllSettingsAsync()
-        {
-            var model = await Client.GetFromJsonAsync<SettingsListModel>(ApiResource);
-            return model;
-        }
+    public async Task<SettingsListModel> GetAllSettingsAsync()
+    {
+        var model = await Client.GetFromJsonAsync<SettingsListModel>(ApiResource);
+        return model;
     }
 }

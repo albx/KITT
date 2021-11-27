@@ -3,35 +3,33 @@ using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.Extensions.Localization;
-using System.Threading.Tasks;
 
-namespace KITT.Web.App.Pages.Streamings
+namespace KITT.Web.App.Pages.Streamings;
+
+public partial class Index
 {
-    public partial class Index
+    [Inject]
+    public IStreamingsClient Client { get; set; }
+
+    [Inject]
+    internal IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
+
+    [Inject]
+    internal IStringLocalizer<Resources.Pages.Streamings.Index> Localizer { get; set; }
+
+    private StreamingsListModel model = new();
+
+    protected override async Task OnInitializedAsync()
     {
-        [Inject]
-        public IStreamingsClient Client { get; set; }
+        await base.OnInitializedAsync();
 
-        [Inject]
-        internal IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
-
-        [Inject]
-        internal IStringLocalizer<Resources.Pages.Streamings.Index> Localizer { get; set; }
-
-        private StreamingsListModel model = new();
-
-        protected override async Task OnInitializedAsync()
+        try
         {
-            await base.OnInitializedAsync();
-
-            try
-            {
-                model = await Client.GetAllStreamingsAsync();
-            }
-            catch (AccessTokenNotAvailableException exception)
-            {
-                exception.Redirect();
-            }
+            model = await Client.GetAllStreamingsAsync();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
         }
     }
 }

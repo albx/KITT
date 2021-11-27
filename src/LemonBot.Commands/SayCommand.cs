@@ -1,32 +1,25 @@
-﻿using LemonBot.Clients;
-using LemonBot.Commands.Attributes;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
+﻿namespace LemonBot.Commands;
 
-namespace LemonBot.Commands
+[BotCommand("!say", Comparison = CommandComparison.StartsWith, HelpText = "Say something to the chat")]
+public class SayCommand : IBotCommand
 {
-    [BotCommand("!say", Comparison = CommandComparison.StartsWith, HelpText = "Say something to the chat")]
-    public class SayCommand : IBotCommand
+    private readonly TwitchClientProxy _client;
+    private readonly ILogger<SayCommand> _logger;
+
+    public SayCommand(TwitchClientProxy client, ILogger<SayCommand> logger)
     {
-        private readonly TwitchClientProxy _client;
-        private readonly ILogger<SayCommand> _logger;
+        _client = client ?? throw new ArgumentNullException(nameof(client));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
 
-        public SayCommand(TwitchClientProxy client, ILogger<SayCommand> logger)
-        {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+    public Task ExecuteAsync(BotCommandContext context)
+    {
+        var userName = context.UserName;
+        var message = context.Message;
 
-        public Task ExecuteAsync(BotCommandContext context)
-        {
-            var userName = context.UserName;
-            var message = context.Message;
+        var messageToSend = $"{userName} says: {message.Replace("!say", string.Empty)}";
+        _client.SendMessage(messageToSend);
 
-            var messageToSend = $"{userName} says: {message.Replace("!say", string.Empty)}";
-            _client.SendMessage(messageToSend);
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }
