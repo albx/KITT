@@ -1,12 +1,10 @@
 ﻿using KITT.Web.Models.Settings;
-using System.Threading.Tasks;
 
-namespace KITT.Web.App.Clients
+namespace KITT.Web.App.Clients;
+
+public interface ISettingsClient
 {
-    public interface ISettingsClient
-    {
-        Task<SettingsListModel> GetAllSettingsAsync();
+    Task<SettingsListModel> GetAllSettingsAsync();
 
-        Task CreateNewSettingsAsync(CreateNewSettingsModel model);
-    }
+    Task CreateNewSettingsAsync(CreateNewSettingsModel model);
 }

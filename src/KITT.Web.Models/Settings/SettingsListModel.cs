@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace KITT.Web.Models.Settings;
 
-namespace KITT.Web.Models.Settings
+public class SettingsListModel
 {
-    public class SettingsListModel
+    public IEnumerable<SettingsDescriptor> Items { get; set; } = Array.Empty<SettingsDescriptor>();
+
+    public record SettingsDescriptor
     {
-        public IEnumerable<SettingsDescriptor> Items { get; set; }
+        public Guid Id { get; set; }
 
-        public record SettingsDescriptor
-        {
-            public Guid Id { get; set; }
-
-            public string TwitchChannel { get; set; }
-        }
+        public string TwitchChannel { get; set; } = string.Empty;
     }
 }

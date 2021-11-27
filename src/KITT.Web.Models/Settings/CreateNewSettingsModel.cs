@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KITT.Web.Models.Settings
+namespace KITT.Web.Models.Settings;
+
+public class CreateNewSettingsModel
 {
-    public class CreateNewSettingsModel
-    {
-        [Required]
-        public string TwitchChannel { get; set; }
-    }
+    [Required]
+    public string TwitchChannel { get; set; } = string.Empty;
 }
