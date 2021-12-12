@@ -2,24 +2,25 @@
 
 @inject ISettingsClient Client
 @inject IStringLocalizer<Resources.Pages.Settings> Localizer
+@inject NavigationManager Navigation
 
 @attribute [Authorize]
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Settings.PageTitle)]">
 	<Toolbar>
-        <a href="settings/new" class="btn btn-primary">@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]</a>
+        <NavButton Label="@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]"
+                   Page="settings/new"/>
     </Toolbar>
     <PageContent>
-        <div class="row">
-            <div class="col">
-                @if (model.Items is null)
-                {
-                    <h2>@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
-                }
-                else
-                {
-                    <table class="table">
-                        <thead>
+        <MudPaper>
+            @if (model.Items is null)
+            {
+                <h2>@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
+            }
+            else
+            {
+                <MudSimpleTable>
+                    <thead>
                             <tr>
                                 <th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
                             </tr>
@@ -32,10 +33,9 @@
                                 </tr>
                             }
                         </tbody>
-                    </table>
-                }
-            </div>
-        </div>
+                </MudSimpleTable>
+            }
+        </MudPaper>
     </PageContent>
 </PageLayout>
 
