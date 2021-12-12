@@ -9,12 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.5" />
-    <PackageReference Include="Blazorise.Components" Version="0.9.5" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.0" />
+    <PackageReference Include="MudBlazor" Version="6.0.2" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
 

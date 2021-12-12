@@ -3,7 +3,8 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
     <Toolbar>
-        <a href="streamings" class="btn btn-primary">@CommonLocalizer[nameof(Resources.Common.Back)]</a>
+        <NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
+                   Page="streamings"/>
     </Toolbar>
     <PageContent>
         <EditForm Model="model" OnValidSubmit="ScheduleStreamingAsync" class="col-md-12 mt-3">
@@ -11,73 +12,70 @@
 
             @if (!string.IsNullOrWhiteSpace(errorMessage))
             {
-                <div class="alert alert-danger">
-                    @errorMessage
-                </div>
+                <MudPaper>
+                    <MudText Color="Color.Error">@errorMessage</MudText>
+                </MudPaper>
+                <MudDivider />
             }
 
-            <div class="form-group">
-                <label for="title">@Localizer[nameof(Resources.Pages.Streamings.Schedule.TitleLabel)]</label>
-                <InputText @bind-Value="model.Title" class="form-control" id="title" />
-                <ValidationMessage For="() => model.Title" />
-            </div>
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.TitleLabel)]"
+                                  @bind-Value="model.Title"
+                                  For="@(() => model.Title)"
+                                  Variant="Variant.Outlined"/>
+                    <MudGrid>
+                        <MudItem xs="12" md="7">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.SlugLabel)]"
+                                          @bind-Value="model.Slug"
+                                          For="@(() => model.Slug)"
+                                          Variant="Variant.Outlined"/>
+                        </MudItem>
+                        <MudItem xs="12" md="5">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.HostingChannelLabel)]"
+                                          @bind-Value="model.HostingChannelUrl"
+                                          Adornment="Adornment.Start"
+                                          AdornmentText="https://www.twitch.tv/"
+                                          Variant="Variant.Outlined"
+                                          For="@(() => model.HostingChannelUrl)"/>
+                        </MudItem>
+                    </MudGrid>
 
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="form-group">
-                        <label for="slug">@Localizer[nameof(Resources.Pages.Streamings.Schedule.SlugLabel)]</label>
-                        <InputText @bind-Value="model.Slug" class="form-control" id="title" />
-                        <ValidationMessage For="() => model.Slug" />
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="twitchChannelUrl">@Localizer[nameof(Resources.Pages.Streamings.Schedule.HostingChannelLabel)]</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon3">https://www.twitch.tv/</span>
-                            </div>
-                            <InputText @bind-Value="model.HostingChannelUrl" class="form-control" id="twitchChannelUrl" />
-                        </div>
-                        <ValidationMessage For="() => model.HostingChannelUrl" />
-                    </div>
-                </div>
-            </div>
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.ScheduleDateLabel)]"
+                                           @bind-Date="model.ScheduleDate"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.StartingTimeLabel)]"
+                                           @bind-Time="model.StartingTime"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.EndingTimeLabel)]"
+                                           @bind-Time="model.EndingTime"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true"/>
+                        </MudItem>
+                    </MudGrid>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="scheduleDate">@Localizer[nameof(Resources.Pages.Streamings.Schedule.ScheduleDateLabel)]</label>
-                        <InputDate @bind-Value="model.ScheduleDate" class="form-control" id="scheduleDate" />
-                        <ValidationMessage For="() => model.ScheduleDate" />
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="startingTime">@Localizer[nameof(Resources.Pages.Streamings.Schedule.StartingTimeLabel)]</label>
-                        <TimeEdit @bind-Time="model.StartingTime" Class="form-control" id="startingTime" />
-                        <ValidationMessage For="() => model.StartingTime" />
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="endingTime">@Localizer[nameof(Resources.Pages.Streamings.Schedule.EndingTimeLabel)]</label>
-                        <TimeEdit @bind-Time="model.EndingTime" Class="form-control" id="endingTime" />
-                        <ValidationMessage For="() => model.EndingTime" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label id="streamingAbstract">@Localizer[nameof(Resources.Pages.Streamings.Schedule.AbstractLabel)]</label>
-                <InputTextArea @bind-Value="model.StreamingAbstract" class="form-control" id="streamingAbstract" rows="5" />
-                <ValidationMessage For="() => model.StreamingAbstract" />
-            </div>
-
-            <div class="form-group align-content-end">
-                <button type="reset" class="btn btn-outline-primary mr-3">@CommonLocalizer[nameof(Resources.Common.Cancel)]</button>
-                <button type="submit" class="btn btn-primary">@CommonLocalizer[nameof(Resources.Common.Save)]</button>
-            </div>
+                    <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.AbstractLabel)]"
+                                  @bind-Value="model.StreamingAbstract"
+                                  For="@(() => model.StreamingAbstract)"
+                                  Variant="Variant.Outlined"
+                                  Lines="5"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(Resources.Common.Save)]</MudButton>
+                </MudCardActions>
+            </MudCard>
         </EditForm>
     </PageContent>
 </PageLayout>

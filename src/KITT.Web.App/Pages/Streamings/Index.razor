@@ -2,52 +2,47 @@
 @attribute [Authorize]
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]">
-    <Toolbar>
-        <a href="streamings/schedule" class="btn btn-primary">@Localizer[nameof(Resources.Pages.Streamings.Index.ScheduleNewStreamingLabel)]</a>
-    </Toolbar>
-    <PageContent>
-        <div class="row">
-            <div class="col">
-                @if (model.Items is null)
-                {
-                    <h2>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)] :(</h2>
-                }
-                else
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]</th>
-                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]</th>
-                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]</th>
-                                <th>@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var live in model.Items)
-                            {
-                                <tr>
-                                    <td>@live.Title</td>
-                                    <td>@live.ScheduledOn.ToShortDateString()</td>
-                                    <td>@live.StartingTime.ToString("HH:mm") - @live.EndingTime.ToString("HH:mm")</td>
-                                    <td><a href="@live.HostingChannelUrl" target="_blank">@live.HostingChannelUrl</a></td>
-                                    <td>
-                                        <div class="btn-toolbar" role="toolbar">
-                                            <button type="button" class="btn btn-outline-primary">
-                                                <span class="fas fa-eye"></span> @CommonLocalizer[nameof(Resources.Common.View)]
-                                            </button>
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <span class="fas fa-trash"></span> @CommonLocalizer[nameof(Resources.Common.Delete)]
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-            </div>
-        </div>
-    </PageContent>
+	<Toolbar>
+		<NavButton Label="@Localizer[nameof(Resources.Pages.Streamings.Index.ScheduleNewStreamingLabel)]"
+				   Page="streamings/schedule" />
+	</Toolbar>
+	<PageContent>
+		<MudPaper>
+			@if (model.Items is null)
+			{
+				<h2>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)] :(</h2>
+			}
+			else
+			{
+				<MudSimpleTable>
+					<thead>
+						<tr>
+							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]</th>
+							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]</th>
+							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]</th>
+							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var live in model.Items)
+						{
+							<tr>
+								<td>@live.Title</td>
+								<td>@live.ScheduledOn.ToShortDateString()</td>
+								<td>@live.StartingTime.ToString("HH:mm") - @live.EndingTime.ToString("HH:mm")</td>
+								<td><a href="@live.HostingChannelUrl" target="_blank">@live.HostingChannelUrl</a></td>
+								<td>
+									<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+										<MudButton StartIcon="@Icons.Filled.RemoveRedEye">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
+										<MudButton StartIcon="@Icons.Filled.Delete">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
+									</MudButtonGroup>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</MudSimpleTable>
+			}
+		</MudPaper>
+	</PageContent>
 </PageLayout>

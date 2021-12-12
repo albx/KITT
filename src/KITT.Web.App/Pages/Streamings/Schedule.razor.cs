@@ -1,5 +1,4 @@
-﻿using Blazorise;
-using KITT.Web.App.Clients;
+﻿using KITT.Web.App.Clients;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -16,9 +15,6 @@ public partial class Schedule
     public NavigationManager Navigation { get; set; }
 
     [Inject]
-    public INotificationService Notification { get; set; }
-
-    [Inject]
     internal IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
 
     [Inject]
@@ -33,8 +29,7 @@ public partial class Schedule
         try
         {
             await Client.ScheduleStreamingAsync(model.ToApiModel());
-            await Notification.Success("Streaming scheduled successfully!");
-
+            
             Navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
@@ -52,13 +47,13 @@ public partial class Schedule
         public string Slug { get; set; } = string.Empty;
 
         [Required]
-        public DateTime ScheduleDate { get; set; } = DateTime.Now;
+        public DateTime? ScheduleDate { get; set; } = DateTime.Now;
 
         [Required]
-        public TimeSpan StartingTime { get; set; } = DateTime.Now.TimeOfDay;
+        public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;
 
         [Required]
-        public TimeSpan EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+        public TimeSpan? EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
 
         [Required]
         public string HostingChannelUrl { get; set; } = string.Empty;
@@ -67,14 +62,29 @@ public partial class Schedule
 
         public ScheduleStreamingModel ToApiModel()
         {
+            if (this.ScheduleDate is null)
+            {
+                throw new ArgumentNullException(nameof(ScheduleDate));
+            }
+
+            if (this.StartingTime is null)
+            {
+                throw new ArgumentNullException(nameof(this.StartingTime));
+            }
+
+            if (this.EndingTime is null)
+            {
+                throw new ArgumentNullException(nameof(this.EndingTime));
+            }
+
             return new ScheduleStreamingModel
             {
                 Title = this.Title,
-                ScheduleDate = this.ScheduleDate,
-                EndingTime = this.ScheduleDate.Add(this.EndingTime),
+                ScheduleDate = this.ScheduleDate.Value,
+                EndingTime = this.ScheduleDate.Value.Add(this.EndingTime.Value),
                 HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
                 Slug = this.Slug,
-                StartingTime = this.ScheduleDate.Add(this.StartingTime),
+                StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
                 StreamingAbstract = this.StreamingAbstract
             };
         }

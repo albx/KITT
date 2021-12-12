@@ -4,23 +4,15 @@ using KITT.Web.App;
 using KITT.Web.App.Clients;
 using KITT.Web.App.Clients.Http;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services
-    .AddBlazorise(options =>
-    {
-        options.ChangeTextOnKeyPress = true;
-    })
-    .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
-
 builder.Services.AddLocalization();
+
+builder.Services.AddMudServices();
 
 builder.Services
     .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))

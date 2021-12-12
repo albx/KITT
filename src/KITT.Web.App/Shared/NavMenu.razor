@@ -2,42 +2,10 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="top-row pl-4 navbar navbar-dark">
-            <a class="navbar-brand" href="">KITT</a>
-            <button class="navbar-toggler" @onclick="ToggleNavMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-
-        <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-            <ul class="nav flex-column">
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                        <i class="fas fa-tachometer-alt"></i>&nbsp;@Localizer[nameof(Resources.Shared.NavMenu.DashboardMenuLabel)]
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="streamings">
-                        <i class="fas fa-video"></i>&nbsp;@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="settings">
-                        <i class="fas fa-cogs"></i>&nbsp;@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]
-                    </NavLink>
-                </li>
-            </ul>
-        </div>
+        <MudNavMenu Class="mud-width-full">
+            <MudNavLink Href="/" Icon="@Icons.Filled.Dashboard">@Localizer[nameof(Resources.Shared.NavMenu.DashboardMenuLabel)]</MudNavLink>
+            <MudNavLink Href="/streamings" Icon="@Icons.Filled.Videocam">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</MudNavLink>
+            <MudNavLink Href="/settings" Icon="@Icons.Filled.Settings">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</MudNavLink>
+        </MudNavMenu>
     </Authorized>
 </AuthorizeView>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

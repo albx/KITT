@@ -1,13 +1,16 @@
-﻿<div class="row">
-    <div class="col">
-        <h3>@PageTitle</h3>
-    </div>
-    <div class="col-auto align-content-center">
+﻿<MudContainer MaxWidth="MaxWidth.False">
+    <MudToolBar>
+        <MudText Typo="Typo.h5">@PageTitle</MudText>
+        <MudSpacer />
         @Toolbar
-    </div>
-</div>
-<hr />
-@PageContent
+    </MudToolBar>
+    <MudDivider />
+    <MudGrid Class="mt-4">
+        <MudItem xs="12" sm="12" md="12">
+            @PageContent
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]
