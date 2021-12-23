@@ -50,8 +50,7 @@ public class StreamingsControllerServices
             ScheduleDate = streaming.ScheduleDate,
             EndingTime = streaming.ScheduleDate.Add(streaming.EndingTime),
             HostingChannelUrl = streaming.HostingChannelUrl,
-            Slug = streaming.Slug,
-            StartingTime = streaming.ScheduleDate.Add(streaming.EndingTime),
+            StartingTime = streaming.ScheduleDate.Add(streaming.StartingTime),
             StreamingAbstract = streaming.Abstract,
             Title = streaming.Title,
             YoutubeVideoUrl = streaming.YouTubeVideoUrl
@@ -81,17 +80,17 @@ public class StreamingsControllerServices
             model.StreamingAbstract);
     }
 
-    public Task UpdateStreamingAsync(Guid streamingId)
+    public Task UpdateStreamingAsync(Guid streamingId, StreamingDetailModel model)
     {
         return Commands.UpdateStreamingAsync(
             streamingId,
-            "",
-            DateTime.Today,
-            TimeSpan.FromHours(16),
-            TimeSpan.FromHours(18),
-            "",
-            "",
-            "");
+            model.Title,
+            model.ScheduleDate,
+            model.StartingTime.TimeOfDay,
+            model.EndingTime.TimeOfDay,
+            model.HostingChannelUrl,
+            model.StreamingAbstract,
+            model.YoutubeVideoUrl);
     }
 
     public Task DeleteStreamingAsync(Guid streamingId) => Commands.DeleteStreamingAsync(streamingId);

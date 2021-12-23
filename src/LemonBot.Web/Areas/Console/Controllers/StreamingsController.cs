@@ -46,9 +46,9 @@ public class StreamingsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStreaming(Guid id)
+    public async Task<IActionResult> UpdateStreaming(Guid id, [FromBody]StreamingDetailModel model)
     {
-        await ControllerServices.UpdateStreamingAsync(id);
+        await ControllerServices.UpdateStreamingAsync(id, model);
         return Ok();
     }
 

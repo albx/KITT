@@ -26,7 +26,24 @@ public partial class StreamingDetail
 
 	void EnableEditing() => isReadOnly = false;
 
-    protected override async Task OnParametersSetAsync()
+	void DisableEditing() => isReadOnly = true;
+
+	private string? errorMessage;
+
+	async Task EditStreamingAsync()
+    {
+        try
+        {
+			await Client.UpdateStreamingAsync(model.ToApiModel());
+			isReadOnly = true;
+        }
+        catch (ApplicationException ex)
+        {
+			errorMessage = ex.Message;
+        }
+    }
+
+	protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
 
@@ -83,10 +100,9 @@ public partial class StreamingDetail
 				ScheduleDate = this.ScheduleDate.Value,
 				EndingTime = this.ScheduleDate.Value.Add(this.EndingTime.Value),
 				HostingChannelUrl = $"{twitchBaseUrl}{this.HostingChannelUrl}",
-				Slug = this.Slug,
 				StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
 				StreamingAbstract = this.StreamingAbstract,
-				YoutubeVideoUrl = $"{youtubeBaseUrl}{this.YoutubeVideoUrl}"
+				YoutubeVideoUrl = string.IsNullOrWhiteSpace(this.YoutubeVideoUrl) ? string.Empty : $"{youtubeBaseUrl}{this.YoutubeVideoUrl}"
 			};
 		}
 
@@ -97,7 +113,6 @@ public partial class StreamingDetail
 				Title = model.Title,
 				ScheduleDate = model.ScheduleDate,
 				EndingTime = model.EndingTime.TimeOfDay,
-				Slug = model.Slug,
 				StartingTime = model.StartingTime.TimeOfDay,
 				StreamingAbstract = model.StreamingAbstract,
 				YoutubeVideoUrl = model.YoutubeVideoUrl?.Replace(youtubeBaseUrl, string.Empty).Trim(),

@@ -22,7 +22,7 @@ public partial class Schedule
 
     private ViewModel model = new();
 
-    private string errorMessage;
+    private string? errorMessage;
 
     async Task ScheduleStreamingAsync()
     {

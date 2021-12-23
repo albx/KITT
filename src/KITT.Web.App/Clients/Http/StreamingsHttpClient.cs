@@ -41,4 +41,13 @@ public class StreamingsHttpClient : IStreamingsClient
             throw;
         }
     }
+
+    public async Task UpdateStreamingAsync(StreamingDetailModel model)
+    {
+        var response = await Client.PutAsJsonAsync($"{ApiResource}/{model.Id}", model);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error scheduling streaming");
+        }
+    }
 }
