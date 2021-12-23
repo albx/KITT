@@ -1,9 +1,11 @@
 using LemonBot.Clients;
 using LemonBot.Commands;
 using LemonBot.Commands.Services;
+using LemonBot.Options;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
@@ -17,18 +19,21 @@ public class TwitchBotService : BackgroundService
 
     private readonly BotCommandResolver _commandFactory;
 
+    private readonly HubOptions _hubOptions;
+
     private HashSet<string> _usersAlreadyJoined;
 
     private HubConnection _connection;
 
-    public TwitchBotService(TwitchClientProxy client, BotCommandResolver commandFactory, ILogger<TwitchBotService> logger)
+    public TwitchBotService(TwitchClientProxy client, BotCommandResolver commandFactory, ILogger<TwitchBotService> logger, IOptions<HubOptions> hubOptions)
     {
         _client = client ?? throw new ArgumentNullException(nameof(client));
         _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _hubOptions = hubOptions?.Value ?? throw new ArgumentNullException(nameof(hubOptions));
 
         _connection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:5001/bot")
+            .WithUrl(_hubOptions.Endpoint)
             .Build();
 
         _usersAlreadyJoined = new();
