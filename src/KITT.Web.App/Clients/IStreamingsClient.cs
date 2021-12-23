@@ -7,4 +7,6 @@ public interface IStreamingsClient
     Task ScheduleStreamingAsync(ScheduleStreamingModel model);
 
     Task<StreamingsListModel> GetAllStreamingsAsync();
+
+    Task<StreamingDetailModel> GetStreamingDetailAsync(Guid streamingId);
 }

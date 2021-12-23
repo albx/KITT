@@ -28,4 +28,17 @@ public class StreamingsHttpClient : IStreamingsClient
         var model = await Client.GetFromJsonAsync<StreamingsListModel>(ApiResource);
         return model;
     }
+
+    public async Task<StreamingDetailModel> GetStreamingDetailAsync(Guid streamingId)
+    {
+        try
+        {
+            var model = await Client.GetFromJsonAsync<StreamingDetailModel>($"{ApiResource}/{streamingId}");
+            return model;
+        }
+        catch 
+        {
+            throw;
+        }
+    }
 }

@@ -36,9 +36,26 @@ public class StreamingsControllerServices
         return model;
     }
 
-    public object GetStreamingDetail(Guid streamingId)
+    public StreamingDetailModel? GetStreamingDetail(Guid streamingId)
     {
-        throw new NotImplementedException();
+        var streaming = Database.Streamings.SingleOrDefault(s => s.Id == streamingId);
+        if (streaming is null)
+        {
+            return null;
+        }
+
+        return new()
+        {
+            Id = streaming.Id,
+            ScheduleDate = streaming.ScheduleDate,
+            EndingTime = streaming.ScheduleDate.Add(streaming.EndingTime),
+            HostingChannelUrl = streaming.HostingChannelUrl,
+            Slug = streaming.Slug,
+            StartingTime = streaming.ScheduleDate.Add(streaming.EndingTime),
+            StreamingAbstract = streaming.Abstract,
+            Title = streaming.Title,
+            YoutubeVideoUrl = streaming.YouTubeVideoUrl
+        };
     }
 
     public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)

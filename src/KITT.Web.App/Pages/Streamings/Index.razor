@@ -25,16 +25,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach (var live in model.Items)
+						@foreach (var streaming in model.Items)
 						{
 							<tr>
-								<td>@live.Title</td>
-								<td>@live.ScheduledOn.ToShortDateString()</td>
-								<td>@live.StartingTime.ToString("HH:mm") - @live.EndingTime.ToString("HH:mm")</td>
-								<td><a href="@live.HostingChannelUrl" target="_blank">@live.HostingChannelUrl</a></td>
+								<td>@streaming.Title</td>
+								<td>@streaming.ScheduledOn.ToShortDateString()</td>
+								<td>@streaming.StartingTime.ToString("HH:mm") - @streaming.EndingTime.ToString("HH:mm")</td>
+								<td><a href="@streaming.HostingChannelUrl" target="_blank">@streaming.HostingChannelUrl</a></td>
 								<td>
 									<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
-										<MudButton StartIcon="@Icons.Filled.RemoveRedEye">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
+										<MudButton StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(streaming)">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
 										<MudButton StartIcon="@Icons.Filled.Delete">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
 									</MudButtonGroup>
 								</td>

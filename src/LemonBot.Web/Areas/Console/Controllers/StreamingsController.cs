@@ -30,6 +30,11 @@ public class StreamingsController : ControllerBase
     public IActionResult GetStreamingDetail(Guid id)
     {
         var model = ControllerServices.GetStreamingDetail(id);
+        if (model is null)
+        {
+            return NotFound();
+        }
+
         return Ok(model);
     }
 
