@@ -1,0 +1,113 @@
+﻿@page "/streamings/{id:guid}"
+
+@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Streamings.StreamingDetail> Localizer
+
+@attribute [Authorize]
+
+<PageLayout PageTitle="@pageTitle">
+	<Toolbar>
+		@if (isReadOnly)
+		{
+			<MudButton OnClick="EnableEditing" Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3">@CommonLocalizer[nameof(Resources.Common.Edit)]</MudButton>
+		}
+
+		<NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
+				   Page="streamings" />
+	</Toolbar>
+	<PageContent>
+		<ErrorBoundary>
+			<EditForm Model="model" OnValidSubmit="EditStreamingAsync" class="col-md-12 mt-3">
+				<DataAnnotationsValidator />
+
+				@if (!string.IsNullOrWhiteSpace(errorMessage))
+				{
+					<MudPaper>
+						<MudText Color="Color.Error">@errorMessage</MudText>
+					</MudPaper>
+					<MudDivider />
+				}
+
+				<MudCard>
+					<MudCardContent>
+						<MudGrid>
+							<MudItem xs="12" md="6">
+								<MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
+											  @bind-Value="model.Title"
+											  For="@(() => model.Title)"
+											  Variant="Variant.Outlined"
+											  Disabled="@isReadOnly" />
+							</MudItem>
+							<MudItem xs="12" md="6">
+								<MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
+											  @bind-Value="model.Slug"
+											  Variant="Variant.Outlined"
+											  Disabled="true" />
+							</MudItem>
+						</MudGrid>
+						
+						<MudGrid>
+							<MudItem xs="12" md="6">
+								<MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
+											  @bind-Value="model.HostingChannelUrl"
+											  Adornment="Adornment.Start"
+											  AdornmentText="@twitchBaseUrl"
+											  Variant="Variant.Outlined"
+											  For="@(() => model.HostingChannelUrl)"
+											  Disabled="@isReadOnly" />
+							</MudItem>
+							<MudItem xs="12" md="6">
+								<MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
+											  @bind-Value="model.YoutubeVideoUrl"
+											  Variant="Variant.Outlined"
+											  For="@(() => model.YoutubeVideoUrl)"
+											  Disabled="@isReadOnly" />
+							</MudItem>
+						</MudGrid>
+
+						<MudGrid>
+							<MudItem xs="12" md="6">
+								<MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
+											   @bind-Date="model.ScheduleDate"
+											   Variant="Variant.Outlined"
+											   Editable="true"
+											   AutoClose="true"
+											   Disabled="@isReadOnly" />
+							</MudItem>
+							<MudItem xs="12" md="3">
+								<MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
+											   @bind-Time="model.StartingTime"
+											   Variant="Variant.Outlined"
+											   Editable="true"
+											   AutoClose="true"
+											   Disabled="@isReadOnly" />
+							</MudItem>
+							<MudItem xs="12" md="3">
+								<MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
+											   @bind-Time="model.EndingTime"
+											   Variant="Variant.Outlined"
+											   Editable="true"
+											   AutoClose="true"
+											   Disabled="@isReadOnly" />
+							</MudItem>
+						</MudGrid>
+
+						<MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
+									  @bind-Value="model.StreamingAbstract"
+									  For="@(() => model.StreamingAbstract)"
+									  Variant="Variant.Outlined"
+									  Lines="5"
+									  Disabled="@isReadOnly" />
+					</MudCardContent>
+					@if (!isReadOnly)
+					{
+						<MudCardActions>
+							<MudButton OnClick="DisableEditing" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
+							<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(Resources.Common.Save)]</MudButton>
+						</MudCardActions>
+					}
+				</MudCard>
+			</EditForm>
+		</ErrorBoundary>
+	</PageContent>
+</PageLayout>

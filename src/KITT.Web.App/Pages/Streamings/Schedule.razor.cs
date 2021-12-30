@@ -14,15 +14,9 @@ public partial class Schedule
     [Inject]
     public NavigationManager Navigation { get; set; }
 
-    [Inject]
-    internal IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
-
-    [Inject]
-    internal IStringLocalizer<Resources.Pages.Streamings.Schedule> Localizer { get; set; }
-
     private ViewModel model = new();
 
-    private string errorMessage;
+    private string? errorMessage;
 
     async Task ScheduleStreamingAsync()
     {

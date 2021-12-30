@@ -126,6 +126,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Cancella</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Salva</value>
   </data>

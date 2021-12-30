@@ -46,6 +46,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Schedule.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\Streamings\StreamingDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StreamingDetail.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Shared\NavMenu.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -97,6 +102,13 @@
     <EmbeddedResource Update="Resources\Pages\Streamings\Schedule.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Schedule.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Streamings\StreamingDetail.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Streamings\StreamingDetail.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StreamingDetail.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Shared\NavMenu.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -17,6 +17,9 @@ public partial class Index
     [Inject]
     internal IStringLocalizer<Resources.Pages.Streamings.Index> Localizer { get; set; }
 
+    [Inject]
+    public NavigationManager Navigation { get; set; }
+
     private StreamingsListModel model = new();
 
     protected override async Task OnInitializedAsync()
@@ -32,4 +35,7 @@ public partial class Index
             exception.Redirect();
         }
     }
+
+    void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming) 
+        => Navigation.NavigateTo($"streamings/{streaming.Id}");
 }

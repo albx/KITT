@@ -30,6 +30,11 @@ public class StreamingsController : ControllerBase
     public IActionResult GetStreamingDetail(Guid id)
     {
         var model = ControllerServices.GetStreamingDetail(id);
+        if (model is null)
+        {
+            return NotFound();
+        }
+
         return Ok(model);
     }
 
@@ -41,9 +46,9 @@ public class StreamingsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStreaming(Guid id)
+    public async Task<IActionResult> UpdateStreaming(Guid id, [FromBody]StreamingDetailModel model)
     {
-        await ControllerServices.UpdateStreamingAsync(id);
+        await ControllerServices.UpdateStreamingAsync(id, model);
         return Ok();
     }
 
