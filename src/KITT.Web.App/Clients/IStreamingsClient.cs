@@ -8,7 +8,9 @@ public interface IStreamingsClient
 
     Task<StreamingsListModel> GetAllStreamingsAsync();
 
-    Task<StreamingDetailModel> GetStreamingDetailAsync(Guid streamingId);
+    Task<StreamingDetailModel?> GetStreamingDetailAsync(Guid streamingId);
 
     Task UpdateStreamingAsync(StreamingDetailModel model);
+
+    Task DeleteStreamingAsync(Guid streamingId);
 }

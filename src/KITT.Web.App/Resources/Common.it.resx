@@ -123,6 +123,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Sì</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Cancella</value>
   </data>

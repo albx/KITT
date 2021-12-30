@@ -1,4 +1,8 @@
 ﻿@page "/streamings"
+
+@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Streamings.Index> Localizer
+
 @attribute [Authorize]
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]">
@@ -35,7 +39,7 @@
 								<td>
 									<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
 										<MudButton StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(streaming)">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
-										<MudButton StartIcon="@Icons.Filled.Delete">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
+										<MudButton StartIcon="@Icons.Filled.Delete" OnClick="() => DeleteStreaming(streaming)">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
 									</MudButtonGroup>
 								</td>
 							</tr>
