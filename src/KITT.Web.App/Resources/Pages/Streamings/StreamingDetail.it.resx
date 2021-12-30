@@ -117,22 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>Back</value>
+  <data name="AbstractLabel" xml:space="preserve">
+    <value>Abstract</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="EndingTimeLabel" xml:space="preserve">
+    <value>Ora di fine</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+  <data name="HostingChannelLabel" xml:space="preserve">
+    <value>Canale ospitante</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Pianifica diretta</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
+  <data name="ScheduleDateLabel" xml:space="preserve">
+    <value>Data</value>
   </data>
-  <data name="View" xml:space="preserve">
-    <value>View</value>
+  <data name="SlugLabel" xml:space="preserve">
+    <value>Slug</value>
+  </data>
+  <data name="StartingTimeLabel" xml:space="preserve">
+    <value>Ora di inizio</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="YoutubeUrlLabel" xml:space="preserve">
+    <value>YouTube URL</value>
   </data>
 </root>

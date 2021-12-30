@@ -53,7 +53,8 @@ public class StreamingsControllerServices
             StartingTime = streaming.ScheduleDate.Add(streaming.StartingTime),
             StreamingAbstract = streaming.Abstract,
             Title = streaming.Title,
-            YoutubeVideoUrl = streaming.YouTubeVideoUrl
+            YoutubeVideoUrl = streaming.YouTubeVideoUrl,
+            Slug = streaming.Slug
         };
     }
 

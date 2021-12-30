@@ -9,6 +9,8 @@ public class StreamingDetailModel
     [Required]
     public string Title { get; set; } = string.Empty;
 
+    public string Slug { get; set; } = string.Empty;
+
     [Required]
     public DateTime ScheduleDate { get; set; } = DateTime.Now;
 

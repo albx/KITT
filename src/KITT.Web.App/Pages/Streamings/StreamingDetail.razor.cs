@@ -24,22 +24,42 @@ public partial class StreamingDetail
 
 	const string youtubeBaseUrl = "https://www.youtube.com/?v=";
 
-	void EnableEditing() => isReadOnly = false;
+	void EnableEditing()
+	{
+		isReadOnly = false;
+		StateHasChanged();
+	}
 
-	void DisableEditing() => isReadOnly = true;
+	void DisableEditing()
+	{
+		model = ViewModel.FromStreamingDetailModel(streamingDetail);
+		isReadOnly = true;
+
+		StateHasChanged();
+	}
 
 	private string? errorMessage;
+
+	private StreamingDetailModel streamingDetail = new();
 
 	async Task EditStreamingAsync()
     {
         try
         {
-			await Client.UpdateStreamingAsync(model.ToApiModel());
+			var detail = model.ToApiModel(this.Id);
+			await Client.UpdateStreamingAsync(detail);
+
 			isReadOnly = true;
+
+			streamingDetail = detail;
         }
         catch (ApplicationException ex)
         {
 			errorMessage = ex.Message;
+        }
+        finally
+        {
+			StateHasChanged();
         }
     }
 
@@ -47,10 +67,17 @@ public partial class StreamingDetail
     {
         await base.OnParametersSetAsync();
 
-		var streamingDetail = await Client.GetStreamingDetailAsync(Id);
-		model = ViewModel.FromStreamingDetailModel(streamingDetail);
+        try
+        {
+			streamingDetail = await Client.GetStreamingDetailAsync(Id);
+			model = ViewModel.FromStreamingDetailModel(streamingDetail);
 
-		pageTitle = model.Title;
+			pageTitle = model.Title;
+		}
+        finally
+        {
+			StateHasChanged();
+        }
 	}
 
     class ViewModel
@@ -58,10 +85,9 @@ public partial class StreamingDetail
 		[Required]
 		public string Title { get; set; } = string.Empty;
 
-		[Required]
 		public string Slug { get; set; } = string.Empty;
 
-		[Required]
+        [Required]
 		public DateTime? ScheduleDate { get; set; } = DateTime.Now;
 
 		[Required]
@@ -77,8 +103,13 @@ public partial class StreamingDetail
 
 		public string? YoutubeVideoUrl { get; set; }
 
-		public StreamingDetailModel ToApiModel()
+		public StreamingDetailModel ToApiModel(Guid streamingId)
 		{
+            if (streamingId == Guid.Empty)
+            {
+				throw new ArgumentException("value cannot be empty", nameof(streamingId));
+            }
+
 			if (this.ScheduleDate is null)
 			{
 				throw new ArgumentNullException(nameof(ScheduleDate));
@@ -96,13 +127,15 @@ public partial class StreamingDetail
 
 			return new()
 			{
+				Id = streamingId,
 				Title = this.Title,
+				Slug = this.Slug,
 				ScheduleDate = this.ScheduleDate.Value,
 				EndingTime = this.ScheduleDate.Value.Add(this.EndingTime.Value),
 				HostingChannelUrl = $"{twitchBaseUrl}{this.HostingChannelUrl}",
 				StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
 				StreamingAbstract = this.StreamingAbstract,
-				YoutubeVideoUrl = string.IsNullOrWhiteSpace(this.YoutubeVideoUrl) ? string.Empty : $"{youtubeBaseUrl}{this.YoutubeVideoUrl}"
+				YoutubeVideoUrl = this.YoutubeVideoUrl
 			};
 		}
 
@@ -111,11 +144,12 @@ public partial class StreamingDetail
 			return new()
 			{
 				Title = model.Title,
+				Slug = model.Slug,
 				ScheduleDate = model.ScheduleDate,
 				EndingTime = model.EndingTime.TimeOfDay,
 				StartingTime = model.StartingTime.TimeOfDay,
 				StreamingAbstract = model.StreamingAbstract,
-				YoutubeVideoUrl = model.YoutubeVideoUrl?.Replace(youtubeBaseUrl, string.Empty).Trim(),
+				YoutubeVideoUrl = model.YoutubeVideoUrl,
 				HostingChannelUrl = model.HostingChannelUrl.Replace(twitchBaseUrl, string.Empty).Trim()
 			};
 		}

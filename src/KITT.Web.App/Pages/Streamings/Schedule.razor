@@ -1,4 +1,8 @@
 ﻿@page "/streamings/schedule"
+
+@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Streamings.Schedule> Localizer
+
 @attribute [Authorize]
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
