@@ -1,0 +1,37 @@
+﻿@inject IStringLocalizer<Resources.Common> Localizer
+
+<MudDialog>
+	<DialogContent>
+		<MudText>@ConfirmText</MudText>
+	</DialogContent>
+	<DialogActions>
+		<MudButton OnClick="Cancel" Variant="Variant.Outlined" Color="Color.Primary">@CancelButtonText</MudButton>
+		<MudButton OnClick="Confirm" Variant="Variant.Filled" Color="Color.Primary">@ConfirmButtonText</MudButton>
+	</DialogActions>
+</MudDialog>
+
+@code {
+	[CascadingParameter]
+	MudDialogInstance Dialog { get; set; }
+
+	[Parameter]
+	[EditorRequired]
+	public string ConfirmText { get; set; } = string.Empty;
+
+	[Parameter]
+	public string ConfirmButtonText { get; set; }
+
+	[Parameter]
+	public string CancelButtonText { get; set; }
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		ConfirmButtonText = Localizer[nameof(Resources.Common.Confirm)];
+		CancelButtonText = Localizer[nameof(Resources.Common.Cancel)];
+	}
+
+	void Cancel() => Dialog.Close();
+
+	void Confirm() => Dialog.Close(DialogResult.Ok(true));
+}

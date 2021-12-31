@@ -26,10 +26,10 @@ public class StreamingsHttpClient : IStreamingsClient
     public async Task<StreamingsListModel> GetAllStreamingsAsync()
     {
         var model = await Client.GetFromJsonAsync<StreamingsListModel>(ApiResource);
-        return model;
+        return model ?? new StreamingsListModel();
     }
 
-    public async Task<StreamingDetailModel> GetStreamingDetailAsync(Guid streamingId)
+    public async Task<StreamingDetailModel?> GetStreamingDetailAsync(Guid streamingId)
     {
         try
         {
@@ -47,7 +47,16 @@ public class StreamingsHttpClient : IStreamingsClient
         var response = await Client.PutAsJsonAsync($"{ApiResource}/{model.Id}", model);
         if (!response.IsSuccessStatusCode)
         {
-            throw new ApplicationException("Error scheduling streaming");
+            throw new ApplicationException("Error updating streaming");
+        }
+    }
+
+    public async Task DeleteStreamingAsync(Guid streamingId)
+    {
+        var response = await Client.DeleteAsync($"{ApiResource}/{streamingId}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error deleting streaming");
         }
     }
 }

@@ -70,6 +70,42 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are going to delete the streaming {0}. Are you sure?.
+        /// </summary>
+        internal static string DeleteStreamingConfirmText {
+            get {
+                return ResourceManager.GetString("DeleteStreamingConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting {0}.
+        /// </summary>
+        internal static string DeleteStreamingConfirmTitle {
+            get {
+                return ResourceManager.GetString("DeleteStreamingConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error deleting streaming {0}.
+        /// </summary>
+        internal static string DeleteStreamingErrorMessage {
+            get {
+                return ResourceManager.GetString("DeleteStreamingErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Streaming {0} deleted successfully!.
+        /// </summary>
+        internal static string DeleteStreamingSuccessMessage {
+            get {
+                return ResourceManager.GetString("DeleteStreamingSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         internal static string DurationLabel {
