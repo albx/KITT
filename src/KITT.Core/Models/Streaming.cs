@@ -1,16 +1,8 @@
 ﻿namespace KITT.Core.Models;
 
-public class Streaming
+public class Streaming : Content
 {
-    public Guid Id { get; protected set; }
-
-    public string UserId { get; protected set; }
-
     public string TwitchChannel { get; protected set; }
-
-    public string Title { get; protected set; }
-
-    public string Slug { get; protected set; }
 
     public DateTime ScheduleDate { get; protected set; }
 
@@ -22,23 +14,11 @@ public class Streaming
 
     public string YouTubeVideoUrl { get; protected set; }
 
-    public string Abstract { get; protected set; }
-
     #region Constructor
-    protected Streaming() { }
+    protected Streaming() : base() { }
     #endregion
 
     #region Behaviors
-    public void ChangeTitle(string title)
-    {
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(title));
-        }
-
-        this.Title = title;
-    }
-
     public void ChangeSchedule(DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
     {
         if (scheduleDate < DateTime.Today)
@@ -54,11 +34,6 @@ public class Streaming
         this.ScheduleDate = scheduleDate;
         this.StartingTime = startingTime;
         this.EndingTime = endingTime;
-    }
-
-    public void SetAbstract(string streamingAbstract)
-    {
-        this.Abstract = streamingAbstract;
     }
 
     public void SetRegistrationYoutubeUrl(string youtubeUrl)
@@ -122,6 +97,8 @@ public class Streaming
             EndingTime = endingTime,
             HostingChannelUrl = hostingChannelUrl
         };
+
+        streaming.Publish();
 
         return streaming;
     }
