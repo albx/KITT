@@ -120,6 +120,18 @@
   <data name="DateLabel" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="DeleteStreamingConfirmText" xml:space="preserve">
+    <value>You are going to delete the streaming {0}. Are you sure?</value>
+  </data>
+  <data name="DeleteStreamingConfirmTitle" xml:space="preserve">
+    <value>Deleting {0}</value>
+  </data>
+  <data name="DeleteStreamingErrorMessage" xml:space="preserve">
+    <value>There was an error deleting streaming {0}</value>
+  </data>
+  <data name="DeleteStreamingSuccessMessage" xml:space="preserve">
+    <value>Streaming {0} deleted successfully!</value>
+  </data>
   <data name="DurationLabel" xml:space="preserve">
     <value>Duration</value>
   </data>

@@ -18,6 +18,9 @@ public partial class Index
     [Inject]
     IDialogService Dialog { get; set; }
 
+    [Inject]
+    ISnackbar Snackbar { get; set; }
+
     private StreamingsListModel model = new();
 
     protected override async Task OnInitializedAsync()
@@ -41,11 +44,13 @@ public partial class Index
 
     async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
     {
+        var streamingTitle = streaming.Title;
+
         var confirm = await Dialog.Show<ConfirmDialog>(
-            $"Deleting {streaming.Title}", 
+            Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle], 
             new DialogParameters 
             {
-                [nameof(ConfirmDialog.ConfirmText)] = $"You are going to delete streaming {streaming.Title}. Are you sure?"
+                [nameof(ConfirmDialog.ConfirmText)] = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle]
             }).Result;
 
         if (!confirm.Cancelled)
@@ -54,10 +59,12 @@ public partial class Index
             {
                 await Client.DeleteStreamingAsync(streaming.Id);
                 await LoadStreamings();
+
+                Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle], Severity.Success);
             }
-            catch (Exception ex)
+            catch 
             {
-                //TODO
+                Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle], Severity.Error);
             }
             finally
             {

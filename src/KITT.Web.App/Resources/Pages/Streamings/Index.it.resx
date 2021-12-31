@@ -120,6 +120,18 @@
   <data name="DateLabel" xml:space="preserve">
     <value>Data</value>
   </data>
+  <data name="DeleteStreamingConfirmText" xml:space="preserve">
+    <value>Stai per cancellare la diretta {0}. Sei sicuro?</value>
+  </data>
+  <data name="DeleteStreamingConfirmTitle" xml:space="preserve">
+    <value>Eliminazione {0}</value>
+  </data>
+  <data name="DeleteStreamingErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante la cancellazione della diretta {0}</value>
+  </data>
+  <data name="DeleteStreamingSuccessMessage" xml:space="preserve">
+    <value>La diretta {0} è stata cancellata con successo!</value>
+  </data>
   <data name="DurationLabel" xml:space="preserve">
     <value>Durata</value>
   </data>
