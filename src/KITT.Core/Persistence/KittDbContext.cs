@@ -9,6 +9,8 @@ public class KittDbContext : DbContext
     {
     }
 
+    public DbSet<Content> Contents { get; set; }
+
     public DbSet<Streaming> Streamings { get; set; }
 
     public DbSet<Settings> Settings { get; set; }
@@ -16,7 +18,8 @@ public class KittDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfiguration(new SettingsMapper());
+        modelBuilder.ApplyConfiguration(new ContentMapper());
         modelBuilder.ApplyConfiguration(new StreamingMapper());
+        modelBuilder.ApplyConfiguration(new SettingsMapper());
     }
 }

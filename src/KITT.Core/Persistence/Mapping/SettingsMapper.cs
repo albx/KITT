@@ -6,6 +6,8 @@ internal class SettingsMapper : IEntityTypeConfiguration<Settings>
 {
     public void Configure(EntityTypeBuilder<Settings> builder)
     {
+        builder.ToTable($"{Defaults.TablePrefix}_Settings");
+
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).ValueGeneratedNever();
 

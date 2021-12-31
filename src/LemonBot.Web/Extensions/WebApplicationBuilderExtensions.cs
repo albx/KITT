@@ -13,11 +13,8 @@ public static class WebApplicationBuilderExtensions
 {
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        //builder.Services.AddDbContext<KittDbContext>(
-        //        options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
-
         builder.Services.AddDbContext<KittDbContext>(
-            options => options.UseInMemoryDatabase("InMemory-KittDb"));
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
