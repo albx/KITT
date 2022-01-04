@@ -13,4 +13,6 @@ public interface IStreamingsClient
     Task UpdateStreamingAsync(StreamingDetailModel model);
 
     Task DeleteStreamingAsync(Guid streamingId);
+
+    Task ImportStreamingAsync(ImportStreamingModel model);
 }

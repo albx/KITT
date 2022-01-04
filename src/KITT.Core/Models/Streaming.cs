@@ -120,11 +120,6 @@ public class Streaming : Content
             throw new ArgumentException("value cannot be empty", nameof(twitchChannel));
         }
 
-        if (scheduleDate < DateTime.Today)
-        {
-            throw new ArgumentException("Schedule date cannot be set in the past", nameof(scheduleDate));
-        }
-
         if (startingTime >= endingTime)
         {
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));

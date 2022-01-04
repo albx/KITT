@@ -1,17 +1,34 @@
 using System.ComponentModel.DataAnnotations;
+using KITT.Web.App.Clients;
 using KITT.Web.Models.Streamings;
+using Microsoft.AspNetCore.Components;
 
 namespace KITT.Web.App.Pages.Streamings;
 
 public partial class Import
 {
+    [Inject]
+    public IStreamingsClient Client { get; set; }
+
+    [Inject]
+    public NavigationManager Navigation { get; set; }
+
     private ViewModel model = new();
 
     private string errorMessage = string.Empty;
 
     async Task ImportStreamingAsync()
     {
+        try
+        {
+            await Client.ImportStreamingAsync(model.ToApiModel());
 
+            Navigation.NavigateTo("/streamings");
+        }
+        catch (ApplicationException ex)
+        {
+            errorMessage = ex.Message;
+        }
     }
 
     class ViewModel
