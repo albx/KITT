@@ -36,6 +36,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Common.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\Streamings\Import.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Import.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\Streamings\Index.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -88,6 +93,13 @@
     <EmbeddedResource Update="Resources\Common.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Common.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Streamings\Import.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Streamings\Import.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Import.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Streamings\Index.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>

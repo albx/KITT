@@ -59,4 +59,13 @@ public class StreamingsHttpClient : IStreamingsClient
             throw new ApplicationException("Error deleting streaming");
         }
     }
+
+    public async Task ImportStreamingAsync(ImportStreamingModel model)
+    {
+        var response = await Client.PostAsJsonAsync($"{ApiResource}/import", model);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error importing streaming");
+        }
+    }
 }
