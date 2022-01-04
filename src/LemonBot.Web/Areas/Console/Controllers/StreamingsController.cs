@@ -45,6 +45,13 @@ public class StreamingsController : ControllerBase
         return CreatedAtAction(nameof(GetStreamingDetail), new { id = scheduledStreamingId }, model);
     }
 
+    [HttpPost("import")]
+    public async Task<IActionResult> ImportStreaming([FromBody] ImportStreamingModel model)
+    {
+        var importedStreamingId = await ControllerServices.ImportStreamingAsync(model, User.GetUserId());
+        return CreatedAtAction(nameof(GetStreamingDetail), new { id = importedStreamingId }, model);
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateStreaming(Guid id, [FromBody]StreamingDetailModel model)
     {

@@ -85,4 +85,24 @@ public class StreamingCommands : IStreamingCommands
         _context.Streamings.Remove(streaming);
         return _context.SaveChangesAsync();
     }
+
+    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink)
+    {
+        var streaming = Streaming.Import(
+            streamingTitle,
+            streamingSlug,
+            twitchChannel,
+            scheduleDate,
+            startingTime,
+            endingTime,
+            hostingChannelUrl,
+            youtubeRegistrationLink,
+            streamingAbstract,
+            userId);
+
+        _context.Streamings.Add(streaming);
+        await _context.SaveChangesAsync();
+
+        return streaming.Id;
+    }
 }

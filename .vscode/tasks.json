@@ -7,32 +7,58 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/LemonBot.NET.ConsoleApp/LemonBot.NET.ConsoleApp.csproj",
+                "${workspaceFolder}",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "isBuildCommand": true
         },
         {
-            "label": "publish",
+            "label": "publish - BOT",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/LemonBot.NET.ConsoleApp/LemonBot.NET.ConsoleApp.csproj",
+                "${workspaceFolder}/src/LemonBot/LemonBot.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch",
+            "label": "publish - Web",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/LemonBot.Web/LemonBot.Web.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch - BOT",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/LemonBot.NET.ConsoleApp/LemonBot.NET.ConsoleApp.csproj",
+                "${workspaceFolder}/src/LemonBot/LemonBot.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch - Web",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/src/LemonBot.Web/LemonBot.Web.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

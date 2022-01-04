@@ -58,6 +58,30 @@ public class StreamingsControllerServices
         };
     }
 
+    public Task<Guid> ImportStreamingAsync(ImportStreamingModel model, string userId)
+    {
+        var settings = Database.Settings
+            .ByUserId(userId)
+            .FirstOrDefault();
+
+        if (settings is null)
+        {
+            throw new InvalidOperationException("No settings configured");
+        }
+
+        return Commands.ImportStreamingAsync(
+            userId,
+            settings.TwitchChannel,
+            model.Title,
+            model.Slug,
+            model.ScheduleDate,
+            model.StartingTime.TimeOfDay,
+            model.EndingTime.TimeOfDay,
+            model.HostingChannelUrl,
+            model.StreamingAbstract,
+            model.YoutubeVideoUrl);
+    }
+
     public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)
     {
         var settings = Database.Settings

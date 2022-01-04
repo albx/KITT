@@ -1,34 +1,17 @@
-﻿using KITT.Web.App.Clients;
-using KITT.Web.Models.Streamings;
-using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
+using KITT.Web.Models.Streamings;
 
 namespace KITT.Web.App.Pages.Streamings;
 
-public partial class Schedule
+public partial class Import
 {
-    [Inject]
-    public IStreamingsClient Client { get; set; }
-
-    [Inject]
-    public NavigationManager Navigation { get; set; }
-
     private ViewModel model = new();
 
-    private string? errorMessage;
+    private string errorMessage = string.Empty;
 
-    async Task ScheduleStreamingAsync()
+    async Task ImportStreamingAsync()
     {
-        try
-        {
-            await Client.ScheduleStreamingAsync(model.ToApiModel());
-            
-            Navigation.NavigateTo("/streamings");
-        }
-        catch (ApplicationException ex)
-        {
-            errorMessage = ex.Message;
-        }
+
     }
 
     class ViewModel
@@ -53,7 +36,9 @@ public partial class Schedule
 
         public string? StreamingAbstract { get; set; }
 
-        public ScheduleStreamingModel ToApiModel()
+        public string? YoutubeVideoUrl { get; set; }
+
+        public ImportStreamingModel ToApiModel()
         {
             if (this.ScheduleDate is null)
             {
@@ -70,7 +55,7 @@ public partial class Schedule
                 throw new ArgumentNullException(nameof(this.EndingTime));
             }
 
-            return new ScheduleStreamingModel
+            return new()
             {
                 Title = this.Title,
                 ScheduleDate = this.ScheduleDate.Value,
@@ -78,7 +63,8 @@ public partial class Schedule
                 HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
                 Slug = this.Slug,
                 StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
-                StreamingAbstract = this.StreamingAbstract
+                StreamingAbstract = this.StreamingAbstract,
+                YoutubeVideoUrl = this.YoutubeVideoUrl
             };
         }
     }
