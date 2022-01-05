@@ -2,7 +2,6 @@
 using KITT.Web.App.Shared;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using MudBlazor;
 
 namespace KITT.Web.App.Pages.Streamings;
@@ -23,21 +22,20 @@ public partial class Index
 
     private StreamingsListModel model = new();
 
-    protected override async Task OnInitializedAsync()
+    private StreamingQueryModel query = new();
+
+    private MudTable<StreamingsListModel.StreamingListItemModel> table;
+
+    private async Task LoadStreamings(StreamingQueryModel query) => model = await Client.GetAllStreamingsAsync(query);
+
+    async Task<TableData<StreamingsListModel.StreamingListItemModel>> LoadStreamingsAsync(TableState state)
     {
-        await base.OnInitializedAsync();
+        query.Page = state.Page;
+        query.Size = state.PageSize;
 
-        try
-        {
-            await LoadStreamings();
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
+        await LoadStreamings(query);
+        return new() { TotalItems = model.TotalItems, Items = model.Items };
     }
-
-    private async Task LoadStreamings() => model = await Client.GetAllStreamingsAsync();
 
     void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming) 
         => Navigation.NavigateTo($"streamings/{streaming.Id}");
@@ -45,12 +43,13 @@ public partial class Index
     async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
     {
         var streamingTitle = streaming.Title;
+        string confirmText = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle];
 
         var confirm = await Dialog.Show<ConfirmDialog>(
             Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle], 
             new DialogParameters 
             {
-                [nameof(ConfirmDialog.ConfirmText)] = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle]
+                [nameof(ConfirmDialog.ConfirmText)] = confirmText
             }).Result;
 
         if (!confirm.Cancelled)
@@ -58,9 +57,9 @@ public partial class Index
             try
             {
                 await Client.DeleteStreamingAsync(streaming.Id);
-                await LoadStreamings();
-
                 Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle], Severity.Success);
+
+                await table.ReloadServerData();
             }
             catch 
             {
@@ -72,4 +71,12 @@ public partial class Index
             }
         }
     }
+
+    void Search() => table.ReloadServerData();
+
+    void ClearSearch()
+	{
+        query = new();
+        table.ReloadServerData();
+	}
 }

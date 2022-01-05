@@ -18,11 +18,17 @@ public class StreamingsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllStreamings()
+    public IActionResult GetAllStreamings(int p = 0, int s = 10, StreamingQueryModel.SortDirection sort = StreamingQueryModel.SortDirection.Descending, string? q = null)
     {
         var userId = User.GetUserId();
 
-        var model = ControllerServices.GetAllStreamings(userId);
+        var model = ControllerServices.GetAllStreamings(
+            userId, 
+            page: p, 
+            size: s, 
+            sort, 
+            query: q);
+
         return Ok(model);
     }
 

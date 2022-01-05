@@ -61,6 +61,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Older.
+        /// </summary>
+        internal static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         internal static string DateLabel {
@@ -106,11 +115,29 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Newer.
+        /// </summary>
+        internal static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         internal static string DurationLabel {
             get {
                 return ResourceManager.GetString("DurationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import streaming.
+        /// </summary>
+        internal static string ImportStreamingLabel {
+            get {
+                return ResourceManager.GetString("ImportStreamingLabel", resourceCulture);
             }
         }
         
@@ -142,6 +169,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order.
+        /// </summary>
+        internal static string StreamingQueryOrderLabel {
+            get {
+                return ResourceManager.GetString("StreamingQueryOrderLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         internal static string TitleLabel {
@@ -156,6 +192,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         internal static string TwitchLinkLabel {
             get {
                 return ResourceManager.GetString("TwitchLinkLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube link.
+        /// </summary>
+        internal static string YoutubeVideoUrlLabel {
+            get {
+                return ResourceManager.GetString("YoutubeVideoUrlLabel", resourceCulture);
             }
         }
     }

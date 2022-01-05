@@ -138,6 +138,9 @@
   <data name="StartingTimeLabel" xml:space="preserve">
     <value>Starting time</value>
   </data>
+  <data name="StreamingImportedSuccessfully" xml:space="preserve">
+    <value>The streaming {0} has been imported successfully!</value>
+  </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Title</value>
   </data>

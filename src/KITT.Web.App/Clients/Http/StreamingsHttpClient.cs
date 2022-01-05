@@ -23,9 +23,16 @@ public class StreamingsHttpClient : IStreamingsClient
         }
     }
 
-    public async Task<StreamingsListModel> GetAllStreamingsAsync()
+    public async Task<StreamingsListModel> GetAllStreamingsAsync(StreamingQueryModel query)
     {
-        var model = await Client.GetFromJsonAsync<StreamingsListModel>(ApiResource);
+        var url = ApiResource;
+        var queryString = query.ToQueryString();
+        if (!string.IsNullOrWhiteSpace(queryString))
+        {
+            url = $"{url}?{queryString}";
+        }
+
+        var model = await Client.GetFromJsonAsync<StreamingsListModel>(url);
         return model ?? new StreamingsListModel();
     }
 
