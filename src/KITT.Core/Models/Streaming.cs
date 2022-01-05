@@ -150,7 +150,7 @@ public class Streaming : Content
             YouTubeVideoUrl = youtubeVideoUrl
         };
 
-        streaming.Publish();
+        streaming.PublishOn(scheduleDate);
 
         return streaming;
     }

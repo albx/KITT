@@ -158,5 +158,14 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
                 return ResourceManager.GetString("TwitchLinkLabel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube link.
+        /// </summary>
+        internal static string YoutubeVideoUrlLabel {
+            get {
+                return ResourceManager.GetString("YoutubeVideoUrlLabel", resourceCulture);
+            }
+        }
     }
 }

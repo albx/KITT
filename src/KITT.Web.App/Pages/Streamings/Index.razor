@@ -17,41 +17,56 @@
 	</Toolbar>
 	<PageContent>
 		<MudPaper>
-			@if (model.Items is null)
-			{
-				<h2>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)] :(</h2>
-			}
-			else
-			{
-				<MudSimpleTable>
-					<thead>
-						<tr>
-							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]</th>
-							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]</th>
-							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]</th>
-							<th>@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]</th>
-							<th>&nbsp;</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var streaming in model.Items)
+			<MudGrid>
+				<MudItem></MudItem>
+				<MudItem></MudItem>
+				<MudItem></MudItem>
+			</MudGrid>
+		</MudPaper>
+		<MudDivider Class="mb-3" />
+
+		<MudPaper>
+			<MudTable ServerData="LoadStreamingsAsync" @ref="table">
+				<HeaderContent>
+					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]</MudTh>
+					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]</MudTh>
+					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]</MudTh>
+					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]</MudTh>
+					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.YoutubeVideoUrlLabel)]</MudTh>
+					<MudTh>&nbsp;</MudTh>
+				</HeaderContent>
+				<RowTemplate>
+					<MudTd>@context.Title</MudTd>
+					<MudTd>@context.ScheduledOn.ToShortDateString()</MudTd>
+					<MudTd>@context.StartingTime.ToString("HH:mm") - @context.EndingTime.ToString("HH:mm")</MudTd>
+					<MudTd><a href="@context.HostingChannelUrl" target="_blank">@context.HostingChannelUrl</a></MudTd>
+					<MudTd>
+						@if (string.IsNullOrWhiteSpace(context.YouTubeVideoUrl))
 						{
-							<tr>
-								<td>@streaming.Title</td>
-								<td>@streaming.ScheduledOn.ToShortDateString()</td>
-								<td>@streaming.StartingTime.ToString("HH:mm") - @streaming.EndingTime.ToString("HH:mm")</td>
-								<td><a href="@streaming.HostingChannelUrl" target="_blank">@streaming.HostingChannelUrl</a></td>
-								<td>
-									<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
-										<MudButton StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(streaming)">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
-										<MudButton StartIcon="@Icons.Filled.Delete" OnClick="() => DeleteStreaming(streaming)">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
-									</MudButtonGroup>
-								</td>
-							</tr>
+							<span>-</span>
 						}
-					</tbody>
-				</MudSimpleTable>
-			}
+						else
+						{
+							<a href="@context.YouTubeVideoUrl" target="_blank">@context.YouTubeVideoUrl</a>
+						}
+					</MudTd>
+					<MudTd>
+						<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+							<MudButton StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(context)">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
+							<MudButton StartIcon="@Icons.Filled.Delete" OnClick="() => DeleteStreaming(context)">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
+						</MudButtonGroup>
+					</MudTd>
+				</RowTemplate>
+				<NoRecordsContent>
+					<MudText>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)] :(</MudText>
+				</NoRecordsContent>
+				<LoadingContent>
+					<MudText>Loading...</MudText>
+				</LoadingContent>
+				<PagerContent>
+					<MudTablePager />
+				</PagerContent>
+			</MudTable>
 		</MudPaper>
 	</PageContent>
 </PageLayout>

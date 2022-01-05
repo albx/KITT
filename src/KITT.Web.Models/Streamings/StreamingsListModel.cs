@@ -2,6 +2,8 @@
 
 public class StreamingsListModel
 {
+    public int TotalItems { get; set; }
+
     public IEnumerable<StreamingListItemModel> Items { get; set; } = Array.Empty<StreamingListItemModel>();
 
     public record StreamingListItemModel

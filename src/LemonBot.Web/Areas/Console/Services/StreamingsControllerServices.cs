@@ -16,11 +16,22 @@ public class StreamingsControllerServices
         Commands = commands ?? throw new ArgumentNullException(nameof(commands));
     }
 
-    public StreamingsListModel GetAllStreamings(string userId)
+    public StreamingsListModel GetAllStreamings(string userId, int page, int size, StreamingQueryModel.SortDirection sort, string? query)
     {
-        var streamings = Database.Streamings
+        var ascending = sort == StreamingQueryModel.SortDirection.Ascending;
+
+        var streamingsQuery = Database.Streamings
             .ByUserId(userId)
-            .OrderedBySchedule()
+            .OrderedBySchedule(ascending);
+
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            streamingsQuery = streamingsQuery.Where(s => s.Title.Contains(query));
+        }
+
+        var skip = page * size;
+
+        var streamings = streamingsQuery
             .Select(s => new StreamingsListModel.StreamingListItemModel
             {
                 Id = s.Id,
@@ -30,9 +41,9 @@ public class StreamingsControllerServices
                 Title = s.Title,
                 HostingChannelUrl = s.HostingChannelUrl,
                 YouTubeVideoUrl = s.YouTubeVideoUrl
-            }).ToArray();
+            }).Skip(skip).Take(size).ToArray();
 
-        var model = new StreamingsListModel { Items = streamings };
+        var model = new StreamingsListModel { TotalItems = streamingsQuery.Count(), Items = streamings };
         return model;
     }
 

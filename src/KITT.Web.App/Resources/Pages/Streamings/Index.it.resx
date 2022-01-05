@@ -150,4 +150,7 @@
   <data name="TwitchLinkLabel" xml:space="preserve">
     <value>Twitch link</value>
   </data>
+  <data name="YoutubeVideoUrlLabel" xml:space="preserve">
+    <value>YouTube link</value>
+  </data>
 </root>
