@@ -10,20 +10,44 @@
 		<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
 			<NavButton Label="@Localizer[nameof(Resources.Pages.Streamings.Index.ScheduleNewStreamingLabel)]"
 					   Page="streamings/schedule" />
-			
-			<NavButton Label="Importa una diretta"
-					   Page="streamings/import"/>
+
+			<NavButton Label="@Localizer[nameof(Resources.Pages.Streamings.Index.ImportStreamingLabel)]"
+					   Page="streamings/import" />
 		</MudButtonGroup>
 	</Toolbar>
 	<PageContent>
-		<MudPaper>
+		<MudPaper Class="mb-3">
 			<MudGrid>
-				<MudItem></MudItem>
-				<MudItem></MudItem>
-				<MudItem></MudItem>
+				<MudItem xs="12" md="4">
+					<MudSelect T="StreamingQueryModel.SortDirection"
+							   Variant="Variant.Outlined"
+							   Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQueryOrderLabel)]"
+							   @bind-Value="query.ScheduleSort"
+							   Strict="true"
+							   AnchorOrigin="Origin.BottomCenter"
+							   Dense="true"
+							   Margin="Margin.Dense">
+						@foreach (var sort in Enum.GetValues<StreamingQueryModel.SortDirection>())
+						{
+							<MudSelectItem T="StreamingQueryModel.SortDirection" Value="sort">@Localizer[sort.ToString()]</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
+				<MudItem xs="12" md="5">
+					<MudTextField Margin="Margin.Dense"
+								  Label="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]"
+								  @bind-Value="query.Query"
+								  Variant="Variant.Outlined"/>
+				</MudItem>
+				<MudItem xs="12" md="3">
+					<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+						<MudIconButton OnClick="Search" Icon="@Icons.Filled.Search" />
+						<MudIconButton OnClick="ClearSearch" Icon="@Icons.Filled.Clear" Variant="Variant.Outlined" />
+					</MudButtonGroup>
+				</MudItem>
 			</MudGrid>
 		</MudPaper>
-		<MudDivider Class="mb-3" />
+		<MudDivider />
 
 		<MudPaper>
 			<MudTable ServerData="LoadStreamingsAsync" @ref="table">

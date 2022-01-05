@@ -124,6 +124,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The streaming {0} has been scheduled successfully!.
+        /// </summary>
+        internal static string StreamingScheduledSuccessfully {
+            get {
+                return ResourceManager.GetString("StreamingScheduledSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         internal static string TitleLabel {

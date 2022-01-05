@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using KITT.Web.App.Clients;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace KITT.Web.App.Pages.Streamings;
 
@@ -13,6 +14,9 @@ public partial class Import
     [Inject]
     public NavigationManager Navigation { get; set; }
 
+    [Inject]
+    ISnackbar Snackbar { get; set; }
+
     private ViewModel model = new();
 
     private string errorMessage = string.Empty;
@@ -22,6 +26,7 @@ public partial class Import
         try
         {
             await Client.ImportStreamingAsync(model.ToApiModel());
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Import.StreamingImportedSuccessfully), model.Title], Severity.Success);
 
             Navigation.NavigateTo("/streamings");
         }

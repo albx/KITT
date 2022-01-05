@@ -43,12 +43,13 @@ public partial class Index
     async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
     {
         var streamingTitle = streaming.Title;
+        string confirmText = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle];
 
         var confirm = await Dialog.Show<ConfirmDialog>(
             Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle], 
             new DialogParameters 
             {
-                [nameof(ConfirmDialog.ConfirmText)] = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle]
+                [nameof(ConfirmDialog.ConfirmText)] = confirmText
             }).Result;
 
         if (!confirm.Cancelled)
@@ -70,4 +71,12 @@ public partial class Index
             }
         }
     }
+
+    void Search() => table.ReloadServerData();
+
+    void ClearSearch()
+	{
+        query = new();
+        table.ReloadServerData();
+	}
 }

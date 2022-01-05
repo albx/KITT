@@ -138,6 +138,9 @@
   <data name="StartingTimeLabel" xml:space="preserve">
     <value>Ora di inizio</value>
   </data>
+  <data name="StreamingScheduledSuccessfully" xml:space="preserve">
+    <value>La diretta {0} è stata pianificata con successo!</value>
+  </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Titolo</value>
   </data>

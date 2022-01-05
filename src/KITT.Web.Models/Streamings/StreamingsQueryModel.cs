@@ -6,7 +6,7 @@ public record StreamingQueryModel
 {
     public string Query { get; set; } = string.Empty;
 
-    public SortDirection ScheduleSort { get; set; } = SortDirection.Ascending;
+    public SortDirection ScheduleSort { get; set; } = SortDirection.Descending;
 
     public int Page { get; set; } = 0;
 

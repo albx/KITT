@@ -31,7 +31,7 @@
 		CancelButtonText = Localizer[nameof(Resources.Common.Cancel)];
 	}
 
-	void Cancel() => Dialog.Close();
+	void Cancel() => Dialog.Close(DialogResult.Cancel());
 
 	void Confirm() => Dialog.Close(DialogResult.Ok(true));
 }

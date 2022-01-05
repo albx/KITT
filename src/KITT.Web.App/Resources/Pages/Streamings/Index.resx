@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ascending" xml:space="preserve">
+    <value>Older</value>
+  </data>
   <data name="DateLabel" xml:space="preserve">
     <value>Date</value>
   </data>
@@ -132,8 +135,14 @@
   <data name="DeleteStreamingSuccessMessage" xml:space="preserve">
     <value>Streaming {0} deleted successfully!</value>
   </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Newer</value>
+  </data>
   <data name="DurationLabel" xml:space="preserve">
     <value>Duration</value>
+  </data>
+  <data name="ImportStreamingLabel" xml:space="preserve">
+    <value>Import streaming</value>
   </data>
   <data name="NoStreamingsFoundLabel" xml:space="preserve">
     <value>No streamings here</value>
@@ -143,6 +152,9 @@
   </data>
   <data name="ScheduleNewStreamingLabel" xml:space="preserve">
     <value>Schedule new streaming</value>
+  </data>
+  <data name="StreamingQueryOrderLabel" xml:space="preserve">
+    <value>Order</value>
   </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Title</value>

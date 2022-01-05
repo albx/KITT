@@ -1,6 +1,7 @@
 ﻿using KITT.Web.App.Clients;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Pages.Streamings;
@@ -13,6 +14,9 @@ public partial class Schedule
     [Inject]
     public NavigationManager Navigation { get; set; }
 
+    [Inject]
+    ISnackbar Snackbar { get; set; }
+
     private ViewModel model = new();
 
     private string? errorMessage;
@@ -22,6 +26,7 @@ public partial class Schedule
         try
         {
             await Client.ScheduleStreamingAsync(model.ToApiModel());
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title], Severity.Success);
             
             Navigation.NavigateTo("/streamings");
         }
