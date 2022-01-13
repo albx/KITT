@@ -28,20 +28,9 @@ public static class WebApplicationExtensions
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllerRoute(
-                name: "Area",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-            endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            endpoints.MapHub<BotMessageHub>("/bot");
-
-            endpoints.MapFallbackToFile("index.html");
-        });
+        app.MapControllers();
+        app.MapHub<BotMessageHub>("/bot");
+        app.MapFallbackToFile("index.html");
 
         return app;
     }

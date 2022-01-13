@@ -351,3 +351,8 @@ MigrationBackup/
 
 # appsettings.{Environment}.json
 **/appsettings.*.json
+
+# files to exclude
+*.sql
+*.job
+profile.arm.json

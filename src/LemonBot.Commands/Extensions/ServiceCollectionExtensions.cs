@@ -13,7 +13,6 @@ public static class ServiceCollectionExtensions
             .AddSingleton<HelpCommand>()
             .AddSingleton<TodayCommand>()
             .AddSingleton<SayCommand>()
-            .AddSingleton<ImageCommand>()
             .AddSingleton<GithubCommand>()
             .AddSingleton<SoCommand>()
             .AddSingleton<LcaCommand>();

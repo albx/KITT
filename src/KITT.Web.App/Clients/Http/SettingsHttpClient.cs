@@ -7,7 +7,7 @@ public class SettingsHttpClient : ISettingsClient
 {
     public HttpClient Client { get; }
 
-    public string ApiResource { get; } = "/api/settings";
+    public string ApiResource { get; } = "/api/console/settings";
 
     public SettingsHttpClient(HttpClient client)
     {

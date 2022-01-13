@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LemonBot.Web.Areas.Console.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/console/[controller]")]
 [ApiController]
 [Authorize]
 public class SettingsController : ControllerBase
