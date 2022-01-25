@@ -1,4 +1,7 @@
-﻿namespace KITT.Web.App.Clients.Http;
+﻿using KITT.Web.Models.Tools;
+using System.Net.Http.Json;
+
+namespace KITT.Web.App.Clients.Http;
 
 public class BotHttpClient : IBotClient
 {
@@ -27,5 +30,11 @@ public class BotHttpClient : IBotClient
         {
             throw new ApplicationException("Error scheduling streaming");
         }
+    }
+
+    public async Task<BotJobDetail?> GetDetailsAsync()
+    {
+        var response = await Client.GetFromJsonAsync<BotJobDetail>(ApiResource);
+        return response;
     }
 }

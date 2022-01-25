@@ -16,6 +16,20 @@ public class BotController : ControllerBase
         Client = client ?? throw new ArgumentNullException(nameof(client));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetJobDetails()
+    {
+        try
+        {
+            var detail = await Client.GetDetailAsync();
+            return Ok(detail);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
     [HttpPost("start")]
     public async Task<IActionResult> StartBot()
     {

@@ -17,8 +17,24 @@
 		}
 
 		<MudPaper>
-			<MudButton OnClick="StartBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Start BOT</MudButton>
-			<MudButton OnClick="StopBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled">Stop BOT</MudButton>
+			<MudGrid>
+				<MudItem xs="12" md="6">
+					<MudButton OnClick="StartBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Start BOT</MudButton>
+				</MudItem>
+				<MudItem xs="12" md="6">
+					<MudButton OnClick="StopBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled">Stop BOT</MudButton>
+				</MudItem>
+
+				@if (jobDetails is not null)
+				{
+					<MudItem xs="12" md="12">
+						<MudList>
+							<MudListItem Text="@jobDetails.Name" />
+							<MudListItem Text="@jobDetails.Status" />
+						</MudList>
+					</MudItem>
+				}
+			</MudGrid>
 		</MudPaper>
 	</PageContent>
 </PageLayout>
@@ -26,6 +42,8 @@
 @code {
 	private string message = string.Empty;
 	private Color messageColor;
+
+	private BotJobDetail? jobDetails;
 
 	async Task StartBotAsync()
 	{
@@ -39,6 +57,10 @@
 		{
 			message = ex.Message;
 			messageColor = Color.Error;
+		}
+		finally
+		{
+			await LoadDetails();
 		}
 	}
 
@@ -55,5 +77,20 @@
 			message = ex.Message;
 			messageColor = Color.Error;
 		}
+		finally
+		{
+			await LoadDetails();
+		}
+	}
+
+	private async Task LoadDetails()
+	{
+		jobDetails = await Client.GetDetailsAsync();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await LoadDetails();
 	}
 }
