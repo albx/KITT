@@ -19,7 +19,8 @@ builder.Services.AddMudServices(config =>
 
 builder.Services
     .AddSettingsClient(builder.HostEnvironment.BaseAddress)
-    .AddStreamingsClient(builder.HostEnvironment.BaseAddress);
+    .AddStreamingsClient(builder.HostEnvironment.BaseAddress)
+    .AddToolsClients(builder.HostEnvironment.BaseAddress);
 
 builder.Services
     .AddHttpClient("KITT.Web.App.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))

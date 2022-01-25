@@ -6,7 +6,7 @@ namespace LemonBot.Web.Areas.Tools.Controllers;
 
 [Route("api/tools/[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class BotController : ControllerBase
 {
     public BotHttpClient Client { get; }

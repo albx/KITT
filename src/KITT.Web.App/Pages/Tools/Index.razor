@@ -1,0 +1,59 @@
+﻿@page "/tools"
+
+@inject IBotClient Client
+
+<PageLayout PageTitle="Tools">
+	<Toolbar>
+		<NavButton Label="Back"
+				   Page="/" />
+	</Toolbar>
+	<PageContent>
+		@if (!string.IsNullOrWhiteSpace(message))
+		{
+			<MudPaper>
+				<MudText Color="messageColor">@message</MudText>
+			</MudPaper>
+			<MudDivider />
+		}
+
+		<MudPaper>
+			<MudButton OnClick="StartBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Start BOT</MudButton>
+			<MudButton OnClick="StopBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled">Stop BOT</MudButton>
+		</MudPaper>
+	</PageContent>
+</PageLayout>
+
+@code {
+	private string message = string.Empty;
+	private Color messageColor;
+
+	async Task StartBotAsync()
+	{
+		try
+		{
+			await Client.StartAsync();
+			message = "BOT started!";
+			messageColor = Color.Success;
+		}
+		catch (Exception ex)
+		{
+			message = ex.Message;
+			messageColor = Color.Error;
+		}
+	}
+
+	async Task StopBotAsync()
+	{
+		try
+		{
+			await Client.StopAsync();
+			message = "BOT stopped!";
+			messageColor = Color.Success;
+		}
+		catch (Exception ex)
+		{
+			message = ex.Message;
+			messageColor = Color.Error;
+		}
+	}
+}

@@ -22,4 +22,13 @@ public static class ClientsServiceCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddToolsClients(this IServiceCollection services, string clientBaseAddress)
+    {
+        services
+            .AddHttpClient<IBotClient, BotHttpClient>(client => client.BaseAddress = new Uri(clientBaseAddress))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
+        return services;
+    }
 }
