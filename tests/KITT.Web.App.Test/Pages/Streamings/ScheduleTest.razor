@@ -1,0 +1,70 @@
+﻿@inherits TestContext
+
+@code {
+    public ScheduleTest()
+    {
+        this.AddTestAuthorization();
+
+        var commonLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Common>>();
+        var scheduleLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Schedule>>();
+
+        Services
+            .AddSingleton(commonLocalizerMock.Object)
+            .AddSingleton(scheduleLocalizerMock.Object);
+    }
+
+    [Fact]
+    public void Schedule_Should_Not_Submit_If_Form_Is_Invalid()
+    {
+        var clientMock = new Mock<IStreamingsClient>();
+        Services.AddSingleton(clientMock.Object);
+
+        Services.AddSingleton(new Mock<ISnackbar>().Object);
+
+        ComponentFactories
+            .AddStub<MudDatePicker>()
+            .AddStub<MudTimePicker>();
+
+        var component = Render(@<Schedule />);
+
+        var form = component.Find("form");
+        form.Submit();
+
+        var errors = component.FindAll(".mud-input-error").Where(e => !string.IsNullOrEmpty(e.TextContent));
+        Assert.NotEmpty(errors);
+
+        clientMock.Verify(c => c.ScheduleStreamingAsync(It.IsAny<ScheduleStreamingModel>()), Times.Never);
+    }
+
+    [Fact]
+    public void Schedule_Should_Save_Streaming_Correctly_And_Redirect_To_Index()
+    {
+        var clientMock = new Mock<IStreamingsClient>();
+        Services.AddSingleton(clientMock.Object);
+
+        Services.AddSingleton(new Mock<ISnackbar>().Object);
+
+        ComponentFactories
+            .AddStub<MudDatePicker>()
+            .AddStub<MudTimePicker>();
+
+        var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
+
+        var component = Render(@<Schedule />);
+
+        var form = component.Find("form");
+
+        component.Find("input#streamingTitle").Change("test");
+        component.Find("input#streamingSlug").Change("test");
+        component.Find("input#streamingChannel").Change("albx87");
+
+        form.Submit();
+
+        clientMock.Verify(
+            c => c.ScheduleStreamingAsync(It.Is<ScheduleStreamingModel>(s => s.Title == "test" && s.Slug == "test" && s.HostingChannelUrl == "https://www.twitch.tv/albx87")), 
+            Times.Once);
+
+        var expectedUrl = $"{navigationManager.BaseUri}streamings";
+        Assert.Equal(expectedUrl, navigationManager.Uri);
+    }
+}

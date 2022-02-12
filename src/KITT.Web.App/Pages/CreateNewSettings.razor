@@ -14,13 +14,13 @@
                    Page="settings"/>
 	</Toolbar>
 	<PageContent>
-		<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" class="col-md-12 mt-3">
+		<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" id="newSettingsForm" class="col-md-12 mt-3">
 			<DataAnnotationsValidator />
 
             @if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 <MudPaper>
-                    <MudText Color="Color.Error">@errorMessage</MudText>
+                    <MudText id="errorMessageContainer" Color="Color.Error">@errorMessage</MudText>
                 </MudPaper>
                 <MudDivider />
             }

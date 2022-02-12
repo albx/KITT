@@ -1,0 +1,113 @@
+﻿@using Microsoft.JSInterop
+@inherits TestContext
+
+@code {
+	public IndexTest()
+	{
+		this.AddTestAuthorization();
+
+		var commonLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Common>>();
+		var indexLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Index>>();
+		indexLocalizerMock
+			.Setup(r => r[nameof(KITT.Web.App.Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle)])
+			.Returns(new LocalizedString(nameof(KITT.Web.App.Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), nameof(KITT.Web.App.Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle)));
+
+		indexLocalizerMock
+			.Setup(r => r[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), "test"])
+			.Returns(new LocalizedString(nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText)));
+
+		Services
+			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Common>>(commonLocalizerMock.Object)
+			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Index>>(indexLocalizerMock.Object);
+	}
+
+	[Fact]
+	public void Index_OpenStreamingDetail_Should_Open_Streaming_Detail_Url()
+	{
+		var item = new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test" };
+
+		var clientMock = new Mock<IStreamingsClient>();
+		clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
+			.ReturnsAsync(new StreamingsListModel { Items = new[] { item }, TotalItems = 1 });
+
+		RegisterServices(clientMock: clientMock);
+
+		var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
+		var openDetailButton = component.Find($"button#openStreamingDetail-{item.Id}");
+		openDetailButton.Click();
+
+		var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
+
+		var expectedUri = $"{navigationManager.BaseUri}streamings/{item.Id}";
+		Assert.Equal(expectedUri, navigationManager.Uri);
+	}
+
+	[Fact]
+	public void Index_DeleteStreaming_Should_Call_Delete_Api_If_Confirmed()
+	{
+		var item = new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test" };
+
+		var clientMock = new Mock<IStreamingsClient>();
+		clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
+			.ReturnsAsync(new StreamingsListModel { Items = new[] { item }, TotalItems = 1 });
+
+		var dialogReferenceMock = new Mock<IDialogReference>();
+		dialogReferenceMock.SetupGet(r => r.Result)
+			.Returns(Task.FromResult(DialogResult.Ok("test")));
+
+		var dialogMock = new Mock<IDialogService>();
+		dialogMock.Setup(d => d.Show<ConfirmDialog>(It.IsAny<string>(), It.IsAny<DialogParameters>()))
+			.Returns(dialogReferenceMock.Object);
+
+		RegisterServices(clientMock: clientMock, dialogMock: dialogMock);
+
+		var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
+		var deleteButton = component.Find($"button#deleteStreaming-{item.Id}");
+		deleteButton.Click();
+
+		clientMock.Verify(c => c.DeleteStreamingAsync(item.Id), Times.Once(), "");
+	}
+
+	[Fact]
+	public void Index_Should_Render_All_Streamings_Correctly()
+	{
+		var items = new[]
+		{
+			new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test1" },
+			new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test2" }
+		};
+
+		var clientMock = new Mock<IStreamingsClient>();
+		clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
+			.ReturnsAsync(new StreamingsListModel { Items = items, TotalItems = items.Length });
+
+		RegisterServices(clientMock: clientMock);
+
+		var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
+		var streamingsRows = component.FindAll("table > tbody > tr");
+
+		Assert.Equal(items.Length, streamingsRows.Count);
+	}
+
+	private void RegisterServices(Mock<IStreamingsClient>? clientMock = null, Mock<IDialogService>? dialogMock = null, Mock<ISnackbar>? snackbarMock = null)
+	{
+		if (clientMock is null)
+			clientMock = new Mock<IStreamingsClient>();
+		if (dialogMock is null)
+			dialogMock = new Mock<IDialogService>();
+		if (snackbarMock is null)
+			snackbarMock = new Mock<ISnackbar>();
+
+		var popoverServiceMock = new Mock<MudBlazor.IMudPopoverService>();
+		popoverServiceMock.Setup(s => s.Register(It.IsAny<RenderFragment>()))
+			.Returns(new MudPopoverHandler((builder) => { }, new Mock<IJSRuntime>().Object, () => { }));
+
+		Services
+			.AddSingleton<IStreamingsClient>(clientMock.Object)
+			.AddSingleton<IDialogService>(dialogMock.Object)
+			.AddSingleton<ISnackbar>(snackbarMock.Object)
+			.AddSingleton<MudBlazor.Services.IKeyInterceptor>(new Mock<MudBlazor.Services.IKeyInterceptor>().Object)
+			.AddSingleton<MudBlazor.IScrollManager>(new Mock<MudBlazor.IScrollManager>().Object)
+			.AddSingleton<MudBlazor.IMudPopoverService>(popoverServiceMock.Object);
+	}
+}

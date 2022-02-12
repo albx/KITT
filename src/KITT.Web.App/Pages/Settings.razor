@@ -8,43 +8,43 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Settings.PageTitle)]">
 	<Toolbar>
-        <NavButton Label="@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]"
-                   Page="settings/new"/>
-    </Toolbar>
-    <PageContent>
-        <MudPaper>
-            @if (model.Items is null)
-            {
-                <h2>@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
-            }
-            else
-            {
-                <MudSimpleTable>
-                    <thead>
-                            <tr>
-                                <th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in model.Items)
-                            {
-                                <tr>
-                                    <td>@item.TwitchChannel</td>
-                                </tr>
-                            }
-                        </tbody>
-                </MudSimpleTable>
-            }
-        </MudPaper>
-    </PageContent>
+		<NavButton Label="@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]"
+				   Page="settings/new" />
+	</Toolbar>
+	<PageContent>
+		<MudPaper>
+			@if (!model.Items.Any())
+			{
+				<h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
+			}
+			else
+			{
+				<MudSimpleTable>
+					<thead>
+						<tr>
+							<th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in model.Items)
+						{
+							<tr>
+								<td>@item.TwitchChannel</td>
+							</tr>
+						}
+					</tbody>
+				</MudSimpleTable>
+			}
+		</MudPaper>
+	</PageContent>
 </PageLayout>
 
 @code {
-    private SettingsListModel model = new();
+	private SettingsListModel model = new();
 
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        model = await Client.GetAllSettingsAsync();
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		model = await Client.GetAllSettingsAsync();
+	}
 }

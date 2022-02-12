@@ -22,7 +22,7 @@ namespace KITT.Web.App.Resources.Pages {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CreateNewSettings {
+    public class CreateNewSettings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace KITT.Web.App.Resources.Pages {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Pages.CreateNewSettings", typeof(CreateNewSettings).Assembly);
@@ -51,7 +51,7 @@ namespace KITT.Web.App.Resources.Pages {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace KITT.Web.App.Resources.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Create new settings.
         /// </summary>
-        internal static string PageTitle {
+        public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace KITT.Web.App.Resources.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Twitch channel.
         /// </summary>
-        internal static string TwitchChannelLabel {
+        public static string TwitchChannelLabel {
             get {
                 return ResourceManager.GetString("TwitchChannelLabel", resourceCulture);
             }

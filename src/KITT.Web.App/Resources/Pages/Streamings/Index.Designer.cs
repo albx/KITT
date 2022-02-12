@@ -22,7 +22,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Index {
+    public class Index {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Pages.Streamings.Index", typeof(Index).Assembly);
@@ -51,7 +51,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Older.
         /// </summary>
-        internal static string Ascending {
+        public static string Ascending {
             get {
                 return ResourceManager.GetString("Ascending", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
-        internal static string DateLabel {
+        public static string DateLabel {
             get {
                 return ResourceManager.GetString("DateLabel", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to You are going to delete the streaming {0}. Are you sure?.
         /// </summary>
-        internal static string DeleteStreamingConfirmText {
+        public static string DeleteStreamingConfirmText {
             get {
                 return ResourceManager.GetString("DeleteStreamingConfirmText", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Deleting {0}.
         /// </summary>
-        internal static string DeleteStreamingConfirmTitle {
+        public static string DeleteStreamingConfirmTitle {
             get {
                 return ResourceManager.GetString("DeleteStreamingConfirmTitle", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to There was an error deleting streaming {0}.
         /// </summary>
-        internal static string DeleteStreamingErrorMessage {
+        public static string DeleteStreamingErrorMessage {
             get {
                 return ResourceManager.GetString("DeleteStreamingErrorMessage", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Streaming {0} deleted successfully!.
         /// </summary>
-        internal static string DeleteStreamingSuccessMessage {
+        public static string DeleteStreamingSuccessMessage {
             get {
                 return ResourceManager.GetString("DeleteStreamingSuccessMessage", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Newer.
         /// </summary>
-        internal static string Descending {
+        public static string Descending {
             get {
                 return ResourceManager.GetString("Descending", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
-        internal static string DurationLabel {
+        public static string DurationLabel {
             get {
                 return ResourceManager.GetString("DurationLabel", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Import streaming.
         /// </summary>
-        internal static string ImportStreamingLabel {
+        public static string ImportStreamingLabel {
             get {
                 return ResourceManager.GetString("ImportStreamingLabel", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to No streamings here.
         /// </summary>
-        internal static string NoStreamingsFoundLabel {
+        public static string NoStreamingsFoundLabel {
             get {
                 return ResourceManager.GetString("NoStreamingsFoundLabel", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to My streamings.
         /// </summary>
-        internal static string PageTitle {
+        public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Schedule new streaming.
         /// </summary>
-        internal static string ScheduleNewStreamingLabel {
+        public static string ScheduleNewStreamingLabel {
             get {
                 return ResourceManager.GetString("ScheduleNewStreamingLabel", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
-        internal static string StreamingQueryOrderLabel {
+        public static string StreamingQueryOrderLabel {
             get {
                 return ResourceManager.GetString("StreamingQueryOrderLabel", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
-        internal static string TitleLabel {
+        public static string TitleLabel {
             get {
                 return ResourceManager.GetString("TitleLabel", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Twitch link.
         /// </summary>
-        internal static string TwitchLinkLabel {
+        public static string TwitchLinkLabel {
             get {
                 return ResourceManager.GetString("TwitchLinkLabel", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to YouTube link.
         /// </summary>
-        internal static string YoutubeVideoUrlLabel {
+        public static string YoutubeVideoUrlLabel {
             get {
                 return ResourceManager.GetString("YoutubeVideoUrlLabel", resourceCulture);
             }
