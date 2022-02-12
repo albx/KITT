@@ -22,7 +22,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Schedule {
+    public class Schedule {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Pages.Streamings.Schedule", typeof(Schedule).Assembly);
@@ -51,7 +51,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Abstract.
         /// </summary>
-        internal static string AbstractLabel {
+        public static string AbstractLabel {
             get {
                 return ResourceManager.GetString("AbstractLabel", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Ending time.
         /// </summary>
-        internal static string EndingTimeLabel {
+        public static string EndingTimeLabel {
             get {
                 return ResourceManager.GetString("EndingTimeLabel", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Hosting channel.
         /// </summary>
-        internal static string HostingChannelLabel {
+        public static string HostingChannelLabel {
             get {
                 return ResourceManager.GetString("HostingChannelLabel", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Schedule streaming.
         /// </summary>
-        internal static string PageTitle {
+        public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Schedule date.
         /// </summary>
-        internal static string ScheduleDateLabel {
+        public static string ScheduleDateLabel {
             get {
                 return ResourceManager.GetString("ScheduleDateLabel", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Slug.
         /// </summary>
-        internal static string SlugLabel {
+        public static string SlugLabel {
             get {
                 return ResourceManager.GetString("SlugLabel", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Starting time.
         /// </summary>
-        internal static string StartingTimeLabel {
+        public static string StartingTimeLabel {
             get {
                 return ResourceManager.GetString("StartingTimeLabel", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to The streaming {0} has been scheduled successfully!.
         /// </summary>
-        internal static string StreamingScheduledSuccessfully {
+        public static string StreamingScheduledSuccessfully {
             get {
                 return ResourceManager.GetString("StreamingScheduledSuccessfully", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
-        internal static string TitleLabel {
+        public static string TitleLabel {
             get {
                 return ResourceManager.GetString("TitleLabel", resourceCulture);
             }

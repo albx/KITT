@@ -1,0 +1,80 @@
+﻿@inherits TestContext
+
+@code {
+	public CreateNewSettingsTest()
+	{
+		this.AddTestAuthorization();
+
+		Services
+			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Common>>(new Mock<IStringLocalizer<KITT.Web.App.Resources.Common>>().Object)
+			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.CreateNewSettings>>(new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.CreateNewSettings>>().Object);
+	}
+
+	[Fact]
+	public void CreateNewSettings_Should_Block_Submit_If_Form_Is_Invalid()
+	{
+		var clientMock = new Mock<ISettingsClient>();
+
+		Services.AddSingleton<ISettingsClient>(clientMock.Object);
+
+		var component = Render(@<CreateNewSettings />);
+		var newSettingsForm = component.Find("form");
+
+		newSettingsForm.Submit();
+
+		var validationContainer = component.FindAll(".mud-input-error")
+			.Where(c => !string.IsNullOrWhiteSpace(c.TextContent));
+
+		Assert.NotEmpty(validationContainer);
+	}
+
+	[Fact]
+	public void CreateNewSettings_Should_Redirect_To_Settings_Page_If_Creation_Ended_Correctly()
+	{
+		var clientMock = new Mock<ISettingsClient>();
+		clientMock
+			.Setup(c => c.CreateNewSettingsAsync(It.IsAny<CreateNewSettingsModel>()))
+			.Returns(Task.CompletedTask);
+
+		Services.AddSingleton<ISettingsClient>(clientMock.Object);
+
+		var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
+
+		var component = Render(@<CreateNewSettings />);
+
+		var channelInput = component.Find("input[type='text']");
+		channelInput.Change("albx87");
+
+		var newSettingsForm = component.Find("form");
+		newSettingsForm.Submit();
+
+		var expectedUri = $"{navigationManager.BaseUri}settings";
+		Assert.Equal(expectedUri, navigationManager.Uri);
+	}
+
+	[Fact]
+	public void CreateNewSettings_Should_Show_Error_Message_If_An_Error_Occurred_Calling_Api()
+	{
+		var expectedErrorMessage = "Error calling api";
+
+		var clientMock = new Mock<ISettingsClient>();
+		clientMock
+			.Setup(c => c.CreateNewSettingsAsync(It.IsAny<CreateNewSettingsModel>()))
+			.ThrowsAsync(new ApplicationException(expectedErrorMessage));
+
+		Services.AddSingleton<ISettingsClient>(clientMock.Object);
+
+		var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
+
+		var component = Render(@<CreateNewSettings />);
+
+		var channelInput = component.Find("input[type='text']");
+		channelInput.Change("albx87");
+
+		var newSettingsForm = component.Find("form");
+		newSettingsForm.Submit();
+
+		var errorMessage = component.Find("#errorMessageContainer").TextContent;
+		Assert.Equal(expectedErrorMessage, errorMessage);
+	}
+}
