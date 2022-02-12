@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ReadModels\**" />
+    <EmbeddedResource Remove="ReadModels\**" />
+    <None Remove="ReadModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -23,10 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\KITT.Core\KITT.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ReadModels\" />
   </ItemGroup>
 
 </Project>

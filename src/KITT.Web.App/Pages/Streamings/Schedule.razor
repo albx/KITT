@@ -27,13 +27,15 @@
                     <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.TitleLabel)]"
                                   @bind-Value="model.Title"
                                   For="@(() => model.Title)"
-                                  Variant="Variant.Outlined"/>
+                                  Variant="Variant.Outlined"
+                                  id="streamingTitle"/>
                     <MudGrid>
                         <MudItem xs="12" md="7">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.SlugLabel)]"
                                           @bind-Value="model.Slug"
                                           For="@(() => model.Slug)"
-                                          Variant="Variant.Outlined"/>
+                                          Variant="Variant.Outlined"
+                                          id="streamingSlug"/>
                         </MudItem>
                         <MudItem xs="12" md="5">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.HostingChannelLabel)]"
@@ -41,7 +43,8 @@
                                           Adornment="Adornment.Start"
                                           AdornmentText="https://www.twitch.tv/"
                                           Variant="Variant.Outlined"
-                                          For="@(() => model.HostingChannelUrl)"/>
+                                          For="@(() => model.HostingChannelUrl)"
+                                          id="streamingChannel"/>
                         </MudItem>
                     </MudGrid>
 
@@ -51,21 +54,24 @@
                                            @bind-Date="model.ScheduleDate"
                                            Variant="Variant.Outlined"
                                            Editable="true"
-                                           AutoClose="true"/>
+                                           AutoClose="true"
+                                           id="streamingScheduleDate"/>
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.StartingTimeLabel)]"
                                            @bind-Time="model.StartingTime"
                                            Variant="Variant.Outlined"
                                            Editable="true"
-                                           AutoClose="true"/>
+                                           AutoClose="true"
+                                           id="streamingStartingTime"/>
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.EndingTimeLabel)]"
                                            @bind-Time="model.EndingTime"
                                            Variant="Variant.Outlined"
                                            Editable="true"
-                                           AutoClose="true"/>
+                                           AutoClose="true"
+                                           id="streamingEndingTime"/>
                         </MudItem>
                     </MudGrid>
 
@@ -73,7 +79,8 @@
                                   @bind-Value="model.StreamingAbstract"
                                   For="@(() => model.StreamingAbstract)"
                                   Variant="Variant.Outlined"
-                                  Lines="5"/>
+                                  Lines="5"
+                                  id="streamingAbstract"/>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
