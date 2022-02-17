@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@page "/tools"
+
+@inject IBotClient Client
+@inject NavigationManager Navigation
+
+<PageLayout PageTitle="Tools">
+    <Toolbar>
+        <NavButton Label="Back"
+                   Page="/" />
+    </Toolbar>
+    <PageContent>
+        @if (!string.IsNullOrWhiteSpace(message))
+        {
+            <MudPaper>
+                <MudText Color="messageColor">@message</MudText>
+            </MudPaper>
+            <MudDivider />
+        }
+
+        <MudPaper>
+            <MudGrid>
+                <MudItem xs="12" md="12">
+                    @if (isBotRunning)
+                    {
+                        <MudButton OnClick="StopBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled">Stop BOT</MudButton>
+                    }
+                    else
+                    {
+                        <MudButton OnClick="StartBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Start BOT</MudButton>
+                    }
+                </MudItem>
+
+                @if (jobDetails is not null)
+                {
+                    <MudItem xs="12" md="12">
+                        <MudList>
+                            <MudListItem Text="@jobDetails.Name" />
+                            <MudListItem Text="@jobDetails.Status" />
+                        </MudList>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudPaper>
+    </PageContent>
+</PageLayout>
+
+@code {
+    private string message = string.Empty;
+    private Color messageColor;
+
+    private BotJobDetail? jobDetails;
+    private HubConnection connection;
+    private bool isBotRunning = false;
+
+    async Task StartBotAsync()
+    {
+        try
+        {
+            await Client.StartAsync();
+            message = "BOT started!";
+            messageColor = Color.Success;
+        }
+        catch (Exception ex)
+        {
+            message = ex.Message;
+            messageColor = Color.Error;
+        }
+        finally
+        {
+            await LoadDetails();
+        }
+    }
+
+    async Task StopBotAsync()
+    {
+        try
+        {
+            await Client.StopAsync();
+            message = "BOT stopped!";
+            messageColor = Color.Success;
+        }
+        catch (Exception ex)
+        {
+            message = ex.Message;
+            messageColor = Color.Error;
+        }
+        finally
+        {
+            await LoadDetails();
+        }
+    }
+
+    private async Task LoadDetails()
+    {
+        jobDetails = await Client.GetDetailsAsync();
+        isBotRunning = jobDetails.IsRunning;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadDetails();
+
+        await InitializeSignalRConnection();
+    }
+
+    private async Task InitializeSignalRConnection()
+    {
+        connection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/bot"))
+            .Build();
+
+        connection.On("BotStarted", () =>
+        {
+            message = "BOT Started!";
+            messageColor = Color.Success;
+            isBotRunning = true;
+
+            StateHasChanged();
+        });
+
+        await connection.StartAsync();
+    }
+}
