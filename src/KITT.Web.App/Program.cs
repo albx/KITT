@@ -16,6 +16,7 @@ builder.Services.AddMudServices(config =>
 {
     config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
 });
+builder.Services.AddMudMarkdownServices();
 
 builder.Services
     .AddSettingsClient(builder.HostEnvironment.BaseAddress)

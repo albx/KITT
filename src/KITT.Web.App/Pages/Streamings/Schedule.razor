@@ -75,12 +75,11 @@
                         </MudItem>
                     </MudGrid>
 
-                    <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.AbstractLabel)]"
-                                  @bind-Value="model.StreamingAbstract"
-                                  For="@(() => model.StreamingAbstract)"
-                                  Variant="Variant.Outlined"
-                                  Lines="5"
-                                  id="streamingAbstract"/>
+                    <MarkdownEditor @bind-Value="model.StreamingAbstract"
+                                    EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.Schedule.AbstractLabel)]"
+                                    Id="streamingAbstract"
+                                    PreviewLabel="Preview"/>
+                    
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
