@@ -44,6 +44,7 @@ public class TwitchBotService : BackgroundService
         try
         {
             await _connection.StartAsync();
+            await _connection.SendAsync("SendBotStart");
         }
         catch (Exception ex)
         {

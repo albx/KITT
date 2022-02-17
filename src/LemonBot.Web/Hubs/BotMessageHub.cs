@@ -26,4 +26,6 @@ public class BotMessageHub : Hub
     {
         await Clients.All.SendAsync("OverlayReceived", resourceUrl);
     }
+
+    public async Task SendBotStart() => await Clients.All.SendAsync("BotStarted");
 }
