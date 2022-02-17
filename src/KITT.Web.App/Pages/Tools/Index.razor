@@ -2,6 +2,7 @@
 @page "/tools"
 
 @inject IBotClient Client
+@inject KITT.Web.App.Clients.Tools.IStreamingsClient StreamingsClient
 @inject NavigationManager Navigation
 
 <PageLayout PageTitle="Tools">
@@ -17,6 +18,16 @@
             </MudPaper>
             <MudDivider />
         }
+
+        <MudPaper>
+            <MudSelect T="ScheduledStreamingModel">
+                @foreach (var item in scheduledStreamings)
+                {
+                    <MudSelectItem Value="item" />
+                }
+            </MudSelect>
+        </MudPaper>
+        <MudDivider />
 
         <MudPaper>
             <MudGrid>
@@ -50,8 +61,10 @@
     private Color messageColor;
 
     private BotJobDetail? jobDetails;
-    private HubConnection connection;
+    private HubConnection? connection;
     private bool isBotRunning = false;
+
+    private IEnumerable<ScheduledStreamingModel> scheduledStreamings = Array.Empty<ScheduledStreamingModel>();
 
     async Task StartBotAsync()
     {
@@ -97,10 +110,16 @@
         isBotRunning = jobDetails.IsRunning;
     }
 
+    private async Task LoadScheduledStreamings()
+    {
+        scheduledStreamings = await StreamingsClient.GetScheduledStreamingsAsync();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await LoadDetails();
+        await LoadScheduledStreamings();
 
         await InitializeSignalRConnection();
     }
