@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.2" />
     <PackageReference Include="MudBlazor" Version="6.0.6" />
+    <PackageReference Include="MudBlazor.Markdown" Version="0.0.8" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
 
@@ -57,6 +58,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>StreamingDetail.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Tools\Index.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Index.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Shared\NavMenu.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -123,6 +129,13 @@
     <EmbeddedResource Update="Resources\Pages\Streamings\StreamingDetail.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StreamingDetail.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Tools\Index.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Tools\Index.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Shared\NavMenu.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>

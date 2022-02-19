@@ -1,125 +1,75 @@
-﻿@using Microsoft.AspNetCore.SignalR.Client
-@page "/tools"
-
-@inject IBotClient Client
-@inject NavigationManager Navigation
+﻿@page "/tools"
 
 <PageLayout PageTitle="Tools">
     <Toolbar>
-        <NavButton Label="Back"
+        <NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
                    Page="/" />
     </Toolbar>
     <PageContent>
-        @if (!string.IsNullOrWhiteSpace(message))
-        {
-            <MudPaper>
-                <MudText Color="messageColor">@message</MudText>
-            </MudPaper>
-            <MudDivider />
-        }
-
-        <MudPaper>
-            <MudGrid>
-                <MudItem xs="12" md="12">
-                    @if (isBotRunning)
-                    {
-                        <MudButton OnClick="StopBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled">Stop BOT</MudButton>
-                    }
-                    else
-                    {
-                        <MudButton OnClick="StartBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Start BOT</MudButton>
-                    }
-                </MudItem>
-
-                @if (jobDetails is not null)
+        @*<MudPaper class="pa-2">
+                @if (isLoadingStreamings)
                 {
-                    <MudItem xs="12" md="12">
-                        <MudList>
-                            <MudListItem Text="@jobDetails.Name" />
-                            <MudListItem Text="@jobDetails.Status" />
-                        </MudList>
-                    </MudItem>
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
                 }
-            </MudGrid>
+                else
+                {
+                    <MudGrid>
+                        <MudItem xs="12" md="10">
+                            <MudSelect T="ScheduledStreamingModel"
+                                       Variant="Variant.Outlined"
+                                       Label="Scheduled streamings"
+                                       @bind-Value="currentStreaming">
+                                @foreach (var item in scheduledStreamings)
+                                {
+                                    <MudSelectItem Value="item" />
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="2">
+                            <MudButton Disabled="@(currentStreaming is null || isSavingStats)" Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined">
+                                @if (isSavingStats)
+                                {
+                                    <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
+                                }
+                                <MudText>Save stats</MudText>
+                            </MudButton>
+                        </MudItem>
+                    </MudGrid>
+                }
+            </MudPaper>*@
+
+        <MudPaper class="mt-5">
+            <MudExpansionPanels>
+                <MudExpansionPanel Text="BOT Management">
+                    <MudGrid>
+                        <MudItem xs="12" md="2">
+                            @if (isBotRunning)
+                            {
+                                <MudButton Size="Size.Large" Disabled="@discoveringBotStatus" OnClick="StopBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled">
+                                    @if (discoveringBotStatus)
+                                    {
+                                        <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
+                                    }
+                                    <MudText>@Localizer[nameof(Resources.Pages.Tools.Index.StopBotLabel)]</MudText>
+                                </MudButton>
+                            }
+                            else
+                            {
+                                <MudButton Size="Size.Large" Disabled="@discoveringBotStatus" OnClick="StartBotAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">
+                                    @if (discoveringBotStatus)
+                                    {
+                                        <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
+                                    }
+                                    <MudText>@Localizer[nameof(Resources.Pages.Tools.Index.StartBotLabel)]</MudText>
+                                </MudButton>
+                            }
+                        </MudItem>
+                        <MudItem xs="12" md="10">
+                            <MudAlert Severity="messageSeverity" NoIcon="true">@message</MudAlert>
+                        </MudItem>
+                    </MudGrid>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
         </MudPaper>
     </PageContent>
 </PageLayout>
-
-@code {
-    private string message = string.Empty;
-    private Color messageColor;
-
-    private BotJobDetail? jobDetails;
-    private HubConnection connection;
-    private bool isBotRunning = false;
-
-    async Task StartBotAsync()
-    {
-        try
-        {
-            await Client.StartAsync();
-            message = "BOT started!";
-            messageColor = Color.Success;
-        }
-        catch (Exception ex)
-        {
-            message = ex.Message;
-            messageColor = Color.Error;
-        }
-        finally
-        {
-            await LoadDetails();
-        }
-    }
-
-    async Task StopBotAsync()
-    {
-        try
-        {
-            await Client.StopAsync();
-            message = "BOT stopped!";
-            messageColor = Color.Success;
-        }
-        catch (Exception ex)
-        {
-            message = ex.Message;
-            messageColor = Color.Error;
-        }
-        finally
-        {
-            await LoadDetails();
-        }
-    }
-
-    private async Task LoadDetails()
-    {
-        jobDetails = await Client.GetDetailsAsync();
-        isBotRunning = jobDetails.IsRunning;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        await LoadDetails();
-
-        await InitializeSignalRConnection();
-    }
-
-    private async Task InitializeSignalRConnection()
-    {
-        connection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/bot"))
-            .Build();
-
-        connection.On("BotStarted", () =>
-        {
-            message = "BOT Started!";
-            messageColor = Color.Success;
-            isBotRunning = true;
-
-            StateHasChanged();
-        });
-
-        await connection.StartAsync();
-    }
-}

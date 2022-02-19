@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace LemonBot.Commands;
 
-[BotCommand("!github", Comparison = CommandComparison.StartsWith, HelpText = "Show the full repository url, based on the specified name")]
+[BotCommand("!github", Comparison = CommandComparison.StartsWith, HelpText = "Mostra l'URL completo del repository GitHub basato sul nome")]
 public class GithubCommand : TextResponse, IBotCommand
 {
     private readonly TwitchClientProxy _client;

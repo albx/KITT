@@ -29,16 +29,16 @@
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.TitleLabel)]"
                                           @bind-Value="model.Title"
                                           For="@(() => model.Title)"
-                                          Variant="Variant.Outlined"/>
+                                          Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.SlugLabel)]"
                                           @bind-Value="model.Slug"
                                           For="@(() => model.Slug)"
-                                          Variant="Variant.Outlined"/>
+                                          Variant="Variant.Outlined" />
                         </MudItem>
                     </MudGrid>
-                    
+
                     <MudGrid>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.HostingChannelLabel)]"
@@ -46,13 +46,13 @@
                                           Adornment="Adornment.Start"
                                           AdornmentText="https://www.twitch.tv/"
                                           Variant="Variant.Outlined"
-                                          For="@(() => model.HostingChannelUrl)"/>
+                                          For="@(() => model.HostingChannelUrl)" />
                         </MudItem>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.YoutubeUrlLabel)]"
                                           @bind-Value="model.YoutubeVideoUrl"
                                           Variant="Variant.Outlined"
-                                          For="@(() => model.YoutubeVideoUrl)"/>
+                                          For="@(() => model.YoutubeVideoUrl)" />
                         </MudItem>
                     </MudGrid>
 
@@ -62,29 +62,28 @@
                                            @bind-Date="model.ScheduleDate"
                                            Variant="Variant.Outlined"
                                            Editable="true"
-                                           AutoClose="true"/>
+                                           AutoClose="true" />
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.StartingTimeLabel)]"
                                            @bind-Time="model.StartingTime"
                                            Variant="Variant.Outlined"
                                            Editable="true"
-                                           AutoClose="true"/>
+                                           AutoClose="true" />
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.EndingTimeLabel)]"
                                            @bind-Time="model.EndingTime"
                                            Variant="Variant.Outlined"
                                            Editable="true"
-                                           AutoClose="true"/>
+                                           AutoClose="true" />
                         </MudItem>
                     </MudGrid>
 
-                    <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.AbstractLabel)]"
-                                  @bind-Value="model.StreamingAbstract"
-                                  For="@(() => model.StreamingAbstract)"
-                                  Variant="Variant.Outlined"
-                                  Lines="5"/>
+                    <MarkdownEditor @bind-Value="model.StreamingAbstract"
+                                    EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.Import.AbstractLabel)]"
+                                    Id="streamingAbstract"
+                                    PreviewLabel="Preview"/>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>

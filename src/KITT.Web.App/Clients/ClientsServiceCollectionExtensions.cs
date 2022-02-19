@@ -29,6 +29,12 @@ public static class ClientsServiceCollectionExtensions
             .AddHttpClient<IBotClient, BotHttpClient>(client => client.BaseAddress = new Uri(clientBaseAddress))
             .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
+        services
+            .AddHttpClient<Tools.IStreamingsClient, Tools.Http.StreamingsHttpClient>(
+                "Tools.StreamingsClient", 
+                client => client.BaseAddress = new Uri(clientBaseAddress))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
         return services;
     }
 }

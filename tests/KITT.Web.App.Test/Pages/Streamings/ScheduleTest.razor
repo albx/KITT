@@ -23,7 +23,8 @@
 
         ComponentFactories
             .AddStub<MudDatePicker>()
-            .AddStub<MudTimePicker>();
+            .AddStub<MudTimePicker>()
+            .AddStub<MarkdownEditor>();
 
         var component = Render(@<Schedule />);
 
@@ -46,7 +47,8 @@
 
         ComponentFactories
             .AddStub<MudDatePicker>()
-            .AddStub<MudTimePicker>();
+            .AddStub<MudTimePicker>()
+            .AddStub<MarkdownEditor>();
 
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
 

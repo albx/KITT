@@ -1,6 +1,6 @@
 ﻿namespace LemonBot.Commands;
 
-[BotCommand("!so", Comparison = CommandComparison.StartsWith, HelpText = "Display the twitch url of the specified channel")]
+[BotCommand("!so", Comparison = CommandComparison.StartsWith, HelpText = "Mostra il canale twitch del nome indicato")]
 public class SoCommand : TextResponse, IBotCommand
 {
     private readonly TwitchClientProxy _client;

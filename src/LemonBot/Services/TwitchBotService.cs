@@ -131,7 +131,7 @@ public class TwitchBotService : BackgroundService
         _logger.LogInformation("{BotUsername} connected successfully", e.BotUsername);
 
         _client.Join();
-        _client.SendMessage($"Hi everyone, I'm {e.BotUsername}");
+        _client.SendMessage($"Ciao a tutti! Sono {e.BotUsername}, benvenuti nel canale :) ");
     }
 
     private void OnClientLog(object? sender, OnLogArgs e)

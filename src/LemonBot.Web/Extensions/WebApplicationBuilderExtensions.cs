@@ -50,6 +50,8 @@ public static class WebApplicationBuilderExtensions
             c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authorizationValue);
         });
 
+        builder.Services.AddScoped<Areas.Tools.Services.StreamingsControllerServices>();
+
         builder.Services
             .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
             .AddScoped<Areas.Console.Services.SettingsControllerServices>();

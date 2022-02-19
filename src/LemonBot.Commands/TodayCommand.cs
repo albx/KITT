@@ -1,6 +1,6 @@
 ﻿namespace LemonBot.Commands;
 
-[BotCommand("!today", Comparison = CommandComparison.Equal, HelpText = "Show today date")]
+[BotCommand("!today", Comparison = CommandComparison.Equal, HelpText = "Mostra la data odierna")]
 public class TodayCommand : IBotCommand
 {
     private readonly TwitchClientProxy _client;
