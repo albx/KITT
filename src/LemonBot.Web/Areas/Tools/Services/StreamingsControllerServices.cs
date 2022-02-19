@@ -21,7 +21,8 @@ public class StreamingsControllerServices
             .Select(s => new ScheduledStreamingModel
             {
                 Id = s.Id,
-                Title = s.Title
+                Title = s.Title,
+                ScheduleDate = s.ScheduleDate
             }).ToArray();
 
         return scheduledStreamings;
