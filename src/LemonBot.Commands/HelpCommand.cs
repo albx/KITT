@@ -3,7 +3,7 @@ using System.Text;
 
 namespace LemonBot.Commands;
 
-[BotCommand("!help", Comparison = CommandComparison.Equal, HelpText = "Show some help for BOT commands")]
+[BotCommand("!help", Comparison = CommandComparison.Equal, HelpText = "Mostra l'elenco dei comandi disponibili")]
 public class HelpCommand : IBotCommand
 {
     private readonly TwitchClientProxy _client;
@@ -30,7 +30,7 @@ public class HelpCommand : IBotCommand
         var helpStringBuilder = new StringBuilder();
         foreach (var command in _provider.Commands)
         {
-            helpStringBuilder.AppendLine($"{command.Prefix}: {command.HelpText}");
+            helpStringBuilder.AppendLine($"{command.Prefix}: {command.HelpText}, ");
         }
 
         return helpStringBuilder.ToString();
