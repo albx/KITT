@@ -52,8 +52,11 @@ public class StreamingCommands : IStreamingCommands
             streaming.ChangeTitle(streamingTitle);
         }
 
-        streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
-
+        if (ScheduleHasChanged(streaming, scheduleDate, startingTime, endingTime))
+        {
+            streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
+        }
+        
         if (streaming.HostingChannelUrl != hostingChannelUrl)
         {
             streaming.ChangeHostingChannelUrl(hostingChannelUrl);
@@ -105,4 +108,9 @@ public class StreamingCommands : IStreamingCommands
 
         return streaming.Id;
     }
+
+    #region Private methods
+    private bool ScheduleHasChanged(Streaming streaming, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime) 
+        => streaming.ScheduleDate != scheduleDate || streaming.StartingTime != startingTime || streaming.EndingTime != endingTime;
+    #endregion
 }

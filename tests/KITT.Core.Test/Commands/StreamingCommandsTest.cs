@@ -184,6 +184,60 @@ namespace KITT.Core.Test.Commands
             Assert.Equal(streamingAbstract, updatedStreaming.Abstract);
             Assert.Equal(youtubeRegistrationLink, updatedStreaming.YouTubeVideoUrl);
         }
+
+        [Fact]
+        public async Task UpdateStreamingAsync_Should_Not_Update_Schedule_If_It_Is_Not_Changed()
+        {
+            var streamingId = Guid.Empty;
+            var scheduleDate = new DateTime(2022, 01, 01);
+            var startingTime = TimeSpan.FromHours(18);
+            var endingTime = TimeSpan.FromHours(20);
+
+            var validator = new StreamingValidator(_fixture.Context);
+            var commands = new StreamingCommands(_fixture.Context, validator);
+
+            _fixture.PrepareData(context =>
+            {
+                string userId = Guid.NewGuid().ToString();
+                var newStreaming = Streaming.Import(
+                    "title",
+                    "slug",
+                    "albx87",
+                    scheduleDate,
+                    startingTime,
+                    endingTime,
+                    "https://www.twitch.tv/albx87",
+                    "",
+                    "",
+                    userId);
+
+                context.Add(newStreaming);
+                context.SaveChanges();
+
+                streamingId = newStreaming.Id;
+            });
+
+            string streamingTitle = "new title";
+            string hostingChannelUrl = "https://www.twitch.tv/newfakechannel";
+            string streamingAbstract = "new abstract";
+            string youtubeRegistrationLink = "https://www.youtube.com";
+
+            await commands.UpdateStreamingAsync(
+                streamingId,
+                streamingTitle,
+                scheduleDate,
+                startingTime,
+                endingTime,
+                hostingChannelUrl,
+                streamingAbstract,
+                youtubeRegistrationLink);
+
+            var updatedStreaming = _fixture.Context.Streamings.SingleOrDefault(s => s.Id == streamingId);
+
+            Assert.Equal(scheduleDate, updatedStreaming.ScheduleDate);
+            Assert.Equal(startingTime, updatedStreaming.StartingTime);
+            Assert.Equal(endingTime, updatedStreaming.EndingTime);
+        }
         #endregion
 
         #region DeleteStreamingAsync tests
