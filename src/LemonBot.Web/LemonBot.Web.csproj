@@ -13,6 +13,10 @@
     <None Remove="Models\**" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="LemonBot.Web.Test.Integration" />
+	</ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.1" />
