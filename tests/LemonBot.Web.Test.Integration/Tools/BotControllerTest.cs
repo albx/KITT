@@ -58,9 +58,7 @@ public class BotControllerTest : IClassFixture<KittWebApplicationFactory>
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddAuthentication("Test")
-                        .AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>("Test", options => { });
-
+                    services.AddTestAuthentication();
                     services.AddScoped(provider => botClientMock.Object);
                 });
             })

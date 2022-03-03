@@ -23,10 +23,10 @@ public class StreamingsController : ControllerBase
         var userId = User.GetUserId();
 
         var model = ControllerServices.GetAllStreamings(
-            userId, 
-            page: p, 
-            size: s, 
-            sort, 
+            userId,
+            page: p,
+            size: s,
+            sort,
             query: q);
 
         return Ok(model);
@@ -59,7 +59,7 @@ public class StreamingsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStreaming(Guid id, [FromBody]StreamingDetailModel model)
+    public async Task<IActionResult> UpdateStreaming(Guid id, [FromBody] StreamingDetailModel model)
     {
         await ControllerServices.UpdateStreamingAsync(id, model);
         return Ok();
