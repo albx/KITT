@@ -1,6 +1,7 @@
 ﻿using KITT.Core.Models;
 using KITT.Web.Models.Streamings;
 using LemonBot.Web.Test.Integration.Fixtures;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using System.Net;
 using System.Text.Json;
@@ -22,7 +23,7 @@ public class StreamingsControllerTest :
     [Fact]
     public async Task GetAllStreamings_Should_Return_Unauthorized_When_No_Access_Token_Is_Specified()
     {
-        var client = this.factory.CreateClient();
+        var client = this.factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
         var response = await client.GetAsync("/api/console/streamings");
 
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -58,7 +59,7 @@ public class StreamingsControllerTest :
                         });
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var response = await client.GetAsync("/api/console/streamings");
 
@@ -85,7 +86,7 @@ public class StreamingsControllerTest :
                     services.AddTestAuthentication();
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var response = await client.GetAsync($"/api/console/streamings/{Guid.NewGuid()}");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -179,7 +180,7 @@ public class StreamingsControllerTest :
                     services.AddTestAuthentication();
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var model = new ScheduleStreamingModel
         {
@@ -212,7 +213,7 @@ public class StreamingsControllerTest :
                     services.AddTestAuthentication();
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var model = new ImportStreamingModel();
 
@@ -236,7 +237,7 @@ public class StreamingsControllerTest :
                     services.AddTestAuthentication();
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var model = new ImportStreamingModel
         {
@@ -276,7 +277,7 @@ public class StreamingsControllerTest :
                     services.AddTestAuthentication();
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var model = new StreamingDetailModel
         {
@@ -326,7 +327,7 @@ public class StreamingsControllerTest :
                         });
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var model = new StreamingDetailModel { Id = streamingId };
 
@@ -365,7 +366,7 @@ public class StreamingsControllerTest :
                         });
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var model = new StreamingDetailModel
         {
@@ -417,7 +418,7 @@ public class StreamingsControllerTest :
                         });
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var response = await client.DeleteAsync($"/api/console/streamings/{streamingId}");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -440,7 +441,7 @@ public class StreamingsControllerTest :
                     services.AddTestAuthentication();
                 });
             })
-            .CreateClient();
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var response = await client.DeleteAsync($"/api/console/streamings/{streamingId}");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
