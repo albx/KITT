@@ -61,6 +61,11 @@ public class StreamingsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateStreaming(Guid id, [FromBody] StreamingDetailModel model)
     {
+        if (id == Guid.Empty)
+        {
+            return NotFound();
+        }
+
         await ControllerServices.UpdateStreamingAsync(id, model);
         return Ok();
     }
@@ -68,6 +73,11 @@ public class StreamingsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteStreaming(Guid id)
     {
+        if (id == Guid.Empty)
+        {
+            return NotFound();
+        }
+
         await ControllerServices.DeleteStreamingAsync(id);
         return Ok();
     }

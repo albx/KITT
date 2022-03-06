@@ -1,5 +1,4 @@
 ﻿using KITT.Core.Models;
-using KITT.Core.Persistence;
 using KITT.Web.Models.Streamings;
 using LemonBot.Web.Test.Integration.Fixtures;
 using Microsoft.AspNetCore.TestHost;
@@ -48,19 +47,15 @@ public class StreamingsControllerTest :
 
                 builder.ConfigureServices(services =>
                 {
-                    var provider = services.BuildServiceProvider();
-
-                    using (var scope = provider.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-
-                        var context = scopedServices.GetRequiredService<KittDbContext>();
-
-                        var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
-                        context.Streamings.Add(streaming);
-                        context.SaveChanges();
-                        createdStreamingId = streaming.Id;
-                    }
+                    DataHelper.PrepareDataForTest(
+                        services,
+                        context =>
+                        {
+                            var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
+                            context.Streamings.Add(streaming);
+                            context.SaveChanges();
+                            createdStreamingId = streaming.Id;
+                        });
                 });
             })
             .CreateClient();
@@ -115,19 +110,15 @@ public class StreamingsControllerTest :
 
                 builder.ConfigureServices(services =>
                 {
-                    var provider = services.BuildServiceProvider();
-
-                    using (var scope = provider.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-
-                        var context = scopedServices.GetRequiredService<KittDbContext>();
-
-                        var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
-                        context.Streamings.Add(streaming);
-                        context.SaveChanges();
-                        createdStreamingId = streaming.Id;
-                    }
+                    DataHelper.PrepareDataForTest(
+                        services,
+                        context =>
+                        {
+                            var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
+                            context.Streamings.Add(streaming);
+                            context.SaveChanges();
+                            createdStreamingId = streaming.Id;
+                        });
                 });
             })
             .CreateClient();
@@ -186,25 +177,6 @@ public class StreamingsControllerTest :
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTestAuthentication();
-                });
-
-                builder.ConfigureServices(services =>
-                {
-                    var provider = services.BuildServiceProvider();
-
-                    using (var scope = provider.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-
-                        var context = scopedServices.GetRequiredService<KittDbContext>();
-
-                        if (context.Settings.Any())
-                        {
-                            context.Settings.RemoveRange(context.Settings);
-                        }
-                        context.Settings.Add(Settings.CreateNew(userId, "albx87"));
-                        context.SaveChanges();
-                    }
                 });
             })
             .CreateClient();
@@ -287,9 +259,192 @@ public class StreamingsControllerTest :
     #endregion
 
     #region UpdateStreaming tests
+    [Fact]
+    public async Task UpdateStreaming_Should_Return_Not_Found_If_Streaming_Id_Is_An_Empty_Guid()
+    {
+        var streamingId = Guid.Empty;
+        var scheduleDate = DateTime.Today.AddDays(-1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient();
+
+        var model = new StreamingDetailModel
+        {
+            Id = streamingId,
+            EndingTime = scheduleDate.Add(endingTime),
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            StartingTime = scheduleDate.Add(startingTime),
+            Slug = "test",
+            StreamingAbstract = "my abstract",
+            Title = "test",
+            YoutubeVideoUrl = "https://www.youtube.com/test"
+        };
+
+        var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateStreaming_Should_Return_Bad_Request_If_Model_Is_Invalid()
+    {
+        var streamingId = Guid.Empty;
+        var scheduleDate = DateTime.Today.AddDays(1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(
+                        services,
+                        context =>
+                        {
+                            var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
+                            context.Streamings.Add(streaming);
+                            streamingId = streaming.Id;
+
+                            context.SaveChanges();
+                        });
+                });
+            })
+            .CreateClient();
+
+        var model = new StreamingDetailModel { Id = streamingId };
+
+        var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateStreaming_Should_Return_Ok_Status_Code_As_Expected()
+    {
+        var streamingId = Guid.Empty;
+        var scheduleDate = DateTime.Today.AddDays(1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(
+                        services,
+                        context =>
+                        {
+                            var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
+                            context.Streamings.Add(streaming);
+                            streamingId = streaming.Id;
+
+                            context.SaveChanges();
+                        });
+                });
+            })
+            .CreateClient();
+
+        var model = new StreamingDetailModel
+        {
+            Id = streamingId,
+            EndingTime = scheduleDate.Add(endingTime),
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            StartingTime = scheduleDate.Add(startingTime),
+            Slug = "test",
+            StreamingAbstract = "my abstract",
+            Title = "test",
+            YoutubeVideoUrl = "https://www.youtube.com/test"
+        };
+
+        var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
     #endregion
 
     #region DeleteStreaming tests
+    [Fact]
+    public async Task DeleteStreaming_Should_Return_Ok_Status_Code_As_Expected()
+    {
+        var streamingId = Guid.Empty;
+        var scheduleDate = DateTime.Today.AddDays(1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(
+                        services,
+                        context =>
+                        {
+                            var streaming = Streaming.Schedule("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", userId);
+                            context.Streamings.Add(streaming);
+                            streamingId = streaming.Id;
+
+                            context.SaveChanges();
+                        });
+                });
+            })
+            .CreateClient();
+
+        var response = await client.DeleteAsync($"/api/console/streamings/{streamingId}");
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteStreaming_Should_Return_Not_Found_If_Streaming_Id_Is_An_Empty_Guid()
+    {
+        var streamingId = Guid.Empty;
+        var scheduleDate = DateTime.Today.AddDays(1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient();
+
+        var response = await client.DeleteAsync($"/api/console/streamings/{streamingId}");
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
     #endregion
 
     #region Private helpers
