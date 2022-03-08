@@ -1,5 +1,7 @@
 ﻿@page "/tools"
 
+@attribute [Authorize]
+
 <PageLayout PageTitle="Tools">
     <Toolbar>
         <NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"

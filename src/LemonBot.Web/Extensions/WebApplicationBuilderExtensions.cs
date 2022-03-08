@@ -41,7 +41,7 @@ public static class WebApplicationBuilderExtensions
             .AddScoped<ISettingsCommands, SettingsCommands>()
             .AddScoped<IStreamingCommands, StreamingCommands>();
 
-        builder.Services.AddHttpClient<BotHttpClient>(c =>
+        builder.Services.AddHttpClient<IBotHttpClient, BotHttpClient>(c =>
         {
             c.BaseAddress = new Uri(builder.Configuration["BotConfiguration:Endpoint"]);
             

@@ -6,3 +6,5 @@ var app = builder
     .Configure(builder.Environment);
 
 app.Run();
+
+public partial class Program { }

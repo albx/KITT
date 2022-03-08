@@ -2,7 +2,7 @@
 
 namespace KITT.Web.Models.Streamings;
 
-public class StreamingDetailModel
+public record StreamingDetailModel
 {
     public Guid Id { get; set; }
 

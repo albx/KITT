@@ -9,9 +9,9 @@ namespace LemonBot.Web.Areas.Tools.Controllers;
 [Authorize]
 public class BotController : ControllerBase
 {
-    public BotHttpClient Client { get; }
+    public IBotHttpClient Client { get; }
 
-    public BotController(BotHttpClient client)
+    public BotController(IBotHttpClient client)
     {
         Client = client ?? throw new ArgumentNullException(nameof(client));
     }

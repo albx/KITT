@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.Models.Streamings;
 
-public class ImportStreamingModel
+public record ImportStreamingModel
 {
     [Required]
     public string Title { get; set; } = string.Empty;

@@ -2,7 +2,7 @@
 
 namespace KITT.Web.Models.Streamings;
 
-public class ScheduleStreamingModel
+public record ScheduleStreamingModel
 {
     [Required]
     public string Title { get; set; } = string.Empty;

@@ -1,10 +1,8 @@
 ﻿using KITT.Web.Models.Tools;
-using LemonBot.Web.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace LemonBot.Web.Areas.Tools.Services;
 
-public class BotHttpClient
+public class BotHttpClient : IBotHttpClient
 {
     public BotHttpClient(HttpClient client)
     {

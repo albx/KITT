@@ -26,6 +26,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Setup appsettings values
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ./src/LemonBot.Web/appsettings.json
+      env:
+        AzureAdB2C.Instance: ${{ secrets.TEST_ADB2C_INSTANCE }}
+        AzureAdB2C.ClientId: ${{ secrets.TEST_ADB2C_CLIENT }}
+        AzureAdB2C.Domain: ${{ secrets.TEST_ADB2C_DOMAIN }}
+        AzureAdB2C.SignUpSignInPolicyId: ${{ secrets.TEST_ADB2C_POLICY }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
