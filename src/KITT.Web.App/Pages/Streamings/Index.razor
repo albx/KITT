@@ -1,6 +1,6 @@
 ﻿@page "/streamings"
 
-@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 @inject IStringLocalizer<Resources.Pages.Streamings.Index> Localizer
 
 @attribute [Authorize]
@@ -76,8 +76,8 @@
 					</MudTd>
 					<MudTd>
 						<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
-							<MudButton id="@($"openStreamingDetail-{context.Id}")" StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(context)">@CommonLocalizer[nameof(Resources.Common.View)]</MudButton>
-							<MudButton id="@($"deleteStreaming-{context.Id}")" StartIcon="@Icons.Filled.Delete" OnClick="() => DeleteStreaming(context)">@CommonLocalizer[nameof(Resources.Common.Delete)]</MudButton>
+							<MudButton id="@($"openStreamingDetail-{context.Id}")" StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(context)">@CommonLocalizer[nameof(UI.Resources.Common.View)]</MudButton>
+							<MudButton id="@($"deleteStreaming-{context.Id}")" StartIcon="@Icons.Filled.Delete" OnClick="() => DeleteStreaming(context)">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</MudButton>
 						</MudButtonGroup>
 					</MudTd>
 				</RowTemplate>

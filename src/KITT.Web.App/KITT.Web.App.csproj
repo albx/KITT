@@ -37,11 +37,6 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Settings.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Resources\Common.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Common.resx</DependentUpon>
-		</Compile>
 		<Compile Update="Resources\Pages\Streamings\Import.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -61,11 +56,6 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>StreamingDetail.resx</DependentUpon>
-		</Compile>
-		<Compile Update="Resources\Pages\Tools\Index.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Index.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Resources\Shared\NavMenu.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -98,13 +88,6 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\Common.it.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\Common.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Common.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\Streamings\Import.it.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
@@ -132,13 +115,6 @@
 		<EmbeddedResource Update="Resources\Pages\Streamings\StreamingDetail.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>StreamingDetail.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\Pages\Tools\Index.it.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\Pages\Tools\Index.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Index.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Shared\NavMenu.it.resx">
 			<Generator>ResXFileCodeGenerator</Generator>

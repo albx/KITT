@@ -1,10 +1,11 @@
 ﻿@page "/tools"
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 
 @attribute [Authorize]
 
 <PageLayout PageTitle="Tools">
     <Toolbar>
-        <NavButton Label="@Localizer[nameof(Resources.Pages.Index.BackLabel)]"
+        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
                    Page="/" />
     </Toolbar>
     <PageContent>

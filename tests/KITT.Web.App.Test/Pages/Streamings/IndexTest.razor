@@ -6,7 +6,7 @@
 	{
 		this.AddTestAuthorization();
 
-		var commonLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Common>>();
+		var commonLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>();
 		var indexLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Index>>();
 		indexLocalizerMock
 			.Setup(r => r[nameof(KITT.Web.App.Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle)])
@@ -17,7 +17,7 @@
 			.Returns(new LocalizedString(nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText)));
 
 		Services
-			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Common>>(commonLocalizerMock.Object)
+			.AddSingleton<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>(commonLocalizerMock.Object)
 			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Index>>(indexLocalizerMock.Object);
 	}
 

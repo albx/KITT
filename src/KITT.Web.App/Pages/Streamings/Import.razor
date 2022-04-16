@@ -1,13 +1,13 @@
 @page "/streamings/import"
 
-@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 @inject IStringLocalizer<Resources.Pages.Streamings.Import> Localizer
 
 @attribute [Authorize]
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]">
     <Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
+        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
                    Page="streamings"/>
     </Toolbar>
     <PageContent>
@@ -86,8 +86,8 @@
                                     PreviewLabel="Preview"/>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(Resources.Common.Save)]</MudButton>
+                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KITT.Web.App.Resources.Pages.Tools {
+namespace KITT.Web.App.UI.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace KITT.Web.App.Resources.Pages.Tools {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Index {
+    public class Common {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Index() {
+        internal Common() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Resources.Pages.Tools {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Pages.Tools.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.UI.Resources.Common", typeof(Common).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,65 @@ namespace KITT.Web.App.Resources.Pages.Tools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BOT is currently running.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
-        public static string BotRunningMessage {
+        public static string Back {
             get {
-                return ResourceManager.GetString("BotRunningMessage", resourceCulture);
+                return ResourceManager.GetString("Back", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The BOT is starting.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string BotStartingMessage {
+        public static string Cancel {
             get {
-                return ResourceManager.GetString("BotStartingMessage", resourceCulture);
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BOT is currently stopped. Click the button to start the BOT.
+        ///   Looks up a localized string similar to Yes.
         /// </summary>
-        public static string BotStatusDefaultMessage {
+        public static string Confirm {
             get {
-                return ResourceManager.GetString("BotStatusDefaultMessage", resourceCulture);
+                return ResourceManager.GetString("Confirm", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start BOT.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
-        public static string StartBotLabel {
+        public static string Delete {
             get {
-                return ResourceManager.GetString("StartBotLabel", resourceCulture);
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop BOT.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
-        public static string StopBotLabel {
+        public static string Edit {
             get {
-                return ResourceManager.GetString("StopBotLabel", resourceCulture);
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
             }
         }
     }
