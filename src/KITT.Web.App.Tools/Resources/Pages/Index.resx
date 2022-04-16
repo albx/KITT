@@ -117,10 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BackLabel" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BotRunningMessage" xml:space="preserve">
+    <value>BOT is currently running</value>
+  </data>
+  <data name="BotStartingMessage" xml:space="preserve">
+    <value>The BOT is starting</value>
+  </data>
+  <data name="BotStatusDefaultMessage" xml:space="preserve">
+    <value>BOT is currently stopped. Click the button to start the BOT</value>
+  </data>
   <data name="StartBotLabel" xml:space="preserve">
-    <value>Avvia il BOT</value>
+    <value>Start BOT</value>
   </data>
   <data name="StopBotLabel" xml:space="preserve">
-    <value>Ferma il BOT</value>
+    <value>Stop BOT</value>
   </data>
 </root>

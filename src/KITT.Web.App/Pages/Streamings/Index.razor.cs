@@ -1,5 +1,5 @@
 ﻿using KITT.Web.App.Clients;
-using KITT.Web.App.Shared;
+using KITT.Web.App.UI.Components;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -37,7 +37,7 @@ public partial class Index
         return new() { TotalItems = model.TotalItems, Items = model.Items };
     }
 
-    void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming) 
+    void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming)
         => Navigation.NavigateTo($"streamings/{streaming.Id}");
 
     async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
@@ -46,8 +46,8 @@ public partial class Index
         string confirmText = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle];
 
         var confirm = await Dialog.Show<ConfirmDialog>(
-            Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle], 
-            new DialogParameters 
+            Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle],
+            new DialogParameters
             {
                 [nameof(ConfirmDialog.ConfirmText)] = confirmText
             }).Result;
@@ -61,7 +61,7 @@ public partial class Index
 
                 await table.ReloadServerData();
             }
-            catch 
+            catch
             {
                 Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle], Severity.Error);
             }
@@ -75,8 +75,8 @@ public partial class Index
     void Search() => table.ReloadServerData();
 
     void ClearSearch()
-	{
+    {
         query = new();
         table.ReloadServerData();
-	}
+    }
 }

@@ -1,10 +1,11 @@
 ﻿@page "/tools"
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 
 @attribute [Authorize]
 
 <PageLayout PageTitle="Tools">
     <Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
+        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
                    Page="/" />
     </Toolbar>
     <PageContent>
@@ -52,7 +53,7 @@
                                     {
                                         <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
                                     }
-                                    <MudText>@Localizer[nameof(Resources.Pages.Tools.Index.StopBotLabel)]</MudText>
+                                    <MudText>@Localizer[nameof(Resources.Pages.Index.StopBotLabel)]</MudText>
                                 </MudButton>
                             }
                             else
@@ -62,7 +63,7 @@
                                     {
                                         <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
                                     }
-                                    <MudText>@Localizer[nameof(Resources.Pages.Tools.Index.StartBotLabel)]</MudText>
+                                    <MudText>@Localizer[nameof(Resources.Pages.Index.StartBotLabel)]</MudText>
                                 </MudButton>
                             }
                         </MudItem>

@@ -6,7 +6,7 @@
 		this.AddTestAuthorization();
 
 		Services
-			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Common>>(new Mock<IStringLocalizer<KITT.Web.App.Resources.Common>>().Object)
+			.AddSingleton<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>(new Mock<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>().Object)
 			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.CreateNewSettings>>(new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.CreateNewSettings>>().Object);
 	}
 

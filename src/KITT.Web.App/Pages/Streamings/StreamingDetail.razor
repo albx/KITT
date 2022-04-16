@@ -1,6 +1,6 @@
 ﻿@page "/streamings/{id:guid}"
 
-@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 @inject IStringLocalizer<Resources.Pages.Streamings.StreamingDetail> Localizer
 
 @attribute [Authorize]
@@ -9,10 +9,10 @@
 	<Toolbar>
 		@if (isReadOnly)
 		{
-			<MudButton OnClick="EnableEditing" Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3">@CommonLocalizer[nameof(Resources.Common.Edit)]</MudButton>
+			<MudButton OnClick="EnableEditing" Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3">@CommonLocalizer[nameof(UI.Resources.Common.Edit)]</MudButton>
 		}
 
-		<NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
+		<NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
 				   Page="streamings" />
 	</Toolbar>
 	<PageContent>
@@ -101,8 +101,8 @@
 					@if (!isReadOnly)
 					{
 						<MudCardActions>
-							<MudButton OnClick="DisableEditing" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
-							<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(Resources.Common.Save)]</MudButton>
+							<MudButton OnClick="DisableEditing" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+							<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
 						</MudCardActions>
 					}
 				</MudCard>

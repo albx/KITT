@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KITT.Web.App.Resources.Pages.Tools {
+namespace KITT.Web.App.Tools.Resources.Pages {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Resources.Pages.Tools {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Pages.Tools.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Tools.Resources.Pages.Index", typeof(Index).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,15 @@ namespace KITT.Web.App.Resources.Pages.Tools {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BackLabel {
+            get {
+                return ResourceManager.GetString("BackLabel", resourceCulture);
             }
         }
         

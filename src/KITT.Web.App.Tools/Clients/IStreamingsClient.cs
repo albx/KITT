@@ -1,6 +1,6 @@
 ﻿using KITT.Web.Models.Tools;
 
-namespace KITT.Web.App.Clients.Tools;
+namespace KITT.Web.App.Tools.Clients;
 
 public interface IStreamingsClient
 {

@@ -1,28 +1,25 @@
-﻿using KITT.Web.App.Clients;
+﻿using KITT.Web.App.Tools.Clients;
 using KITT.Web.Models.Tools;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
-namespace KITT.Web.App.Pages.Tools;
+namespace KITT.Web.App.Tools.Pages;
 
 public partial class Index
 {
     [Inject]
-    public IBotClient Client { get; set; }
+    public IBotClient Client { get; set; } = default!;
 
     [Inject]
-    public Clients.Tools.IStreamingsClient StreamingsClient { get; set; }
+    public IStreamingsClient StreamingsClient { get; set; } = default!;
 
     [Inject]
-    public NavigationManager Navigation { get; set; }
+    public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    public IStringLocalizer<Resources.Common> CommonLocalizer { get; set; }
-
-    [Inject]
-    public IStringLocalizer<Resources.Pages.Tools.Index> Localizer { get; set; }
+    public IStringLocalizer<Resources.Pages.Index> Localizer { get; set; } = default!;
 
     private string message = string.Empty;
     private Severity messageSeverity = Severity.Info;
@@ -44,7 +41,7 @@ public partial class Index
         try
         {
             await Client.StartAsync();
-            message = Localizer[nameof(Resources.Pages.Tools.Index.BotStartingMessage)];
+            message = Localizer[nameof(Resources.Pages.Index.BotStartingMessage)];
             messageSeverity = Severity.Success;
         }
         catch (Exception ex)
@@ -66,7 +63,7 @@ public partial class Index
         try
         {
             await Client.StopAsync();
-            message = Localizer[nameof(Resources.Pages.Tools.Index.BotStatusDefaultMessage)];
+            message = Localizer[nameof(Resources.Pages.Index.BotStatusDefaultMessage)];
             messageSeverity = Severity.Info;
         }
         catch (Exception ex)
@@ -102,7 +99,7 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        message = Localizer[nameof(Resources.Pages.Tools.Index.BotStatusDefaultMessage)];
+        message = Localizer[nameof(Resources.Pages.Index.BotStatusDefaultMessage)];
 
         await base.OnInitializedAsync();
         await LoadScheduledStreamings();
@@ -120,7 +117,7 @@ public partial class Index
 
         connection.On("BotStarted", () =>
         {
-            message = Localizer[nameof(Resources.Pages.Tools.Index.BotRunningMessage)];
+            message = Localizer[nameof(Resources.Pages.Index.BotRunningMessage)];
             messageSeverity = Severity.Success;
             isBotRunning = true;
 

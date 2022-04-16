@@ -1,7 +1,7 @@
 ﻿using KITT.Web.Models.Tools;
 using System.Net.Http.Json;
 
-namespace KITT.Web.App.Clients.Http;
+namespace KITT.Web.App.Tools.Clients.Http;
 
 public class BotHttpClient : IBotClient
 {

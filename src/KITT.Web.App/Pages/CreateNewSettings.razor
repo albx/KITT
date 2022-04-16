@@ -3,14 +3,14 @@
 @inject ISettingsClient Client
 @inject NavigationManager Navigation
 
-@inject IStringLocalizer<Resources.Common> CommonLocalizer
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 @inject IStringLocalizer<Resources.Pages.CreateNewSettings> Localizer
 
 @attribute [Authorize]
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]">
 	<Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(Resources.Common.Back)]"
+        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
                    Page="settings"/>
 	</Toolbar>
 	<PageContent>
@@ -35,8 +35,8 @@
                               For="@(() => model.TwitchChannel)"/>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(Resources.Common.Cancel)]</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(Resources.Common.Save)]</MudButton>
+                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
                 </MudCardActions>
             </MudCard>
 		</EditForm>
