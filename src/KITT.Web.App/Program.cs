@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using KITT.Web.App;
 using KITT.Web.App.Clients;
+using KITT.Web.App.Tools.Clients;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using MudBlazor.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

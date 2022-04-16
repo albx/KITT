@@ -1,9 +1,11 @@
 ﻿<CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+    <Router AppAssembly="@typeof(Program).Assembly" 
+            AdditionalAssemblies="@assemblies"
+            PreferExactMatches="@true">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    @if (!context.User.Identity.IsAuthenticated)
+                    @if (!context!.User!.Identity!.IsAuthenticated)
                     {
                         <RedirectToLogin />
                     }
@@ -21,3 +23,10 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
+@code{
+    private IEnumerable<System.Reflection.Assembly> assemblies = new[]
+    {
+        typeof(KITT.Web.App.Tools._Imports).Assembly
+    };
+}

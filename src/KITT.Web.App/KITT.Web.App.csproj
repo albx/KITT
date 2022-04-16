@@ -9,7 +9,6 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.4" />
 		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.4" />
@@ -23,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\KITT.Web.App.Tools\KITT.Web.App.Tools.csproj" />
 		<ProjectReference Include="..\KITT.Web.Models\KITT.Web.Models.csproj" />
 	</ItemGroup>
 
