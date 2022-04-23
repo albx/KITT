@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using HotChocolate.Types.Pagination;
 using KITT.Core.Commands;
 using KITT.Core.Persistence;
 using KITT.Core.ReadModels;
@@ -61,6 +62,12 @@ public static class WebApplicationBuilderExtensions
 
         builder.Services
             .AddGraphQLServer()
+            .AddFiltering()
+            .AddSorting()
+            .SetPagingOptions(new PagingOptions
+            {
+                IncludeTotalCount = true
+            })
             .AddQueryType<StreamingsQuery>();
 
         return builder;
