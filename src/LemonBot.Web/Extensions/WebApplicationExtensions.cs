@@ -30,6 +30,7 @@ public static class WebApplicationExtensions
 
         app.MapControllers();
         app.MapHub<BotMessageHub>("/bot");
+        app.MapGraphQL();
         app.MapFallbackToFile("index.html");
 
         return app;

@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using IdentityModel.Client;
 using KITT.Core.Commands;
 using KITT.Core.Persistence;
 using KITT.Core.ReadModels;
 using KITT.Core.Validators;
 using LemonBot.Web.Areas.Tools.Services;
 using LemonBot.Web.Configuration;
+using LemonBot.Web.GraphQL.Queries;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
@@ -44,7 +44,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddHttpClient<IBotHttpClient, BotHttpClient>(c =>
         {
             c.BaseAddress = new Uri(builder.Configuration["BotConfiguration:Endpoint"]);
-            
+
             var credentials = $"{builder.Configuration["BotConfiguration:Username"]}:{builder.Configuration["BotConfiguration:Password"]}";
             var authorizationValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials));
             c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authorizationValue);
@@ -56,10 +56,12 @@ public static class WebApplicationBuilderExtensions
             .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
             .AddScoped<Areas.Console.Services.SettingsControllerServices>();
 
-        //builder.Services.AddScoped<AccountControllerbuilder.Services>();
-
         builder.Services.AddSignalR();
         builder.Services.AddControllersWithViews();
+
+        builder.Services
+            .AddGraphQLServer()
+            .AddQueryType<StreamingsQuery>();
 
         return builder;
     }
