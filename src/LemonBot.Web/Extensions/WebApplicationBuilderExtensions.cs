@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
-using HotChocolate.Types.Pagination;
 using KITT.Core.Commands;
 using KITT.Core.Persistence;
 using KITT.Core.ReadModels;
 using KITT.Core.Validators;
 using LemonBot.Web.Areas.Tools.Services;
 using LemonBot.Web.Configuration;
-using LemonBot.Web.GraphQL.Queries;
+using LemonBot.Web.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
@@ -60,15 +59,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddSignalR();
         builder.Services.AddControllersWithViews();
 
-        builder.Services
-            .AddGraphQLServer()
-            .AddFiltering()
-            .AddSorting()
-            .SetPagingOptions(new PagingOptions
-            {
-                IncludeTotalCount = true
-            })
-            .AddQueryType<StreamingsQuery>();
+        builder.Services.AddKittGrahpQL();
 
         return builder;
     }
