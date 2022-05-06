@@ -2,7 +2,7 @@
 
 public static class ContentExtensions
 {
-    public static IQueryable<TContent> PublishedOnly<TContent>(this IQueryable<TContent> source) where TContent : Content 
+    public static IQueryable<TContent> PublishedOnly<TContent>(this IQueryable<TContent> source) where TContent : Content
         => source.Where(c => c.Status == Content.ContentStatus.Published && c.PublicationDate <= DateTime.UtcNow);
 
     public static IQueryable<TContent> DraftsOnly<TContent>(this IQueryable<TContent> source) where TContent : Content
@@ -13,4 +13,7 @@ public static class ContentExtensions
 
     public static IQueryable<TContent> OrderedByPublicationDate<TContent>(this IQueryable<TContent> source) where TContent : Content
         => source.OrderBy(c => c.PublicationDate);
+
+    public static IQueryable<TContent> WithSlug<TContent>(this IQueryable<TContent> source, string slug) where TContent : Content
+        => source.Where(c => c.Slug == slug);
 }
