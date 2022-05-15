@@ -1,4 +1,5 @@
-﻿using LemonBot.Web.GraphQL;
+﻿using Hellang.Middleware.ProblemDetails;
+using LemonBot.Web.GraphQL;
 using LemonBot.Web.Hubs;
 
 namespace LemonBot.Web.Extensions;
@@ -15,7 +16,6 @@ public static class WebApplicationExtensions
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
@@ -23,6 +23,8 @@ public static class WebApplicationExtensions
         app.UseHttpsRedirection();
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
+
+        app.UseProblemDetails();
 
         app.UseRouting();
 
