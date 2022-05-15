@@ -70,7 +70,7 @@ public class StreamingsControllerTest :
         Assert.NotNull(model);
         Assert.Equal(
             new StreamingsListModel.StreamingListItemModel { Id = createdStreamingId, EndingTime = scheduleDate.AddHours(18), StartingTime = scheduleDate.AddHours(16), HostingChannelUrl = "albx87", ScheduledOn = scheduleDate, Title = "test" },
-            model.Items.First());
+            model!.Items.First());
     }
     #endregion
 
@@ -199,6 +199,72 @@ public class StreamingsControllerTest :
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(model, modelFromResponse);
     }
+
+    [Fact]
+    public async Task ScheduleStreaming_Should_Return_Bad_Request_If_Schedule_Date_Is_Previous_Than_Today()
+    {
+        var scheduleDate = DateTime.Today.AddDays(-1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var model = new ScheduleStreamingModel
+        {
+            EndingTime = scheduleDate.Add(endingTime),
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            Slug = "test-create",
+            StartingTime = scheduleDate.Add(startingTime),
+            StreamingAbstract = "test",
+            Title = "test create"
+        };
+
+        var response = await client.PostAsJsonAsync("/api/console/streamings", model);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task ScheduleStreaming_Should_Return_Bad_Request_If_Ending_Time_Is_Previous_Than_Starting_Time()
+    {
+        var scheduleDate = DateTime.Today.AddDays(1);
+        var startingTime = TimeSpan.FromHours(18);
+        var endingTime = TimeSpan.FromHours(16);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var model = new ScheduleStreamingModel
+        {
+            EndingTime = scheduleDate.Add(endingTime),
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            Slug = "test-create",
+            StartingTime = scheduleDate.Add(startingTime),
+            StreamingAbstract = "test",
+            Title = "test create"
+        };
+
+        var response = await client.PostAsJsonAsync("/api/console/streamings", model);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
     #endregion
 
     #region ImportStreaming tests
@@ -256,6 +322,40 @@ public class StreamingsControllerTest :
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(model, modelFromResponse);
+    }
+
+    [Fact]
+    public async Task ImportStreaming_Should_Return_Bad_Request_If_Ending_Time_Is_Previous_Than_Starting_Time()
+    {
+        var scheduleDate = DateTime.Today.AddDays(-1);
+        var startingTime = TimeSpan.FromHours(18);
+        var endingTime = TimeSpan.FromHours(16);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var model = new ImportStreamingModel
+        {
+            EndingTime = scheduleDate.Add(endingTime),
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            Slug = "test-import",
+            StartingTime = scheduleDate.Add(startingTime),
+            StreamingAbstract = "test",
+            Title = "test import",
+            YoutubeVideoUrl = "youtube.com/test"
+        };
+
+        var response = await client.PostAsJsonAsync("/api/console/streamings/import", model);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
     #endregion
 

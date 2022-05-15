@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Hellang.Middleware.ProblemDetails;
 using KITT.Core.Commands;
 using KITT.Core.Persistence;
 using KITT.Core.ReadModels;
@@ -60,6 +61,38 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddKittGrahpQL();
+
+        builder.Services.AddProblemDetails(options =>
+        {
+            options.Map<HttpRequestException>(ex =>
+            {
+                int statusCode = StatusCodes.Status503ServiceUnavailable;
+                if (ex.StatusCode.HasValue)
+                {
+                    statusCode = (int)ex.StatusCode.Value;
+                }
+
+                return new StatusCodeProblemDetails(statusCode);
+            });
+
+            options.Map<ValidationException>(ex =>
+            {
+                var result = new StatusCodeProblemDetails(StatusCodes.Status400BadRequest);
+                result.Extensions.Add("errors", ex.Errors.Select(e => new { Name = e.PropertyName, Message = e.ErrorMessage }));
+
+                return result;
+            });
+
+            options.Map<ArgumentException>(ex =>
+            {
+                var result = new StatusCodeProblemDetails(StatusCodes.Status400BadRequest);
+                result.Extensions.Add("errors", new[] { new { Name = ex.ParamName, Message = ex.Message } });
+
+                return result;
+            });
+
+            options.Map<InvalidOperationException>(ex => new StatusCodeProblemDetails(StatusCodes.Status400BadRequest));
+        });
 
         return builder;
     }
