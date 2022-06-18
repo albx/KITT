@@ -12,4 +12,6 @@ public class Database : IDatabase
     public IQueryable<Streaming> Streamings => _context.Streamings.AsNoTracking();
 
     public IQueryable<Settings> Settings => _context.Settings.AsNoTracking();
+
+    public IQueryable<Proposal> Proposals => _context.Proposals.AsNoTracking();
 }

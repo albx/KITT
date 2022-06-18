@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
-using KITT.Core.Commands;
+using KITT.Core.DependencyInjection;
 using KITT.Core.Persistence;
-using KITT.Core.ReadModels;
-using KITT.Core.Validators;
 using LemonBot.Web.Areas.Tools.Services;
 using LemonBot.Web.Configuration;
 using LemonBot.Web.GraphQL;
@@ -36,11 +34,7 @@ public static class WebApplicationBuilderExtensions
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 
-        builder.Services
-            .AddValidatorsFromAssemblyContaining<StreamingValidator>()
-            .AddScoped<IDatabase, Database>()
-            .AddScoped<ISettingsCommands, SettingsCommands>()
-            .AddScoped<IStreamingCommands, StreamingCommands>();
+        builder.Services.AddKittCore();
 
         builder.Services.AddHttpClient<IBotHttpClient, BotHttpClient>(c =>
         {

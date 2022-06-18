@@ -20,5 +20,9 @@ internal class ProposalMapper : IEntityTypeConfiguration<Proposal>
         builder.Property(p => p.Description)
             .HasMaxLength(255)
             .IsRequired();
+
+        builder.Property(p => p.Status)
+            .HasConversion<string>()
+            .HasDefaultValue(Proposal.ProposalStatus.Moderating);
     }
 }
