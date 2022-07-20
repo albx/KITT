@@ -1,17 +1,18 @@
 ﻿@page "/proposals"
 
+@inject IStringLocalizer<Resources.Pages.Proposals.Index> Localizer
 @inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="Gestisci le proposte">
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Proposals.Index.PageTitle)]">
     <PageContent>
         <MudPaper Class="mb-3">
             <MudGrid>
                 <MudItem xs="12" md="3">
                     <MudSelect T="ProposalsQueryModel.SortDirection"
                                Variant="Variant.Outlined"
-                               Label="Ordinamento"
+                               Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQueryOrderLabel)]"
                                @bind-Value="query.ScheduleSort"
                                Strict="true"
                                AnchorOrigin="Origin.BottomCenter"
@@ -19,19 +20,19 @@
                                Margin="Margin.Dense">
                         @foreach (var sort in Enum.GetValues<ProposalsQueryModel.SortDirection>())
                         {
-                            <MudSelectItem T="ProposalsQueryModel.SortDirection" Value="sort">@sort</MudSelectItem>
+                            <MudSelectItem T="ProposalsQueryModel.SortDirection" Value="sort">@Localizer[sort.ToString()]</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" md="5">
                     <MudTextField Margin="Margin.Dense"
-                                  Label="Ricerca per..."
+                                  Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySearchLabel)]"
                                   @bind-Value="query.Query"
                                   Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="12" md="2">
                     <MudSelect Variant="Variant.Outlined"
-                               Label="Num. elementi"
+                               Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySizeLabel)]"
                                @bind-Value="query.Size"
                                Strict="true"
                                AnchorOrigin="Origin.BottomCenter"
@@ -55,11 +56,11 @@
         <MudPaper>
             <MudTable Items="model.Items">
                 <HeaderContent>
-                    <MudTh>Title</MudTh>
-                    <MudTh>Description</MudTh>
-                    <MudTh>Date</MudTh>
-                    <MudTh>Author nickname</MudTh>
-                    <MudTh>Status</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalTitleLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalDescriptionLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalDateLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalAuthorLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalStatusLabel)]</MudTh>
                     <MudTh>&nbsp;</MudTh>
                 </HeaderContent>
                 <RowTemplate>
@@ -67,11 +68,11 @@
                     <MudTd>@context.Description</MudTd>
                     <MudTd>@context.SubmittedAt.ToShortDateString()</MudTd>
                     <MudTd>@context.AuthorNickname</MudTd>
-                    <MudTd>@context.Status.ToString()</MudTd>
+                    <MudTd>@Localizer[context.Status.ToString()]</MudTd>
                     <MudTd>
                         <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
-                            <MudButton>Accept</MudButton>
-                            <MudButton>Reject</MudButton>
+                            <MudButton>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalAcceptLabel)]</MudButton>
+                            <MudButton>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRejectLabel)]</MudButton>
                         </MudButtonGroup>
                     </MudTd>
                 </RowTemplate>

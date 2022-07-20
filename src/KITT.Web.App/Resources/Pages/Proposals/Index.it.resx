@@ -117,16 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DashboardMenuLabel" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="Ascending" xml:space="preserve">
+    <value>Meno recenti</value>
   </data>
-  <data name="ProposalsMenuLabel" xml:space="preserve">
-    <value>Proposals</value>
+  <data name="Descending" xml:space="preserve">
+    <value>Più recenti</value>
   </data>
-  <data name="SettingsMenuLabel" xml:space="preserve">
-    <value>Settings</value>
+  <data name="Moderating" xml:space="preserve">
+    <value>In moderazione</value>
   </data>
-  <data name="StreamingsMenuLabel" xml:space="preserve">
-    <value>My streamings</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Gestisci le proposte</value>
+  </data>
+  <data name="ProposalAcceptLabel" xml:space="preserve">
+    <value>Accetta</value>
+  </data>
+  <data name="ProposalAuthorLabel" xml:space="preserve">
+    <value>Autore</value>
+  </data>
+  <data name="ProposalDateLabel" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="ProposalDescriptionLabel" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="ProposalRefuseLabel" xml:space="preserve">
+    <value>Rifiuta</value>
+  </data>
+  <data name="ProposalRejectLabel" xml:space="preserve">
+    <value>Rimuovi</value>
+  </data>
+  <data name="ProposalsQueryOrderLabel" xml:space="preserve">
+    <value>Ordinamento</value>
+  </data>
+  <data name="ProposalsQuerySearchLabel" xml:space="preserve">
+    <value>Ricerca per</value>
+  </data>
+  <data name="ProposalsQuerySizeLabel" xml:space="preserve">
+    <value>Num. elementi</value>
+  </data>
+  <data name="ProposalStatusLabel" xml:space="preserve">
+    <value>Stato</value>
+  </data>
+  <data name="ProposalTitleLabel" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="WaitingForApproval" xml:space="preserve">
+    <value>In attesa di approvazione</value>
   </data>
 </root>
