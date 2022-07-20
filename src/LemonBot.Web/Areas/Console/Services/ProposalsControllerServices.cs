@@ -15,21 +15,27 @@ public class ProposalsControllerServices
         Commands = commands ?? throw new ArgumentNullException(nameof(commands));
     }
 
-    public ProposalListModel GetAllProposals()
+    public ProposalListModel GetAllProposals(int size, ProposalsQueryModel.SortDirection sort, string? query)
     {
+        var ascending = sort == ProposalsQueryModel.SortDirection.Ascending;
+
         var proposalsQuery = Database.Proposals;
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            proposalsQuery = proposalsQuery.Where(p => p.Title.Contains(query) || p.Description.Contains(query));
+        }
 
         var proposals = proposalsQuery
-            .OrderBy(p => p.SubmittedAt)
+            .OrderedBySubmissionDate(ascending)
             .Select(p => new ProposalListModel.ProposalListItemModel
             {
                 Id = p.Id,
                 AuthorNickname = p.AuthorNickname,
                 Description = p.Description,
                 Title = p.Title,
-                Status = (ProposalStatus)p.Status,
-                SubmittedAt = p.SubmittedAt
-            }).ToArray();
+                SubmittedAt = p.SubmittedAt,
+                Status = Enum.Parse<ProposalStatus>(p.Status.ToString())
+            }).Take(size).ToArray();
 
         var model = new ProposalListModel { TotalItems = proposalsQuery.Count(), Items = proposals };
         return model;
@@ -58,7 +64,7 @@ public class ProposalsControllerServices
 
     public Task AcceptProposal(Guid proposalId) => Commands.Accept(proposalId);
 
-    public Task DeleteProposal(Guid proposalId) => Commands.Delete(proposalId);
+    public Task RejectProposal(Guid proposalId) => Commands.Reject(proposalId);
 
     public Task RefuseProposal(Guid proposalId) => Commands.Refuse(proposalId);
 }

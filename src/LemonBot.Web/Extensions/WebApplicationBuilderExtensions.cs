@@ -49,7 +49,8 @@ public static class WebApplicationBuilderExtensions
 
         builder.Services
             .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
-            .AddScoped<Areas.Console.Services.SettingsControllerServices>();
+            .AddScoped<Areas.Console.Services.SettingsControllerServices>()
+            .AddScoped<Areas.Console.Services.ProposalsControllerServices>();
 
         builder.Services.AddSignalR();
         builder.Services.AddControllersWithViews();

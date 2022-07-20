@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Web.App.Test", "tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LemonBot.Web.Test.Integration", "tests\LemonBot.Web.Test.Integration\LemonBot.Web.Test.Integration.csproj", "{78414030-A691-4D48-84FA-A42E4ED034E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Web.App.Tools", "src\KITT.Web.App.Tools\KITT.Web.App.Tools.csproj", "{74F13227-0241-4D0B-9D40-76F4CD8881DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Web.App.Tools", "src\KITT.Web.App.Tools\KITT.Web.App.Tools.csproj", "{74F13227-0241-4D0B-9D40-76F4CD8881DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Web.App.UI", "src\KITT.Web.App.UI\KITT.Web.App.UI.csproj", "{2B84BEBB-A29E-4BDE-893F-BBCCE979A0BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Web.App.UI", "src\KITT.Web.App.UI\KITT.Web.App.UI.csproj", "{2B84BEBB-A29E-4BDE-893F-BBCCE979A0BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

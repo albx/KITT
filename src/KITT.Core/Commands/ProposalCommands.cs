@@ -48,7 +48,7 @@ public class ProposalCommands : IProposalCommands
         return _context.SaveChangesAsync();
     }
 
-    public Task Delete(Guid proposalId)
+    public Task Reject(Guid proposalId)
     {
         if (proposalId == Guid.Empty)
         {

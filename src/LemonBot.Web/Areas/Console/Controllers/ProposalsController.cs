@@ -1,4 +1,5 @@
-﻿using LemonBot.Web.Areas.Console.Services;
+﻿using KITT.Web.Models.Proposals;
+using LemonBot.Web.Areas.Console.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +18,13 @@ public class ProposalsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetProposals()
+    public IActionResult GetProposals(int s = 10, ProposalsQueryModel.SortDirection sort = ProposalsQueryModel.SortDirection.Descending, string? q = null)
     {
-        var model = ControllerServices.GetAllProposals();
+        var model = ControllerServices.GetAllProposals(
+            size: s,
+            sort,
+            query: q);
+
         return Ok(model);
     }
 
@@ -69,7 +74,7 @@ public class ProposalsController : ControllerBase
 
         try
         {
-            await ControllerServices.DeleteProposal(id);
+            await ControllerServices.RejectProposal(id);
             return Ok();
         }
         catch (ArgumentOutOfRangeException)

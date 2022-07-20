@@ -14,11 +14,11 @@
 
 @code {
     [Parameter]
-    public string PageTitle { get; set; }
+    public string PageTitle { get; set; } = string.Empty;
 
     [Parameter]
-    public RenderFragment Toolbar { get; set; }
+    public RenderFragment? Toolbar { get; set; }
 
     [Parameter]
-    public RenderFragment PageContent { get; set; }
+    public RenderFragment PageContent { get; set; } = default!;
 }

@@ -14,7 +14,8 @@ public static class ServiceCollectionExtensions
             .AddValidatorsFromAssemblyContaining<StreamingValidator>()
             .AddScoped<IDatabase, Database>()
             .AddScoped<ISettingsCommands, SettingsCommands>()
-            .AddScoped<IStreamingCommands, StreamingCommands>();
+            .AddScoped<IStreamingCommands, StreamingCommands>()
+            .AddScoped<IProposalCommands, ProposalCommands>();
 
         return services;
     }

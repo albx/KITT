@@ -6,5 +6,5 @@ public interface IProposalCommands
 
     Task Refuse(Guid proposalId);
 
-    Task Delete(Guid proposalId);
+    Task Reject(Guid proposalId);
 }

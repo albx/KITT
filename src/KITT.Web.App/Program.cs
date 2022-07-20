@@ -20,8 +20,7 @@ builder.Services.AddMudServices(config =>
 builder.Services.AddMudMarkdownServices();
 
 builder.Services
-    .AddSettingsClient(builder.HostEnvironment.BaseAddress)
-    .AddStreamingsClient(builder.HostEnvironment.BaseAddress)
+    .AddConsoleClients(builder.HostEnvironment.BaseAddress)
     .AddToolsClients(builder.HostEnvironment.BaseAddress);
 
 builder.Services

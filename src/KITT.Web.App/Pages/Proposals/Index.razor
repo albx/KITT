@@ -1,0 +1,84 @@
+﻿@page "/proposals"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+
+@attribute [Authorize]
+
+<PageLayout PageTitle="Gestisci le proposte">
+    <PageContent>
+        <MudPaper Class="mb-3">
+            <MudGrid>
+                <MudItem xs="12" md="3">
+                    <MudSelect T="ProposalsQueryModel.SortDirection"
+                               Variant="Variant.Outlined"
+                               Label="Ordinamento"
+                               @bind-Value="query.ScheduleSort"
+                               Strict="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Dense="true"
+                               Margin="Margin.Dense">
+                        @foreach (var sort in Enum.GetValues<ProposalsQueryModel.SortDirection>())
+                        {
+                            <MudSelectItem T="ProposalsQueryModel.SortDirection" Value="sort">@sort</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="5">
+                    <MudTextField Margin="Margin.Dense"
+                                  Label="Ricerca per..."
+                                  @bind-Value="query.Query"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudSelect Variant="Variant.Outlined"
+                               Label="Num. elementi"
+                               @bind-Value="query.Size"
+                               Strict="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Dense="true"
+                               Margin="Margin.Dense">
+                        @foreach (var size in sizes)
+                        {
+                            <MudSelectItem Value="size">@size</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                        <MudIconButton OnClick="Search" Icon="@Icons.Filled.Search" />
+                        <MudIconButton OnClick="ClearSearch" Icon="@Icons.Filled.Clear" Variant="Variant.Outlined" />
+                    </MudButtonGroup>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+        <MudDivider />
+        <MudPaper>
+            <MudTable Items="model.Items">
+                <HeaderContent>
+                    <MudTh>Title</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Date</MudTh>
+                    <MudTh>Author nickname</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>&nbsp;</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Title</MudTd>
+                    <MudTd>@context.Description</MudTd>
+                    <MudTd>@context.SubmittedAt.ToShortDateString()</MudTd>
+                    <MudTd>@context.AuthorNickname</MudTd>
+                    <MudTd>@context.Status.ToString()</MudTd>
+                    <MudTd>
+                        <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+                            <MudButton>Accept</MudButton>
+                            <MudButton>Reject</MudButton>
+                        </MudButtonGroup>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudPaper>
+    </PageContent>
+</PageLayout>
