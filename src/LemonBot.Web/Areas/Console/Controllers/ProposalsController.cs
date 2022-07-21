@@ -66,7 +66,7 @@ public class ProposalsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProposal(Guid id)
+    public async Task<IActionResult> RejectProposal(Guid id)
     {
         if (id == Guid.Empty)
         {

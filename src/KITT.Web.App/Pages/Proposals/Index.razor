@@ -87,8 +87,16 @@
                     <MudTd>@Localizer[context.Status.ToString()]</MudTd>
                     <MudTd>
                         <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
-                            <MudButton>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalAcceptLabel)]</MudButton>
-                            <MudButton>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRejectLabel)]</MudButton>
+                            @if (context.Status == ProposalStatus.Moderating)
+                            {
+                                <MudButton OnClick="@(() => AcceptProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalAcceptLabel)]</MudButton>
+                                <MudButton OnClick="@(() => RefuseProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRefuseLabel)]</MudButton>
+                            }
+                            else if (context.Status == ProposalStatus.WaitingForApproval)
+                            {
+                                <MudButton>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalScheduleLabel)]</MudButton>
+                                <MudButton OnClick="@(() => RejectProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRejectLabel)]</MudButton>
+                            }
                         </MudButtonGroup>
                     </MudTd>
                 </RowTemplate>

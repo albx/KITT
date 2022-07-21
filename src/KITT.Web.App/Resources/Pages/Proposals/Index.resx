@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AcceptProposalConfirmText" xml:space="preserve">
+    <value>You're going to accept the proposal {0}. Are you sure?</value>
+  </data>
+  <data name="AcceptProposalConfirmTitle" xml:space="preserve">
+    <value>Accept this proposal</value>
+  </data>
+  <data name="AcceptProposalErrorMessage" xml:space="preserve">
+    <value>There was an error accepting the proposal {0}</value>
+  </data>
+  <data name="AcceptProposalSuccessMessage" xml:space="preserve">
+    <value>The proposal {0} has been accepted successfully!</value>
+  </data>
   <data name="Ascending" xml:space="preserve">
     <value>Older</value>
   </data>
@@ -150,6 +162,9 @@
   <data name="ProposalRejectLabel" xml:space="preserve">
     <value>Reject</value>
   </data>
+  <data name="ProposalScheduleLabel" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
   <data name="ProposalsQueryOrderLabel" xml:space="preserve">
     <value>Order</value>
   </data>
@@ -164,6 +179,30 @@
   </data>
   <data name="ProposalTitleLabel" xml:space="preserve">
     <value>Title</value>
+  </data>
+  <data name="RefuseProposalConfirmText" xml:space="preserve">
+    <value>You're going to refuse the proposal {0}. Are you sure?</value>
+  </data>
+  <data name="RefuseProposalConfirmTitle" xml:space="preserve">
+    <value>Refuse this proposal</value>
+  </data>
+  <data name="RefuseProposalErrorMessage" xml:space="preserve">
+    <value>There was an error refusing the proposal {0}</value>
+  </data>
+  <data name="RefuseProposalSuccessMessage" xml:space="preserve">
+    <value>The proposal {0} has been refused successfully!</value>
+  </data>
+  <data name="RejectProposalConfirmText" xml:space="preserve">
+    <value>You're going to reject the proposal {0}. Are you sure?</value>
+  </data>
+  <data name="RejectProposalConfirmTitle" xml:space="preserve">
+    <value>Reject this proposal</value>
+  </data>
+  <data name="RejectProposalErrorMessage" xml:space="preserve">
+    <value>There was an error rejecting the proposal {0}</value>
+  </data>
+  <data name="RejectProposalSuccessMessage" xml:space="preserve">
+    <value>The proposal {0} has been rejected successfully!</value>
   </data>
   <data name="WaitingForApproval" xml:space="preserve">
     <value>Waiting for approval</value>

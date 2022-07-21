@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AcceptProposalConfirmText" xml:space="preserve">
+    <value>Stai per accettare la proposta {0}. Sei sicuro?</value>
+  </data>
+  <data name="AcceptProposalConfirmTitle" xml:space="preserve">
+    <value>Accetta la proposta</value>
+  </data>
+  <data name="AcceptProposalErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante l'accettazione della proposta {0}</value>
+  </data>
+  <data name="AcceptProposalSuccessMessage" xml:space="preserve">
+    <value>La proposta {0} è stata accettata correttamente!</value>
+  </data>
   <data name="Ascending" xml:space="preserve">
     <value>Meno recenti</value>
   </data>
@@ -150,6 +162,9 @@
   <data name="ProposalRejectLabel" xml:space="preserve">
     <value>Rimuovi</value>
   </data>
+  <data name="ProposalScheduleLabel" xml:space="preserve">
+    <value>Pianifica</value>
+  </data>
   <data name="ProposalsQueryOrderLabel" xml:space="preserve">
     <value>Ordinamento</value>
   </data>
@@ -164,6 +179,30 @@
   </data>
   <data name="ProposalTitleLabel" xml:space="preserve">
     <value>Titolo</value>
+  </data>
+  <data name="RefuseProposalConfirmText" xml:space="preserve">
+    <value>Stai per rifiutare la proposta {0}. Sei sicuro?</value>
+  </data>
+  <data name="RefuseProposalConfirmTitle" xml:space="preserve">
+    <value>Rifiuta la proposta</value>
+  </data>
+  <data name="RefuseProposalErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante il rifiuto della proposta {0}</value>
+  </data>
+  <data name="RefuseProposalSuccessMessage" xml:space="preserve">
+    <value>La proposta {0} è stata rifiutata correttamente!</value>
+  </data>
+  <data name="RejectProposalConfirmText" xml:space="preserve">
+    <value>Stai per rimuovere definitivamente la proposta {0}. Sei sicuro?</value>
+  </data>
+  <data name="RejectProposalConfirmTitle" xml:space="preserve">
+    <value>Rimuovi la proposta</value>
+  </data>
+  <data name="RejectProposalErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante la rimozione della proposta {0}</value>
+  </data>
+  <data name="RejectProposalSuccessMessage" xml:space="preserve">
+    <value>La proposta {0} è stata rimossa correttamente!</value>
   </data>
   <data name="WaitingForApproval" xml:space="preserve">
     <value>In attesa di approvazione</value>

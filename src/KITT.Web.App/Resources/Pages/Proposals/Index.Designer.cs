@@ -61,6 +61,42 @@ namespace KITT.Web.App.Resources.Pages.Proposals {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;re going to accept the proposal {0}. Are you sure?.
+        /// </summary>
+        public static string AcceptProposalConfirmText {
+            get {
+                return ResourceManager.GetString("AcceptProposalConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept this proposal.
+        /// </summary>
+        public static string AcceptProposalConfirmTitle {
+            get {
+                return ResourceManager.GetString("AcceptProposalConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error accepting the proposal {0}.
+        /// </summary>
+        public static string AcceptProposalErrorMessage {
+            get {
+                return ResourceManager.GetString("AcceptProposalErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The proposal {0} has been accepted successfully!.
+        /// </summary>
+        public static string AcceptProposalSuccessMessage {
+            get {
+                return ResourceManager.GetString("AcceptProposalSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Older.
         /// </summary>
         public static string Ascending {
@@ -160,6 +196,15 @@ namespace KITT.Web.App.Resources.Pages.Proposals {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string ProposalScheduleLabel {
+            get {
+                return ResourceManager.GetString("ProposalScheduleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
         public static string ProposalsQueryOrderLabel {
@@ -201,6 +246,78 @@ namespace KITT.Web.App.Resources.Pages.Proposals {
         public static string ProposalTitleLabel {
             get {
                 return ResourceManager.GetString("ProposalTitleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re going to refuse the proposal {0}. Are you sure?.
+        /// </summary>
+        public static string RefuseProposalConfirmText {
+            get {
+                return ResourceManager.GetString("RefuseProposalConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refuse this proposal.
+        /// </summary>
+        public static string RefuseProposalConfirmTitle {
+            get {
+                return ResourceManager.GetString("RefuseProposalConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error refusing the proposal {0}.
+        /// </summary>
+        public static string RefuseProposalErrorMessage {
+            get {
+                return ResourceManager.GetString("RefuseProposalErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The proposal {0} has been refused successfully!.
+        /// </summary>
+        public static string RefuseProposalSuccessMessage {
+            get {
+                return ResourceManager.GetString("RefuseProposalSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re going to reject the proposal {0}. Are you sure?.
+        /// </summary>
+        public static string RejectProposalConfirmText {
+            get {
+                return ResourceManager.GetString("RejectProposalConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reject this proposal.
+        /// </summary>
+        public static string RejectProposalConfirmTitle {
+            get {
+                return ResourceManager.GetString("RejectProposalConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error rejecting the proposal {0}.
+        /// </summary>
+        public static string RejectProposalErrorMessage {
+            get {
+                return ResourceManager.GetString("RejectProposalErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The proposal {0} has been rejected successfully!.
+        /// </summary>
+        public static string RejectProposalSuccessMessage {
+            get {
+                return ResourceManager.GetString("RejectProposalSuccessMessage", resourceCulture);
             }
         }
         

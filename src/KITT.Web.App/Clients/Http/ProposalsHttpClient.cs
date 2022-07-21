@@ -26,4 +26,34 @@ public class ProposalsHttpClient : IProposalsClient
         var model = await Client.GetFromJsonAsync<ProposalListModel>(url);
         return model ?? new();
     }
+
+    public async Task AcceptProposalAsync(Guid proposalId)
+    {
+        var url = $"{ApiResource}/{proposalId}";
+        var response = await Client.PatchAsync(url, null);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error accepting proposal");
+        }
+    }
+
+    public async Task RejectProposalAsync(Guid proposalId)
+    {
+        var url = $"{ApiResource}/{proposalId}";
+        var response = await Client.DeleteAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error accepting proposal");
+        }
+    }
+
+    public async Task RefuseProposalAsync(Guid proposalId)
+    {
+        var url = $"{ApiResource}/{proposalId}/refuse";
+        var response = await Client.DeleteAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error accepting proposal");
+        }
+    }
 }
