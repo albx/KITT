@@ -126,6 +126,9 @@
   <data name="Moderating" xml:space="preserve">
     <value>Moderating</value>
   </data>
+  <data name="NoProposalsMessage" xml:space="preserve">
+    <value>There aren't any proposals loaded. Please try with some different search terms</value>
+  </data>
   <data name="PageTitle" xml:space="preserve">
     <value>Manage the proposals</value>
   </data>

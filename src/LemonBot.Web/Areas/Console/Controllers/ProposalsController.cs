@@ -18,12 +18,13 @@ public class ProposalsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetProposals(int s = 10, ProposalsQueryModel.SortDirection sort = ProposalsQueryModel.SortDirection.Descending, string? q = null)
+    public IActionResult GetProposals(int s = 10, ProposalsQueryModel.SortDirection sort = ProposalsQueryModel.SortDirection.Descending, ProposalStatus? st = null, string? q = null)
     {
         var model = ControllerServices.GetAllProposals(
             size: s,
             sort,
-            query: q);
+            query: q,
+            status: st);
 
         return Ok(model);
     }

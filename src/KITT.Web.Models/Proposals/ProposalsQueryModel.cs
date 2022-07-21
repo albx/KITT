@@ -8,6 +8,8 @@ public record ProposalsQueryModel
 
     public SortDirection ScheduleSort { get; set; } = SortDirection.Descending;
 
+    public ProposalStatus? Status { get; set; } = null;
+
     public int Size { get; set; } = 10;
 
     public string ToQueryString()
@@ -17,6 +19,11 @@ public record ProposalsQueryModel
             $"s={Size}",
             $"sort={ScheduleSort}"
         };
+
+        if (Status is not null)
+        {
+            queryItems.Add($"st={Status}");
+        }
 
         if (!string.IsNullOrWhiteSpace(Query))
         {

@@ -9,7 +9,7 @@
     <PageContent>
         <MudPaper Class="mb-3">
             <MudGrid>
-                <MudItem xs="12" md="3">
+                <MudItem xs="12" md="4">
                     <MudSelect T="ProposalsQueryModel.SortDirection"
                                Variant="Variant.Outlined"
                                Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQueryOrderLabel)]"
@@ -24,13 +24,23 @@
                         }
                     </MudSelect>
                 </MudItem>
-                <MudItem xs="12" md="5">
-                    <MudTextField Margin="Margin.Dense"
-                                  Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySearchLabel)]"
-                                  @bind-Value="query.Query"
-                                  Variant="Variant.Outlined" />
+                <MudItem xs="12" md="4">
+                    <MudSelect T="ProposalStatus?"
+                               Variant="Variant.Outlined"
+                               Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalStatusLabel)]"
+                               @bind-Value="query.Status"
+                               Strict="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Dense="true"
+                               Margin="Margin.Dense">
+                        <MudSelectItem T="ProposalStatus?" Value="null"></MudSelectItem>
+                        @foreach (var status in Enum.GetValues<ProposalStatus>())
+                        {
+                            <MudSelectItem T="ProposalStatus?" Value="status">@Localizer[status.ToString()]</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
-                <MudItem xs="12" md="2">
+                <MudItem xs="12" md="4">
                     <MudSelect Variant="Variant.Outlined"
                                Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySizeLabel)]"
                                @bind-Value="query.Size"
@@ -44,6 +54,12 @@
                         }
                     </MudSelect>
                 </MudItem>
+                <MudItem xs="12" md="10">
+                    <MudTextField Margin="Margin.Dense"
+                                  Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySearchLabel)]"
+                                  @bind-Value="query.Query"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
                 <MudItem xs="12" md="2">
                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                         <MudIconButton OnClick="Search" Icon="@Icons.Filled.Search" />
@@ -54,7 +70,7 @@
         </MudPaper>
         <MudDivider />
         <MudPaper>
-            <MudTable Items="model.Items">
+            <MudTable Items="model.Items" Loading="isLoading" LoadingProgressColor="Color.Primary">
                 <HeaderContent>
                     <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalTitleLabel)]</MudTh>
                     <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalDescriptionLabel)]</MudTh>
@@ -76,9 +92,14 @@
                         </MudButtonGroup>
                     </MudTd>
                 </RowTemplate>
-                <PagerContent>
-                    <MudTablePager />
-                </PagerContent>
+                <NoRecordsContent>
+                    <MudText>@Localizer[nameof(Resources.Pages.Proposals.Index.NoProposalsMessage)]</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudProgressCircular Color="Color.Primary"
+                                         Indeterminate="true"
+                                         Size="Size.Large" />
+                </LoadingContent>
             </MudTable>
         </MudPaper>
     </PageContent>

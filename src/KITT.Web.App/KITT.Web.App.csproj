@@ -86,6 +86,9 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>CreateNewSettings.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Pages\Proposals\Index.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\Proposals\Index.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Index.Designer.cs</LastGenOutput>

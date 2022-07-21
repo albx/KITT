@@ -10,24 +10,35 @@ public partial class Index
 
     private ProposalListModel model = new();
 
+    private bool isLoading = false;
+
     private int[] sizes = new[] { 10, 25, 50 };
 
     [Inject]
     public IProposalsClient Client { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        await LoadProposalsAsync(query);
-    }
 
     async Task Search()
     {
         await LoadProposalsAsync(query);
     }
 
-    void ClearSearch() => query = new();
+    async void ClearSearch()
+    {
+        query = new();
+        await LoadProposalsAsync(query);
+        StateHasChanged();
+    }
 
     private async Task LoadProposalsAsync(ProposalsQueryModel query)
-        => model = await Client.GetAllProposalsAsync(query);
+    {
+        try
+        {
+            isLoading = true;
+            model = await Client.GetAllProposalsAsync(query);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 }

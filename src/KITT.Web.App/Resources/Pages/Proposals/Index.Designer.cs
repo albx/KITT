@@ -88,6 +88,15 @@ namespace KITT.Web.App.Resources.Pages.Proposals {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There aren&apos;t any proposals loaded. Please try with some different search terms.
+        /// </summary>
+        public static string NoProposalsMessage {
+            get {
+                return ResourceManager.GetString("NoProposalsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage the proposals.
         /// </summary>
         public static string PageTitle {

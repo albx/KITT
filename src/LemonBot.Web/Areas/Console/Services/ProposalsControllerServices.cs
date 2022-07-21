@@ -15,7 +15,7 @@ public class ProposalsControllerServices
         Commands = commands ?? throw new ArgumentNullException(nameof(commands));
     }
 
-    public ProposalListModel GetAllProposals(int size, ProposalsQueryModel.SortDirection sort, string? query)
+    public ProposalListModel GetAllProposals(int size, ProposalsQueryModel.SortDirection sort, string? query, ProposalStatus? status)
     {
         var ascending = sort == ProposalsQueryModel.SortDirection.Ascending;
 
@@ -23,6 +23,16 @@ public class ProposalsControllerServices
         if (!string.IsNullOrWhiteSpace(query))
         {
             proposalsQuery = proposalsQuery.Where(p => p.Title.Contains(query) || p.Description.Contains(query));
+        }
+
+        if (status is not null)
+        {
+            proposalsQuery = status switch
+            {
+                ProposalStatus.WaitingForApproval => proposalsQuery.WaitingForApproval(),
+                ProposalStatus.Moderating => proposalsQuery.Moderating(),
+                _ => proposalsQuery
+            };
         }
 
         var proposals = proposalsQuery
