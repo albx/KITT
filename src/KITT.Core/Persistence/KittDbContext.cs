@@ -15,11 +15,14 @@ public class KittDbContext : DbContext
 
     public DbSet<Settings> Settings { get; set; }
 
+    public DbSet<Proposal> Proposals { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new ContentMapper());
         modelBuilder.ApplyConfiguration(new StreamingMapper());
         modelBuilder.ApplyConfiguration(new SettingsMapper());
+        modelBuilder.ApplyConfiguration(new ProposalMapper());
     }
 }

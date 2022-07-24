@@ -9,16 +9,16 @@ namespace KITT.Web.App.Pages.Streamings;
 public partial class Index
 {
     [Inject]
-    public IStreamingsClient Client { get; set; }
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
-    public NavigationManager Navigation { get; set; }
+    public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    IDialogService Dialog { get; set; }
+    IDialogService Dialog { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; }
+    ISnackbar Snackbar { get; set; } = default!;
 
     private StreamingsListModel model = new();
 

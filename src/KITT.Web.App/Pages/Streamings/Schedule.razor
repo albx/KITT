@@ -11,81 +11,15 @@
                    Page="streamings"/>
     </Toolbar>
     <PageContent>
-        <EditForm Model="model" OnValidSubmit="ScheduleStreamingAsync" class="col-md-12 mt-3">
-            <DataAnnotationsValidator />
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <MudPaper>
+                <MudText Color="Color.Error">@errorMessage</MudText>
+            </MudPaper>
+            <MudDivider />
+        }
 
-            @if (!string.IsNullOrWhiteSpace(errorMessage))
-            {
-                <MudPaper>
-                    <MudText Color="Color.Error">@errorMessage</MudText>
-                </MudPaper>
-                <MudDivider />
-            }
-
-            <MudCard>
-                <MudCardContent>
-                    <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.TitleLabel)]"
-                                  @bind-Value="model.Title"
-                                  For="@(() => model.Title)"
-                                  Variant="Variant.Outlined"
-                                  id="streamingTitle"/>
-                    <MudGrid>
-                        <MudItem xs="12" md="7">
-                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.SlugLabel)]"
-                                          @bind-Value="model.Slug"
-                                          For="@(() => model.Slug)"
-                                          Variant="Variant.Outlined"
-                                          id="streamingSlug"/>
-                        </MudItem>
-                        <MudItem xs="12" md="5">
-                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.HostingChannelLabel)]"
-                                          @bind-Value="model.HostingChannelUrl"
-                                          Adornment="Adornment.Start"
-                                          AdornmentText="https://www.twitch.tv/"
-                                          Variant="Variant.Outlined"
-                                          For="@(() => model.HostingChannelUrl)"
-                                          id="streamingChannel"/>
-                        </MudItem>
-                    </MudGrid>
-
-                    <MudGrid>
-                        <MudItem xs="12" md="6">
-                            <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.ScheduleDateLabel)]"
-                                           @bind-Date="model.ScheduleDate"
-                                           Variant="Variant.Outlined"
-                                           Editable="true"
-                                           AutoClose="true"
-                                           id="streamingScheduleDate"/>
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.StartingTimeLabel)]"
-                                           @bind-Time="model.StartingTime"
-                                           Variant="Variant.Outlined"
-                                           Editable="true"
-                                           AutoClose="true"
-                                           id="streamingStartingTime"/>
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Schedule.EndingTimeLabel)]"
-                                           @bind-Time="model.EndingTime"
-                                           Variant="Variant.Outlined"
-                                           Editable="true"
-                                           AutoClose="true"
-                                           id="streamingEndingTime"/>
-                        </MudItem>
-                    </MudGrid>
-
-                    <MarkdownEditor @bind-Value="model.StreamingAbstract"
-                                    EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.Schedule.AbstractLabel)]"
-                                    Id="streamingAbstract"
-                                    PreviewLabel="Preview"/>
-                    
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </EditForm>
+        <ScheduleForm Model="model"
+                      OnSave="ScheduleStreamingAsync"/>
     </PageContent>
 </PageLayout>

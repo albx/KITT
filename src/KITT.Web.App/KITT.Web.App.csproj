@@ -7,11 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.5" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.6" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.6" />
 		<PackageReference Include="MudBlazor" Version="6.0.10" />
 		<PackageReference Include="MudBlazor.Markdown" Version="0.0.10" />
 		<PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
@@ -27,10 +27,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Resources\Components\ScheduleForm.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ScheduleForm.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Pages\CreateNewSettings.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>CreateNewSettings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Pages\Proposals\Index.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Index.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Resources\Pages\Settings.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -74,12 +84,26 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Resources\Components\ScheduleForm.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Components\ScheduleForm.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>ScheduleForm.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\CreateNewSettings.it.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\CreateNewSettings.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>CreateNewSettings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Pages\Proposals\Index.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Pages\Proposals\Index.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Index.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\Settings.it.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>

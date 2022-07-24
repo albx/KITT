@@ -7,10 +7,12 @@
 
         var commonLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>();
         var scheduleLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Schedule>>();
+        var scheduleFormLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Components.ScheduleForm>>();
 
         Services
             .AddSingleton(commonLocalizerMock.Object)
-            .AddSingleton(scheduleLocalizerMock.Object);
+            .AddSingleton(scheduleLocalizerMock.Object)
+            .AddSingleton(scheduleFormLocalizerMock.Object);
     }
 
     [Fact]

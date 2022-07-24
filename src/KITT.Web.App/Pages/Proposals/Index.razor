@@ -1,0 +1,114 @@
+﻿@page "/proposals"
+
+@inject IStringLocalizer<Resources.Pages.Proposals.Index> Localizer
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+
+@attribute [Authorize]
+
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Proposals.Index.PageTitle)]">
+    <PageContent>
+        <MudPaper Class="mb-3">
+            <MudGrid>
+                <MudItem xs="12" md="4">
+                    <MudSelect T="ProposalsQueryModel.SortDirection"
+                               Variant="Variant.Outlined"
+                               Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQueryOrderLabel)]"
+                               @bind-Value="query.ScheduleSort"
+                               Strict="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Dense="true"
+                               Margin="Margin.Dense">
+                        @foreach (var sort in Enum.GetValues<ProposalsQueryModel.SortDirection>())
+                        {
+                            <MudSelectItem T="ProposalsQueryModel.SortDirection" Value="sort">@Localizer[sort.ToString()]</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudSelect T="ProposalStatus?"
+                               Variant="Variant.Outlined"
+                               Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalStatusLabel)]"
+                               @bind-Value="query.Status"
+                               Strict="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Dense="true"
+                               Margin="Margin.Dense">
+                        <MudSelectItem T="ProposalStatus?" Value="null"></MudSelectItem>
+                        @foreach (var status in Enum.GetValues<ProposalStatus>())
+                        {
+                            <MudSelectItem T="ProposalStatus?" Value="status">@Localizer[status.ToString()]</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudSelect Variant="Variant.Outlined"
+                               Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySizeLabel)]"
+                               @bind-Value="query.Size"
+                               Strict="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Dense="true"
+                               Margin="Margin.Dense">
+                        @foreach (var size in sizes)
+                        {
+                            <MudSelectItem Value="size">@size</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="10">
+                    <MudTextField Margin="Margin.Dense"
+                                  Label="@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalsQuerySearchLabel)]"
+                                  @bind-Value="query.Query"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                        <MudIconButton OnClick="Search" Icon="@Icons.Filled.Search" />
+                        <MudIconButton OnClick="ClearSearch" Icon="@Icons.Filled.Clear" Variant="Variant.Outlined" />
+                    </MudButtonGroup>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+        <MudDivider />
+        <MudPaper>
+            <MudTable Items="model.Items" Loading="isLoading" LoadingProgressColor="Color.Primary">
+                <HeaderContent>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalTitleLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalDescriptionLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalDateLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalAuthorLabel)]</MudTh>
+                    <MudTh>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalStatusLabel)]</MudTh>
+                    <MudTh>&nbsp;</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Title</MudTd>
+                    <MudTd>@context.Description</MudTd>
+                    <MudTd>@context.SubmittedAt.ToShortDateString()</MudTd>
+                    <MudTd>@context.AuthorNickname</MudTd>
+                    <MudTd>@Localizer[context.Status.ToString()]</MudTd>
+                    <MudTd>
+                        <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+                            @if (context.Status == ProposalStatus.Moderating)
+                            {
+                                <MudButton OnClick="@(() => AcceptProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalAcceptLabel)]</MudButton>
+                                <MudButton OnClick="@(() => RefuseProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRefuseLabel)]</MudButton>
+                            }
+                            else if (context.Status == ProposalStatus.WaitingForApproval)
+                            {
+                                <MudButton OnClick="@(() => ScheduleProposal(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalScheduleLabel)]</MudButton>
+                                <MudButton OnClick="@(() => RejectProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRejectLabel)]</MudButton>
+                            }
+                        </MudButtonGroup>
+                    </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText>@Localizer[nameof(Resources.Pages.Proposals.Index.NoProposalsMessage)]</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudProgressCircular Color="Color.Primary"
+                                         Indeterminate="true"
+                                         Size="Size.Large" />
+                </LoadingContent>
+            </MudTable>
+        </MudPaper>
+    </PageContent>
+</PageLayout>

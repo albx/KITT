@@ -1,33 +1,35 @@
 ﻿using KITT.Web.App.Clients;
+using KITT.Web.App.Components;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Pages.Streamings;
 
 public partial class Schedule
 {
     [Inject]
-    public IStreamingsClient Client { get; set; }
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
-    public NavigationManager Navigation { get; set; }
+    public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; }
+    ISnackbar Snackbar { get; set; } = default!;
 
-    private ViewModel model = new();
+    private ScheduleForm.ViewModel model = new();
 
     private string? errorMessage;
 
-    async Task ScheduleStreamingAsync()
+    async Task ScheduleStreamingAsync(ScheduleForm.ViewModel model)
     {
         try
         {
-            await Client.ScheduleStreamingAsync(model.ToApiModel());
+            var scheduleStreamingModel = ConvertToApiModel(model);
+            await Client.ScheduleStreamingAsync(scheduleStreamingModel);
+
             Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title], Severity.Success);
-            
+
             Navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
@@ -36,55 +38,32 @@ public partial class Schedule
         }
     }
 
-    class ViewModel
+    private ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
     {
-        [Required]
-        public string Title { get; set; } = string.Empty;
-
-        [Required]
-        public string Slug { get; set; } = string.Empty;
-
-        [Required]
-        public DateTime? ScheduleDate { get; set; } = DateTime.Now;
-
-        [Required]
-        public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;
-
-        [Required]
-        public TimeSpan? EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
-
-        [Required]
-        public string HostingChannelUrl { get; set; } = string.Empty;
-
-        public string? StreamingAbstract { get; set; }
-
-        public ScheduleStreamingModel ToApiModel()
+        if (model.ScheduleDate is null)
         {
-            if (this.ScheduleDate is null)
-            {
-                throw new ArgumentNullException(nameof(ScheduleDate));
-            }
-
-            if (this.StartingTime is null)
-            {
-                throw new ArgumentNullException(nameof(this.StartingTime));
-            }
-
-            if (this.EndingTime is null)
-            {
-                throw new ArgumentNullException(nameof(this.EndingTime));
-            }
-
-            return new ScheduleStreamingModel
-            {
-                Title = this.Title,
-                ScheduleDate = this.ScheduleDate.Value,
-                EndingTime = this.ScheduleDate.Value.Add(this.EndingTime.Value),
-                HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
-                Slug = this.Slug,
-                StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
-                StreamingAbstract = this.StreamingAbstract
-            };
+            throw new ArgumentNullException(nameof(model.ScheduleDate));
         }
+
+        if (model.StartingTime is null)
+        {
+            throw new ArgumentNullException(nameof(model.StartingTime));
+        }
+
+        if (model.EndingTime is null)
+        {
+            throw new ArgumentNullException(nameof(model.EndingTime));
+        }
+
+        return new ScheduleStreamingModel
+        {
+            Title = model.Title,
+            ScheduleDate = model.ScheduleDate.Value,
+            EndingTime = model.ScheduleDate.Value.Add(model.EndingTime.Value),
+            HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
+            Slug = model.Slug,
+            StartingTime = model.ScheduleDate.Value.Add(model.StartingTime.Value),
+            StreamingAbstract = model.StreamingAbstract
+        };
     }
 }

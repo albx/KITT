@@ -120,6 +120,9 @@
   <data name="DashboardMenuLabel" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="ProposalsMenuLabel" xml:space="preserve">
+    <value>Proposte</value>
+  </data>
   <data name="SettingsMenuLabel" xml:space="preserve">
     <value>Impostazioni</value>
   </data>

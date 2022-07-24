@@ -1,0 +1,32 @@
+﻿@page "/proposals/schedule/{id:guid}"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Streamings.Schedule> Localizer
+
+@attribute [Authorize]
+
+<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
+    <Toolbar>
+        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
+                   Page="proposals" />
+    </Toolbar>
+    <PageContent>
+        @if (isLoading)
+        {
+            <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                <MudPaper>
+                    <MudText Color="Color.Error">@errorMessage</MudText>
+                </MudPaper>
+                <MudDivider />
+            }
+
+            <ScheduleForm Model="model"
+                          OnSave="ScheduleProposalAsync" />
+        }
+    </PageContent>
+</PageLayout>

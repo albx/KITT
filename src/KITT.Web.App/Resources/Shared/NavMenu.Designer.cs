@@ -70,6 +70,15 @@ namespace KITT.Web.App.Resources.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proposals.
+        /// </summary>
+        internal static string ProposalsMenuLabel {
+            get {
+                return ResourceManager.GetString("ProposalsMenuLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsMenuLabel {
