@@ -94,7 +94,7 @@
                             }
                             else if (context.Status == ProposalStatus.WaitingForApproval)
                             {
-                                <MudButton>@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalScheduleLabel)]</MudButton>
+                                <MudButton OnClick="@(() => ScheduleProposal(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalScheduleLabel)]</MudButton>
                                 <MudButton OnClick="@(() => RejectProposalAsync(context))">@Localizer[nameof(Resources.Pages.Proposals.Index.ProposalRejectLabel)]</MudButton>
                             }
                         </MudButtonGroup>

@@ -2,9 +2,20 @@
 
 public interface IProposalCommands
 {
-    Task Accept(Guid proposalId);
+    Task AcceptProposalAsync(Guid proposalId);
 
-    Task Refuse(Guid proposalId);
+    Task RefuseProposalAsync(Guid proposalId);
 
-    Task Reject(Guid proposalId);
+    Task RejectProposalAsync(Guid proposalId);
+
+    Task ScheduleProposalAsync(
+        Guid proposalId,
+        string userId,
+        string twitchChannel,
+        string title,
+        string slug,
+        DateTime scheduleDate,
+        TimeSpan startingTime, TimeSpan endingTime,
+        string hostingChannelUrl,
+        string streamingAbstract);
 }

@@ -1,0 +1,71 @@
+﻿@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Components.ScheduleForm> Localizer
+
+<EditForm Model="Model" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.TitleLabel)]"
+                          @bind-Value="Model.Title"
+                          For="@(() => Model.Title)"
+                          Variant="Variant.Outlined"
+                          id="streamingTitle" />
+            <MudGrid>
+                <MudItem xs="12" md="7">
+                    <MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.SlugLabel)]"
+                                  @bind-Value="Model.Slug"
+                                  For="@(() => Model.Slug)"
+                                  Variant="Variant.Outlined"
+                                  id="streamingSlug" />
+                </MudItem>
+                <MudItem xs="12" md="5">
+                    <MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.HostingChannelLabel)]"
+                                  @bind-Value="Model.HostingChannelUrl"
+                                  Adornment="Adornment.Start"
+                                  AdornmentText="https://www.twitch.tv/"
+                                  Variant="Variant.Outlined"
+                                  For="@(() => Model.HostingChannelUrl)"
+                                  id="streamingChannel" />
+                </MudItem>
+            </MudGrid>
+
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudDatePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.ScheduleDateLabel)]"
+                                   @bind-Date="Model.ScheduleDate"
+                                   Variant="Variant.Outlined"
+                                   Editable="true"
+                                   AutoClose="true"
+                                   id="streamingScheduleDate" />
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.StartingTimeLabel)]"
+                                   @bind-Time="Model.StartingTime"
+                                   Variant="Variant.Outlined"
+                                   Editable="true"
+                                   AutoClose="true"
+                                   id="streamingStartingTime" />
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.EndingTimeLabel)]"
+                                   @bind-Time="Model.EndingTime"
+                                   Variant="Variant.Outlined"
+                                   Editable="true"
+                                   AutoClose="true"
+                                   id="streamingEndingTime" />
+                </MudItem>
+            </MudGrid>
+
+            <MarkdownEditor @bind-Value="Model.StreamingAbstract"
+                            EditorLabel="@Localizer[nameof(Resources.Components.ScheduleForm.AbstractLabel)]"
+                            Id="streamingAbstract"
+                            PreviewLabel="Preview" />
+
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Button" OnClick="CancelAsync" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>

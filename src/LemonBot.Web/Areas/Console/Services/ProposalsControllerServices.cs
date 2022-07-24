@@ -72,9 +72,33 @@ public class ProposalsControllerServices
         return model;
     }
 
-    public Task AcceptProposal(Guid proposalId) => Commands.Accept(proposalId);
+    public Task AcceptProposalAsync(Guid proposalId) => Commands.AcceptProposalAsync(proposalId);
 
-    public Task RejectProposal(Guid proposalId) => Commands.Reject(proposalId);
+    public Task RejectProposalAsync(Guid proposalId) => Commands.RejectProposalAsync(proposalId);
 
-    public Task RefuseProposal(Guid proposalId) => Commands.Refuse(proposalId);
+    public Task RefuseProposalAsync(Guid proposalId) => Commands.RefuseProposalAsync(proposalId);
+
+    public Task ScheduleProposalAsync(Guid proposalId, ScheduleProposalModel model, string userId)
+    {
+        var settings = Database.Settings
+            .ByUserId(userId)
+            .FirstOrDefault();
+
+        if (settings is null)
+        {
+            throw new InvalidOperationException("No settings configured");
+        }
+
+        return Commands.ScheduleProposalAsync(
+            proposalId,
+            userId,
+            settings.TwitchChannel,
+            model.Title,
+            model.Slug,
+            model.ScheduleDate,
+            model.StartingTime.TimeOfDay,
+            model.EndingTime.TimeOfDay,
+            model.HostingChannelUrl,
+            model.StreamingAbstract);
+    }
 }

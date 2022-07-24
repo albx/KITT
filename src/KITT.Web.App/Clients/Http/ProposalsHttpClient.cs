@@ -56,4 +56,23 @@ public class ProposalsHttpClient : IProposalsClient
             throw new ApplicationException("Error accepting proposal");
         }
     }
+
+    public async Task<ProposalDetailModel?> GetProposalDetailAsync(Guid proposalId)
+    {
+        var url = $"{ApiResource}/{proposalId}";
+        var model = await Client.GetFromJsonAsync<ProposalDetailModel>(url);
+
+        return model;
+    }
+
+    public async Task ScheduleProposalAsync(Guid proposalId, ScheduleProposalModel model)
+    {
+        var url = $"{ApiResource}/{proposalId}/schedule";
+
+        var response = await Client.PostAsJsonAsync(url, model);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException("Error scheduling proposal");
+        }
+    }
 }

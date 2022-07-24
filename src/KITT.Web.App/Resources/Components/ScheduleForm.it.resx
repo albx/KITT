@@ -117,10 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PageTitle" xml:space="preserve">
-    <value>Schedule streaming</value>
+  <data name="AbstractLabel" xml:space="preserve">
+    <value>Abstract</value>
   </data>
-  <data name="StreamingScheduledSuccessfully" xml:space="preserve">
-    <value>The streaming {0} has been scheduled successfully!</value>
+  <data name="EndingTimeLabel" xml:space="preserve">
+    <value>Ora di fine</value>
+  </data>
+  <data name="HostingChannelLabel" xml:space="preserve">
+    <value>Canale ospitante</value>
+  </data>
+  <data name="ScheduleDateLabel" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="SlugLabel" xml:space="preserve">
+    <value>Slug</value>
+  </data>
+  <data name="StartingTimeLabel" xml:space="preserve">
+    <value>Ora di inizio</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Titolo</value>
   </data>
 </root>

@@ -56,7 +56,7 @@ public class ProposalsController : ControllerBase
 
         try
         {
-            await ControllerServices.AcceptProposal(id);
+            await ControllerServices.AcceptProposalAsync(id);
             return Ok();
         }
         catch (ArgumentOutOfRangeException)
@@ -75,7 +75,7 @@ public class ProposalsController : ControllerBase
 
         try
         {
-            await ControllerServices.RejectProposal(id);
+            await ControllerServices.RejectProposalAsync(id);
             return Ok();
         }
         catch (ArgumentOutOfRangeException)
@@ -94,12 +94,24 @@ public class ProposalsController : ControllerBase
 
         try
         {
-            await ControllerServices.RefuseProposal(id);
+            await ControllerServices.RefuseProposalAsync(id);
             return Ok();
         }
         catch (ArgumentOutOfRangeException)
         {
             return NotFound();
         }
+    }
+
+    [HttpPost("{id}/schedule")]
+    public async Task<IActionResult> ScheduleProposal(Guid id, [FromBody] ScheduleProposalModel model)
+    {
+        if (id == Guid.Empty)
+        {
+            return BadRequest();
+        }
+
+        await ControllerServices.ScheduleProposalAsync(id, model, User.GetUserId());
+        return Ok();
     }
 }

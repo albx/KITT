@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KITT.Web.App.Resources.Pages.Streamings {
+namespace KITT.Web.App.Resources.Components {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Schedule {
+    public class ScheduleForm {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Schedule() {
+        internal ScheduleForm() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Pages.Streamings.Schedule", typeof(Schedule).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Components.ScheduleForm", typeof(ScheduleForm).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,65 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schedule streaming.
+        ///   Looks up a localized string similar to Abstract.
         /// </summary>
-        public static string PageTitle {
+        public static string AbstractLabel {
             get {
-                return ResourceManager.GetString("PageTitle", resourceCulture);
+                return ResourceManager.GetString("AbstractLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The streaming {0} has been scheduled successfully!.
+        ///   Looks up a localized string similar to Ending time.
         /// </summary>
-        public static string StreamingScheduledSuccessfully {
+        public static string EndingTimeLabel {
             get {
-                return ResourceManager.GetString("StreamingScheduledSuccessfully", resourceCulture);
+                return ResourceManager.GetString("EndingTimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hosting channel.
+        /// </summary>
+        public static string HostingChannelLabel {
+            get {
+                return ResourceManager.GetString("HostingChannelLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule date.
+        /// </summary>
+        public static string ScheduleDateLabel {
+            get {
+                return ResourceManager.GetString("ScheduleDateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slug.
+        /// </summary>
+        public static string SlugLabel {
+            get {
+                return ResourceManager.GetString("SlugLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting time.
+        /// </summary>
+        public static string StartingTimeLabel {
+            get {
+                return ResourceManager.GetString("StartingTimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string TitleLabel {
+            get {
+                return ResourceManager.GetString("TitleLabel", resourceCulture);
             }
         }
     }

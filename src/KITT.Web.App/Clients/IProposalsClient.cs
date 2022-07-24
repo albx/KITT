@@ -11,4 +11,8 @@ public interface IProposalsClient
     Task RejectProposalAsync(Guid proposalId);
 
     Task RefuseProposalAsync(Guid proposalId);
+
+    Task<ProposalDetailModel?> GetProposalDetailAsync(Guid proposalId);
+
+    Task ScheduleProposalAsync(Guid proposalId, ScheduleProposalModel model);
 }

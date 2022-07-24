@@ -1,15 +1,19 @@
-﻿namespace KITT.Core.Commands;
+﻿using KITT.Core.Validators;
+
+namespace KITT.Core.Commands;
 
 public class ProposalCommands : IProposalCommands
 {
     private readonly KittDbContext _context;
+    private readonly StreamingValidator _validator;
 
-    public ProposalCommands(KittDbContext context)
+    public ProposalCommands(KittDbContext context, StreamingValidator validator)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
+        _validator = validator;
     }
 
-    public Task Accept(Guid proposalId)
+    public Task AcceptProposalAsync(Guid proposalId)
     {
         if (proposalId == Guid.Empty)
         {
@@ -26,7 +30,7 @@ public class ProposalCommands : IProposalCommands
         return _context.SaveChangesAsync();
     }
 
-    public Task Refuse(Guid proposalId)
+    public Task RefuseProposalAsync(Guid proposalId)
     {
         if (proposalId == Guid.Empty)
         {
@@ -48,7 +52,7 @@ public class ProposalCommands : IProposalCommands
         return _context.SaveChangesAsync();
     }
 
-    public Task Reject(Guid proposalId)
+    public Task RejectProposalAsync(Guid proposalId)
     {
         if (proposalId == Guid.Empty)
         {
@@ -68,5 +72,51 @@ public class ProposalCommands : IProposalCommands
 
         _context.Proposals.Remove(proposal);
         return _context.SaveChangesAsync();
+    }
+
+    public Task ScheduleProposalAsync(Guid proposalId, string userId, string twitchChannel, string title, string slug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract)
+    {
+        var proposal = _context.Proposals.SingleOrDefault(p => p.Id == proposalId);
+        if (proposal is null)
+        {
+            throw new ArgumentOutOfRangeException(nameof(proposalId));
+        }
+
+        ScheduleStreaming(
+            userId,
+            twitchChannel,
+            title,
+            slug,
+            scheduleDate,
+            startingTime,
+            endingTime,
+            streamingAbstract,
+            hostingChannelUrl);
+
+        _context.Proposals.Remove(proposal);
+
+        return _context.SaveChangesAsync();
+    }
+
+    private void ScheduleStreaming(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string streamingAbstract, string hostingChannelUrl)
+    {
+        var streaming = Streaming.Schedule(
+            streamingTitle,
+            streamingSlug,
+            twitchChannel,
+            scheduleDate,
+            startingTime,
+            endingTime,
+            hostingChannelUrl,
+            userId);
+
+        if (!string.IsNullOrWhiteSpace(streamingAbstract))
+        {
+            streaming.SetAbstract(streamingAbstract);
+        }
+
+        _validator.ValidateForScheduleStreaming(streaming);
+
+        _context.Streamings.Add(streaming);
     }
 }

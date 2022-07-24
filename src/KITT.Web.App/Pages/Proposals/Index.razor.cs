@@ -20,6 +20,9 @@ public partial class Index
     public IProposalsClient Client { get; set; } = default!;
 
     [Inject]
+    public NavigationManager Navigation { get; set; } = default!;
+
+    [Inject]
     IDialogService Dialog { get; set; } = default!;
 
     [Inject]
@@ -119,6 +122,11 @@ public partial class Index
                 Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalErrorMessage), proposalTitle], Severity.Error);
             }
         }
+    }
+
+    void ScheduleProposal(ProposalListModel.ProposalListItemModel proposal)
+    {
+        Navigation.NavigateTo($"proposals/schedule/{proposal.Id}");
     }
 
     private async Task LoadProposalsAsync(ProposalsQueryModel query)

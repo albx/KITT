@@ -27,6 +27,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Resources\Components\ScheduleForm.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ScheduleForm.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Pages\CreateNewSettings.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -79,6 +84,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Resources\Components\ScheduleForm.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Components\ScheduleForm.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>ScheduleForm.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\CreateNewSettings.it.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
