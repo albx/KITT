@@ -7,4 +7,6 @@ public interface IDatabase
     IQueryable<Settings> Settings { get; }
 
     IQueryable<Proposal> Proposals { get; }
+
+    IQueryable<Expense> Expenses { get; }
 }

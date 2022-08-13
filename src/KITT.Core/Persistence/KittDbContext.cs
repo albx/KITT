@@ -17,6 +17,8 @@ public class KittDbContext : DbContext
 
     public DbSet<Proposal> Proposals { get; set; }
 
+    public DbSet<Expense> Expenses { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -24,5 +26,6 @@ public class KittDbContext : DbContext
         modelBuilder.ApplyConfiguration(new StreamingMapper());
         modelBuilder.ApplyConfiguration(new SettingsMapper());
         modelBuilder.ApplyConfiguration(new ProposalMapper());
+        modelBuilder.ApplyConfiguration(new ExpenseMapper());
     }
 }
