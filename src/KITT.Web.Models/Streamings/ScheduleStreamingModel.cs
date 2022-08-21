@@ -23,4 +23,6 @@ public record ScheduleStreamingModel
     public string HostingChannelUrl { get; set; } = string.Empty;
 
     public string? StreamingAbstract { get; set; }
+
+    public SeoData Seo { get; set; } = new();
 }

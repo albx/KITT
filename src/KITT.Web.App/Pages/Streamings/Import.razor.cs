@@ -1,8 +1,9 @@
-using System.ComponentModel.DataAnnotations;
 using KITT.Web.App.Clients;
+using KITT.Web.App.Model;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Pages.Streamings;
 
@@ -21,7 +22,7 @@ public partial class Import
 
     private string errorMessage = string.Empty;
 
-    async Task ImportStreamingAsync()
+    async Task ImportStreamingAsync(ViewModel model)
     {
         try
         {
@@ -36,7 +37,9 @@ public partial class Import
         }
     }
 
-    class ViewModel
+    void Cancel() => model = new();
+
+    class ViewModel : ContentViewModel
     {
         [Required]
         public string Title { get; set; } = string.Empty;
@@ -86,7 +89,8 @@ public partial class Import
                 Slug = this.Slug,
                 StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
                 StreamingAbstract = this.StreamingAbstract,
-                YoutubeVideoUrl = this.YoutubeVideoUrl
+                YoutubeVideoUrl = this.YoutubeVideoUrl,
+                Seo = this.Seo
             };
         }
     }

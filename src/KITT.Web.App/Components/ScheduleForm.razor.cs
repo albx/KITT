@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using KITT.Web.App.Model;
+using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Components;
@@ -22,7 +23,7 @@ public partial class ScheduleForm
         await OnCancel.InvokeAsync();
     }
 
-    public class ViewModel
+    public class ViewModel : ContentViewModel
     {
         [Required]
         public string Title { get; set; } = string.Empty;

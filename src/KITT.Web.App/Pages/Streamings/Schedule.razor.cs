@@ -63,7 +63,8 @@ public partial class Schedule
             HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
             Slug = model.Slug,
             StartingTime = model.ScheduleDate.Value.Add(model.StartingTime.Value),
-            StreamingAbstract = model.StreamingAbstract
+            StreamingAbstract = model.StreamingAbstract,
+            Seo = model.Seo
         };
     }
 }

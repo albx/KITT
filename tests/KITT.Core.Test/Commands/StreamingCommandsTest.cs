@@ -47,12 +47,12 @@ namespace KITT.Core.Test.Commands
             _fixture.PrepareData(context =>
             {
                 var streaming = Streaming.Schedule(
-                    "test1", 
-                    "test-slug", 
-                    "albx87", 
-                    DateTime.Today.AddDays(1), 
-                    TimeSpan.FromHours(16), 
-                    TimeSpan.FromHours(18), 
+                    "test1",
+                    "test-slug",
+                    "albx87",
+                    DateTime.Today.AddDays(1),
+                    TimeSpan.FromHours(16),
+                    TimeSpan.FromHours(18),
                     "https://www.twitch.tv/albx87",
                     userId);
 
@@ -71,6 +71,7 @@ namespace KITT.Core.Test.Commands
             TimeSpan endingTime = TimeSpan.FromHours(20);
             string hostingChannelUrl = "https://www.twitch.tv/albx87";
             string streamingAbstract = "streaming abstract";
+            var seo = new Content.SeoData();
 
             var ex = await Assert.ThrowsAsync<ValidationException>(
                 () => commands.ScheduleStreamingAsync(
@@ -82,7 +83,8 @@ namespace KITT.Core.Test.Commands
                     startingTime,
                     endingTime,
                     hostingChannelUrl,
-                    streamingAbstract));
+                    streamingAbstract,
+                    seo));
 
             Assert.Contains(nameof(Streaming.Slug), ex.Errors.Select(e => e.PropertyName));
         }
@@ -102,6 +104,7 @@ namespace KITT.Core.Test.Commands
             TimeSpan endingTime = TimeSpan.FromHours(18);
             string hostingChannelUrl = "https://www.twitch.tv/albx87";
             string streamingAbstract = "streaming abstract";
+            var seo = new Content.SeoData();
 
             var scheduledStreamingId = await commands.ScheduleStreamingAsync(
                 userId,
@@ -112,7 +115,8 @@ namespace KITT.Core.Test.Commands
                 startingTime,
                 endingTime,
                 hostingChannelUrl,
-                streamingAbstract);
+                streamingAbstract,
+                seo);
 
             var scheduledStreaming = _fixture.Context.Streamings.FirstOrDefault(s => s.Id == scheduledStreamingId);
 
@@ -163,6 +167,7 @@ namespace KITT.Core.Test.Commands
             string hostingChannelUrl = "https://www.twitch.tv/newfakechannel";
             string streamingAbstract = "new abstract";
             string youtubeRegistrationLink = "https://www.youtube.com";
+            var seo = new Content.SeoData();
 
             await commands.UpdateStreamingAsync(
                 streamingId,
@@ -172,7 +177,8 @@ namespace KITT.Core.Test.Commands
                 endingTime,
                 hostingChannelUrl,
                 streamingAbstract,
-                youtubeRegistrationLink);
+                youtubeRegistrationLink,
+                seo);
 
             var updatedStreaming = _fixture.Context.Streamings.SingleOrDefault(s => s.Id == streamingId);
 
@@ -221,6 +227,7 @@ namespace KITT.Core.Test.Commands
             string hostingChannelUrl = "https://www.twitch.tv/newfakechannel";
             string streamingAbstract = "new abstract";
             string youtubeRegistrationLink = "https://www.youtube.com";
+            var seo = new Content.SeoData();
 
             await commands.UpdateStreamingAsync(
                 streamingId,
@@ -230,7 +237,8 @@ namespace KITT.Core.Test.Commands
                 endingTime,
                 hostingChannelUrl,
                 streamingAbstract,
-                youtubeRegistrationLink);
+                youtubeRegistrationLink,
+                seo);
 
             var updatedStreaming = _fixture.Context.Streamings.SingleOrDefault(s => s.Id == streamingId);
 

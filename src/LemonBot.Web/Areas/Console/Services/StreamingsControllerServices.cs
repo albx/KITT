@@ -80,6 +80,13 @@ public class StreamingsControllerServices
             throw new InvalidOperationException("No settings configured");
         }
 
+        var seo = new KITT.Core.Models.Content.SeoData
+        {
+            Title = model.Seo.Title,
+            Description = model.Seo.Description,
+            Keywords = model.Seo.Keywords
+        };
+
         return Commands.ImportStreamingAsync(
             userId,
             settings.TwitchChannel,
@@ -90,7 +97,8 @@ public class StreamingsControllerServices
             model.EndingTime.TimeOfDay,
             model.HostingChannelUrl,
             model.StreamingAbstract,
-            model.YoutubeVideoUrl);
+            model.YoutubeVideoUrl,
+            seo);
     }
 
     public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)
@@ -104,6 +112,13 @@ public class StreamingsControllerServices
             throw new InvalidOperationException("No settings configured");
         }
 
+        var seo = new KITT.Core.Models.Content.SeoData
+        {
+            Title = model.Seo.Title,
+            Description = model.Seo.Description,
+            Keywords = model.Seo.Keywords
+        };
+
         return Commands.ScheduleStreamingAsync(
             userId,
             settings.TwitchChannel,
@@ -113,11 +128,19 @@ public class StreamingsControllerServices
             model.StartingTime.TimeOfDay,
             model.EndingTime.TimeOfDay,
             model.HostingChannelUrl,
-            model.StreamingAbstract);
+            model.StreamingAbstract,
+            seo);
     }
 
     public Task UpdateStreamingAsync(Guid streamingId, StreamingDetailModel model)
     {
+        var seo = new KITT.Core.Models.Content.SeoData
+        {
+            Title = model.Seo.Title,
+            Description = model.Seo.Description,
+            Keywords = model.Seo.Keywords
+        };
+
         return Commands.UpdateStreamingAsync(
             streamingId,
             model.Title,
@@ -126,7 +149,8 @@ public class StreamingsControllerServices
             model.EndingTime.TimeOfDay,
             model.HostingChannelUrl,
             model.StreamingAbstract,
-            model.YoutubeVideoUrl);
+            model.YoutubeVideoUrl,
+            seo);
     }
 
     public Task DeleteStreamingAsync(Guid streamingId) => Commands.DeleteStreamingAsync(streamingId);
