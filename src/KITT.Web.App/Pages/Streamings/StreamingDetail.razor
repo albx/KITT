@@ -16,97 +16,108 @@
 				   Page="streamings" />
 	</Toolbar>
 	<PageContent>
-		<ErrorBoundary>
-			<EditForm Model="model" OnValidSubmit="EditStreamingAsync" class="col-md-12 mt-3">
-				<DataAnnotationsValidator />
+        <ErrorBoundary>
+            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                <MudPaper>
+                    <MudText Color="Color.Error">@errorMessage</MudText>
+                </MudPaper>
+                <MudDivider />
+            }
 
-				@if (!string.IsNullOrWhiteSpace(errorMessage))
-				{
-					<MudPaper>
-						<MudText Color="Color.Error">@errorMessage</MudText>
-					</MudPaper>
-					<MudDivider />
-				}
+            <ContentForm TContent="ViewModel"
+                         Model="model"
+                         ContentTabTitle="Streaming"
+                         ReadOnly="isReadOnly"
+                         OnSave="EditStreamingAsync"
+                         OnCancel="DisableEditing">
+                <ContentInfo Context="streaming">
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
+                                          @bind-Value="model.Title"
+                                          For="@(() => model.Title)"
+                                          Variant="Variant.Outlined"
+                                          Disabled="@isReadOnly" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
+                                          @bind-Value="model.Slug"
+                                          Variant="Variant.Outlined"
+                                          Disabled="true" />
+                        </MudItem>
+                    </MudGrid>
 
-				<MudCard>
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
+                                          @bind-Value="model.HostingChannelUrl"
+                                          Adornment="Adornment.Start"
+                                          AdornmentText="@twitchBaseUrl"
+                                          Variant="Variant.Outlined"
+                                          For="@(() => model.HostingChannelUrl)"
+                                          Disabled="@isReadOnly" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
+                                          @bind-Value="model.YoutubeVideoUrl"
+                                          Variant="Variant.Outlined"
+                                          For="@(() => model.YoutubeVideoUrl)"
+                                          Disabled="@isReadOnly" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
+                                           @bind-Date="model.ScheduleDate"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true"
+                                           Disabled="@isReadOnly" />
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
+                                           @bind-Time="model.StartingTime"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true"
+                                           Disabled="@isReadOnly" />
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
+                                           @bind-Time="model.EndingTime"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true"
+                                           Disabled="@isReadOnly" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <MarkdownEditor @bind-Value="model.StreamingAbstract"
+                                    EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
+                                    Id="streamingAbstract"
+                                    PreviewLabel="Preview"
+                                    Disabled="isReadOnly" />
+                </ContentInfo>
+            </ContentForm>
+
+            @*<EditForm Model="model" OnValidSubmit="EditStreamingAsync" class="col-md-12 mt-3">
+                <DataAnnotationsValidator />
+
+                <MudCard>
                     <MudCardContent>
-                        <MudGrid>
-                            <MudItem xs="12" md="6">
-                                <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
-                                              @bind-Value="model.Title"
-                                              For="@(() => model.Title)"
-                                              Variant="Variant.Outlined"
-                                              Disabled="@isReadOnly" />
-                            </MudItem>
-                            <MudItem xs="12" md="6">
-                                <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
-                                              @bind-Value="model.Slug"
-                                              Variant="Variant.Outlined"
-                                              Disabled="true" />
-                            </MudItem>
-                        </MudGrid>
-
-                        <MudGrid>
-                            <MudItem xs="12" md="6">
-                                <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
-                                              @bind-Value="model.HostingChannelUrl"
-                                              Adornment="Adornment.Start"
-                                              AdornmentText="@twitchBaseUrl"
-                                              Variant="Variant.Outlined"
-                                              For="@(() => model.HostingChannelUrl)"
-                                              Disabled="@isReadOnly" />
-                            </MudItem>
-                            <MudItem xs="12" md="6">
-                                <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
-                                              @bind-Value="model.YoutubeVideoUrl"
-                                              Variant="Variant.Outlined"
-                                              For="@(() => model.YoutubeVideoUrl)"
-                                              Disabled="@isReadOnly" />
-                            </MudItem>
-                        </MudGrid>
-
-                        <MudGrid>
-                            <MudItem xs="12" md="6">
-                                <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
-                                               @bind-Date="model.ScheduleDate"
-                                               Variant="Variant.Outlined"
-                                               Editable="true"
-                                               AutoClose="true"
-                                               Disabled="@isReadOnly" />
-                            </MudItem>
-                            <MudItem xs="12" md="3">
-                                <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
-                                               @bind-Time="model.StartingTime"
-                                               Variant="Variant.Outlined"
-                                               Editable="true"
-                                               AutoClose="true"
-                                               Disabled="@isReadOnly" />
-                            </MudItem>
-                            <MudItem xs="12" md="3">
-                                <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
-                                               @bind-Time="model.EndingTime"
-                                               Variant="Variant.Outlined"
-                                               Editable="true"
-                                               AutoClose="true"
-                                               Disabled="@isReadOnly" />
-                            </MudItem>
-                        </MudGrid>
-
-                        <MarkdownEditor @bind-Value="model.StreamingAbstract"
-                                        EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
-                                        Id="streamingAbstract"
-                                        PreviewLabel="Preview" 
-                                        Disabled="isReadOnly"/>
+                        
                     </MudCardContent>
-					@if (!isReadOnly)
-					{
-						<MudCardActions>
-							<MudButton OnClick="DisableEditing" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-							<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
-						</MudCardActions>
-					}
-				</MudCard>
-			</EditForm>
-		</ErrorBoundary>
+                    @if (!isReadOnly)
+                    {
+                        <MudCardActions>
+                            <MudButton OnClick="DisableEditing" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+                            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
+                        </MudCardActions>
+                    }
+                </MudCard>
+            </EditForm>*@
+        </ErrorBoundary>
 	</PageContent>
 </PageLayout>

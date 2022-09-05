@@ -26,4 +26,6 @@ public record StreamingDetailModel
     public string? StreamingAbstract { get; set; }
 
     public string? YoutubeVideoUrl { get; set; }
+
+    public SeoData Seo { get; set; } = new();
 }

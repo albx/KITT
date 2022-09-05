@@ -12,7 +12,8 @@
         Services
             .AddSingleton(commonLocalizerMock.Object)
             .AddSingleton(scheduleLocalizerMock.Object)
-            .AddSingleton(scheduleFormLocalizerMock.Object);
+            .AddSingleton(scheduleFormLocalizerMock.Object)
+            .AddSingleton(new Mock<MudBlazor.Services.IResizeObserver>().Object);
     }
 
     [Fact]

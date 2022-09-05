@@ -14,7 +14,7 @@ public class StreamingCommands : IStreamingCommands
         _validator = validator ?? throw new ArgumentNullException(nameof(validator));
     }
 
-    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract)
+    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, Content.SeoData seo)
     {
         var streaming = Streaming.Schedule(
             streamingTitle,
@@ -31,6 +31,11 @@ public class StreamingCommands : IStreamingCommands
             streaming.SetAbstract(streamingAbstract);
         }
 
+        if (seo is not null)
+        {
+            streaming.SetSeoData(seo);
+        }
+
         _validator.ValidateForScheduleStreaming(streaming);
 
         _context.Streamings.Add(streaming);
@@ -39,7 +44,7 @@ public class StreamingCommands : IStreamingCommands
         return streaming.Id;
     }
 
-    public Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink)
+    public Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
     {
         var streaming = _context.Streamings.SingleOrDefault(s => s.Id == streamingId);
         if (streaming is null)
@@ -56,7 +61,7 @@ public class StreamingCommands : IStreamingCommands
         {
             streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
         }
-        
+
         if (streaming.HostingChannelUrl != hostingChannelUrl)
         {
             streaming.ChangeHostingChannelUrl(hostingChannelUrl);
@@ -70,6 +75,11 @@ public class StreamingCommands : IStreamingCommands
         if (streaming.YouTubeVideoUrl != youtubeRegistrationLink)
         {
             streaming.SetRegistrationYoutubeUrl(youtubeRegistrationLink);
+        }
+
+        if (seo is not null)
+        {
+            streaming.SetSeoData(seo);
         }
 
         _validator.ValidateForUpdateStreaming(streaming);
@@ -89,7 +99,7 @@ public class StreamingCommands : IStreamingCommands
         return _context.SaveChangesAsync();
     }
 
-    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink)
+    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
     {
         var streaming = Streaming.Import(
             streamingTitle,
@@ -103,6 +113,11 @@ public class StreamingCommands : IStreamingCommands
             streamingAbstract,
             userId);
 
+        if (seo is not null)
+        {
+            streaming.SetSeoData(seo);
+        }
+
         _context.Streamings.Add(streaming);
         await _context.SaveChangesAsync();
 
@@ -110,7 +125,7 @@ public class StreamingCommands : IStreamingCommands
     }
 
     #region Private methods
-    private bool ScheduleHasChanged(Streaming streaming, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime) 
+    private bool ScheduleHasChanged(Streaming streaming, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
         => streaming.ScheduleDate != scheduleDate || streaming.StartingTime != startingTime || streaming.EndingTime != endingTime;
     #endregion
 }

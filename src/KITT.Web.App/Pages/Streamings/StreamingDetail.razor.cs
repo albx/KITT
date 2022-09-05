@@ -1,4 +1,5 @@
 ﻿using KITT.Web.App.Clients;
+using KITT.Web.App.Model;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
@@ -12,9 +13,9 @@ public partial class StreamingDetail
 	public Guid Id { get; set; }
 
 	[Inject]
-    public IStreamingsClient Client { get; set; }
+	public IStreamingsClient Client { get; set; }
 
-    private bool isReadOnly = true;
+	private bool isReadOnly = true;
 
 	private ViewModel model = new();
 
@@ -42,52 +43,52 @@ public partial class StreamingDetail
 
 	private StreamingDetailModel streamingDetail = new();
 
-	async Task EditStreamingAsync()
-    {
-        try
-        {
+	async Task EditStreamingAsync(ViewModel model)
+	{
+		try
+		{
 			var detail = model.ToApiModel(this.Id);
 			await Client.UpdateStreamingAsync(detail);
 
 			isReadOnly = true;
 
 			streamingDetail = detail;
-        }
-        catch (ApplicationException ex)
-        {
+		}
+		catch (ApplicationException ex)
+		{
 			errorMessage = ex.Message;
-        }
-        finally
-        {
+		}
+		finally
+		{
 			StateHasChanged();
-        }
-    }
+		}
+	}
 
 	protected override async Task OnParametersSetAsync()
-    {
-        await base.OnParametersSetAsync();
+	{
+		await base.OnParametersSetAsync();
 
-        try
-        {
-			streamingDetail = await Client.GetStreamingDetailAsync(Id);
+		try
+		{
+			streamingDetail = await Client.GetStreamingDetailAsync(Id) ?? new();
 			model = ViewModel.FromStreamingDetailModel(streamingDetail);
 
 			pageTitle = model.Title;
 		}
-        finally
-        {
+		finally
+		{
 			StateHasChanged();
-        }
+		}
 	}
 
-    class ViewModel
+	class ViewModel : ContentViewModel
 	{
 		[Required]
 		public string Title { get; set; } = string.Empty;
 
 		public string Slug { get; set; } = string.Empty;
 
-        [Required]
+		[Required]
 		public DateTime? ScheduleDate { get; set; } = DateTime.Now;
 
 		[Required]
@@ -105,10 +106,10 @@ public partial class StreamingDetail
 
 		public StreamingDetailModel ToApiModel(Guid streamingId)
 		{
-            if (streamingId == Guid.Empty)
-            {
+			if (streamingId == Guid.Empty)
+			{
 				throw new ArgumentException("value cannot be empty", nameof(streamingId));
-            }
+			}
 
 			if (this.ScheduleDate is null)
 			{
@@ -135,7 +136,8 @@ public partial class StreamingDetail
 				HostingChannelUrl = $"{twitchBaseUrl}{this.HostingChannelUrl}",
 				StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
 				StreamingAbstract = this.StreamingAbstract,
-				YoutubeVideoUrl = this.YoutubeVideoUrl
+				YoutubeVideoUrl = this.YoutubeVideoUrl,
+				Seo = this.Seo
 			};
 		}
 

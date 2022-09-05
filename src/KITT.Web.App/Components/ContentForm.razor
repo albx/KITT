@@ -1,0 +1,44 @@
+﻿@typeparam TContent where TContent : KITT.Web.App.Model.ContentViewModel 
+
+@inject IStringLocalizer<UI.Resources.Common> Localizer
+
+<EditForm Model="@Model" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <MudCard>
+        <MudCardContent>
+            <MudTabs>
+                <MudTabPanel Text="@ContentTabTitle">
+                    @ContentInfo(Model)
+                </MudTabPanel>
+                <MudTabPanel Text="SEO">
+                    <MudTextField Label="Title"
+                                  @bind-Value="Model.Seo.Title"
+                                  For="@(() => Model.Seo.Title)"
+                                  Variant="Variant.Outlined"
+                                  class="mb-2"
+                                  Disabled="@ReadOnly"/>
+                    <MudTextField Label="Description"
+                                  @bind-Value="Model.Seo.Description"
+                                  For="@(() => Model.Seo.Description)"
+                                  Variant="Variant.Outlined"
+                                  class="mb-2"
+                                  Disabled="@ReadOnly"/>
+                    <MudTextField Label="Keywords"
+                                  @bind-Value="Model.Seo.Keywords"
+                                  For="@(() => Model.Seo.Keywords)"
+                                  Variant="Variant.Outlined"
+                                  class="mb-2"
+                                  Disabled="@ReadOnly" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudCardContent>
+        <MudCardActions>
+            @if (!ReadOnly)
+            {
+                <MudButton ButtonType="ButtonType.Button" OnClick="CancelAsync" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@Localizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@Localizer[nameof(UI.Resources.Common.Save)]</MudButton>
+            }
+        </MudCardActions>
+    </MudCard>
+</EditForm>
