@@ -9,14 +9,11 @@
         var scheduleLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Schedule>>();
         var scheduleFormLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Components.ScheduleForm>>();
 
-        ComponentFactories
-            .AddStub<MudTabs>()
-            .AddStub<MudTabPanel>();
-
         Services
             .AddSingleton(commonLocalizerMock.Object)
             .AddSingleton(scheduleLocalizerMock.Object)
-            .AddSingleton(scheduleFormLocalizerMock.Object);
+            .AddSingleton(scheduleFormLocalizerMock.Object)
+            .AddSingleton(new Mock<MudBlazor.Services.IResizeObserver>().Object);
     }
 
     [Fact]
