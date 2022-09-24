@@ -72,6 +72,37 @@
                         </MudItem>
                     </MudGrid>
                 </MudExpansionPanel>
+                <MudExpansionPanel Text="Stats">
+                    <MudGrid>
+                        <MudItem xs="12" md="4">
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h3">
+                                        @viewers.Count viewers
+                                    </MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                        <MudItem xs="12" md="4">
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h3">
+                                        @userJoinedNumber users join this live
+                                    </MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                        <MudItem xs="12" md="4">
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h3">
+                                        @userLeftNumber users left this live
+                                    </MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    </MudGrid>
+                </MudExpansionPanel>
             </MudExpansionPanels>
         </MudPaper>
     </PageContent>

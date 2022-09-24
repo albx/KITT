@@ -34,6 +34,10 @@ public partial class Index
 
     private bool isSavingStats = false;
 
+    private int userJoinedNumber = 0;
+    private int userLeftNumber = 0;
+    private HashSet<string> viewers = new();
+
     async Task StartBotAsync()
     {
         discoveringBotStatus = true;
@@ -121,6 +125,25 @@ public partial class Index
             messageSeverity = Severity.Success;
             isBotRunning = true;
 
+            StateHasChanged();
+        });
+
+        connection.On("UserJoinReceived", (string username) =>
+        {
+            userJoinedNumber++;
+            viewers.Add(username);
+
+            StateHasChanged();
+        });
+
+        connection.On("UserLeftReceived", (string username) =>
+        {
+            if (viewers.Contains(username))
+            {
+                viewers.Remove(username);
+            }
+
+            userLeftNumber++;
             StateHasChanged();
         });
 

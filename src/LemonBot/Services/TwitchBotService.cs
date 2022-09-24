@@ -78,6 +78,8 @@ public class TwitchBotService : BackgroundService
             c.OnConnectionError -= OnConnectionErrorOccured;
             c.OnChatCommandReceived -= OnChatCommandReceived;
             c.OnMessageReceived -= OnMessageReceived;
+            c.OnUserJoined -= OnUserJoined;
+            c.OnUserLeft -= OnUserLeft;
         });
     }
 
@@ -90,7 +92,33 @@ public class TwitchBotService : BackgroundService
             c.OnConnectionError += OnConnectionErrorOccured;
             c.OnChatCommandReceived += OnChatCommandReceived;
             c.OnMessageReceived += OnMessageReceived;
+            c.OnUserJoined += OnUserJoined;
+            c.OnUserLeft += OnUserLeft;
         });
+    }
+
+    private async void OnUserLeft(object? sender, OnUserLeftArgs e)
+    {
+        _logger.LogInformation("User left the live stream");
+
+        if (_connection.State == HubConnectionState.Disconnected)
+        {
+            await _connection.StartAsync();
+        }
+
+        await _connection.InvokeAsync("SendUserLeft", e.Username);
+    }
+
+    private async void OnUserJoined(object? sender, OnUserJoinedArgs e)
+    {
+        _logger.LogInformation("User join the live stream");
+
+        if (_connection.State == HubConnectionState.Disconnected)
+        {
+            await _connection.StartAsync();
+        }
+
+        await _connection.InvokeAsync("SendUserJoin", e.Username);
     }
 
     private async Task ExecuteCommandByMessage(ChatMessage chatMessage)
