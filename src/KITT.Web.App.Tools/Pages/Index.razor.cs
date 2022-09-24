@@ -37,6 +37,31 @@ public partial class Index
     private int userJoinedNumber = 0;
     private int userLeftNumber = 0;
     private HashSet<string> viewers = new();
+    private HashSet<string> subscribers = new();
+
+    async Task SaveStreamingStatsAsync()
+    {
+        isSavingStats = true;
+
+        try
+        {
+            if (currentStreaming is null)
+            {
+                //errore
+                return;
+            }
+
+            await StreamingsClient.SaveStreamingStatsAsync(
+                currentStreaming.Id,
+                new StreamingStats(viewers.Count, subscribers.Count, userJoinedNumber, userLeftNumber));
+
+            //messaggio di salvataggio completato
+        }
+        finally
+        {
+            isSavingStats = false;
+        }
+    }
 
     async Task StartBotAsync()
     {
@@ -144,6 +169,12 @@ public partial class Index
             }
 
             userLeftNumber++;
+            StateHasChanged();
+        });
+
+        connection.On("UserSubscriptionReceived", (string username) =>
+        {
+            subscribers.Add(username);
             StateHasChanged();
         });
 

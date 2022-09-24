@@ -19,4 +19,10 @@ public class StreamingsHttpClient : IStreamingsClient
         var scheduledStreamings = await Client.GetFromJsonAsync<IEnumerable<ScheduledStreamingModel>>($"{ApiResource}/scheduled");
         return scheduledStreamings ?? Array.Empty<ScheduledStreamingModel>();
     }
+
+    public async Task SaveStreamingStatsAsync(Guid streamingId, StreamingStats streamingStats)
+    {
+        var response = await Client.PostAsJsonAsync($"{ApiResource}/{streamingId}/stats", streamingStats);
+        response.EnsureSuccessStatusCode();
+    }
 }

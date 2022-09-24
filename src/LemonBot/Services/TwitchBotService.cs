@@ -80,6 +80,7 @@ public class TwitchBotService : BackgroundService
             c.OnMessageReceived -= OnMessageReceived;
             c.OnUserJoined -= OnUserJoined;
             c.OnUserLeft -= OnUserLeft;
+            c.OnNewSubscriber -= OnNewUserSubscription;
         });
     }
 
@@ -94,7 +95,21 @@ public class TwitchBotService : BackgroundService
             c.OnMessageReceived += OnMessageReceived;
             c.OnUserJoined += OnUserJoined;
             c.OnUserLeft += OnUserLeft;
+            c.OnNewSubscriber += OnNewUserSubscription;
         });
+    }
+
+    private async void OnNewUserSubscription(object? sender, OnNewSubscriberArgs e)
+    {
+        _logger.LogInformation("New user subscription");
+        _client.SendMessage($"Ciao {e.Subscriber.DisplayName}, grazie per la tua subscription!");
+
+        if (_connection.State == HubConnectionState.Disconnected)
+        {
+            await _connection.StartAsync();
+        }
+
+        await _connection.InvokeAsync("SendNewUserSubscription", e.Subscriber.DisplayName);
     }
 
     private async void OnUserLeft(object? sender, OnUserLeftArgs e)

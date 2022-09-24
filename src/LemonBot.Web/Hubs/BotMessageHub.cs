@@ -34,4 +34,7 @@ public class BotMessageHub : Hub
 
     public async Task SendUserLeft(string username)
         => await Clients.All.SendAsync("UserLeftReceived", username);
+
+    public async Task SendNewUserSubscription(string subscriber)
+        => await Clients.All.SendAsync("UserSubscriptionReceived");
 }

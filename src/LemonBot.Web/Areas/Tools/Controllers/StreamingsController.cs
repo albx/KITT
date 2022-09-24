@@ -1,4 +1,5 @@
-﻿using LemonBot.Web.Areas.Tools.Services;
+﻿using KITT.Web.Models.Tools;
+using LemonBot.Web.Areas.Tools.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,5 +22,12 @@ public class StreamingsController : ControllerBase
     {
         var model = ControllerServices.GetScheduledStreamings(User.GetUserId());
         return Ok(model);
+    }
+
+    [HttpPost("{id}/stats")]
+    public async Task<IActionResult> SaveStreamingStats(Guid id, [FromBody] StreamingStats model)
+    {
+        await ControllerServices.SaveStreamingStatsAsync(id, model);
+        return Ok();
     }
 }
