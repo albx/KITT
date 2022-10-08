@@ -31,8 +31,9 @@
             .AddSingleton(new Mock<IStringLocalizer<UI.Resources.Common>>().Object)
             .AddSingleton(new Mock<IStringLocalizer<Resources.Pages.Index>>().Object)
             .AddSingleton(keyInterceptorFactoryMock.Object)
-            .AddSingleton<MudBlazor.IScrollManager>(new Mock<MudBlazor.IScrollManager>().Object)
-            .AddSingleton<MudBlazor.IMudPopoverService>(popoverServiceMock.Object);
+            .AddSingleton(new Mock<MudBlazor.IScrollManager>().Object)
+            .AddSingleton(popoverServiceMock.Object)
+            .AddSingleton(new Mock<MudBlazor.ISnackbar>().Object);
 
         var component = Render(@<Index />);
 

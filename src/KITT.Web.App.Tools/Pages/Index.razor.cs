@@ -20,6 +20,9 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
+    ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
     public IStringLocalizer<Resources.Pages.Index> Localizer { get; set; } = default!;
 
     private string message = string.Empty;
@@ -29,7 +32,6 @@ public partial class Index
     private bool isBotRunning = false;
     private bool discoveringBotStatus = false;
 
-    private ScheduledStreamingModel? currentStreaming = null;
     private ViewModel model = new();
     private IEnumerable<ScheduledStreamingModel> scheduledStreamings = Array.Empty<ScheduledStreamingModel>();
     private bool isLoadingStreamings = true;
@@ -49,7 +51,7 @@ public partial class Index
         {
             if (model.CurrentStreaming is null)
             {
-                //errore
+                Snackbar.Add(Localizer[nameof(Resources.Pages.Index.SaveStreamingStatsMissingStreamingMessage)], Severity.Warning);
                 return;
             }
 
@@ -57,7 +59,11 @@ public partial class Index
                 model.CurrentStreaming.Id,
                 new StreamingStats(viewers.Count, subscribers.Count, userJoinedNumber, userLeftNumber));
 
-            //messaggio di salvataggio completato
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Index.SaveStreamingStatsSuccessMessage)], Severity.Success);
+        }
+        catch
+        {
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Index.SaveStreamingStatsErrorMessage)], Severity.Error);
         }
         finally
         {

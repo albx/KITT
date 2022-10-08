@@ -3,6 +3,8 @@
 
 @attribute [Authorize]
 
+<PageTitle>KITT - Live Tools</PageTitle>
+
 <PageLayout PageTitle="Tools">
     <Toolbar>
         <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
@@ -21,9 +23,10 @@
                         <MudItem xs="12" md="10">
                             <MudSelect T="ScheduledStreamingModel"
                                        Variant="Variant.Outlined"
-                                       Label="Scheduled streamings"
+                                       Label="@Localizer[nameof(Resources.Pages.Index.ScheduledStreamingsLabel)]"
                                        @bind-Value="model.CurrentStreaming"
                                        For="@(() => model.CurrentStreaming)"
+                                       Margin="Margin.Dense"
                                        id="currentStreaming">
                                 @foreach (var item in scheduledStreamings)
                                 {
@@ -31,13 +34,13 @@
                                 }
                             </MudSelect>
                         </MudItem>
-                        <MudItem xs="12" md="2">
-                            <MudButton ButtonType="ButtonType.Submit" OnClick="SaveStreamingStatsAsync" Disabled="@(currentStreaming is null || isSavingStats)" Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined">
+                        <MudItem xs="12" md="2" class="d-flex align-center">
+                            <MudButton ButtonType="ButtonType.Submit" OnClick="SaveStreamingStatsAsync" Disabled="@(model.CurrentStreaming is null || isSavingStats)" Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined">
                                 @if (isSavingStats)
                                 {
                                     <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
                                 }
-                                <MudText>Save stats</MudText>
+                                <MudText>@Localizer[nameof(Resources.Pages.Index.SaveStatsButtonText)]</MudText>
                             </MudButton>
                         </MudItem>
                     </MudGrid>
@@ -47,7 +50,7 @@
 
         <MudPaper class="mt-5">
             <MudExpansionPanels>
-                <MudExpansionPanel Text="BOT Management">
+                <MudExpansionPanel Text="@Localizer[nameof(Resources.Pages.Index.BotManagementPanelTitle)]">
                     <MudGrid>
                         <MudItem xs="12" md="2">
                             @if (isBotRunning)
@@ -76,13 +79,13 @@
                         </MudItem>
                     </MudGrid>
                 </MudExpansionPanel>
-                <MudExpansionPanel Text="Stats">
+                <MudExpansionPanel Text="@Localizer[nameof(Resources.Pages.Index.StatsPanelTitle)]">
                     <MudGrid>
                         <MudItem xs="12" md="6">
                             <MudCard>
                                 <MudCardContent>
                                     <MudText Typo="Typo.h4">
-                                        @viewers.Count viewers
+                                        @Localizer[nameof(Resources.Pages.Index.ViewersCountText), viewers.Count]
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>
@@ -91,7 +94,7 @@
                             <MudCard>
                                 <MudCardContent>
                                     <MudText Typo="Typo.h4">
-                                        @subscribers.Count new subscribers
+                                        @Localizer[nameof(Resources.Pages.Index.SubscribersCountText), subscribers.Count]
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>
@@ -100,7 +103,7 @@
                             <MudCard>
                                 <MudCardContent>
                                     <MudText Typo="Typo.h4">
-                                        @userJoinedNumber users join this live
+                                        @Localizer[nameof(Resources.Pages.Index.UsersJoinedCountText), userJoinedNumber]
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>
@@ -109,7 +112,7 @@
                             <MudCard>
                                 <MudCardContent>
                                     <MudText Typo="Typo.h4">
-                                        @userLeftNumber users left this live
+                                        @Localizer[nameof(Resources.Pages.Index.UsersLeftCountText), userLeftNumber]
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>

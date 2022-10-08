@@ -120,6 +120,9 @@
   <data name="BackLabel" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="BotManagementPanelTitle" xml:space="preserve">
+    <value>BOT Management</value>
+  </data>
   <data name="BotRunningMessage" xml:space="preserve">
     <value>BOT is currently running</value>
   </data>
@@ -129,10 +132,40 @@
   <data name="BotStatusDefaultMessage" xml:space="preserve">
     <value>BOT is currently stopped. Click the button to start the BOT</value>
   </data>
+  <data name="SaveStatsButtonText" xml:space="preserve">
+    <value>Save stats</value>
+  </data>
+  <data name="SaveStreamingStatsErrorMessage" xml:space="preserve">
+    <value>There was an error saving the streaming stats</value>
+  </data>
+  <data name="SaveStreamingStatsMissingStreamingMessage" xml:space="preserve">
+    <value>Please, select a streaming to proceed</value>
+  </data>
+  <data name="SaveStreamingStatsSuccessMessage" xml:space="preserve">
+    <value>Stats saved successfully!</value>
+  </data>
+  <data name="ScheduledStreamingsLabel" xml:space="preserve">
+    <value>Scheduled streamings</value>
+  </data>
   <data name="StartBotLabel" xml:space="preserve">
     <value>Start BOT</value>
   </data>
+  <data name="StatsPanelTitle" xml:space="preserve">
+    <value>Stats</value>
+  </data>
   <data name="StopBotLabel" xml:space="preserve">
     <value>Stop BOT</value>
+  </data>
+  <data name="SubscribersCountText" xml:space="preserve">
+    <value>{0} new subscribers</value>
+  </data>
+  <data name="UsersJoinedCountText" xml:space="preserve">
+    <value>{0} users join this live</value>
+  </data>
+  <data name="UsersLeftCountText" xml:space="preserve">
+    <value>{0} users left this live</value>
+  </data>
+  <data name="ViewersCountText" xml:space="preserve">
+    <value>{0} viewers</value>
   </data>
 </root>
