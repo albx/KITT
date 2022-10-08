@@ -70,6 +70,15 @@ namespace KITT.Web.App.Tools.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOT Management.
+        /// </summary>
+        public static string BotManagementPanelTitle {
+            get {
+                return ResourceManager.GetString("BotManagementPanelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BOT is currently running.
         /// </summary>
         public static string BotRunningMessage {
@@ -97,6 +106,51 @@ namespace KITT.Web.App.Tools.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save stats.
+        /// </summary>
+        public static string SaveStatsButtonText {
+            get {
+                return ResourceManager.GetString("SaveStatsButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error saving the streaming stats.
+        /// </summary>
+        public static string SaveStreamingStatsErrorMessage {
+            get {
+                return ResourceManager.GetString("SaveStreamingStatsErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select a streaming to proceed.
+        /// </summary>
+        public static string SaveStreamingStatsMissingStreamingMessage {
+            get {
+                return ResourceManager.GetString("SaveStreamingStatsMissingStreamingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stats saved successfully!.
+        /// </summary>
+        public static string SaveStreamingStatsSuccessMessage {
+            get {
+                return ResourceManager.GetString("SaveStreamingStatsSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scheduled streamings.
+        /// </summary>
+        public static string ScheduledStreamingsLabel {
+            get {
+                return ResourceManager.GetString("ScheduledStreamingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start BOT.
         /// </summary>
         public static string StartBotLabel {
@@ -106,11 +160,56 @@ namespace KITT.Web.App.Tools.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stats.
+        /// </summary>
+        public static string StatsPanelTitle {
+            get {
+                return ResourceManager.GetString("StatsPanelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop BOT.
         /// </summary>
         public static string StopBotLabel {
             get {
                 return ResourceManager.GetString("StopBotLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} new subscribers.
+        /// </summary>
+        public static string SubscribersCountText {
+            get {
+                return ResourceManager.GetString("SubscribersCountText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} users join this live.
+        /// </summary>
+        public static string UsersJoinedCountText {
+            get {
+                return ResourceManager.GetString("UsersJoinedCountText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} users left this live.
+        /// </summary>
+        public static string UsersLeftCountText {
+            get {
+                return ResourceManager.GetString("UsersLeftCountText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} viewers.
+        /// </summary>
+        public static string ViewersCountText {
+            get {
+                return ResourceManager.GetString("ViewersCountText", resourceCulture);
             }
         }
     }

@@ -15,7 +15,8 @@ public static class ServiceCollectionExtensions
             .AddScoped<IDatabase, Database>()
             .AddScoped<ISettingsCommands, SettingsCommands>()
             .AddScoped<IStreamingCommands, StreamingCommands>()
-            .AddScoped<IProposalCommands, ProposalCommands>();
+            .AddScoped<IProposalCommands, ProposalCommands>()
+            .AddScoped<IStreamingStatsCommands, StreamingStatsCommands>();
 
         return services;
     }

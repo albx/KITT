@@ -78,6 +78,12 @@ public static class WebApplicationBuilderExtensions
                 return result;
             });
 
+            options.Map<ArgumentOutOfRangeException>(ex =>
+            {
+                var result = new StatusCodeProblemDetails(StatusCodes.Status404NotFound);
+                return result;
+            });
+
             options.Map<ArgumentException>(ex =>
             {
                 var result = new StatusCodeProblemDetails(StatusCodes.Status400BadRequest);

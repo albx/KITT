@@ -9,4 +9,6 @@ public interface IDatabase
     IQueryable<Proposal> Proposals { get; }
 
     IQueryable<Expense> Expenses { get; }
+
+    IQueryable<StreamingStats> StreamingStats { get; }
 }

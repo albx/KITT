@@ -1,6 +1,4 @@
-﻿using KITT.Core.Persistence.Mapping;
-
-namespace KITT.Core.Persistence;
+﻿namespace KITT.Core.Persistence;
 
 public class KittDbContext : DbContext
 {
@@ -19,13 +17,11 @@ public class KittDbContext : DbContext
 
     public DbSet<Expense> Expenses { get; set; }
 
+    public DbSet<StreamingStats> StreamingStats { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfiguration(new ContentMapper());
-        modelBuilder.ApplyConfiguration(new StreamingMapper());
-        modelBuilder.ApplyConfiguration(new SettingsMapper());
-        modelBuilder.ApplyConfiguration(new ProposalMapper());
-        modelBuilder.ApplyConfiguration(new ExpenseMapper());
+        modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
     }
 }

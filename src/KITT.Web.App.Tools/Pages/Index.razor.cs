@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Tools.Pages;
 
@@ -19,6 +20,9 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
+    ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
     public IStringLocalizer<Resources.Pages.Index> Localizer { get; set; } = default!;
 
     private string message = string.Empty;
@@ -28,11 +32,44 @@ public partial class Index
     private bool isBotRunning = false;
     private bool discoveringBotStatus = false;
 
-    private ScheduledStreamingModel? currentStreaming = null;
+    private ViewModel model = new();
     private IEnumerable<ScheduledStreamingModel> scheduledStreamings = Array.Empty<ScheduledStreamingModel>();
     private bool isLoadingStreamings = true;
 
     private bool isSavingStats = false;
+
+    private int userJoinedNumber = 0;
+    private int userLeftNumber = 0;
+    private HashSet<string> viewers = new();
+    private HashSet<string> subscribers = new();
+
+    async Task SaveStreamingStatsAsync()
+    {
+        isSavingStats = true;
+
+        try
+        {
+            if (model.CurrentStreaming is null)
+            {
+                Snackbar.Add(Localizer[nameof(Resources.Pages.Index.SaveStreamingStatsMissingStreamingMessage)], Severity.Warning);
+                return;
+            }
+
+            await StreamingsClient.SaveStreamingStatsAsync(
+                model.CurrentStreaming.Id,
+                new StreamingStats(viewers.Count, subscribers.Count, userJoinedNumber, userLeftNumber));
+
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Index.SaveStreamingStatsSuccessMessage)], Severity.Success);
+        }
+        catch
+        {
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Index.SaveStreamingStatsErrorMessage)], Severity.Error);
+        }
+        finally
+        {
+            isSavingStats = false;
+        }
+    }
 
     async Task StartBotAsync()
     {
@@ -89,7 +126,7 @@ public partial class Index
         try
         {
             scheduledStreamings = await StreamingsClient.GetScheduledStreamingsAsync();
-            currentStreaming = scheduledStreamings.FirstOrDefault(s => s.ScheduleDate == DateTime.Today);
+            model.CurrentStreaming = scheduledStreamings.FirstOrDefault(s => s.ScheduleDate == DateTime.Today);
         }
         finally
         {
@@ -124,6 +161,37 @@ public partial class Index
             StateHasChanged();
         });
 
+        connection.On("UserJoinReceived", (string username) =>
+        {
+            userJoinedNumber++;
+            viewers.Add(username);
+
+            StateHasChanged();
+        });
+
+        connection.On("UserLeftReceived", (string username) =>
+        {
+            if (viewers.Contains(username))
+            {
+                viewers.Remove(username);
+            }
+
+            userLeftNumber++;
+            StateHasChanged();
+        });
+
+        connection.On("UserSubscriptionReceived", (string username) =>
+        {
+            subscribers.Add(username);
+            StateHasChanged();
+        });
+
         await connection.StartAsync();
+    }
+
+    class ViewModel
+    {
+        [Required]
+        public ScheduledStreamingModel? CurrentStreaming { get; set; }
     }
 }

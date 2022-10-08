@@ -16,4 +16,6 @@ public class Database : IDatabase
     public IQueryable<Proposal> Proposals => _context.Proposals.AsNoTracking();
 
     public IQueryable<Expense> Expenses => _context.Expenses.AsNoTracking();
+
+    public IQueryable<StreamingStats> StreamingStats => _context.StreamingStats.AsNoTracking();
 }

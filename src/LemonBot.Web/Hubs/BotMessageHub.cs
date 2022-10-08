@@ -28,4 +28,13 @@ public class BotMessageHub : Hub
     }
 
     public async Task SendBotStart() => await Clients.All.SendAsync("BotStarted");
+
+    public async Task SendUserJoin(string username)
+        => await Clients.All.SendAsync("UserJoinReceived", username);
+
+    public async Task SendUserLeft(string username)
+        => await Clients.All.SendAsync("UserLeftReceived", username);
+
+    public async Task SendNewUserSubscription(string subscriber)
+        => await Clients.All.SendAsync("UserSubscriptionReceived");
 }
