@@ -112,7 +112,6 @@
             .AddSingleton<IDialogService>(dialogMock.Object)
             .AddSingleton<ISnackbar>(snackbarMock.Object)
             .AddSingleton<MudBlazor.Services.IKeyInterceptorFactory>(keyInterceptorFactoryMock.Object)
-            .AddSingleton<MudBlazor.Services.IKeyInterceptor>(new Mock<MudBlazor.Services.IKeyInterceptor>().Object)
             .AddSingleton<MudBlazor.IScrollManager>(new Mock<MudBlazor.IScrollManager>().Object)
             .AddSingleton<MudBlazor.IMudPopoverService>(popoverServiceMock.Object);
     }

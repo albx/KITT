@@ -16,28 +16,32 @@
             }
             else
             {
-                <MudGrid>
-                    <MudItem xs="12" md="10">
-                        <MudSelect T="ScheduledStreamingModel"
-                                   Variant="Variant.Outlined"
-                                   Label="Scheduled streamings"
-                                   @bind-Value="currentStreaming">
-                            @foreach (var item in scheduledStreamings)
-                            {
-                                <MudSelectItem Value="item" />
-                            }
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="12" md="2">
-                        <MudButton OnClick="SaveStreamingStatsAsync" Disabled="@(currentStreaming is null || isSavingStats)" Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined">
-                            @if (isSavingStats)
-                            {
-                                <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
-                            }
-                            <MudText>Save stats</MudText>
-                        </MudButton>
-                    </MudItem>
-                </MudGrid>
+                <EditForm id="saveStreamingStats" Model="model" OnValidSubmit="SaveStreamingStatsAsync">
+                    <MudGrid>
+                        <MudItem xs="12" md="10">
+                            <MudSelect T="ScheduledStreamingModel"
+                                       Variant="Variant.Outlined"
+                                       Label="Scheduled streamings"
+                                       @bind-Value="model.CurrentStreaming"
+                                       For="@(() => model.CurrentStreaming)"
+                                       id="currentStreaming">
+                                @foreach (var item in scheduledStreamings)
+                                {
+                                    <MudSelectItem Value="item" />
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="2">
+                            <MudButton ButtonType="ButtonType.Submit" OnClick="SaveStreamingStatsAsync" Disabled="@(currentStreaming is null || isSavingStats)" Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined">
+                                @if (isSavingStats)
+                                {
+                                    <MudProgressCircular Class="mr-2" Color="Color.Primary" Indeterminate="true" Size="Size.Small" />
+                                }
+                                <MudText>Save stats</MudText>
+                            </MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
             }
         </MudPaper>
 

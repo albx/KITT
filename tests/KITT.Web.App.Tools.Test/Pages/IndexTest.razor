@@ -1,0 +1,46 @@
+﻿@using Microsoft.JSInterop
+@inherits TestContext
+
+@code {
+    [Fact]
+    public void SaveStreamingStatsAsync_Should_Save_Correctly_Specified_Values()
+    {
+        this.AddTestAuthorization();
+        JSInterop.Setup<MudBlazor.Interop.BoundingClientRect>("mudElementRef.getBoundingClientRect", _ => true);
+
+        var streamingClientMock = new Mock<IStreamingsClient>();
+
+        var streaming = new ScheduledStreamingModel { Id = Guid.NewGuid(), Title = "Test", ScheduleDate = DateTime.Today };
+
+        streamingClientMock
+            .Setup(s => s.GetScheduledStreamingsAsync())
+            .Returns(Task.FromResult<IEnumerable<ScheduledStreamingModel>>(new[] { streaming }));
+
+        var keyInterceptorFactoryMock = new Mock<MudBlazor.Services.IKeyInterceptorFactory>();
+        keyInterceptorFactoryMock
+            .Setup(f => f.Create())
+            .Returns(new Mock<MudBlazor.Services.IKeyInterceptor>().Object);
+
+        var popoverServiceMock = new Mock<MudBlazor.IMudPopoverService>();
+        popoverServiceMock.Setup(s => s.Register(It.IsAny<RenderFragment>()))
+            .Returns(new MudPopoverHandler((builder) => { }, new Mock<IJSRuntime>().Object, () => { }));
+
+        this.Services
+            .AddSingleton(streamingClientMock.Object)
+            .AddSingleton(new Mock<IBotClient>().Object)
+            .AddSingleton(new Mock<IStringLocalizer<UI.Resources.Common>>().Object)
+            .AddSingleton(new Mock<IStringLocalizer<Resources.Pages.Index>>().Object)
+            .AddSingleton(keyInterceptorFactoryMock.Object)
+            .AddSingleton<MudBlazor.IScrollManager>(new Mock<MudBlazor.IScrollManager>().Object)
+            .AddSingleton<MudBlazor.IMudPopoverService>(popoverServiceMock.Object);
+
+        var component = Render(@<Index />);
+
+        var saveStatsForm = component.Find("#saveStreamingStats");
+        saveStatsForm.Submit();
+
+        streamingClientMock.Verify(s => s.SaveStreamingStatsAsync(
+            streaming.Id,
+            It.Is<KITT.Web.Models.Tools.StreamingStats>(stats => stats == new StreamingStats(0, 0, 0, 0))));
+    }
+}

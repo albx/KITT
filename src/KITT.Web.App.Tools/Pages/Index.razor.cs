@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Tools.Pages;
 
@@ -29,6 +30,7 @@ public partial class Index
     private bool discoveringBotStatus = false;
 
     private ScheduledStreamingModel? currentStreaming = null;
+    private ViewModel model = new();
     private IEnumerable<ScheduledStreamingModel> scheduledStreamings = Array.Empty<ScheduledStreamingModel>();
     private bool isLoadingStreamings = true;
 
@@ -45,14 +47,14 @@ public partial class Index
 
         try
         {
-            if (currentStreaming is null)
+            if (model.CurrentStreaming is null)
             {
                 //errore
                 return;
             }
 
             await StreamingsClient.SaveStreamingStatsAsync(
-                currentStreaming.Id,
+                model.CurrentStreaming.Id,
                 new StreamingStats(viewers.Count, subscribers.Count, userJoinedNumber, userLeftNumber));
 
             //messaggio di salvataggio completato
@@ -118,7 +120,7 @@ public partial class Index
         try
         {
             scheduledStreamings = await StreamingsClient.GetScheduledStreamingsAsync();
-            currentStreaming = scheduledStreamings.FirstOrDefault(s => s.ScheduleDate == DateTime.Today);
+            model.CurrentStreaming = scheduledStreamings.FirstOrDefault(s => s.ScheduleDate == DateTime.Today);
         }
         finally
         {
@@ -179,5 +181,11 @@ public partial class Index
         });
 
         await connection.StartAsync();
+    }
+
+    class ViewModel
+    {
+        [Required]
+        public ScheduledStreamingModel? CurrentStreaming { get; set; }
     }
 }
