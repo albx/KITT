@@ -13,9 +13,9 @@
     <None Remove="Models\**" />
   </ItemGroup>
 
-    <ItemGroup>
-		<InternalsVisibleTo Include="LemonBot.Web.Test.Integration" />
-	</ItemGroup>
+  <ItemGroup>
+	<InternalsVisibleTo Include="LemonBot.Web.Test.Integration" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
