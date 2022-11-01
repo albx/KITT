@@ -8,7 +8,12 @@
 <body>
     <div id="overlayContent"></div>
 
-    <script src="~/lib/signalr/signalr.js"></script>
+    <environment include="Development">
+        <script src="~/lib/signalr/signalr.js"></script>
+    </environment>
+    <environment include="Production">
+        <script src="~/lib/signalr/signalr.min.js" asp-append-version="true"></script>
+    </environment>
     <script>
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:5001/bot")

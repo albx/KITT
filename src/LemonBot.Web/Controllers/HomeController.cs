@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace LemonBot.Web.Controllers;
 
@@ -17,6 +16,7 @@ public class HomeController : Controller
         return View();
     }
 
+    [Route("~/overlay")]
     public IActionResult Overlay()
     {
         return View();

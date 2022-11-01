@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "microsoft-signalr@6.0.10",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "signalr.min.js",
+        "signalr.js"
+      ]
+    }
+  ]
+}

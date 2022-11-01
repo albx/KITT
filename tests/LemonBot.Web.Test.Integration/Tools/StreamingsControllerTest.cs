@@ -56,7 +56,16 @@ public class StreamingsControllerTest : IClassFixture<KittWebApplicationFactory>
                         services,
                         context =>
                         {
-                            var streaming = Streaming.Schedule("test", "test", "albx87", new DateTime(2022, 10, 15), new TimeSpan(16, 00, 00), new TimeSpan(18, 00, 00), "albx87", Guid.NewGuid().ToString());
+                            var streaming = Streaming.Schedule(
+                                "test",
+                                "test",
+                                "albx87",
+                                DateTime.Today,
+                                TimeSpan.FromHours(DateTime.Now.Hour),
+                                TimeSpan.FromHours(DateTime.Now.Hour + 2),
+                                "albx87",
+                                Guid.NewGuid().ToString());
+
                             context.Streamings.Add(streaming);
                             streamingId = streaming.Id;
 
