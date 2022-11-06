@@ -84,10 +84,10 @@ public partial class Import
             {
                 Title = this.Title,
                 ScheduleDate = this.ScheduleDate.Value,
-                EndingTime = this.ScheduleDate.Value.Add(this.EndingTime.Value),
+                EndingTime = this.EndingTime.Value,
                 HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
                 Slug = this.Slug,
-                StartingTime = this.ScheduleDate.Value.Add(this.StartingTime.Value),
+                StartingTime = this.StartingTime.Value,
                 StreamingAbstract = this.StreamingAbstract,
                 YoutubeVideoUrl = this.YoutubeVideoUrl,
                 Seo = this.Seo

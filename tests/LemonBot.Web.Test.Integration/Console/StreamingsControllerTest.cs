@@ -4,7 +4,6 @@ using LemonBot.Web.Test.Integration.Fixtures;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using System.Net;
-using System.Text.Json;
 using Xunit;
 
 namespace LemonBot.Web.Test.Integration.Console;
@@ -63,7 +62,7 @@ public class StreamingsControllerTest :
 
         var response = await client.GetAsync("/api/console/streamings");
 
-        var model = await DeserializeFromResponseAsync<StreamingsListModel>(response);
+        var model = await response.Content.ReadFromJsonAsync<StreamingsListModel>();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -126,16 +125,16 @@ public class StreamingsControllerTest :
 
         var response = await client.GetAsync($"/api/console/streamings/{createdStreamingId}");
 
-        var model = await DeserializeFromResponseAsync<StreamingDetailModel>(response);
+        var model = await response.Content.ReadFromJsonAsync<StreamingDetailModel>();
 
         var expected = new StreamingDetailModel
         {
             Id = createdStreamingId,
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "albx87",
             ScheduleDate = scheduleDate,
             Slug = "test",
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             Title = "test"
         };
 
@@ -184,17 +183,17 @@ public class StreamingsControllerTest :
 
         var model = new ScheduleStreamingModel
         {
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
             Slug = "test-create",
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             StreamingAbstract = "test",
             Title = "test create"
         };
 
         var response = await client.PostAsJsonAsync("/api/console/streamings", model);
-        var modelFromResponse = await DeserializeFromResponseAsync<ScheduleStreamingModel>(response);
+        var modelFromResponse = await response.Content.ReadFromJsonAsync<ScheduleStreamingModel>();
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(model, modelFromResponse);
@@ -220,11 +219,11 @@ public class StreamingsControllerTest :
 
         var model = new ScheduleStreamingModel
         {
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
             Slug = "test-create",
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             StreamingAbstract = "test",
             Title = "test create"
         };
@@ -253,17 +252,55 @@ public class StreamingsControllerTest :
 
         var model = new ScheduleStreamingModel
         {
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
             Slug = "test-create",
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             StreamingAbstract = "test",
             Title = "test create"
         };
 
         var response = await client.PostAsJsonAsync("/api/console/streamings", model);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task ScheduleStreaming_Should_Save_Schedule_Time_Correctly()
+    {
+        var scheduleDate = DateTime.Now.AddDays(1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var model = new ScheduleStreamingModel
+        {
+            EndingTime = endingTime,
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            Slug = "test-create",
+            StartingTime = startingTime,
+            StreamingAbstract = "test",
+            Title = "test create"
+        };
+
+        var response = await client.PostAsJsonAsync("/api/console/streamings", model);
+        var modelFromResponse = await response.Content.ReadFromJsonAsync<ScheduleStreamingModel>();
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        Assert.Equal(startingTime, modelFromResponse!.StartingTime);
+        Assert.Equal(endingTime, modelFromResponse!.EndingTime);
     }
     #endregion
 
@@ -307,18 +344,18 @@ public class StreamingsControllerTest :
 
         var model = new ImportStreamingModel
         {
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
             Slug = "test-import",
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             StreamingAbstract = "test",
             Title = "test import",
             YoutubeVideoUrl = "youtube.com/test"
         };
 
         var response = await client.PostAsJsonAsync("/api/console/streamings/import", model);
-        var modelFromResponse = await DeserializeFromResponseAsync<ImportStreamingModel>(response);
+        var modelFromResponse = await response.Content.ReadFromJsonAsync<ImportStreamingModel>();
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(model, modelFromResponse);
@@ -344,11 +381,11 @@ public class StreamingsControllerTest :
 
         var model = new ImportStreamingModel
         {
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
             Slug = "test-import",
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             StreamingAbstract = "test",
             Title = "test import",
             YoutubeVideoUrl = "youtube.com/test"
@@ -356,6 +393,45 @@ public class StreamingsControllerTest :
 
         var response = await client.PostAsJsonAsync("/api/console/streamings/import", model);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task ImportStreaming_Should_Save_Schedule_Time_Correctly()
+    {
+        var scheduleDate = DateTime.Now.AddDays(-1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var model = new ImportStreamingModel
+        {
+            EndingTime = endingTime,
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            Slug = "test-import",
+            StartingTime = startingTime,
+            StreamingAbstract = "test",
+            Title = "test import",
+            YoutubeVideoUrl = "youtube.com/test"
+        };
+
+        var response = await client.PostAsJsonAsync("/api/console/streamings/import", model);
+        var modelFromResponse = await response.Content.ReadFromJsonAsync<ImportStreamingModel>();
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        Assert.Equal(startingTime, modelFromResponse!.StartingTime);
+        Assert.Equal(endingTime, modelFromResponse!.EndingTime);
     }
     #endregion
 
@@ -382,10 +458,10 @@ public class StreamingsControllerTest :
         var model = new StreamingDetailModel
         {
             Id = streamingId,
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             Slug = "test",
             StreamingAbstract = "my abstract",
             Title = "test",
@@ -471,10 +547,10 @@ public class StreamingsControllerTest :
         var model = new StreamingDetailModel
         {
             Id = streamingId,
-            EndingTime = scheduleDate.Add(endingTime),
+            EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
-            StartingTime = scheduleDate.Add(startingTime),
+            StartingTime = startingTime,
             Slug = "test",
             StreamingAbstract = "my abstract",
             Title = "test",
@@ -545,23 +621,6 @@ public class StreamingsControllerTest :
 
         var response = await client.DeleteAsync($"/api/console/streamings/{streamingId}");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-    }
-    #endregion
-
-    #region Private helpers
-    private async Task<TModel?> DeserializeFromResponseAsync<TModel>(HttpResponseMessage? response)
-        where TModel : class
-    {
-        if (response is null)
-        {
-            return null;
-        }
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<TModel>(responseContent, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
     }
     #endregion
 }

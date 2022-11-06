@@ -15,10 +15,10 @@ public record StreamingDetailModel
     public DateTime ScheduleDate { get; set; } = DateTime.Now;
 
     [Required]
-    public DateTime StartingTime { get; set; }
+    public TimeSpan StartingTime { get; set; }
 
     [Required]
-    public DateTime EndingTime { get; set; }
+    public TimeSpan EndingTime { get; set; }
 
     [Required]
     public string HostingChannelUrl { get; set; } = string.Empty;
