@@ -96,8 +96,8 @@ public class ProposalsControllerServices
             model.Title,
             model.Slug,
             model.ScheduleDate,
-            model.StartingTime.TimeOfDay,
-            model.EndingTime.TimeOfDay,
+            model.StartingTime,
+            model.EndingTime,
             model.HostingChannelUrl,
             model.StreamingAbstract);
     }
