@@ -1,7 +1,6 @@
 ﻿using KITT.Web.App.Tools.Clients;
 using KITT.Web.Models.Tools;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +19,9 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
+    public IRealtimeClient RealtimeClient { get; set; } = default!;
+
+    [Inject]
     ISnackbar Snackbar { get; set; } = default!;
 
     [Inject]
@@ -28,7 +30,6 @@ public partial class Index
     private string message = string.Empty;
     private Severity messageSeverity = Severity.Info;
 
-    private HubConnection? connection;
     private bool isBotRunning = false;
     private bool discoveringBotStatus = false;
 
@@ -148,11 +149,9 @@ public partial class Index
 
     private async Task InitializeSignalRConnection()
     {
-        connection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/bot"))
-            .Build();
+        RealtimeClient.ConnectToEndpoint(Navigation.ToAbsoluteUri("/bot"));
 
-        connection.On("BotStarted", () =>
+        RealtimeClient.On("BotStarted", () =>
         {
             message = Localizer[nameof(Resources.Pages.Index.BotRunningMessage)];
             messageSeverity = Severity.Success;
@@ -161,7 +160,7 @@ public partial class Index
             StateHasChanged();
         });
 
-        connection.On("UserJoinReceived", (string username) =>
+        RealtimeClient.On("UserJoinReceived", (string username) =>
         {
             userJoinedNumber++;
             viewers.Add(username);
@@ -169,7 +168,7 @@ public partial class Index
             StateHasChanged();
         });
 
-        connection.On("UserLeftReceived", (string username) =>
+        RealtimeClient.On("UserLeftReceived", (string username) =>
         {
             if (viewers.Contains(username))
             {
@@ -180,13 +179,13 @@ public partial class Index
             StateHasChanged();
         });
 
-        connection.On("UserSubscriptionReceived", (string username) =>
+        RealtimeClient.On("UserSubscriptionReceived", (string username) =>
         {
             subscribers.Add(username);
             StateHasChanged();
         });
 
-        await connection.StartAsync();
+        await RealtimeClient.StartAsync();
     }
 
     class ViewModel
