@@ -33,7 +33,8 @@
             .AddSingleton(keyInterceptorFactoryMock.Object)
             .AddSingleton(new Mock<MudBlazor.IScrollManager>().Object)
             .AddSingleton(popoverServiceMock.Object)
-            .AddSingleton(new Mock<MudBlazor.ISnackbar>().Object);
+            .AddSingleton(new Mock<MudBlazor.ISnackbar>().Object)
+            .AddSingleton(new Mock<IRealtimeClient>().Object);
 
         var component = Render(@<Index />);
 

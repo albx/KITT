@@ -1,4 +1,5 @@
 ﻿using KITT.Web.App.Tools.Clients.Http;
+using KITT.Web.App.Tools.Clients.SignalR;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,8 @@ public static class ClientsServiceCollectionExtensions
                 "Tools.StreamingsClient",
                 client => client.BaseAddress = new Uri(clientBaseAddress))
             .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
+        services.AddScoped<IRealtimeClient, SignalRRealtimeClient>();
 
         return services;
     }
