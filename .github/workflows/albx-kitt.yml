@@ -11,10 +11,10 @@ on:
     - 'src/KITT.Web.Models/**'
 env:
   AZURE_WEBAPP_NAME: albx-kitt
-  AZURE_WEBAPP_PACKAGE_PATH: src/LemonBot.Web/published
+  AZURE_WEBAPP_PACKAGE_PATH: ./src/LemonBot.Web/published
   CONFIGURATION: Release
   DOTNET_VERSION: 7.0.x
-  WORKING_DIRECTORY: src/LemonBot.Web
+  WORKING_DIRECTORY: ./src/LemonBot.Web
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,9 +44,33 @@ jobs:
       with:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-  deploy:
+  update-database:
     runs-on: ubuntu-latest
     needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Install Entity Framework Core tools
+      run: |
+          dotnet new tool-manifest
+          dotnet tool install dotnet-ef
+    - name: Generate SQL script
+      run: dotnet ef migrations script --idempotent -p ./src/KITT.Core/KITT.Core.csproj -s ${{ env.WORKING_DIRECTORY }}/LemonBot.Web.csproj -o ./scripts/update-database.sql
+    - name: Azure login
+      uses: Azure/login@v1
+      with: 
+        creds: ${{ secrets.KITT_SQL_AZURE_CREDENTIALS }}
+    - name: Update Database
+      uses: Azure/sql-action@v2
+      with:
+        connection-string: ${{ secrets.KITT_CONNECTIONSTRING }}
+        path: ./scripts/update-database.sql
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ build, update-database ]
     steps:
     - name: Download artifact from build job
       uses: actions/download-artifact@v2
