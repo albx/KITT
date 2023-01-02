@@ -21,11 +21,6 @@ public class Streaming : Content
     #region Behaviors
     public void ChangeSchedule(DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
     {
-        if (scheduleDate < DateTime.Today)
-        {
-            throw new ArgumentException("Schedule date cannot be set in the past", nameof(scheduleDate));
-        }
-
         if (startingTime >= endingTime)
         {
             throw new ArgumentException("Ending time cannot be previous than starting time", nameof(endingTime));
