@@ -31,6 +31,8 @@ jobs:
       env:
         AzureAdB2C.Authority: ${{ secrets.KITT_ADB2C_AUTHORITY }}
         AzureAdB2C.ClientId: ${{ secrets.KITT_ADB2C_CLIENTID }}
+        ApiApp.Tenant: ${{ secrets.KITT_APIAPP_TENANT }}
+        ApiApp.AppId: ${{ secrets.KITT_APIAPP_APPID }}
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
