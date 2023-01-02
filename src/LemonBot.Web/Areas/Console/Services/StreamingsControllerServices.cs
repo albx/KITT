@@ -35,9 +35,9 @@ public class StreamingsControllerServices
             .Select(s => new StreamingsListModel.StreamingListItemModel
             {
                 Id = s.Id,
-                EndingTime = s.ScheduleDate.Add(s.EndingTime),
+                EndingTime = s.EndingTime,
                 ScheduledOn = s.ScheduleDate,
-                StartingTime = s.ScheduleDate.Add(s.StartingTime),
+                StartingTime = s.StartingTime,
                 Title = s.Title,
                 HostingChannelUrl = s.HostingChannelUrl,
                 YouTubeVideoUrl = s.YouTubeVideoUrl
