@@ -560,6 +560,56 @@ public class StreamingsControllerTest :
         var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
+
+    [Fact]
+    public async Task UpdateStreaming_Should_Return_Ok_Status_Code_Even_If_Streaming_Has_A_Past_Schedule_Date()
+    {
+        var streamingId = Guid.Empty;
+        var scheduleDate = DateTime.Today.AddMonths(-1);
+        var startingTime = TimeSpan.FromHours(16);
+        var endingTime = TimeSpan.FromHours(18);
+        var userId = TestAuthenticationHandler.UserId;
+
+        var client = this.factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(
+                        services,
+                        context =>
+                        {
+                            var streaming = Streaming.Import("test", "test", "albx87", scheduleDate, startingTime, endingTime, "albx87", "youtube", "my abstract", userId);
+                            context.Streamings.Add(streaming);
+                            streamingId = streaming.Id;
+
+                            context.SaveChanges();
+                        });
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var model = new StreamingDetailModel
+        {
+            Id = streamingId,
+            EndingTime = endingTime,
+            HostingChannelUrl = "https://www.twitch.tv/albx87",
+            ScheduleDate = scheduleDate,
+            StartingTime = new TimeSpan(16, 30, 0),
+            Slug = "test",
+            StreamingAbstract = "my abstract",
+            Title = "test",
+            YoutubeVideoUrl = "https://www.youtube.com/test"
+        };
+
+        var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
     #endregion
 
     #region DeleteStreaming tests

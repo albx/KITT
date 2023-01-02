@@ -155,13 +155,13 @@ namespace KITT.Core.Test.Models
             string userId = Guid.NewGuid().ToString();
 
             var streaming = Streaming.Schedule(
-                title, 
-                slug, 
-                twitchChannel, 
-                scheduleDate, 
-                startingTime, 
-                endingTime, 
-                hostingChannelUrl, 
+                title,
+                slug,
+                twitchChannel,
+                scheduleDate,
+                startingTime,
+                endingTime,
+                hostingChannelUrl,
                 userId);
 
             Assert.Equal(title, streaming.Title);
@@ -201,18 +201,6 @@ namespace KITT.Core.Test.Models
         #endregion
 
         #region ChangeSchedule tests
-        [Fact]
-        public void ChangeSchedule_Should_Throw_ArgumentException_If_Schedule_Date_Is_Past_Date()
-        {
-            var streaming = CreateStreamingForTests();
-            DateTime scheduleDate = DateTime.Today.AddDays(-1);
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
-
-            var ex = Assert.Throws<ArgumentException>(() => streaming.ChangeSchedule(scheduleDate, startingTime, endingTime));
-            Assert.Equal(nameof(scheduleDate), ex.ParamName);
-        }
-
         [Fact]
         public void ChangeSchedule_Should_Throw_ArgumentException_If_Ending_Time_Is_Previous_Than_Starting_Time()
         {
