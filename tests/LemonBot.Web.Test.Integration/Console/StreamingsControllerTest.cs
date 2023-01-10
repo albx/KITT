@@ -68,7 +68,7 @@ public class StreamingsControllerTest :
 
         Assert.NotNull(model);
         Assert.Equal(
-            new StreamingsListModel.StreamingListItemModel { Id = createdStreamingId, EndingTime = scheduleDate.AddHours(18), StartingTime = scheduleDate.AddHours(16), HostingChannelUrl = "albx87", ScheduledOn = scheduleDate, Title = "test" },
+            new StreamingsListModel.StreamingListItemModel { Id = createdStreamingId, EndingTime = TimeSpan.FromHours(18), StartingTime = TimeSpan.FromHours(16), HostingChannelUrl = "albx87", ScheduledOn = scheduleDate, Title = "test" },
             model!.Items.First());
     }
     #endregion

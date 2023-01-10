@@ -33,7 +33,7 @@ builder.Services
 builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-    options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration["ScopeUri"]);
+    options.ProviderOptions.DefaultAccessTokenScopes.Add($"https://{builder.Configuration["ApiApp:Tenant"]}/{builder.Configuration["ApiApp:AppId"]}/Api.Development");
 
     options.ProviderOptions.LoginMode = "redirect";
 });

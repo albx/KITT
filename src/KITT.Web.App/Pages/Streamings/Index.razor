@@ -62,7 +62,7 @@
 				<RowTemplate>
 					<MudTd>@context.Title</MudTd>
 					<MudTd>@context.ScheduledOn.ToShortDateString()</MudTd>
-					<MudTd>@context.StartingTime.ToString("HH:mm") - @context.EndingTime.ToString("HH:mm")</MudTd>
+					<MudTd>@context.StartingTime.ToString("hh\\:mm") - @context.EndingTime.ToString("hh\\:mm")</MudTd>
 					<MudTd><a href="@context.HostingChannelUrl" target="_blank">@context.HostingChannelUrl</a></MudTd>
 					<MudTd>
 						@if (string.IsNullOrWhiteSpace(context.YouTubeVideoUrl))
