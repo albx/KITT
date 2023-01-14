@@ -18,14 +18,5 @@ public class ImageCommand : IBotCommand
         await client.PostAsJsonAsync(
             "api/SendImageOverlay",
             new { resourceUrl = "https://cdn.pixabay.com/photo/2015/04/27/22/53/man-742766_960_720.jpg" });
-
-        //if (context.Connection.State == HubConnectionState.Disconnected)
-        //{
-        //    await context.Connection.StartAsync();
-        //}
-
-        //await context.Connection.InvokeAsync(
-        //    "SendOverlay",
-        //    "https://cdn.pixabay.com/photo/2015/04/27/22/53/man-742766_960_720.jpg");
     }
 }
