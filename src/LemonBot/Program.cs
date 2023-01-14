@@ -12,6 +12,10 @@ var host = Host.CreateDefaultBuilder()
     {
         var configuration = context.Configuration;
 
+        services.AddHttpClient(
+            "BotClient",
+            client => client.BaseAddress = new Uri(configuration["HubOptions:Endpoint"]!));
+
         services.Configure<TwitchBotOptions>(configuration.GetSection("TwitchBot"));
         services.Configure<GithubOptions>(configuration.GetSection("GitHub"));
         services.Configure<HubOptions>(configuration.GetSection(nameof(HubOptions)));

@@ -15,7 +15,8 @@ public static class ServiceCollectionExtensions
             .AddSingleton<SayCommand>()
             .AddSingleton<GithubCommand>()
             .AddSingleton<SoCommand>()
-            .AddSingleton<LcaCommand>();
+            .AddSingleton<LcaCommand>()
+            .AddSingleton<ImageCommand>();
 
         return services;
     }
