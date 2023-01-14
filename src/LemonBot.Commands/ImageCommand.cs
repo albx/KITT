@@ -1,22 +1,17 @@
-﻿using System.Net.Http.Json;
-
-namespace LemonBot.Commands;
+﻿namespace LemonBot.Commands;
 
 [BotCommand("!image", HelpText = "Show an image in overlay")]
 public class ImageCommand : IBotCommand
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly BotClient _botClient;
 
-    public ImageCommand(IHttpClientFactory httpClientFactory)
+    public ImageCommand(BotClient botClient)
     {
-        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
     }
 
     public async Task ExecuteAsync(BotCommandContext context)
     {
-        using var client = _httpClientFactory.CreateClient("BotClient");
-        await client.PostAsJsonAsync(
-            "api/SendImageOverlay",
-            new { resourceUrl = "https://cdn.pixabay.com/photo/2015/04/27/22/53/man-742766_960_720.jpg" });
+        await _botClient.SendImageOverlayAsync("https://cdn.pixabay.com/photo/2015/04/27/22/53/man-742766_960_720.jpg");
     }
 }
