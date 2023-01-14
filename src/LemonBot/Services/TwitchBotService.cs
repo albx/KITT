@@ -32,24 +32,24 @@ public class TwitchBotService : BackgroundService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _hubOptions = hubOptions?.Value ?? throw new ArgumentNullException(nameof(hubOptions));
 
-        _connection = new HubConnectionBuilder()
-            .WithUrl($"{_hubOptions.Endpoint}/api")
-            .Build();
+        //_connection = new HubConnectionBuilder()
+        //    .WithUrl($"{_hubOptions.Endpoint}/api")
+        //    .Build();
 
         _usersAlreadyJoined = new();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        try
-        {
-            await _connection.StartAsync();
-            //await _connection.SendAsync("SendBotStart");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Connection failed: {Message}", ex.Message);
-        }
+        //try
+        //{
+        //    await _connection.StartAsync();
+        //    //await _connection.SendAsync("SendBotStart");
+        //}
+        //catch (Exception ex)
+        //{
+        //    _logger.LogWarning(ex, "Connection failed: {Message}", ex.Message);
+        //}
 
         InitializeTwitchClient();
         ConnectToTwitch();
@@ -112,7 +112,7 @@ public class TwitchBotService : BackgroundService
         await _connection.InvokeAsync("SendNewUserSubscription", e.Subscriber.DisplayName);
     }
 
-    private async void OnUserLeft(object? sender, OnUserLeftArgs e)
+    private void OnUserLeft(object? sender, OnUserLeftArgs e)
     {
         _logger.LogInformation("User left the live stream");
 
@@ -124,7 +124,7 @@ public class TwitchBotService : BackgroundService
         //await _connection.InvokeAsync("SendUserLeft", e.Username);
     }
 
-    private async void OnUserJoined(object? sender, OnUserJoinedArgs e)
+    private void OnUserJoined(object? sender, OnUserJoinedArgs e)
     {
         _logger.LogInformation("User join the live stream");
 
@@ -155,8 +155,6 @@ public class TwitchBotService : BackgroundService
     private void OnMessageReceived(object? sender, OnMessageReceivedArgs e)
     {
         _logger.LogInformation("{UserName} says: {Message}", e.ChatMessage.Username, e.ChatMessage.Message);
-
-        //await ExecuteCommandByMessage(e.ChatMessage);
     }
 
     private async void OnChatCommandReceived(object? sender, OnChatCommandReceivedArgs e)
