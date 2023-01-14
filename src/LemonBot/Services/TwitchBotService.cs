@@ -33,7 +33,7 @@ public class TwitchBotService : BackgroundService
         _hubOptions = hubOptions?.Value ?? throw new ArgumentNullException(nameof(hubOptions));
 
         _connection = new HubConnectionBuilder()
-            .WithUrl(_hubOptions.Endpoint)
+            .WithUrl($"{_hubOptions.Endpoint}/api")
             .Build();
 
         _usersAlreadyJoined = new();
@@ -44,7 +44,7 @@ public class TwitchBotService : BackgroundService
         try
         {
             await _connection.StartAsync();
-            await _connection.SendAsync("SendBotStart");
+            //await _connection.SendAsync("SendBotStart");
         }
         catch (Exception ex)
         {
@@ -116,24 +116,24 @@ public class TwitchBotService : BackgroundService
     {
         _logger.LogInformation("User left the live stream");
 
-        if (_connection.State == HubConnectionState.Disconnected)
-        {
-            await _connection.StartAsync();
-        }
+        //if (_connection.State == HubConnectionState.Disconnected)
+        //{
+        //    await _connection.StartAsync();
+        //}
 
-        await _connection.InvokeAsync("SendUserLeft", e.Username);
+        //await _connection.InvokeAsync("SendUserLeft", e.Username);
     }
 
     private async void OnUserJoined(object? sender, OnUserJoinedArgs e)
     {
         _logger.LogInformation("User join the live stream");
 
-        if (_connection.State == HubConnectionState.Disconnected)
-        {
-            await _connection.StartAsync();
-        }
+        //if (_connection.State == HubConnectionState.Disconnected)
+        //{
+        //    await _connection.StartAsync();
+        //}
 
-        await _connection.InvokeAsync("SendUserJoin", e.Username);
+        //await _connection.InvokeAsync("SendUserJoin", e.Username);
     }
 
     private async Task ExecuteCommandByMessage(ChatMessage chatMessage)
@@ -142,7 +142,7 @@ public class TwitchBotService : BackgroundService
         {
             UserName = chatMessage.Username,
             Message = chatMessage.Message,
-            Connection = _connection
+            //Connection = _connection
         };
 
         var command = _commandFactory.ResolveByMessage(chatMessage.Message);
