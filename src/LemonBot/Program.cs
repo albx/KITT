@@ -1,4 +1,5 @@
-﻿using LemonBot.Clients.Configurations;
+﻿using LemonBot.Clients;
+using LemonBot.Clients.Configurations;
 using LemonBot.Clients.Extensions;
 using LemonBot.Commands.Extensions;
 using LemonBot.Commands.Options;
@@ -12,8 +13,7 @@ var host = Host.CreateDefaultBuilder()
     {
         var configuration = context.Configuration;
 
-        services.AddHttpClient(
-            "BotClient",
+        services.AddHttpClient<BotClient>(
             client => client.BaseAddress = new Uri(configuration["HubOptions:Endpoint"]!));
 
         services.Configure<TwitchBotOptions>(configuration.GetSection("TwitchBot"));
