@@ -1,11 +1,8 @@
 using LemonBot.Clients;
 using LemonBot.Commands;
 using LemonBot.Commands.Services;
-using LemonBot.Options;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
@@ -15,63 +12,53 @@ public class TwitchBotService : BackgroundService
 {
     private readonly ILogger<TwitchBotService> _logger;
 
-    private readonly TwitchClientProxy _client;
+    private readonly TwitchClientProxy _twitchClient;
 
     private readonly BotCommandResolver _commandFactory;
 
-    private readonly HubOptions _hubOptions;
+    private readonly BotClient _botClient;
 
     private HashSet<string> _usersAlreadyJoined;
 
-    private HubConnection _connection;
-
-    public TwitchBotService(TwitchClientProxy client, BotCommandResolver commandFactory, ILogger<TwitchBotService> logger, IOptions<HubOptions> hubOptions)
+    public TwitchBotService(
+        TwitchClientProxy twitchClient,
+        BotCommandResolver commandFactory,
+        BotClient botClient,
+        ILogger<TwitchBotService> logger)
     {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
+        _twitchClient = twitchClient ?? throw new ArgumentNullException(nameof(twitchClient));
         _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+        _botClient = botClient;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _hubOptions = hubOptions?.Value ?? throw new ArgumentNullException(nameof(hubOptions));
-
-        //_connection = new HubConnectionBuilder()
-        //    .WithUrl($"{_hubOptions.Endpoint}/api")
-        //    .Build();
 
         _usersAlreadyJoined = new();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        //try
-        //{
-        //    await _connection.StartAsync();
-        //    //await _connection.SendAsync("SendBotStart");
-        //}
-        //catch (Exception ex)
-        //{
-        //    _logger.LogWarning(ex, "Connection failed: {Message}", ex.Message);
-        //}
-
         InitializeTwitchClient();
         ConnectToTwitch();
+
+        await _botClient.NotifyStartAsync();
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         UnregisterClientEvents();
+        await _botClient.NotifyStopAsync();
 
-        await _connection.StopAsync();
         await base.StopAsync(cancellationToken);
     }
 
     private void InitializeTwitchClient()
     {
-        _client.Initialize();
+        _twitchClient.Initialize();
         RegisterClientEvents();
     }
 
     private void UnregisterClientEvents()
     {
-        _client.RemoveClientEvents(c =>
+        _twitchClient.RemoveClientEvents(c =>
         {
             c.OnLog -= OnClientLog;
             c.OnConnected -= OnClientConnected;
@@ -86,7 +73,7 @@ public class TwitchBotService : BackgroundService
 
     private void RegisterClientEvents()
     {
-        _client.ConfigureClientEvents(c =>
+        _twitchClient.ConfigureClientEvents(c =>
         {
             c.OnLog += OnClientLog;
             c.OnConnected += OnClientConnected;
@@ -99,41 +86,24 @@ public class TwitchBotService : BackgroundService
         });
     }
 
-    private async void OnNewUserSubscription(object? sender, OnNewSubscriberArgs e)
+    private void OnNewUserSubscription(object? sender, OnNewSubscriberArgs e)
     {
         _logger.LogInformation("New user subscription");
-        _client.SendMessage($"Ciao {e.Subscriber.DisplayName}, grazie per la tua subscription!");
+        _twitchClient.SendMessage($"Ciao {e.Subscriber.DisplayName}, grazie per la tua subscription!");
 
-        if (_connection.State == HubConnectionState.Disconnected)
-        {
-            await _connection.StartAsync();
-        }
-
-        await _connection.InvokeAsync("SendNewUserSubscription", e.Subscriber.DisplayName);
+        _botClient.SendNewUserSubscriptionAsync(e.Subscriber.DisplayName);
     }
 
     private void OnUserLeft(object? sender, OnUserLeftArgs e)
     {
         _logger.LogInformation("User left the live stream");
-
-        //if (_connection.State == HubConnectionState.Disconnected)
-        //{
-        //    await _connection.StartAsync();
-        //}
-
-        //await _connection.InvokeAsync("SendUserLeft", e.Username);
+        _botClient.SendUserLeftAsync(e.Username);
     }
 
     private void OnUserJoined(object? sender, OnUserJoinedArgs e)
     {
         _logger.LogInformation("User join the live stream");
-
-        //if (_connection.State == HubConnectionState.Disconnected)
-        //{
-        //    await _connection.StartAsync();
-        //}
-
-        //await _connection.InvokeAsync("SendUserJoin", e.Username);
+        _botClient.SendUserJoinAsync(e.Username);
     }
 
     private async Task ExecuteCommandByMessage(ChatMessage chatMessage)
@@ -141,8 +111,7 @@ public class TwitchBotService : BackgroundService
         var context = new BotCommandContext
         {
             UserName = chatMessage.Username,
-            Message = chatMessage.Message,
-            //Connection = _connection
+            Message = chatMessage.Message
         };
 
         var command = _commandFactory.ResolveByMessage(chatMessage.Message);
@@ -171,8 +140,8 @@ public class TwitchBotService : BackgroundService
     {
         _logger.LogInformation("{BotUsername} connected successfully", e.BotUsername);
 
-        _client.Join();
-        _client.SendMessage($"Ciao a tutti! Sono {e.BotUsername}, benvenuti nel canale :) ");
+        _twitchClient.Join();
+        _twitchClient.SendMessage($"Ciao a tutti! Sono {e.BotUsername}, benvenuti nel canale :) ");
     }
 
     private void OnClientLog(object? sender, OnLogArgs e)
@@ -180,5 +149,5 @@ public class TwitchBotService : BackgroundService
         _logger.LogInformation("[{LogDate}] Bot: {BotUsername}, Data: {Data}", e.DateTime, e.BotUsername, e.Data);
     }
 
-    private void ConnectToTwitch() => _client.Connect();
+    private void ConnectToTwitch() => _twitchClient.Connect();
 }
