@@ -17,4 +17,11 @@ public class BotClient
             "api/SendImageOverlay",
             new { resourceUrl });
     }
+
+    public async Task SendTextOverlayAsync(string userName, string message)
+    {
+        await Client.PostAsJsonAsync(
+            "api/SendTextOverlay",
+            new { userName, message });
+    }
 }
