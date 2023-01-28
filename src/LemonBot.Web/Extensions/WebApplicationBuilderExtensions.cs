@@ -52,7 +52,6 @@ public static class WebApplicationBuilderExtensions
             .AddScoped<Areas.Console.Services.SettingsControllerServices>()
             .AddScoped<Areas.Console.Services.ProposalsControllerServices>();
 
-        builder.Services.AddSignalR();
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddKittGrahpQL();

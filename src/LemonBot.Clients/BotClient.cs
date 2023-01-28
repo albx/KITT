@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using TwitchLib.Client.Models;
 
 namespace LemonBot.Clients;
 
@@ -23,5 +24,40 @@ public class BotClient
         await Client.PostAsJsonAsync(
             "api/SendTextOverlay",
             new { userName, message });
+    }
+
+    public async Task NotifyStartAsync()
+    {
+        await Client.PostAsJsonAsync(
+            "api/NotifyStart",
+            new { startTime = DateTime.UtcNow });
+    }
+
+    public async Task NotifyStopAsync()
+    {
+        await Client.PostAsJsonAsync(
+            "api/NotifyStart",
+            new { stopTime = DateTime.UtcNow });
+    }
+
+    public async Task SendNewUserSubscriptionAsync(string subscriberName)
+    {
+        await Client.PostAsJsonAsync(
+            "api/SendNewUserSubscription",
+            new { subscriberName });
+    }
+
+    public async Task SendUserLeftAsync(string userName)
+    {
+        await Client.PostAsJsonAsync(
+            "api/SendUserLeft",
+            new { userName });
+    }
+
+    public async Task SendUserJoinAsync(string userName)
+    {
+        await Client.PostAsJsonAsync(
+            "api/SendUserJoin",
+            new { userName });
     }
 }

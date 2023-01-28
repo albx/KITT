@@ -20,6 +20,78 @@ namespace KITT.Bot.Functions
             return connectionInfo;
         }
 
+        #region Bot Management calls
+        [FunctionName(nameof(NotifyStart))]
+        public static async Task NotifyStart(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request,
+            [SignalR(HubName = "Bot")] IAsyncCollector<SignalRMessage> signalRMessages)
+        {
+            var notification = await request.ReadFromJsonAsync<StartNotification>();
+
+            await signalRMessages.AddAsync(new SignalRMessage
+            {
+                Target = "BotStarted",
+                Arguments = new[] { notification }
+            });
+        }
+
+        [FunctionName(nameof(NotifyStop))]
+        public static async Task NotifyStop(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request,
+            [SignalR(HubName = "Bot")] IAsyncCollector<SignalRMessage> signalRMessages)
+        {
+            var notification = await request.ReadFromJsonAsync<StopNotification>();
+
+            await signalRMessages.AddAsync(new SignalRMessage
+            {
+                Target = "BotStopped",
+                Arguments = new[] { notification }
+            });
+        }
+
+        [FunctionName(nameof(SendNewUserSubscription))]
+        public static async Task SendNewUserSubscription(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request,
+            [SignalR(HubName = "Bot")] IAsyncCollector<SignalRMessage> signalRMessages)
+        {
+            var subscription = await request.ReadFromJsonAsync<UserSubscription>();
+
+            await signalRMessages.AddAsync(new SignalRMessage
+            {
+                Target = "UserSubscriptionReceived",
+                Arguments = new[] { subscription.SubscriberName }
+            });
+        }
+
+        [FunctionName(nameof(SendUserLeft))]
+        public static async Task SendUserLeft(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request,
+            [SignalR(HubName = "Bot")] IAsyncCollector<SignalRMessage> signalRMessages)
+        {
+            var user = await request.ReadFromJsonAsync<UserLeft>();
+
+            await signalRMessages.AddAsync(new SignalRMessage
+            {
+                Target = "UserLeftReceived",
+                Arguments = new[] { user.UserName }
+            });
+        }
+
+        [FunctionName(nameof(SendUserJoin))]
+        public static async Task SendUserJoin(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request,
+            [SignalR(HubName = "Bot")] IAsyncCollector<SignalRMessage> signalRMessages)
+        {
+            var user = await request.ReadFromJsonAsync<UserJoin>();
+
+            await signalRMessages.AddAsync(new SignalRMessage
+            {
+                Target = "UserJoinReceived",
+                Arguments = new[] { user.UserName }
+            });
+        }
+        #endregion
+
         [FunctionName(nameof(SendImageOverlay))]
         public static async Task SendImageOverlay(
             [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request,
