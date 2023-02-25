@@ -15,10 +15,4 @@ public class HomeController : Controller
     {
         return View();
     }
-
-    [Route("~/overlay")]
-    public IActionResult Overlay()
-    {
-        return View();
-    }
 }
