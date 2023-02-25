@@ -1,6 +1,5 @@
 using KITT.Web.App;
 using KITT.Web.App.Clients;
-using KITT.Web.App.Tools.Clients;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -19,9 +18,7 @@ builder.Services.AddMudServices(config =>
 });
 builder.Services.AddMudMarkdownServices();
 
-builder.Services
-    .AddConsoleClients(builder.HostEnvironment.BaseAddress)
-    .AddToolsClients(builder.HostEnvironment.BaseAddress);
+builder.Services.AddConsoleClients(builder.HostEnvironment.BaseAddress);
 
 builder.Services
     .AddHttpClient("KITT.Web.App.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))

@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\KITT.Web.App.Tools\KITT.Web.App.Tools.csproj" />
+		<ProjectReference Include="..\KITT.Web.App.UI\KITT.Web.App.UI.csproj" />
 		<ProjectReference Include="..\KITT.Web.Models\KITT.Web.Models.csproj" />
 	</ItemGroup>
 
