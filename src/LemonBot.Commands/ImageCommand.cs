@@ -1,19 +1,17 @@
-﻿// using Microsoft.AspNetCore.SignalR.Client;
+﻿//namespace LemonBot.Commands;
 
-// namespace LemonBot.Commands;
+//[BotCommand("!image", HelpText = "Show an image in overlay")]
+//public class ImageCommand : IBotCommand
+//{
+//    private readonly BotClient _botClient;
 
-// [BotCommand("!image", HelpText = "Show an image in overlay")]
-// public class ImageCommand : IBotCommand
-// {
-//     public async Task ExecuteAsync(BotCommandContext context)
-//     {
-//         if (context.Connection.State == HubConnectionState.Disconnected)
-//         {
-//             await context.Connection.StartAsync();
-//         }
+//    public ImageCommand(BotClient botClient)
+//    {
+//        _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+//    }
 
-//         await context.Connection.InvokeAsync(
-//             "SendOverlay",
-//             "https://cdn.pixabay.com/photo/2015/04/27/22/53/man-742766_960_720.jpg");
-//     }
-// }
+//    public async Task ExecuteAsync(BotCommandContext context)
+//    {
+//        await _botClient.SendImageOverlayAsync("https://cdn.pixabay.com/photo/2015/04/27/22/53/man-742766_960_720.jpg");
+//    }
+//}

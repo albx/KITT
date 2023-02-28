@@ -2,13 +2,11 @@
 using Hellang.Middleware.ProblemDetails;
 using KITT.Core.DependencyInjection;
 using KITT.Core.Persistence;
-using LemonBot.Web.Areas.Tools.Services;
 using LemonBot.Web.Configuration;
 using LemonBot.Web.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using System.Text;
 
 namespace LemonBot.Web.Extensions;
 
@@ -36,23 +34,11 @@ public static class WebApplicationBuilderExtensions
 
         builder.Services.AddKittCore();
 
-        builder.Services.AddHttpClient<IBotHttpClient, BotHttpClient>(c =>
-        {
-            c.BaseAddress = new Uri(builder.Configuration["BotConfiguration:Endpoint"]);
-
-            var credentials = $"{builder.Configuration["BotConfiguration:Username"]}:{builder.Configuration["BotConfiguration:Password"]}";
-            var authorizationValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials));
-            c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authorizationValue);
-        });
-
-        builder.Services.AddScoped<Areas.Tools.Services.StreamingsControllerServices>();
-
         builder.Services
             .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
             .AddScoped<Areas.Console.Services.SettingsControllerServices>()
             .AddScoped<Areas.Console.Services.ProposalsControllerServices>();
 
-        builder.Services.AddSignalR();
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddKittGrahpQL();
