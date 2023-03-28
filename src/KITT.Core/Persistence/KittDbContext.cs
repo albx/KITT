@@ -19,6 +19,8 @@ public class KittDbContext : DbContext
 
     public DbSet<StreamingStats> StreamingStats { get; set; }
 
+    public DbSet<Rating> Ratings { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
