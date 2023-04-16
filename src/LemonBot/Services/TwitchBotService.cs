@@ -91,19 +91,19 @@ public class TwitchBotService : BackgroundService
         _logger.LogInformation("New user subscription");
         _twitchClient.SendMessage($"Ciao {e.Subscriber.DisplayName}, grazie per la tua subscription!");
 
-        _botClient.SendNewUserSubscriptionAsync(e.Subscriber.DisplayName);
+        _botClient.SendNewUserSubscriptionAsync(e.Subscriber.DisplayName).Wait();
     }
 
     private void OnUserLeft(object? sender, OnUserLeftArgs e)
     {
         _logger.LogInformation("User left the live stream");
-        _botClient.SendUserLeftAsync(e.Username);
+        _botClient.SendUserLeftAsync(e.Username).Wait();
     }
 
     private void OnUserJoined(object? sender, OnUserJoinedArgs e)
     {
         _logger.LogInformation("User join the live stream");
-        _botClient.SendUserJoinAsync(e.Username);
+        _botClient.SendUserJoinAsync(e.Username).Wait();
     }
 
     private async Task ExecuteCommandByMessage(ChatMessage chatMessage)

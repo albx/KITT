@@ -1,0 +1,45 @@
+name: Build and deploy BOT to Azure Web Job
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'src/LemonBot/**'
+    - 'src/LemonBot.Clients/**'
+    - 'src/LemonBot.Commands/**'
+env:
+  AZURE_WEBAPP_NAME: kitt-bot
+  AZURE_PACKAGE_PATH: ./output/app_data/jobs/continuous/LemonBot
+  CONFIGURATION: Release
+  DOTNET_VERSION: 7.0.x
+  WORKING_DIRECTORY: ./src/LemonBot
+  ZIP_FILENAME: 'LemonBot.zip'
+  ZIP_PATH: './output'
+  ZIP_FILEPATH: './output/LemonBot.zip'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Restore
+      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+    - name: Build
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+    - name: Publish
+      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_PACKAGE_PATH }}"
+    - name: Create ZIP file
+      uses: thedoctor0/zip-release@0.7.1
+      with:
+        type: 'zip'
+        filename: ${{ env.ZIP_FILENAME }}
+        workingDirectory: ${{ env.ZIP_PATH }}
+        exclusions: 'worker.exe app_data/**/unix/*'
+    - name: Deploy
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.ZIP_FILEPATH }}
+        publish-profile: ${{ secrets.KITT_BOT_PUBLISHPROFILE }}
