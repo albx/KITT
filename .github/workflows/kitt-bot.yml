@@ -15,6 +15,7 @@ env:
   ZIP_FILENAME: 'LemonBot.zip'
   ZIP_PATH: './output'
   ZIP_FILEPATH: './output/LemonBot.zip'
+  ZIP_WORKING_DIRECTORY: 'app_data/jobs/continuous/LemonBot'
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -35,7 +36,8 @@ jobs:
       with:
         type: 'zip'
         filename: ${{ env.ZIP_FILENAME }}
-        workingDirectory: ${{ env.ZIP_PATH }}
+        directory: ${{ env.ZIP_PATH }}
+        path: ${{ env.ZIP_WORKING_DIRECTORY }}
         exclusions: 'worker.exe app_data/**/unix/*'
     - name: Deploy
       uses: azure/webapps-deploy@v2
