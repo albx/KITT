@@ -2,6 +2,7 @@
 using Hellang.Middleware.ProblemDetails;
 using KITT.Core.DependencyInjection;
 using KITT.Core.Persistence;
+using KITT.Telegram.Messages;
 using LemonBot.Web.Configuration;
 using LemonBot.Web.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,7 +16,7 @@ public static class WebApplicationBuilderExtensions
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<KittDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -80,6 +81,11 @@ public static class WebApplicationBuilderExtensions
 
             options.Map<InvalidOperationException>(ex => new StatusCodeProblemDetails(StatusCodes.Status400BadRequest));
         });
+
+        builder.Services.Configure<MessageBusOptions>(
+            options => options.ConnectionString = builder.Configuration["QueueClientOptions:ConnectionString"]!);
+
+        builder.Services.AddSingleton<IMessageBus, QueueStorageMessageBus>();
 
         return builder;
     }
