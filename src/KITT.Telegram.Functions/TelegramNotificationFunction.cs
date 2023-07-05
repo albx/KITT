@@ -98,7 +98,7 @@ namespace KITT.Telegram.Functions
         private string ConvertMessageToText(StreamingCanceledMessage message)
         {
             var messageText = $"""
-                La live "{message.StreamingTitle}" prevista per il giorno {message.StreamingScheduledDate.ToShortDateString()} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()} è stata annullata!
+                La live "{message.StreamingTitle}" prevista per il giorno {message.StreamingScheduledDate.ToShortDateString()} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()} Ã¨ stata annullata!
                 Mi scuso per il problema. La recupereremo il prima possibile!
                 """;
 
@@ -107,17 +107,14 @@ namespace KITT.Telegram.Functions
 
         private string Escape(string text)
         {
-            string[] chars = new[]
+            char[] cr = new [] { '>', '#', '+', '=', '|', '{', '}', '.', '!' };
+            List<Char> chars = new();
+            foreach (char c in text)
             {
-                 ">", "#", "+", "-", "=", "|", "{", "}", ".", "!"
-            };
-
-            foreach (var item in chars)
-            {
-                text = text.Replace(item, $"\\{item}");
+                if(cr.Contains(c)) chars.Add('\\');
+                chars.Add(c);
             }
-
-            return text;
+            return new string(chars.ToArray());
         }
     }
 }
