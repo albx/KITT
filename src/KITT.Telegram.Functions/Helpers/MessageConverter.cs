@@ -8,7 +8,7 @@ public static class MessageConverter
     {
         var messageText = $"""
             *Nuova live "{message.StreamingTitle}" pianificata!*
-            Il {message.StreamingScheduledDate.ToShortDateString()} si va live dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()}.
+            Il {message.StreamingScheduleDate.ToShortDateString()} si va live dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()}.
             Vi aspetto su [{message.StreamingHostingChannelUrl}]({message.StreamingHostingChannelUrl}) per scoprire insieme di cosa tratteremo!
             Trovate maggiori informazioni su [https://live.morialberto.it/d/{message.StreamingSlug}](https://live.morialberto.it/d/{message.StreamingSlug})
             """;
@@ -19,7 +19,7 @@ public static class MessageConverter
     public static string ToText(StreamingCanceledMessage message)
     {
         var messageText = $"""
-            La live "{message.StreamingTitle}" prevista per il giorno {message.StreamingScheduledDate.ToShortDateString()} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()} è stata annullata!
+            La live "{message.StreamingTitle}" prevista per il giorno {message.StreamingScheduleDate.ToShortDateString()} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()} è stata annullata!
             Mi scuso per il problema. La recupereremo il prima possibile!
             """;
 

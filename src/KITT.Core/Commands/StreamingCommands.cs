@@ -53,8 +53,7 @@ public class StreamingCommands : IStreamingCommands
             DateOnly.FromDateTime(scheduleDate),
             TimeOnly.FromTimeSpan(startingTime),
             TimeOnly.FromTimeSpan(endingTime),
-            hostingChannelUrl,
-            streamingAbstract);
+            hostingChannelUrl);
 
         await _messageBus.SendAsync(message);
 

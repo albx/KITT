@@ -5,8 +5,7 @@ public record StreamingScheduledMessage(
     Guid StreamingId,
     string StreamingTitle,
     string StreamingSlug,
-    DateOnly StreamingScheduledDate,
+    DateOnly StreamingScheduleDate,
     TimeOnly StreamingStartingTime,
     TimeOnly StreamingEndingTime,
-    string StreamingHostingChannelUrl,
-    string StreamingAbstract);
+    string StreamingHostingChannelUrl);

@@ -4,6 +4,6 @@
 public record class StreamingCanceledMessage(
     Guid StreamingId,
     string StreamingTitle,
-    DateOnly StreamingScheduledDate,
+    DateOnly StreamingScheduleDate,
     TimeOnly StreamingStartingTime,
     TimeOnly StreamingEndingTime);
