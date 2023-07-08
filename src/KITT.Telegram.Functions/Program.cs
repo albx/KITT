@@ -10,7 +10,7 @@ var host = new HostBuilder()
         services.Configure<TelegramConfigurationOptions>(
             option => option.ChatId = context.Configuration["TelegramChatId"]);
 
-        services.AddSingleton<TelegramBotClient>(
+        services.AddSingleton(
             sp => new TelegramBotClient(context.Configuration["TelegramBotToken"]));
     })
     .Build();

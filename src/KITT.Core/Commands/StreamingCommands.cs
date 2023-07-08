@@ -1,5 +1,4 @@
-﻿using Azure.Storage.Queues;
-using KITT.Core.Validators;
+﻿using KITT.Core.Validators;
 using KITT.Telegram.Messages;
 using KITT.Telegram.Messages.Streaming;
 
@@ -47,7 +46,6 @@ public class StreamingCommands : IStreamingCommands
         _context.Streamings.Add(streaming);
         await _context.SaveChangesAsync();
 
-        //invio messaggio
         var message = new StreamingScheduledMessage(
             streaming.Id,
             streamingTitle,
@@ -63,8 +61,10 @@ public class StreamingCommands : IStreamingCommands
         return streaming.Id;
     }
 
-    public Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
+    public async Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
     {
+        var messagesToSend = new List<object>();
+
         var streaming = _context.Streamings.SingleOrDefault(s => s.Id == streamingId);
         if (streaming is null)
         {
@@ -79,12 +79,30 @@ public class StreamingCommands : IStreamingCommands
         if (ScheduleHasChanged(streaming, scheduleDate, startingTime, endingTime))
         {
             streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
-            //TODO modifico la pianificazione della live
+            var scheduledChangedMessage = new StreamingScheduleChangedMessage(
+                streamingId,
+                streaming.Title,
+                streaming.Slug,
+                DateOnly.FromDateTime(scheduleDate),
+                TimeOnly.FromTimeSpan(startingTime),
+                TimeOnly.FromTimeSpan(endingTime));
+
+            messagesToSend.Add(scheduledChangedMessage);
         }
 
         if (streaming.HostingChannelUrl != hostingChannelUrl)
         {
             streaming.ChangeHostingChannelUrl(hostingChannelUrl);
+
+            var hostingChannelChangedMessage = new StreamingHostingChannelChangedMessage(
+                streamingId,
+                streaming.Title,
+                streaming.Slug,
+                hostingChannelUrl,
+                DateOnly.FromDateTime(scheduleDate),
+                TimeOnly.FromTimeSpan(startingTime));
+
+            messagesToSend.Add(hostingChannelChangedMessage);
         }
 
         if (streaming.Abstract != streamingAbstract)
@@ -95,7 +113,13 @@ public class StreamingCommands : IStreamingCommands
         if (streaming.YouTubeVideoUrl != youtubeRegistrationLink)
         {
             streaming.SetRegistrationYoutubeUrl(youtubeRegistrationLink);
-            //TODO aggiungo la registrazione su YouTube
+            var videoUploadedMessage = new StreamingVideoUploadedMessage(
+                streamingId,
+                streaming.Title,
+                streaming.Slug,
+                youtubeRegistrationLink);
+
+            messagesToSend.Add(videoUploadedMessage);
         }
 
         if (seo is not null)
@@ -105,7 +129,12 @@ public class StreamingCommands : IStreamingCommands
 
         _validator.ValidateForUpdateStreaming(streaming);
 
-        return _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
+
+        foreach (var message in messagesToSend)
+        {
+            await _messageBus.SendAsync(message);
+        }
     }
 
     public async Task DeleteStreamingAsync(Guid streamingId)
@@ -119,7 +148,6 @@ public class StreamingCommands : IStreamingCommands
         _context.Streamings.Remove(streaming);
         await _context.SaveChangesAsync();
 
-        //TODO notifico l'annullamento della live
         var message = new StreamingCanceledMessage(
             streamingId,
             streaming.Title,

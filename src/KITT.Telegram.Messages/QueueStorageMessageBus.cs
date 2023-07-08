@@ -16,8 +16,7 @@ public class QueueStorageMessageBus : IMessageBus
     public async Task SendAsync<TMessage>(TMessage message)
         where TMessage : class
     {
-
-        var queueName = typeof(TMessage).GetCustomAttribute<QueueNameAttribute>()!.Name;
+        var queueName = message.GetType().GetCustomAttribute<QueueNameAttribute>()!.Name;
 
         var client = new QueueClient(
             _options.ConnectionString,
