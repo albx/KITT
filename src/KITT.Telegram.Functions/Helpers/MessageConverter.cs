@@ -1,4 +1,5 @@
-﻿using KITT.Telegram.Messages.Streaming;
+﻿using KITT.Telegram.Messages;
+using KITT.Telegram.Messages.Streaming;
 
 namespace KITT.Telegram.Functions.Helpers;
 
@@ -59,6 +60,8 @@ public static class MessageConverter
 
         return Escape(messageText);
     }
+
+    public static string ToText(SendTextMessage message) => Escape(message.Text);
 
     #region Private methods
     private static string Escape(string text)

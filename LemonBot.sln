@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Web.App.UI", "src\KITT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Bot.Functions", "src\KITT.Bot.Functions\KITT.Bot.Functions.csproj", "{EB1A10AF-8561-42E1-9348-6C8669F09176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Telegram.Messages", "src\KITT.Telegram.Messages\KITT.Telegram.Messages.csproj", "{6E87C525-EB68-4DAD-9F63-39E426D01668}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Telegram.Messages", "src\KITT.Telegram.Messages\KITT.Telegram.Messages.csproj", "{6E87C525-EB68-4DAD-9F63-39E426D01668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Telegram.Functions", "src\KITT.Telegram.Functions\KITT.Telegram.Functions.csproj", "{A6A4722A-4AA2-4B9C-A2FB-A7C171E03DF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Telegram.Functions", "src\KITT.Telegram.Functions\KITT.Telegram.Functions.csproj", "{A6A4722A-4AA2-4B9C-A2FB-A7C171E03DF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

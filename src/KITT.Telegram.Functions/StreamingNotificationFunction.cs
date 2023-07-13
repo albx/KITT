@@ -9,7 +9,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace KITT.Telegram.Functions;
 
-public class TelegramNotificationFunction
+public class StreamingNotificationFunction
 {
     private readonly ILogger _logger;
 
@@ -17,12 +17,12 @@ public class TelegramNotificationFunction
 
     private readonly TelegramConfigurationOptions _telegramOptions;
 
-    public TelegramNotificationFunction(
+    public StreamingNotificationFunction(
         ILoggerFactory loggerFactory,
         TelegramBotClient telegramClient,
         IOptions<TelegramConfigurationOptions> telegramOptions)
     {
-        _logger = loggerFactory.CreateLogger<TelegramNotificationFunction>();
+        _logger = loggerFactory.CreateLogger<StreamingNotificationFunction>();
         _telegramClient = telegramClient ?? throw new ArgumentNullException(nameof(telegramClient));
         _telegramOptions = telegramOptions?.Value ?? throw new ArgumentNullException(nameof(telegramOptions));
     }
