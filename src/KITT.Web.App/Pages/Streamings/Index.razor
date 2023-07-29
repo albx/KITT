@@ -41,8 +41,8 @@
 				</MudItem>
 				<MudItem xs="12" md="3">
 					<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-						<MudIconButton OnClick="Search" Icon="@Icons.Filled.Search" />
-						<MudIconButton OnClick="ClearSearch" Icon="@Icons.Filled.Clear" Variant="Variant.Outlined" />
+						<MudIconButton OnClick="Search" Icon="@Icons.Material.Filled.Search" />
+						<MudIconButton OnClick="ClearSearch" Icon="@Icons.Material.Filled.Clear" Variant="Variant.Outlined" />
 					</MudButtonGroup>
 				</MudItem>
 			</MudGrid>
@@ -76,8 +76,8 @@
 					</MudTd>
 					<MudTd>
 						<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
-							<MudButton id="@($"openStreamingDetail-{context.Id}")" StartIcon="@Icons.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(context)">@CommonLocalizer[nameof(UI.Resources.Common.View)]</MudButton>
-							<MudButton id="@($"deleteStreaming-{context.Id}")" StartIcon="@Icons.Filled.Delete" OnClick="() => DeleteStreaming(context)">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</MudButton>
+							<MudButton id="@($"openStreamingDetail-{context.Id}")" StartIcon="@Icons.Material.Filled.RemoveRedEye" OnClick="() => OpenStreamingDetail(context)">@CommonLocalizer[nameof(UI.Resources.Common.View)]</MudButton>
+							<MudButton id="@($"deleteStreaming-{context.Id}")" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => DeleteStreaming(context)">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</MudButton>
 						</MudButtonGroup>
 					</MudTd>
 				</RowTemplate>

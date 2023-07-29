@@ -14,7 +14,7 @@ public partial class StreamingDetail
     public Guid Id { get; set; }
 
     [Inject]
-    public IStreamingsClient Client { get; set; }
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
     ISnackbar Snackbar { get; set; } = default!;
@@ -53,7 +53,7 @@ public partial class StreamingDetail
             await Client.UpdateStreamingAsync(detail);
 
             isReadOnly = true;
-            Snackbar.Add("Streaming informations saved successfully!", Severity.Success);
+            Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)], Severity.Success);
 
             streamingDetail = detail;
         }
@@ -79,7 +79,7 @@ public partial class StreamingDetail
         public string Slug { get; set; } = string.Empty;
 
         [Required]
-        public DateTime? ScheduleDate { get; set; } = DateTime.Now;
+        public DateTime? ScheduleDate { get; set; } = DateTime.Today;
 
         [Required]
         public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;

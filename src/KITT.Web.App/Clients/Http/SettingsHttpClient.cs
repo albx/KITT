@@ -26,6 +26,6 @@ public class SettingsHttpClient : ISettingsClient
     public async Task<SettingsListModel> GetAllSettingsAsync()
     {
         var model = await Client.GetFromJsonAsync<SettingsListModel>(ApiResource);
-        return model;
+        return model ?? new();
     }
 }

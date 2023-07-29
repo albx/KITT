@@ -10,13 +10,13 @@ namespace KITT.Web.App.Pages.Streamings;
 public partial class Import
 {
     [Inject]
-    public IStreamingsClient Client { get; set; }
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
-    public NavigationManager Navigation { get; set; }
+    public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; }
+    ISnackbar Snackbar { get; set; } = default!;
 
     private ViewModel model = new();
 

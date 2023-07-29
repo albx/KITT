@@ -45,22 +45,11 @@ public partial class Schedule
         }
     }
 
-    private ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
+    private static ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
     {
-        if (model.ScheduleDate is null)
-        {
-            throw new ArgumentNullException(nameof(model.ScheduleDate));
-        }
-
-        if (model.StartingTime is null)
-        {
-            throw new ArgumentNullException(nameof(model.StartingTime));
-        }
-
-        if (model.EndingTime is null)
-        {
-            throw new ArgumentNullException(nameof(model.EndingTime));
-        }
+        ArgumentNullException.ThrowIfNull(model.ScheduleDate);
+        ArgumentNullException.ThrowIfNull(model.StartingTime);
+        ArgumentNullException.ThrowIfNull(model.EndingTime);
 
         return new ScheduleStreamingModel
         {

@@ -25,7 +25,7 @@
     public EventCallback<string> ValueChanged { get; set; }
 
     [Parameter]
-    public Expression<Func<string>> ValueExpression { get; set; }
+    public Expression<Func<string>> ValueExpression { get; set; } = default!;
 
     [Parameter]
     [EditorRequired]
@@ -36,7 +36,7 @@
 
     [Parameter]
     [EditorRequired]
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [Parameter]
     public bool Disabled { get; set; } = false;

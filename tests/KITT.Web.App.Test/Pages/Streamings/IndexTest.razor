@@ -20,6 +20,8 @@
         Services
             .AddSingleton<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>(commonLocalizerMock.Object)
             .AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Index>>(indexLocalizerMock.Object);
+
+        JSInterop.SetupVoid("mudPopover.initialize", _ => true);
     }
 
     [Fact]

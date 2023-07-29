@@ -3,13 +3,13 @@
 <AuthorizeView>
     <Authorized>
         <MudNavMenu Class="mud-width-full">
-            <MudNavLink Href="/" Icon="@Icons.Filled.Dashboard">@Localizer[nameof(Resources.Shared.NavMenu.DashboardMenuLabel)]</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Dashboard">@Localizer[nameof(Resources.Shared.NavMenu.DashboardMenuLabel)]</MudNavLink>
             <MudNavGroup Title="Console" @bind-Expanded="isConsoleExpanded">
-                <MudNavLink Href="/streamings" Icon="@Icons.Filled.Videocam">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</MudNavLink>
-                <MudNavLink Href="/proposals" Icon="@Icons.Filled.Lightbulb">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</MudNavLink>
+                <MudNavLink Href="/streamings" Icon="@Icons.Material.Filled.Videocam">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</MudNavLink>
+                <MudNavLink Href="/proposals" Icon="@Icons.Material.Filled.Lightbulb">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</MudNavLink>
             </MudNavGroup>
             
-            <MudNavLink Href="/settings" Icon="@Icons.Filled.Settings">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</MudNavLink>
+            <MudNavLink Href="/settings" Icon="@Icons.Material.Filled.Settings">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</MudNavLink>
         </MudNavMenu>
     </Authorized>
 </AuthorizeView>

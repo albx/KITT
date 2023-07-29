@@ -23,7 +23,8 @@
             .AddSingleton(scheduleLocalizerMock.Object)
             .AddSingleton(scheduleFormLocalizerMock.Object)
             .AddSingleton(resizeObserverFactoryMock.Object)
-            .AddSingleton(new Mock<MudBlazor.Services.IResizeObserver>().Object);
+            .AddSingleton(new Mock<MudBlazor.Services.IResizeObserver>().Object)
+            .AddSingleton(new Mock<IDialogService>().Object);
     }
 
     [Fact]

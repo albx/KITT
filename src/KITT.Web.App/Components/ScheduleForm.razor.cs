@@ -32,7 +32,7 @@ public partial class ScheduleForm
         public string Slug { get; set; } = string.Empty;
 
         [Required]
-        public DateTime? ScheduleDate { get; set; } = DateTime.Now;
+        public DateTime? ScheduleDate { get; set; } = DateTime.Today;
 
         [Required]
         public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;

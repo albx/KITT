@@ -24,7 +24,7 @@ public partial class Index
 
     private StreamingQueryModel query = new();
 
-    private MudTable<StreamingsListModel.StreamingListItemModel> table;
+    private MudTable<StreamingsListModel.StreamingListItemModel> table = default!;
 
     private async Task LoadStreamings(StreamingQueryModel query) => model = await Client.GetAllStreamingsAsync(query);
 
