@@ -7,8 +7,11 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
     <Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-                   Page="streamings"/>
+        <MudButton Href="streamings"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary">
+            @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+        </MudButton>
     </Toolbar>
     <PageContent>
         @if (!string.IsNullOrWhiteSpace(errorMessage))
@@ -20,6 +23,6 @@
         }
 
         <ScheduleForm Model="model"
-                      OnSave="ScheduleStreamingAsync"/>
+                      OnSave="ScheduleStreamingAsync" />
     </PageContent>
 </PageLayout>

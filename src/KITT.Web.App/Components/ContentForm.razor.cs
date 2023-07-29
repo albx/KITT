@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using KITT.Web.App.UI.Components;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Routing;
+using MudBlazor;
 
 namespace KITT.Web.App.Components
 {
@@ -22,8 +26,54 @@ namespace KITT.Web.App.Components
         [Parameter]
         public EventCallback OnCancel { get; set; }
 
-        async Task SubmitAsync() => await OnSave.InvokeAsync(Model);
+        [Inject]
+        public IDialogService Dialog { get; set; } = default!;
+
+        private EditContext? editContext;
+
+        private bool saving = false;
+
+        protected override void OnParametersSet()
+        {
+            editContext = new EditContext(Model);
+        }
+
+        async Task SubmitAsync()
+        {
+            try
+            {
+                saving = true;
+                await OnSave.InvokeAsync(Model);
+            }
+            finally
+            {
+                saving = false;
+            }
+        }
 
         async Task CancelAsync() => await OnCancel.InvokeAsync();
+
+        async Task HandleNavigationAsync(LocationChangingContext context)
+        {
+            Console.WriteLine($"Edit context modified: {editContext?.IsModified() ?? false}");
+            Console.WriteLine($"Saving: {saving}");
+
+            if ((editContext?.IsModified() ?? false) && !saving)
+            {
+                string confirmText = Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogContent)];
+
+                var confirm = await Dialog.Show<ConfirmDialog>(
+                    Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogTitle)],
+                    new DialogParameters
+                    {
+                        [nameof(ConfirmDialog.ConfirmText)] = confirmText
+                    }).Result;
+
+                if (confirm.Canceled)
+                {
+                    context.PreventNavigation();
+                }
+            }
+        }
     }
 }

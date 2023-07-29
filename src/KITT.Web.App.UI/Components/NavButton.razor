@@ -5,11 +5,11 @@
 @code {
 	[Parameter]
 	[EditorRequired]
-	public string Page { get; set; }
+	public string Page { get; set; } = string.Empty;
 
 	[Parameter]
 	[EditorRequired]
-	public string Label { get; set; }		
+	public string Label { get; set; } = string.Empty;
 
 	void OnButtonClicked() => Navigation.NavigateTo(Page);
 }

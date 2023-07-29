@@ -28,21 +28,22 @@
             <ContentForm TContent="ViewModel"
                          Model="model"
                          ContentTabTitle="Streaming"
+                         Context="streaming"
                          ReadOnly="isReadOnly"
                          OnSave="EditStreamingAsync"
                          OnCancel="DisableEditing">
-                <ContentInfo Context="streaming">
+                <ContentInfo>
                     <MudGrid>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
-                                          @bind-Value="model.Title"
-                                          For="@(() => model.Title)"
+                                          @bind-Value="streaming.Title"
+                                          For="@(() => streaming.Title)"
                                           Variant="Variant.Outlined"
                                           Disabled="@isReadOnly" />
                         </MudItem>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
-                                          @bind-Value="model.Slug"
+                                          @bind-Value="streaming.Slug"
                                           Variant="Variant.Outlined"
                                           Disabled="true" />
                         </MudItem>
@@ -51,18 +52,18 @@
                     <MudGrid>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
-                                          @bind-Value="model.HostingChannelUrl"
+                                          @bind-Value="streaming.HostingChannelUrl"
                                           Adornment="Adornment.Start"
                                           AdornmentText="@twitchBaseUrl"
                                           Variant="Variant.Outlined"
-                                          For="@(() => model.HostingChannelUrl)"
+                                          For="@(() => streaming.HostingChannelUrl)"
                                           Disabled="@isReadOnly" />
                         </MudItem>
                         <MudItem xs="12" md="6">
                             <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
-                                          @bind-Value="model.YoutubeVideoUrl"
+                                          @bind-Value="streaming.YoutubeVideoUrl"
                                           Variant="Variant.Outlined"
-                                          For="@(() => model.YoutubeVideoUrl)"
+                                          For="@(() => streaming.YoutubeVideoUrl)"
                                           Disabled="@isReadOnly" />
                         </MudItem>
                     </MudGrid>
@@ -70,7 +71,7 @@
                     <MudGrid>
                         <MudItem xs="12" md="6">
                             <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
-                                           @bind-Date="model.ScheduleDate"
+                                           @bind-Date="streaming.ScheduleDate"
                                            Variant="Variant.Outlined"
                                            Editable="true"
                                            AutoClose="true"
@@ -78,7 +79,7 @@
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
-                                           @bind-Time="model.StartingTime"
+                                           @bind-Time="streaming.StartingTime"
                                            Variant="Variant.Outlined"
                                            Editable="true"
                                            AutoClose="true"
@@ -86,7 +87,7 @@
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
-                                           @bind-Time="model.EndingTime"
+                                           @bind-Time="streaming.EndingTime"
                                            Variant="Variant.Outlined"
                                            Editable="true"
                                            AutoClose="true"
@@ -94,30 +95,13 @@
                         </MudItem>
                     </MudGrid>
 
-                    <MarkdownEditor @bind-Value="model.StreamingAbstract"
+                    <MarkdownEditor @bind-Value="streaming.StreamingAbstract"
                                     EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
                                     Id="streamingAbstract"
                                     PreviewLabel="Preview"
                                     Disabled="isReadOnly" />
                 </ContentInfo>
             </ContentForm>
-
-            @*<EditForm Model="model" OnValidSubmit="EditStreamingAsync" class="col-md-12 mt-3">
-                <DataAnnotationsValidator />
-
-                <MudCard>
-                    <MudCardContent>
-                        
-                    </MudCardContent>
-                    @if (!isReadOnly)
-                    {
-                        <MudCardActions>
-                            <MudButton OnClick="DisableEditing" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-                            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
-                        </MudCardActions>
-                    }
-                </MudCard>
-            </EditForm>*@
         </ErrorBoundary>
 	</PageContent>
 </PageLayout>
