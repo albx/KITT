@@ -1,0 +1,22 @@
+﻿<EditForm EditContext="context" OnValidSubmit="SendMessageAsync" role="form">
+    <DataAnnotationsValidator />
+    <MudDialog>
+        <DialogContent>
+            <MudTextField @bind-Value="model.Text"
+                          For="@(() => model.Text)"
+                          Variant="Variant.Outlined"
+                          Lines="10"/>
+        </DialogContent>
+        <DialogActions>
+            @if (sending)
+            {
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+            }
+            else
+            {
+                <MudButton OnClick="Close" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary">Close</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Send</MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>

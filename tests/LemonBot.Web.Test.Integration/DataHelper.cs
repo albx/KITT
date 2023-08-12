@@ -5,7 +5,7 @@ namespace LemonBot.Web.Test.Integration;
 
 internal static class DataHelper
 {
-    public static void PrepareDataForTest(IServiceCollection services, Action<KittDbContext> customDataPreparation)
+    public static void PrepareDataForTest(IServiceCollection services, Action<KittDbContext>? customDataPreparation = null)
     {
         var provider = services.BuildServiceProvider();
 
