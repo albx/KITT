@@ -19,6 +19,10 @@ public static class ClientsServiceCollectionExtensions
             .AddHttpClient<IProposalsClient, ProposalsHttpClient>(client => client.BaseAddress = new Uri(clientBaseAddress))
             .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
+        services
+            .AddHttpClient<IMessagesClient, MessagesHttpClient>(client => client.BaseAddress = new Uri(clientBaseAddress))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
         return services;
     }
 }
