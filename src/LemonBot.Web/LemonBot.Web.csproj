@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<InternalsVisibleTo Include="LemonBot.Web.Test.Integration" />
+	  <InternalsVisibleTo Include="LemonBot.Web.Test.Integration" />
   </ItemGroup>
 
   <ItemGroup>
