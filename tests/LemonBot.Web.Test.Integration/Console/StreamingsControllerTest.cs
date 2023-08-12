@@ -178,6 +178,11 @@ public class StreamingsControllerTest :
                 {
                     services.AddTestAuthentication();
                 });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
+                });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
@@ -214,6 +219,11 @@ public class StreamingsControllerTest :
                 {
                     services.AddTestAuthentication();
                 });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
+                });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
@@ -247,6 +257,11 @@ public class StreamingsControllerTest :
                 {
                     services.AddTestAuthentication();
                 });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
+                });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
@@ -279,6 +294,11 @@ public class StreamingsControllerTest :
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
                 });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
@@ -315,6 +335,11 @@ public class StreamingsControllerTest :
                 {
                     services.AddTestAuthentication();
                 });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
+                });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
@@ -338,6 +363,11 @@ public class StreamingsControllerTest :
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
                 });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
@@ -376,6 +406,11 @@ public class StreamingsControllerTest :
                 {
                     services.AddTestAuthentication();
                 });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
+                });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
@@ -409,6 +444,11 @@ public class StreamingsControllerTest :
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
                 });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
@@ -451,6 +491,11 @@ public class StreamingsControllerTest :
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTestAuthentication();
+                });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
                 });
             })
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });

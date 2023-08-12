@@ -4,6 +4,8 @@ using KITT.Core.Models;
 using KITT.Core.Persistence;
 using KITT.Core.Test.Fixtures;
 using KITT.Core.Validators;
+using KITT.Telegram.Messages;
+using Moq;
 using Xunit;
 
 namespace KITT.Core.Test.Commands
@@ -23,8 +25,9 @@ namespace KITT.Core.Test.Commands
         {
             KittDbContext context = null;
             var validator = new StreamingValidator(_fixture.Context);
+            var messageBus = new Mock<IMessageBus>().Object;
 
-            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator));
+            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator, messageBus));
             Assert.Equal(nameof(context), ex.ParamName);
         }
 
@@ -33,8 +36,9 @@ namespace KITT.Core.Test.Commands
         {
             KittDbContext context = _fixture.Context;
             StreamingValidator validator = null;
+            var messageBus = new Mock<IMessageBus>().Object;
 
-            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator));
+            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator, messageBus));
             Assert.Equal(nameof(validator), ex.ParamName);
         }
         #endregion
@@ -61,7 +65,8 @@ namespace KITT.Core.Test.Commands
             });
 
             var validator = new StreamingValidator(_fixture.Context);
-            var commands = new StreamingCommands(_fixture.Context, validator);
+            var messageBus = new Mock<IMessageBus>().Object;
+            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
 
             string twitchChannel = "albx87";
             string streamingTitle = "test";
@@ -93,7 +98,8 @@ namespace KITT.Core.Test.Commands
         public async Task ScheduleStreamingAsync_Should_Add_Streaming_With_Specified_Values()
         {
             var validator = new StreamingValidator(_fixture.Context);
-            var commands = new StreamingCommands(_fixture.Context, validator);
+            var messageBus = new Mock<IMessageBus>().Object;
+            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
 
             string userId = Guid.NewGuid().ToString();
             string twitchChannel = "albx87";
@@ -139,7 +145,8 @@ namespace KITT.Core.Test.Commands
             var streamingId = Guid.Empty;
 
             var validator = new StreamingValidator(_fixture.Context);
-            var commands = new StreamingCommands(_fixture.Context, validator);
+            var messageBus = new Mock<IMessageBus>().Object;
+            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
 
             _fixture.PrepareData(context =>
             {
@@ -200,7 +207,8 @@ namespace KITT.Core.Test.Commands
             var endingTime = TimeSpan.FromHours(20);
 
             var validator = new StreamingValidator(_fixture.Context);
-            var commands = new StreamingCommands(_fixture.Context, validator);
+            var messageBus = new Mock<IMessageBus>().Object;
+            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
 
             _fixture.PrepareData(context =>
             {

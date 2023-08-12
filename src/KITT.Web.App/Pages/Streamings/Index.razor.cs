@@ -52,7 +52,7 @@ public partial class Index
                 [nameof(ConfirmDialog.ConfirmText)] = confirmText
             }).Result;
 
-        if (!confirm.Cancelled)
+        if (!confirm.Canceled)
         {
             try
             {
