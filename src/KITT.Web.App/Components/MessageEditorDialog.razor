@@ -1,4 +1,6 @@
-﻿<EditForm EditContext="context" OnValidSubmit="SendMessageAsync" role="form">
+﻿@inject IStringLocalizer<Resources.Components.MessageEditorDialog> Localizer
+
+<EditForm EditContext="context" OnValidSubmit="SendMessageAsync" role="form">
     <DataAnnotationsValidator />
     <MudDialog>
         <DialogContent>
@@ -14,8 +16,8 @@
             }
             else
             {
-                <MudButton OnClick="Close" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary">Close</MudButton>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Send</MudButton>
+                <MudButton OnClick="Close" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.CloseButtonText)]</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.SendButtonText)]</MudButton>
             }
         </DialogActions>
     </MudDialog>

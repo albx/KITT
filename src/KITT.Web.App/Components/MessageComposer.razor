@@ -1,11 +1,12 @@
 ﻿@inject IDialogService Dialog
+@inject IStringLocalizer<Resources.Components.MessageComposer> Localizer
 
 <AuthorizeView>
     <Authorized>
         <MudIconButton Icon="@Icons.Material.Filled.Message"
                        Color="Color.Primary"
                        Variant="Variant.Filled"
-                       aria-label="Compose message"
+                       aria-label="@Localizer[nameof(Resources.Components.MessageComposer.ComposeMessageButtonLabel)]"
                        class="mr-4"
                        OnClick="OpenMessageEditor"/>
     </Authorized>
@@ -15,7 +16,7 @@
     void OpenMessageEditor()
     {
         Dialog.Show<MessageEditorDialog>(
-            "Write and send your message",
+            Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)],
             new DialogOptions
             {
                 MaxWidth = MaxWidth.Large,

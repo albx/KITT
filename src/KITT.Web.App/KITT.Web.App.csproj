@@ -27,6 +27,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Resources\Components\MessageComposer.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>MessageComposer.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Components\MessageEditorDialog.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>MessageEditorDialog.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Components\ScheduleForm.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -84,6 +94,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Resources\Components\MessageComposer.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Components\MessageComposer.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>MessageComposer.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Components\MessageEditorDialog.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Components\MessageEditorDialog.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>MessageEditorDialog.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Components\ScheduleForm.it.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		</EmbeddedResource>

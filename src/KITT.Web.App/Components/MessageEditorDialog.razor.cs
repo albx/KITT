@@ -41,7 +41,7 @@ public partial class MessageEditorDialog
         {
             await Client.SendMessageAsync(model);
 
-            Snackbar.Add("Message sent correctly", Severity.Success);
+            Snackbar.Add(Localizer[nameof(Resources.Components.MessageEditorDialog.MessageSentSuccessMessage)], Severity.Success);
             Dialog.Close(DialogResult.Ok(true));
         }
         finally
