@@ -24,17 +24,31 @@ public partial class Index
 
     private StreamingQueryModel query = new();
 
-    private MudTable<StreamingsListModel.StreamingListItemModel> table = default!;
+    private int numberOfPages = 0;
 
-    private async Task LoadStreamings(StreamingQueryModel query) => model = await Client.GetAllStreamingsAsync(query);
+    private bool loading = false;
 
-    async Task<TableData<StreamingsListModel.StreamingListItemModel>> LoadStreamingsAsync(TableState state)
+    private readonly int[] sizes = new[] { 5, 10, 25, 50 };
+
+    private async Task LoadStreamingsAsync(StreamingQueryModel query)
     {
-        query.Page = state.Page;
-        query.Size = state.PageSize;
+        try
+        {
+            loading = true;
 
-        await LoadStreamings(query);
-        return new() { TotalItems = model.TotalItems, Items = model.Items };
+            model = await Client.GetAllStreamingsAsync(query);
+            numberOfPages = (int)Math.Ceiling(model.TotalItems / (decimal)query.Size);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task OnPageChangedAsync(int pageIndex)
+    {
+        query.Page = pageIndex;
+        await LoadStreamingsAsync(query);
     }
 
     void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming)
@@ -59,7 +73,7 @@ public partial class Index
                 await Client.DeleteStreamingAsync(streaming.Id);
                 Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle], Severity.Success);
 
-                await table.ReloadServerData();
+                await LoadStreamingsAsync(query);
             }
             catch
             {
@@ -72,11 +86,11 @@ public partial class Index
         }
     }
 
-    void Search() => table.ReloadServerData();
+    async Task SearchAsync() => await LoadStreamingsAsync(query);
 
-    void ClearSearch()
+    async Task ClearSearchAsync()
     {
         query = new();
-        table.ReloadServerData();
+        await LoadStreamingsAsync(query);
     }
 }

@@ -29,7 +29,7 @@ public class StreamingsControllerServices
             streamingsQuery = streamingsQuery.Where(s => s.Title.Contains(query));
         }
 
-        var skip = page * size;
+        var skip = (page - 1) * size;
 
         var streamings = streamingsQuery
             .Select(s => new StreamingsListModel.StreamingListItemModel

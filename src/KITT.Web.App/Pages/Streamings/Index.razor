@@ -16,41 +16,59 @@
 		</MudButtonGroup>
 	</Toolbar>
 	<PageContent>
-		<MudPaper Class="mb-3">
-			<MudGrid>
-				<MudItem xs="12" md="4">
-					<MudSelect T="StreamingQueryModel.SortDirection"
-							   Variant="Variant.Outlined"
-							   Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQueryOrderLabel)]"
-							   @bind-Value="query.ScheduleSort"
-							   Strict="true"
-							   AnchorOrigin="Origin.BottomCenter"
-							   Dense="true"
-							   Margin="Margin.Dense">
-						@foreach (var sort in Enum.GetValues<StreamingQueryModel.SortDirection>())
-						{
-							<MudSelectItem T="StreamingQueryModel.SortDirection" Value="sort">@Localizer[sort.ToString()]</MudSelectItem>
-						}
-					</MudSelect>
-				</MudItem>
-				<MudItem xs="12" md="5">
-					<MudTextField Margin="Margin.Dense"
-								  Label="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]"
-								  @bind-Value="query.Query"
-								  Variant="Variant.Outlined"/>
-				</MudItem>
-				<MudItem xs="12" md="3">
-					<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-						<MudIconButton OnClick="Search" Icon="@Icons.Material.Filled.Search" />
-						<MudIconButton OnClick="ClearSearch" Icon="@Icons.Material.Filled.Clear" Variant="Variant.Outlined" />
-					</MudButtonGroup>
-				</MudItem>
-			</MudGrid>
+		<MudPaper Class="mb-3 px-2">
+            <EditForm Model="query" OnValidSubmit="SearchAsync" id="streamingSearchForm">
+                <DataAnnotationsValidator />
+
+                <MudGrid>
+                    <MudItem xs="12" md="3">
+                        <MudSelect T="StreamingQueryModel.SortDirection"
+                                   Variant="Variant.Outlined"
+                                   Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQueryOrderLabel)]"
+                                   @bind-Value="query.ScheduleSort"
+                                   Strict="true"
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   Dense="true"
+                                   Margin="Margin.Dense">
+                            @foreach (var sort in Enum.GetValues<StreamingQueryModel.SortDirection>())
+                            {
+                                <MudSelectItem T="StreamingQueryModel.SortDirection" Value="sort">@Localizer[sort.ToString()]</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" md="5">
+                        <MudTextField Margin="Margin.Dense"
+                                      Label="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]"
+                                      @bind-Value="query.Query"
+                                      Variant="Variant.Outlined" />
+                    </MudItem>
+                    <MudItem xs="12" md="2">
+                        <MudSelect @bind-Value="query.Size"
+                                   Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQuerySizeLabel)]"
+                                   Strict="true"
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   Dense="true"
+                                   Margin="Margin.Dense"
+                                   Variant="Variant.Outlined">
+                            @foreach (var size in sizes)
+                            {
+                                <MudSelectItem Value="size">@size</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" md="2">
+                        <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Search" />
+                            <MudIconButton OnClick="ClearSearchAsync" Icon="@Icons.Material.Filled.Clear" Variant="Variant.Outlined" />
+                        </MudButtonGroup>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
 		</MudPaper>
 		<MudDivider />
 
 		<MudPaper>
-			<MudTable ServerData="LoadStreamingsAsync" @ref="table">
+			<MudTable Items="model.Items" Loading="loading" Striped="true" RowsPerPage="query.Size">
 				<HeaderContent>
 					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]</MudTh>
 					<MudTh>@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]</MudTh>
@@ -82,14 +100,29 @@
 					</MudTd>
 				</RowTemplate>
 				<NoRecordsContent>
-					<MudText>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)] :(</MudText>
+					<MudText>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)]</MudText>
 				</NoRecordsContent>
 				<LoadingContent>
-					<MudText>Loading...</MudText>
+                    <MudProgressCircular Color="Color.Primary"
+                                         Indeterminate="true"
+                                         Size="Size.Large" />
 				</LoadingContent>
-				<PagerContent>
-					<MudTablePager />
-				</PagerContent>
+                <PagerContent>
+                    @if (model.Items.Any() && numberOfPages > 1)
+                    {
+                        <div class="py-2 px-4 mt-2 mb-2 d-flex align-center flex-row-reverse">
+                            <MudPagination Count="numberOfPages"
+                                           Variant="Variant.Filled"
+                                           Rectangular="true"
+                                           ShowFirstButton="true"
+                                           ShowLastButton="true"
+                                           SelectedChanged="OnPageChangedAsync"
+										   BoundaryCount="1"
+										   MiddleCount="2"/>
+                            <span class="mr-2">@Localizer[nameof(Resources.Pages.Streamings.Index.PaginationItemsNumberText), model.Items.Count(), model.TotalItems]</span>
+                        </div>
+                    }
+                </PagerContent>
 			</MudTable>
 		</MudPaper>
 	</PageContent>

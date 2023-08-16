@@ -142,7 +142,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No streamings here.
+        ///   Looks up a localized string similar to No streamings here. Try another search.
         /// </summary>
         public static string NoStreamingsFoundLabel {
             get {
@@ -156,6 +156,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1}.
+        /// </summary>
+        public static string PaginationItemsNumberText {
+            get {
+                return ResourceManager.GetString("PaginationItemsNumberText", resourceCulture);
             }
         }
         
@@ -174,6 +183,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         public static string StreamingQueryOrderLabel {
             get {
                 return ResourceManager.GetString("StreamingQueryOrderLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nr. of elements.
+        /// </summary>
+        public static string StreamingQuerySizeLabel {
+            get {
+                return ResourceManager.GetString("StreamingQuerySizeLabel", resourceCulture);
             }
         }
         

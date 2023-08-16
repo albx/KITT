@@ -37,6 +37,10 @@
         RegisterMudDialog();
 
         var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
+
+        var searchForm = component.Find("#streamingSearchForm");
+        searchForm.Submit();
+
         var openDetailButton = component.Find($"button#openStreamingDetail-{item.Id}");
         openDetailButton.Click();
 
@@ -50,7 +54,7 @@
     public void Index_DeleteStreaming_Should_Call_Delete_Api_If_Confirmed()
     {
         var item = new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test" };
-        
+
         var clientMock = new Mock<IStreamingsClient>();
         clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
             .ReturnsAsync(new StreamingsListModel { Items = new[] { item }, TotalItems = 1 });
@@ -61,32 +65,40 @@
         var dialogProvider = RenderComponent<MudDialogProvider>();
 
         var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
-		var deleteButton = component.Find($"button#deleteStreaming-{item.Id}");
-		deleteButton.Click();
+
+        var searchForm = component.Find("#streamingSearchForm");
+        searchForm.Submit();
+
+        var deleteButton = component.Find($"button#deleteStreaming-{item.Id}");
+        deleteButton.Click();
 
         var confirmButton = dialogProvider.Find("#confirmButton");
         confirmButton.Click();
 
-		clientMock.Verify(c => c.DeleteStreamingAsync(item.Id), Times.Once(), "");
-	}
+        clientMock.Verify(c => c.DeleteStreamingAsync(item.Id), Times.Once(), "");
+    }
 
-	[Fact]
-	public void Index_Should_Render_All_Streamings_Correctly()
-	{
-		var items = new[]
-		{
-			new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test1" },
-			new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test2" }
-		};
+    [Fact]
+    public void Index_Should_Render_All_Streamings_Correctly()
+    {
+        var items = new[]
+        {
+            new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test1" },
+            new StreamingsListModel.StreamingListItemModel { Id = Guid.NewGuid(), Title = "test2" }
+        };
 
-		var clientMock = new Mock<IStreamingsClient>();
-		clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
-			.ReturnsAsync(new StreamingsListModel { Items = items, TotalItems = items.Length });
+        var clientMock = new Mock<IStreamingsClient>();
+        clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
+            .ReturnsAsync(new StreamingsListModel { Items = items, TotalItems = items.Length });
 
-		RegisterServices(clientMock: clientMock);
+        RegisterServices(clientMock: clientMock);
         RegisterMudDialog();
 
-		var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
+        var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
+
+        var searchForm = component.Find("#streamingSearchForm");
+        searchForm.Submit();
+
         var streamingsRows = component.FindAll("table > tbody > tr");
 
         Assert.Equal(items.Length, streamingsRows.Count);

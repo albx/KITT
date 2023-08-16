@@ -18,7 +18,7 @@ public class StreamingsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllStreamings(int p = 0, int s = 10, StreamingQueryModel.SortDirection sort = StreamingQueryModel.SortDirection.Descending, string? q = null)
+    public IActionResult GetAllStreamings(int p = 1, int s = 10, StreamingQueryModel.SortDirection sort = StreamingQueryModel.SortDirection.Descending, string? q = null)
     {
         var userId = User.GetUserId();
 
