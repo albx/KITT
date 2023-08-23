@@ -22,14 +22,14 @@ namespace KITT.Web.App.Resources.Components {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ScheduleForm {
+    public class MessageComposer {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ScheduleForm() {
+        internal MessageComposer() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Resources.Components {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Components.ScheduleForm", typeof(ScheduleForm).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Components.MessageComposer", typeof(MessageComposer).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,20 @@ namespace KITT.Web.App.Resources.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Abstract.
+        ///   Looks up a localized string similar to Compose message.
         /// </summary>
-        public static string AbstractLabel {
+        public static string ComposeMessageButtonLabel {
             get {
-                return ResourceManager.GetString("AbstractLabel", resourceCulture);
+                return ResourceManager.GetString("ComposeMessageButtonLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ending time.
+        ///   Looks up a localized string similar to Write and send your message.
         /// </summary>
-        public static string EndingTimeLabel {
+        public static string MessageEditorDialogTitle {
             get {
-                return ResourceManager.GetString("EndingTimeLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hosting channel.
-        /// </summary>
-        public static string HostingChannelLabel {
-            get {
-                return ResourceManager.GetString("HostingChannelLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Schedule date.
-        /// </summary>
-        public static string ScheduleDateLabel {
-            get {
-                return ResourceManager.GetString("ScheduleDateLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Slug.
-        /// </summary>
-        public static string SlugLabel {
-            get {
-                return ResourceManager.GetString("SlugLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Starting time.
-        /// </summary>
-        public static string StartingTimeLabel {
-            get {
-                return ResourceManager.GetString("StartingTimeLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Streaming.
-        /// </summary>
-        public static string StreamingTabTitle {
-            get {
-                return ResourceManager.GetString("StreamingTabTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Title.
-        /// </summary>
-        public static string TitleLabel {
-            get {
-                return ResourceManager.GetString("TitleLabel", resourceCulture);
+                return ResourceManager.GetString("MessageEditorDialogTitle", resourceCulture);
             }
         }
     }

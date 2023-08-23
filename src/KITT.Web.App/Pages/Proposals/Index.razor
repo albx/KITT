@@ -7,7 +7,7 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Proposals.Index.PageTitle)]">
     <PageContent>
-        <MudPaper Class="mb-3">
+        <MudPaper Class="mb-3 px-2">
             <MudGrid>
                 <MudItem xs="12" md="4">
                     <MudSelect T="ProposalsQueryModel.SortDirection"
@@ -62,8 +62,8 @@
                 </MudItem>
                 <MudItem xs="12" md="2">
                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                        <MudIconButton OnClick="Search" Icon="@Icons.Filled.Search" />
-                        <MudIconButton OnClick="ClearSearch" Icon="@Icons.Filled.Clear" Variant="Variant.Outlined" />
+                        <MudIconButton OnClick="Search" Icon="@Icons.Material.Filled.Search" />
+                        <MudIconButton OnClick="ClearSearch" Icon="@Icons.Material.Filled.Clear" Variant="Variant.Outlined" />
                     </MudButtonGroup>
                 </MudItem>
             </MudGrid>

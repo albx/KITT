@@ -133,6 +133,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Streaming.
+        /// </summary>
+        internal static string StreamingTabTitle {
+            get {
+                return ResourceManager.GetString("StreamingTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         internal static string TitleLabel {

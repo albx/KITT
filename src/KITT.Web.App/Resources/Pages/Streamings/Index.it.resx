@@ -145,16 +145,22 @@
     <value>Importa una diretta</value>
   </data>
   <data name="NoStreamingsFoundLabel" xml:space="preserve">
-    <value>Nessuna diretta trovata</value>
+    <value>Nessuna diretta trovata. Prova a fare un'altra ricerca</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
     <value>Le mie dirette</value>
+  </data>
+  <data name="PaginationItemsNumberText" xml:space="preserve">
+    <value>{0} di {1}</value>
   </data>
   <data name="ScheduleNewStreamingLabel" xml:space="preserve">
     <value>Pianifica una nuova diretta</value>
   </data>
   <data name="StreamingQueryOrderLabel" xml:space="preserve">
     <value>Ordina per</value>
+  </data>
+  <data name="StreamingQuerySizeLabel" xml:space="preserve">
+    <value>Num. elementi</value>
   </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Titolo</value>

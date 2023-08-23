@@ -17,6 +17,9 @@ public partial class Schedule
     [Inject]
     ISnackbar Snackbar { get; set; } = default!;
 
+    [Inject]
+    public IDialogService Dialog { get; set; } = default!;
+
     private ScheduleForm.ViewModel model = new();
 
     private string? errorMessage;
@@ -38,22 +41,11 @@ public partial class Schedule
         }
     }
 
-    private ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
+    private static ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
     {
-        if (model.ScheduleDate is null)
-        {
-            throw new ArgumentNullException(nameof(model.ScheduleDate));
-        }
-
-        if (model.StartingTime is null)
-        {
-            throw new ArgumentNullException(nameof(model.StartingTime));
-        }
-
-        if (model.EndingTime is null)
-        {
-            throw new ArgumentNullException(nameof(model.EndingTime));
-        }
+        ArgumentNullException.ThrowIfNull(model.ScheduleDate);
+        ArgumentNullException.ThrowIfNull(model.StartingTime);
+        ArgumentNullException.ThrowIfNull(model.EndingTime);
 
         return new ScheduleStreamingModel
         {

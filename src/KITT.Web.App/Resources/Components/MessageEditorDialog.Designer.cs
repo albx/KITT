@@ -22,14 +22,14 @@ namespace KITT.Web.App.Resources.Components {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ScheduleForm {
+    public class MessageEditorDialog {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ScheduleForm() {
+        internal MessageEditorDialog() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Resources.Components {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Components.ScheduleForm", typeof(ScheduleForm).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Resources.Components.MessageEditorDialog", typeof(MessageEditorDialog).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,29 @@ namespace KITT.Web.App.Resources.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Abstract.
+        ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string AbstractLabel {
+        public static string CloseButtonText {
             get {
-                return ResourceManager.GetString("AbstractLabel", resourceCulture);
+                return ResourceManager.GetString("CloseButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ending time.
+        ///   Looks up a localized string similar to Message sent correctly.
         /// </summary>
-        public static string EndingTimeLabel {
+        public static string MessageSentSuccessMessage {
             get {
-                return ResourceManager.GetString("EndingTimeLabel", resourceCulture);
+                return ResourceManager.GetString("MessageSentSuccessMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hosting channel.
+        ///   Looks up a localized string similar to Send.
         /// </summary>
-        public static string HostingChannelLabel {
+        public static string SendButtonText {
             get {
-                return ResourceManager.GetString("HostingChannelLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Schedule date.
-        /// </summary>
-        public static string ScheduleDateLabel {
-            get {
-                return ResourceManager.GetString("ScheduleDateLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Slug.
-        /// </summary>
-        public static string SlugLabel {
-            get {
-                return ResourceManager.GetString("SlugLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Starting time.
-        /// </summary>
-        public static string StartingTimeLabel {
-            get {
-                return ResourceManager.GetString("StartingTimeLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Streaming.
-        /// </summary>
-        public static string StreamingTabTitle {
-            get {
-                return ResourceManager.GetString("StreamingTabTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Title.
-        /// </summary>
-        public static string TitleLabel {
-            get {
-                return ResourceManager.GetString("TitleLabel", resourceCulture);
+                return ResourceManager.GetString("SendButtonText", resourceCulture);
             }
         }
     }

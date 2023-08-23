@@ -135,6 +135,12 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="UnsavedChangesDialogContent" xml:space="preserve">
+    <value>Moving to another page will lose all unsaved data. Are you sure?</value>
+  </data>
+  <data name="UnsavedChangesDialogTitle" xml:space="preserve">
+    <value>There are unsaved changes</value>
+  </data>
   <data name="View" xml:space="preserve">
     <value>View</value>
   </data>

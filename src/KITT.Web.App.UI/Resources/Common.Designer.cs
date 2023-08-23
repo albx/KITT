@@ -115,6 +115,24 @@ namespace KITT.Web.App.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Moving to another page will lose all unsaved data. Are you sure?.
+        /// </summary>
+        public static string UnsavedChangesDialogContent {
+            get {
+                return ResourceManager.GetString("UnsavedChangesDialogContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are unsaved changes.
+        /// </summary>
+        public static string UnsavedChangesDialogTitle {
+            get {
+                return ResourceManager.GetString("UnsavedChangesDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View.
         /// </summary>
         public static string View {

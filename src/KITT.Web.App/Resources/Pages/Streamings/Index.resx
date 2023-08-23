@@ -145,16 +145,22 @@
     <value>Import streaming</value>
   </data>
   <data name="NoStreamingsFoundLabel" xml:space="preserve">
-    <value>No streamings here</value>
+    <value>No streamings here. Try another search</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
     <value>My streamings</value>
+  </data>
+  <data name="PaginationItemsNumberText" xml:space="preserve">
+    <value>{0} of {1}</value>
   </data>
   <data name="ScheduleNewStreamingLabel" xml:space="preserve">
     <value>Schedule new streaming</value>
   </data>
   <data name="StreamingQueryOrderLabel" xml:space="preserve">
     <value>Order</value>
+  </data>
+  <data name="StreamingQuerySizeLabel" xml:space="preserve">
+    <value>Nr. of elements</value>
   </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Title</value>

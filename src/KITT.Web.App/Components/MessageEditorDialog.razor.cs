@@ -1,4 +1,5 @@
-﻿using KITT.Web.Models.Messages;
+﻿using KITT.Web.App.Clients;
+using KITT.Web.Models.Messages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
@@ -12,6 +13,9 @@ public partial class MessageEditorDialog
 
     [Inject]
     public ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
+    public IMessagesClient Client { get; set; } = default!;
 
     private SendMessageModel model = new();
 
@@ -35,8 +39,9 @@ public partial class MessageEditorDialog
 
         try
         {
-            //TODO
+            await Client.SendMessageAsync(model);
 
+            Snackbar.Add(Localizer[nameof(Resources.Components.MessageEditorDialog.MessageSentSuccessMessage)], Severity.Success);
             Dialog.Close(DialogResult.Ok(true));
         }
         finally

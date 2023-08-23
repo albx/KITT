@@ -138,6 +138,12 @@
   <data name="StartingTimeLabel" xml:space="preserve">
     <value>Ora di inizio</value>
   </data>
+  <data name="StreamingSavedSuccessfully" xml:space="preserve">
+    <value>Le informazioni della diretta sono state salvate correttamente</value>
+  </data>
+  <data name="StreamingTabTitle" xml:space="preserve">
+    <value>Diretta</value>
+  </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Titolo</value>
   </data>
