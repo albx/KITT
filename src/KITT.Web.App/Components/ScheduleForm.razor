@@ -3,7 +3,7 @@
 
 <ContentForm TContent="ViewModel" 
              Model="Model"
-             ContentTabTitle="Streaming"
+             ContentTabTitle="@Localizer[nameof(Resources.Components.ScheduleForm.StreamingTabTitle)]"
              OnSave="SubmitAsync"
              OnCancel="CancelAsync">
     <ContentInfo Context="streaming">

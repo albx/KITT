@@ -26,6 +26,7 @@ public abstract class Content
     protected Content()
     {
         CreationDate = DateTime.UtcNow;
+        Seo = new();
     }
     #endregion
 

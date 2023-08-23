@@ -141,6 +141,9 @@
   <data name="StreamingSavedSuccessfully" xml:space="preserve">
     <value>Streaming informations saved successfully!</value>
   </data>
+  <data name="StreamingTabTitle" xml:space="preserve">
+    <value>Streaming</value>
+  </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Title</value>
   </data>

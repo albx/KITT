@@ -141,6 +141,9 @@
   <data name="StreamingImportedSuccessfully" xml:space="preserve">
     <value>The streaming {0} has been imported successfully!</value>
   </data>
+  <data name="StreamingTabTitle" xml:space="preserve">
+    <value>Streaming</value>
+  </data>
   <data name="TitleLabel" xml:space="preserve">
     <value>Title</value>
   </data>

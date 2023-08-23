@@ -27,7 +27,7 @@
 
             <ContentForm TContent="ViewModel"
                          Model="model"
-                         ContentTabTitle="Streaming"
+                         ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingTabTitle)]"
                          Context="streaming"
                          ReadOnly="isReadOnly"
                          OnSave="EditStreamingAsync"

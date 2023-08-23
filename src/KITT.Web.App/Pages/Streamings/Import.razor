@@ -20,7 +20,7 @@
         }
 
         <ContentForm TContent="ViewModel"
-                     ContentTabTitle="Streaming"
+                     ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.StreamingTabTitle)]"
                      OnSave="ImportStreamingAsync"
                      OnCancel="Cancel"
                      Model="model">
