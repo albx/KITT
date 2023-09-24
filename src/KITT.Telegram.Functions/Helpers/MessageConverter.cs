@@ -9,7 +9,7 @@ public static class MessageConverter
     {
         var messageText = $"""
             *Nuova live "{message.StreamingTitle}" pianificata!*
-            Il {message.StreamingScheduleDate.ToShortDateString()} si va live dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()}.
+            Il {message.StreamingScheduleDate:dd/MM/yyyy} si va live dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()}.
             Vi aspetto su [{message.StreamingHostingChannelUrl}]({message.StreamingHostingChannelUrl}) per scoprire insieme di cosa tratteremo!
             Trovate maggiori informazioni su [https://live.morialberto.it/d/{message.StreamingSlug}](https://live.morialberto.it/d/{message.StreamingSlug})
             """;
@@ -20,7 +20,7 @@ public static class MessageConverter
     public static string ToText(StreamingCanceledMessage message)
     {
         var messageText = $"""
-            La live "{message.StreamingTitle}" prevista per il giorno {message.StreamingScheduleDate.ToShortDateString()} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()} è stata annullata!
+            La live "{message.StreamingTitle}" prevista per il giorno {message.StreamingScheduleDate:dd/MM/yyyy} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()} è stata annullata!
             Mi scuso per il problema. La recupereremo il prima possibile!
             """;
 
@@ -30,7 +30,7 @@ public static class MessageConverter
     public static string ToText(StreamingScheduleChangedMessage message)
     {
         var messageText = $"""
-            La live "{message.StreamingTitle}" è stata spostata al giorno {message.StreamingScheduleDate.ToShortDateString()} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()}.
+            La live "{message.StreamingTitle}" è stata spostata al giorno {message.StreamingScheduleDate:dd/MM/yyyy} dalle {message.StreamingStartingTime.ToShortTimeString()} alle {message.StreamingEndingTime.ToShortTimeString()}.
             Vi aspetto numerosi!
             Trovate maggiori informazioni su [https://live.morialberto.it/d/{message.StreamingSlug}](https://live.morialberto.it/d/{message.StreamingSlug})
             """;
@@ -53,7 +53,7 @@ public static class MessageConverter
     public static string ToText(StreamingHostingChannelChangedMessage message)
     {
         var messageText = $"""
-            La live "{message.StreamingTitle}" si svolgerà sul canale [{message.StreamingHostingChannelUrl}]({message.StreamingHostingChannelUrl}) il giorno {message.StreamingScheduleDate.ToShortDateString()} alle {message.StreamingStartingTime.ToShortTimeString()}.
+            La live "{message.StreamingTitle}" si svolgerà sul canale [{message.StreamingHostingChannelUrl}]({message.StreamingHostingChannelUrl}) il giorno {message.StreamingScheduleDate:dd/MM/yyyy} alle {message.StreamingStartingTime.ToShortTimeString()}.
             Vi aspettiamo numerosi!
             Trovate maggiori informazioni su [https://live.morialberto.it/d/{message.StreamingSlug}](https://live.morialberto.it/d/{message.StreamingSlug})
             """;
