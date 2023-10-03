@@ -154,6 +154,11 @@ public class StreamingsControllerTest :
                 {
                     services.AddTestAuthentication();
                 });
+
+                builder.ConfigureServices(services =>
+                {
+                    DataHelper.PrepareDataForTest(services);
+                });
             })
             .CreateClient();
 

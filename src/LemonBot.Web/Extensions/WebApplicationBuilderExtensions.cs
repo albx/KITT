@@ -4,6 +4,7 @@ using KITT.Core.DependencyInjection;
 using KITT.Core.Persistence;
 using KITT.Telegram.Messages;
 using LemonBot.Web.Configuration;
+using LemonBot.Web.Endpoints.Services;
 using LemonBot.Web.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddKittCore();
 
         builder.Services
-            .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
+            .AddScoped<StreamingsEndpointsServices>()
             .AddScoped<Areas.Console.Services.SettingsControllerServices>()
             .AddScoped<Areas.Console.Services.ProposalsControllerServices>()
             .AddScoped<Areas.Console.Services.MessagesControllerServices>();
