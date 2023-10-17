@@ -13,32 +13,37 @@ public static class StreamingsEndpoints
         var streamingsGroup = builder
             .MapGroup("api/console/streamings")
             .RequireAuthorization()
-            .WithParameterValidation()
-            .WithOpenApi();
+            .WithParameterValidation();
 
         streamingsGroup
             .MapGet("", GetAllStreamings)
-            .WithName(nameof(GetAllStreamings));
+            .WithName(nameof(GetAllStreamings))
+            .WithOpenApi();
 
         streamingsGroup
             .MapGet("{id:guid}", GetStreamingDetail)
-            .WithName(nameof(GetStreamingDetail));
+            .WithName(nameof(GetStreamingDetail))
+            .WithOpenApi();
 
         streamingsGroup
             .MapPost("", ScheduleStreaming)
-            .WithName(nameof(ScheduleStreaming));
+            .WithName(nameof(ScheduleStreaming))
+            .WithOpenApi();
 
         streamingsGroup
             .MapPost("import", ImportStreaming)
-            .WithName(nameof(ImportStreaming));
+            .WithName(nameof(ImportStreaming))
+            .WithOpenApi();
 
         streamingsGroup
             .MapPut("{id:guid}", UpdateStreaming)
-            .WithName(nameof(UpdateStreaming));
+            .WithName(nameof(UpdateStreaming))
+            .WithOpenApi();
 
         streamingsGroup
             .MapDelete("{id:guid}", DeleteStreaming)
-            .WithName(nameof(DeleteStreaming));
+            .WithName(nameof(DeleteStreaming))
+            .WithOpenApi();
 
         return builder;
     }

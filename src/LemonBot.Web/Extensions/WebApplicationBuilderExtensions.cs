@@ -9,6 +9,7 @@ using LemonBot.Web.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Any;
 
 namespace LemonBot.Web.Extensions;
 
@@ -22,7 +23,14 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.MapType<TimeSpan>(() => new Microsoft.OpenApi.Models.OpenApiSchema
+            {
+                Type = "string",
+                Example = new OpenApiString("00:00:00")
+            });
+        });
 
         builder.Services.Configure<BotConfiguration>(builder.Configuration.GetSection(nameof(BotConfiguration)));
 
