@@ -2,7 +2,6 @@
 using LemonBot.Web.Endpoints.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace LemonBot.Web.Endpoints;
 
@@ -12,7 +11,8 @@ public static class StreamingsEndpoints
     {
         var streamingsGroup = builder
             .MapGroup("api/console/streamings")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .WithParameterValidation();
 
         streamingsGroup
             .MapGet("", GetAllStreamings)
