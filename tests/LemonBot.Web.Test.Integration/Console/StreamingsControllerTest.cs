@@ -562,7 +562,7 @@ public class StreamingsControllerTest :
     }
 
     [Fact]
-    public async Task UpdateStreaming_Should_Return_Ok_Status_Code_As_Expected()
+    public async Task UpdateStreaming_Should_Return_NoContent_Status_Code_As_Expected()
     {
         var streamingId = Guid.Empty;
         var scheduleDate = DateTime.Today.AddDays(1);
@@ -608,11 +608,11 @@ public class StreamingsControllerTest :
         };
 
         var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
 
     [Fact]
-    public async Task UpdateStreaming_Should_Return_Ok_Status_Code_Even_If_Streaming_Has_A_Past_Schedule_Date()
+    public async Task UpdateStreaming_Should_Return_NoContent_Status_Code_Even_If_Streaming_Has_A_Past_Schedule_Date()
     {
         var streamingId = Guid.Empty;
         var scheduleDate = DateTime.Today.AddMonths(-1);
@@ -658,13 +658,13 @@ public class StreamingsControllerTest :
         };
 
         var response = await client.PutAsJsonAsync($"/api/console/streamings/{streamingId}", model);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
     #endregion
 
     #region DeleteStreaming tests
     [Fact]
-    public async Task DeleteStreaming_Should_Return_Ok_Status_Code_As_Expected()
+    public async Task DeleteStreaming_Should_Return_NoContent_Status_Code_As_Expected()
     {
         var streamingId = Guid.Empty;
         var scheduleDate = DateTime.Today.AddDays(1);
@@ -697,7 +697,7 @@ public class StreamingsControllerTest :
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         var response = await client.DeleteAsync($"/api/console/streamings/{streamingId}");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
 
     [Fact]

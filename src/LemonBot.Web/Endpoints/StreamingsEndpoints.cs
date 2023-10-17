@@ -1,5 +1,6 @@
 ﻿using KITT.Web.Models.Streamings;
 using LemonBot.Web.Endpoints.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -12,7 +13,8 @@ public static class StreamingsEndpoints
         var streamingsGroup = builder
             .MapGroup("api/console/streamings")
             .RequireAuthorization()
-            .WithParameterValidation();
+            .WithParameterValidation()
+            .WithOpenApi();
 
         streamingsGroup
             .MapGet("", GetAllStreamings)
@@ -41,7 +43,7 @@ public static class StreamingsEndpoints
         return builder;
     }
 
-    private static async Task<IResult> GetAllStreamings(
+    private static async Task<Ok<StreamingsListModel>> GetAllStreamings(
         StreamingsEndpointsServices services,
         ClaimsPrincipal user,
         int p = 1,
@@ -58,65 +60,70 @@ public static class StreamingsEndpoints
             sort,
             query: q);
 
-        return Results.Ok(streamings);
+        return TypedResults.Ok(streamings);
     }
 
-    private static async Task<IResult> GetStreamingDetail(
+    private static async Task<Results<Ok<StreamingDetailModel>, NotFound>> GetStreamingDetail(
         StreamingsEndpointsServices services,
         Guid id)
     {
         var streaming = await services.GetStreamingDetailAsync(id);
         if (streaming is null)
         {
-            return Results.NotFound();
+            return TypedResults.NotFound();
         }
 
-        return Results.Ok(streaming);
+        return TypedResults.Ok(streaming);
     }
 
-    private static async Task<IResult> ScheduleStreaming(
+    private static async Task<Results<CreatedAtRoute<ScheduleStreamingModel>, BadRequest, ValidationProblem>> ScheduleStreaming(
         StreamingsEndpointsServices services,
         ClaimsPrincipal user,
         [FromBody] ScheduleStreamingModel model)
     {
         var scheduledStreamingId = await services.ScheduleStreamingAsync(model, user.GetUserId());
-        return Results.CreatedAtRoute(
+        return TypedResults.CreatedAtRoute(
+            model,
             nameof(GetStreamingDetail),
-            new { id = scheduledStreamingId },
-            model);
+            new { id = scheduledStreamingId });
     }
 
-    private static async Task<IResult> ImportStreaming(
+    private static async Task<Results<CreatedAtRoute<ImportStreamingModel>, BadRequest, ValidationProblem>> ImportStreaming(
         StreamingsEndpointsServices services,
         ClaimsPrincipal user,
         [FromBody] ImportStreamingModel model)
     {
         var importedStreamingId = await services.ImportStreamingAsync(model, user.GetUserId());
-        return Results.CreatedAtRoute(
+        return TypedResults.CreatedAtRoute(
+            model,
             nameof(GetStreamingDetail),
-            new { id = importedStreamingId },
-            model);
+            new { id = importedStreamingId });
     }
 
-    private static async Task<IResult> UpdateStreaming(
+    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateStreaming(
         StreamingsEndpointsServices services,
         Guid id,
         [FromBody] StreamingDetailModel model)
     {
         if (id == Guid.Empty)
         {
-            return Results.NotFound();
+            return TypedResults.NotFound();
         }
 
         await services.UpdateStreamingAsync(id, model);
-        return Results.Ok();
+        return TypedResults.NoContent();
     }
 
-    private static async Task<IResult> DeleteStreaming(
+    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> DeleteStreaming(
         StreamingsEndpointsServices services,
         Guid id)
     {
+        if (id == Guid.Empty)
+        {
+            return TypedResults.NotFound();
+        }
+
         await services.DeleteStreamingAsync(id);
-        return Results.Ok();
+        return TypedResults.NoContent();
     }
 }

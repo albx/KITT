@@ -21,6 +21,9 @@ public static class WebApplicationBuilderExtensions
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
         builder.Services.Configure<BotConfiguration>(builder.Configuration.GetSection(nameof(BotConfiguration)));
 
         builder.Services.Configure<JwtBearerOptions>(

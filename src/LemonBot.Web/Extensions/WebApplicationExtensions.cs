@@ -13,6 +13,9 @@ public static class WebApplicationExtensions
             app.UseDeveloperExceptionPage();
             app.UseMigrationsEndPoint();
             app.UseWebAssemblyDebugging();
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
         else
         {
