@@ -12,17 +12,17 @@
 
 @code {
 	[CascadingParameter]
-	MudDialogInstance Dialog { get; set; }
+	MudDialogInstance? Dialog { get; set; }
 
 	[Parameter]
 	[EditorRequired]
 	public string ConfirmText { get; set; } = string.Empty;
 
 	[Parameter]
-	public string ConfirmButtonText { get; set; }
+	public string? ConfirmButtonText { get; set; }
 
 	[Parameter]
-	public string CancelButtonText { get; set; }
+	public string? CancelButtonText { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -31,7 +31,7 @@
 		CancelButtonText = Localizer[nameof(Resources.Common.Cancel)];
 	}
 
-	void Cancel() => Dialog.Close(DialogResult.Cancel());
+	void Cancel() => Dialog?.Close(DialogResult.Cancel());
 
-	void Confirm() => Dialog.Close(DialogResult.Ok(true));
+	void Confirm() => Dialog?.Close(DialogResult.Ok(true));
 }

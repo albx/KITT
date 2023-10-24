@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace LemonBot.Commands.Services;
 
@@ -18,7 +17,7 @@ public class BotCommandResolver
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public IBotCommand ResolveByMessage(string message)
+    public IBotCommand? ResolveByMessage(string message)
     {
         foreach (var commandDescriptor in _commandsProvider.Commands)
         {
