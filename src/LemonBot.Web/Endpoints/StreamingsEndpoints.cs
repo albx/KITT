@@ -8,7 +8,7 @@ namespace LemonBot.Web.Endpoints;
 
 public static class StreamingsEndpoints
 {
-    public static IEndpointRouteBuilder MapStreamings(this IEndpointRouteBuilder builder)
+    public static IEndpointRouteBuilder MapStreamingsEndpoints(this IEndpointRouteBuilder builder)
     {
         var streamingsGroup = builder
             .MapGroup("api/console/streamings")
