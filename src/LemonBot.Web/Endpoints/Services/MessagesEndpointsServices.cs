@@ -1,13 +1,13 @@
 ﻿using KITT.Telegram.Messages;
 using KITT.Web.Models.Messages;
 
-namespace LemonBot.Web.Areas.Console.Services;
+namespace LemonBot.Web.Endpoints.Services;
 
-public class MessagesControllerServices
+public class MessagesEndpointsServices
 {
     public IMessageBus MessageBus { get; }
 
-    public MessagesControllerServices(IMessageBus messageBus)
+    public MessagesEndpointsServices(IMessageBus messageBus)
     {
         MessageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
     }
