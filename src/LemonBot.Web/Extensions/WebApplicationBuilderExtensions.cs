@@ -4,10 +4,12 @@ using KITT.Core.DependencyInjection;
 using KITT.Core.Persistence;
 using KITT.Telegram.Messages;
 using LemonBot.Web.Configuration;
+using LemonBot.Web.Endpoints.Services;
 using LemonBot.Web.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Any;
 
 namespace LemonBot.Web.Extensions;
 
@@ -19,6 +21,16 @@ public static class WebApplicationBuilderExtensions
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.MapType<TimeSpan>(() => new Microsoft.OpenApi.Models.OpenApiSchema
+            {
+                Type = "string",
+                Example = new OpenApiString("00:00:00")
+            });
+        });
 
         builder.Services.Configure<BotConfiguration>(builder.Configuration.GetSection(nameof(BotConfiguration)));
 
@@ -36,10 +48,10 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddKittCore();
 
         builder.Services
-            .AddScoped<Areas.Console.Services.StreamingsControllerServices>()
-            .AddScoped<Areas.Console.Services.SettingsControllerServices>()
-            .AddScoped<Areas.Console.Services.ProposalsControllerServices>()
-            .AddScoped<Areas.Console.Services.MessagesControllerServices>();
+            .AddScoped<StreamingsEndpointsServices>()
+            .AddScoped<SettingsEndpointsServices>()
+            .AddScoped<ProposalsEndpointsServices>()
+            .AddScoped<MessagesEndpointsServices>();
 
         builder.Services.AddControllersWithViews();
 
