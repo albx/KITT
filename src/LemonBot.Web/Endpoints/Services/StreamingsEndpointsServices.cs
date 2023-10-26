@@ -1,22 +1,23 @@
 ﻿using KITT.Core.Commands;
 using KITT.Core.ReadModels;
 using KITT.Web.Models.Streamings;
+using Microsoft.EntityFrameworkCore;
 
-namespace LemonBot.Web.Areas.Console.Services;
+namespace LemonBot.Web.Endpoints.Services;
 
-public class StreamingsControllerServices
+public class StreamingsEndpointsServices
 {
     public IDatabase Database { get; }
 
     public IStreamingCommands Commands { get; }
 
-    public StreamingsControllerServices(IDatabase database, IStreamingCommands commands)
+    public StreamingsEndpointsServices(IDatabase database, IStreamingCommands commands)
     {
         Database = database ?? throw new ArgumentNullException(nameof(database));
         Commands = commands ?? throw new ArgumentNullException(nameof(commands));
     }
 
-    public StreamingsListModel GetAllStreamings(string userId, int page, int size, StreamingQueryModel.SortDirection sort, string? query)
+    public async Task<StreamingsListModel> GetAllStreamingsAsync(string userId, int page, int size, StreamingQueryModel.SortDirection sort, string? query)
     {
         var ascending = sort == StreamingQueryModel.SortDirection.Ascending;
 
@@ -31,7 +32,7 @@ public class StreamingsControllerServices
 
         var skip = (page - 1) * size;
 
-        var streamings = streamingsQuery
+        var streamings = await streamingsQuery
             .Select(s => new StreamingsListModel.StreamingListItemModel
             {
                 Id = s.Id,
@@ -41,15 +42,15 @@ public class StreamingsControllerServices
                 Title = s.Title,
                 HostingChannelUrl = s.HostingChannelUrl,
                 YouTubeVideoUrl = s.YouTubeVideoUrl
-            }).Skip(skip).Take(size).ToArray();
+            }).Skip(skip).Take(size).ToArrayAsync();
 
         var model = new StreamingsListModel { TotalItems = streamingsQuery.Count(), Items = streamings };
         return model;
     }
 
-    public StreamingDetailModel? GetStreamingDetail(Guid streamingId)
+    public async Task<StreamingDetailModel?> GetStreamingDetailAsync(Guid streamingId)
     {
-        var streaming = Database.Streamings.SingleOrDefault(s => s.Id == streamingId);
+        var streaming = await Database.Streamings.SingleOrDefaultAsync(s => s.Id == streamingId);
         if (streaming is null)
         {
             return null;

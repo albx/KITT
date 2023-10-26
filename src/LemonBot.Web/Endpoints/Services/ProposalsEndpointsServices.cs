@@ -1,21 +1,22 @@
 ﻿using KITT.Core.Commands;
 using KITT.Core.ReadModels;
 using KITT.Web.Models.Proposals;
+using Microsoft.EntityFrameworkCore;
 
-namespace LemonBot.Web.Areas.Console.Services;
+namespace LemonBot.Web.Endpoints.Services;
 
-public class ProposalsControllerServices
+public class ProposalsEndpointsServices
 {
     public IDatabase Database { get; }
     public IProposalCommands Commands { get; }
 
-    public ProposalsControllerServices(IDatabase database, IProposalCommands commands)
+    public ProposalsEndpointsServices(IDatabase database, IProposalCommands commands)
     {
         Database = database ?? throw new ArgumentNullException(nameof(database));
         Commands = commands ?? throw new ArgumentNullException(nameof(commands));
     }
 
-    public ProposalListModel GetAllProposals(int size, ProposalsQueryModel.SortDirection sort, string? query, ProposalStatus? status)
+    public async Task<ProposalListModel> GetAllProposalsAsync(int size, ProposalsQueryModel.SortDirection sort, string? query, ProposalStatus? status)
     {
         var ascending = sort == ProposalsQueryModel.SortDirection.Ascending;
 
@@ -35,7 +36,7 @@ public class ProposalsControllerServices
             };
         }
 
-        var proposals = proposalsQuery
+        var proposals = await proposalsQuery
             .OrderedBySubmissionDate(ascending)
             .Select(p => new ProposalListModel.ProposalListItemModel
             {
@@ -45,15 +46,15 @@ public class ProposalsControllerServices
                 Title = p.Title,
                 SubmittedAt = p.SubmittedAt,
                 Status = Enum.Parse<ProposalStatus>(p.Status.ToString())
-            }).Take(size).ToArray();
+            }).Take(size).ToArrayAsync();
 
         var model = new ProposalListModel { TotalItems = proposalsQuery.Count(), Items = proposals };
         return model;
     }
 
-    public ProposalDetailModel? GetProposalDetail(Guid proposalId)
+    public async Task<ProposalDetailModel?> GetProposalDetailAsync(Guid proposalId)
     {
-        var proposal = Database.Proposals.SingleOrDefault(p => p.Id == proposalId);
+        var proposal = await Database.Proposals.SingleOrDefaultAsync(p => p.Id == proposalId);
         if (proposal == null)
         {
             return null;

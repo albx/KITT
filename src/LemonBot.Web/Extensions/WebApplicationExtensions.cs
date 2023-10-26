@@ -1,4 +1,5 @@
 ﻿using Hellang.Middleware.ProblemDetails;
+using LemonBot.Web.Endpoints;
 using LemonBot.Web.GraphQL;
 
 namespace LemonBot.Web.Extensions;
@@ -12,6 +13,9 @@ public static class WebApplicationExtensions
             app.UseDeveloperExceptionPage();
             app.UseMigrationsEndPoint();
             app.UseWebAssemblyDebugging();
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
         else
         {
@@ -31,6 +35,13 @@ public static class WebApplicationExtensions
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app
+            .MapStreamingsEndpoints()
+            .MapSettingsEndpoints()
+            .MapMessagesEndpoints()
+            .MapProposalsEndpoints();
+
         app.MapKittGraphQL(env);
 
         app.MapFallbackToFile("index.html");
