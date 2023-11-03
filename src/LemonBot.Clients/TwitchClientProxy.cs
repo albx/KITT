@@ -23,7 +23,7 @@ public class TwitchClientProxy
 
     public void Initialize()
     {
-        ConnectionCredentials connectionCredential = null;
+        ConnectionCredentials? connectionCredential = null;
 
         try
         {

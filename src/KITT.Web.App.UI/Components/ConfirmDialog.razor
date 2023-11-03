@@ -12,17 +12,17 @@
 
 @code {
 	[CascadingParameter]
-	MudDialogInstance Dialog { get; set; }
+	MudDialogInstance Dialog { get; set; } = default!;
 
 	[Parameter]
 	[EditorRequired]
 	public string ConfirmText { get; set; } = string.Empty;
 
 	[Parameter]
-	public string ConfirmButtonText { get; set; }
+	public string ConfirmButtonText { get; set; } = string.Empty;
 
 	[Parameter]
-	public string CancelButtonText { get; set; }
+	public string CancelButtonText { get; set; } = string.Empty;
 
 	protected override void OnInitialized()
 	{

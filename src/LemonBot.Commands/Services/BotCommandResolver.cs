@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace LemonBot.Commands.Services;
 
@@ -18,7 +17,7 @@ public class BotCommandResolver
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public IBotCommand ResolveByMessage(string message)
+    public IBotCommand? ResolveByMessage(string message)
     {
         foreach (var commandDescriptor in _commandsProvider.Commands)
         {
@@ -27,6 +26,11 @@ public class BotCommandResolver
                 if (commandDescriptor.CommandCanBeActivated(message))
                 {
                     var command = _provider.GetRequiredService(commandDescriptor.CommandType) as IBotCommand;
+
+                    if (command == null)
+                    {
+                        throw new InvalidCastException($"Command {commandDescriptor.CommandType.Name} does not implement {nameof(IBotCommand)}");
+                    }
                     return command;
                 }
             }
