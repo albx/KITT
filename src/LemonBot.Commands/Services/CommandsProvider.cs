@@ -1,5 +1,4 @@
-﻿using LemonBot.Commands.Attributes;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace LemonBot.Commands.Services;
 
@@ -19,13 +18,11 @@ public class CommandsProvider
             .Where(t => botInterfaceType.IsAssignableFrom(t))
             .Where(t => t.GetCustomAttribute<BotCommandAttribute>() != null)
             .Where(t => t.IsClass)
-            .Select(t => new CommandDescriptor
-            {
-                CommandType = t,
-                HelpText = t.GetCustomAttribute<BotCommandAttribute>()?.HelpText ?? string.Empty,
-                Prefix = t.GetCustomAttribute<BotCommandAttribute>()?.Prefix ?? string.Empty,
-                Comparison = t.GetCustomAttribute<BotCommandAttribute>()?.Comparison ?? CommandComparison.Contains
-            }).ToArray();
+            .Select(t => new CommandDescriptor(
+                t.GetCustomAttribute<BotCommandAttribute>()?.Prefix ?? string.Empty,
+                t.GetCustomAttribute<BotCommandAttribute>()?.HelpText ?? string.Empty,
+                t.GetCustomAttribute<BotCommandAttribute>()?.Comparison ?? CommandComparison.Contains,
+                t)).ToArray();
 
         return commandTypes;
     }
