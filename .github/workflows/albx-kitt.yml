@@ -14,7 +14,7 @@ env:
   AZURE_WEBAPP_NAME: albx-kitt
   AZURE_WEBAPP_PACKAGE_PATH: ./src/LemonBot.Web/published
   CONFIGURATION: Release
-  DOTNET_VERSION: 7.0.x
+  DOTNET_VERSION: 8.0.x
   WORKING_DIRECTORY: ./src/LemonBot.Web
 jobs:
   build:
