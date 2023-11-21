@@ -111,9 +111,8 @@
         if (snackbarMock is null)
             snackbarMock = new Mock<ISnackbar>();
 
-        var popoverServiceMock = new Mock<MudBlazor.IMudPopoverService>();
-        popoverServiceMock.Setup(s => s.Register(It.IsAny<RenderFragment>()))
-            .Returns(new MudPopoverHandler((builder) => { }, new Mock<IJSRuntime>().Object, () => { }));
+        var popoverServiceMock = new Mock<MudBlazor.IPopoverService>();
+        popoverServiceMock.SetupGet(s => s.PopoverOptions).Returns(new PopoverOptions());
 
         var keyInterceptorFactoryMock = new Mock<MudBlazor.Services.IKeyInterceptorFactory>();
         keyInterceptorFactoryMock
@@ -125,7 +124,7 @@
             .AddSingleton<ISnackbar>(snackbarMock.Object)
             .AddSingleton<MudBlazor.Services.IKeyInterceptorFactory>(keyInterceptorFactoryMock.Object)
             .AddSingleton<MudBlazor.IScrollManager>(new Mock<MudBlazor.IScrollManager>().Object)
-            .AddSingleton<MudBlazor.IMudPopoverService>(popoverServiceMock.Object);
+            .AddSingleton<MudBlazor.IPopoverService>(popoverServiceMock.Object);
     }
 
     private void RegisterMudDialog()
