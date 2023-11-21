@@ -8,7 +8,7 @@ env:
   AZURE_FUNCTIONAPP_NAME: kitt-telegram
   AZURE_FUNCTIONAPP_PACKAGE_PATH: src/KITT.Telegram.Functions/published
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 7.0.x
+  DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: src/KITT.Telegram.Functions
 jobs:
   build:
