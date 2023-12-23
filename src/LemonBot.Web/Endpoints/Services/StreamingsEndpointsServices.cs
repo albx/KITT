@@ -125,9 +125,9 @@ public class StreamingsEndpointsServices
             settings.TwitchChannel,
             model.Title,
             model.Slug,
-            model.ScheduleDate,
-            model.StartingTime,
-            model.EndingTime,
+            model.ScheduleDate.ToDateTime(TimeOnly.MinValue),
+            model.StartingTime.ToTimeSpan(),
+            model.EndingTime.ToTimeSpan(),
             model.HostingChannelUrl,
             model.StreamingAbstract,
             seo);

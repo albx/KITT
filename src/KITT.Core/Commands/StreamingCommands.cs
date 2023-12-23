@@ -46,16 +46,16 @@ public class StreamingCommands : IStreamingCommands
         _context.Streamings.Add(streaming);
         await _context.SaveChangesAsync();
 
-        var message = new StreamingScheduledMessage(
-            streaming.Id,
-            streamingTitle,
-            streamingSlug,
-            DateOnly.FromDateTime(scheduleDate),
-            TimeOnly.FromTimeSpan(startingTime),
-            TimeOnly.FromTimeSpan(endingTime),
-            hostingChannelUrl);
+        //var message = new StreamingScheduledMessage(
+        //    streaming.Id,
+        //    streamingTitle,
+        //    streamingSlug,
+        //    DateOnly.FromDateTime(scheduleDate),
+        //    TimeOnly.FromTimeSpan(startingTime),
+        //    TimeOnly.FromTimeSpan(endingTime),
+        //    hostingChannelUrl);
 
-        await _messageBus.SendAsync(message);
+        //await _messageBus.SendAsync(message);
 
         return streaming.Id;
     }
