@@ -171,9 +171,9 @@ public class StreamingsControllerTest :
     [Fact]
     public async Task ScheduleStreaming_Should_Return_Created_As_Expected()
     {
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -212,9 +212,9 @@ public class StreamingsControllerTest :
     [Fact]
     public async Task ScheduleStreaming_Should_Return_Bad_Request_If_Schedule_Date_Is_Previous_Than_Today()
     {
-        var scheduleDate = DateTime.Today.AddDays(-1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -250,9 +250,9 @@ public class StreamingsControllerTest :
     [Fact]
     public async Task ScheduleStreaming_Should_Return_Bad_Request_If_Ending_Time_Is_Previous_Than_Starting_Time()
     {
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(18);
-        var endingTime = TimeSpan.FromHours(16);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -288,9 +288,9 @@ public class StreamingsControllerTest :
     [Fact]
     public async Task ScheduleStreaming_Should_Save_Schedule_Time_Correctly()
     {
-        var scheduleDate = DateTime.Now.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory

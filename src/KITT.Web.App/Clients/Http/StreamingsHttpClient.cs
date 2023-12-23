@@ -43,7 +43,7 @@ public class StreamingsHttpClient : IStreamingsClient
             var model = await Client.GetFromJsonAsync<StreamingDetailModel>($"{ApiResource}/{streamingId}");
             return model;
         }
-        catch 
+        catch
         {
             throw;
         }

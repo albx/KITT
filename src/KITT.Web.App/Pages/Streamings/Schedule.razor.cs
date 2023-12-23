@@ -50,11 +50,11 @@ public partial class Schedule
         return new ScheduleStreamingModel
         {
             Title = model.Title,
-            ScheduleDate = model.ScheduleDate.Value,
-            EndingTime = model.EndingTime.Value,
+            ScheduleDate = DateOnly.FromDateTime(model.ScheduleDate.Value),
+            EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value),
             HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
             Slug = model.Slug,
-            StartingTime = model.StartingTime.Value,
+            StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value),
             StreamingAbstract = model.StreamingAbstract,
             Seo = model.Seo
         };
