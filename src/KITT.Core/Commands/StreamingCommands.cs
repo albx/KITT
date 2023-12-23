@@ -19,7 +19,7 @@ public class StreamingCommands : IStreamingCommands
         _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
     }
 
-    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, Content.SeoData seo)
+    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract, Content.SeoData seo)
     {
         var streaming = Streaming.Schedule(
             streamingTitle,
@@ -46,21 +46,21 @@ public class StreamingCommands : IStreamingCommands
         _context.Streamings.Add(streaming);
         await _context.SaveChangesAsync();
 
-        //var message = new StreamingScheduledMessage(
-        //    streaming.Id,
-        //    streamingTitle,
-        //    streamingSlug,
-        //    DateOnly.FromDateTime(scheduleDate),
-        //    TimeOnly.FromTimeSpan(startingTime),
-        //    TimeOnly.FromTimeSpan(endingTime),
-        //    hostingChannelUrl);
+        var message = new StreamingScheduledMessage(
+            streaming.Id,
+            streamingTitle,
+            streamingSlug,
+            scheduleDate,
+            startingTime,
+            endingTime,
+            hostingChannelUrl);
 
-        //await _messageBus.SendAsync(message);
+        await _messageBus.SendAsync(message);
 
         return streaming.Id;
     }
 
-    public async Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
+    public async Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
     {
         var messagesToSend = new List<object>();
 
@@ -82,9 +82,9 @@ public class StreamingCommands : IStreamingCommands
                 streamingId,
                 streaming.Title,
                 streaming.Slug,
-                DateOnly.FromDateTime(scheduleDate),
-                TimeOnly.FromTimeSpan(startingTime),
-                TimeOnly.FromTimeSpan(endingTime));
+                scheduleDate,
+                startingTime,
+                endingTime);
 
             messagesToSend.Add(scheduledChangedMessage);
         }
@@ -98,8 +98,8 @@ public class StreamingCommands : IStreamingCommands
                 streaming.Title,
                 streaming.Slug,
                 hostingChannelUrl,
-                DateOnly.FromDateTime(scheduleDate),
-                TimeOnly.FromTimeSpan(startingTime));
+                scheduleDate,
+                startingTime);
 
             messagesToSend.Add(hostingChannelChangedMessage);
         }
@@ -150,14 +150,14 @@ public class StreamingCommands : IStreamingCommands
         var message = new StreamingCanceledMessage(
             streamingId,
             streaming.Title,
-            DateOnly.FromDateTime(streaming.ScheduleDate),
-            TimeOnly.FromTimeSpan(streaming.StartingTime),
-            TimeOnly.FromTimeSpan(streaming.EndingTime));
+            streaming.ScheduleDate,
+            streaming.StartingTime,
+            streaming.EndingTime);
 
         await _messageBus.SendAsync(message);
     }
 
-    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
+    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
     {
         var streaming = Streaming.Import(
             streamingTitle,
@@ -183,7 +183,7 @@ public class StreamingCommands : IStreamingCommands
     }
 
     #region Private methods
-    private bool ScheduleHasChanged(Streaming streaming, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
+    private bool ScheduleHasChanged(Streaming streaming, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
         => streaming.ScheduleDate != scheduleDate || streaming.StartingTime != startingTime || streaming.EndingTime != endingTime;
     #endregion
 }

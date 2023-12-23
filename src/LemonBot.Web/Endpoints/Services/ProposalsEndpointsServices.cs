@@ -96,9 +96,9 @@ public class ProposalsEndpointsServices
             settings.TwitchChannel,
             model.Title,
             model.Slug,
-            model.ScheduleDate,
-            model.StartingTime,
-            model.EndingTime,
+            DateOnly.FromDateTime(model.ScheduleDate),
+            TimeOnly.FromTimeSpan(model.StartingTime),
+            TimeOnly.FromTimeSpan(model.EndingTime),
             model.HostingChannelUrl,
             model.StreamingAbstract);
     }
