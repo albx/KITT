@@ -32,9 +32,9 @@ public class StreamingsControllerTest :
     public async Task GetAllStreamings_Should_Return_Ok_As_Expected()
     {
         var createdStreamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -68,7 +68,7 @@ public class StreamingsControllerTest :
 
         Assert.NotNull(model);
         Assert.Equal(
-            new StreamingsListModel.StreamingListItemModel { Id = createdStreamingId, EndingTime = TimeSpan.FromHours(18), StartingTime = TimeSpan.FromHours(16), HostingChannelUrl = "albx87", ScheduledOn = scheduleDate, Title = "test" },
+            new StreamingsListModel.StreamingListItemModel { Id = createdStreamingId, EndingTime = new(18, 0), StartingTime = new(16, 0), HostingChannelUrl = "albx87", ScheduledOn = scheduleDate, Title = "test" },
             model!.Items.First());
     }
     #endregion
@@ -95,9 +95,9 @@ public class StreamingsControllerTest :
     public async Task GetStreamingDetail_Should_Return_Streaming_Detail_Information()
     {
         var createdStreamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -485,9 +485,9 @@ public class StreamingsControllerTest :
     public async Task UpdateStreaming_Should_Return_Not_Found_If_Streaming_Id_Is_An_Empty_Guid()
     {
         var streamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(-1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -526,9 +526,9 @@ public class StreamingsControllerTest :
     public async Task UpdateStreaming_Should_Return_Bad_Request_If_Model_Is_Invalid()
     {
         var streamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -565,9 +565,9 @@ public class StreamingsControllerTest :
     public async Task UpdateStreaming_Should_Return_NoContent_Status_Code_As_Expected()
     {
         var streamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -615,9 +615,9 @@ public class StreamingsControllerTest :
     public async Task UpdateStreaming_Should_Return_NoContent_Status_Code_Even_If_Streaming_Has_A_Past_Schedule_Date()
     {
         var streamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddMonths(-1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddMonths(-1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -650,7 +650,7 @@ public class StreamingsControllerTest :
             EndingTime = endingTime,
             HostingChannelUrl = "https://www.twitch.tv/albx87",
             ScheduleDate = scheduleDate,
-            StartingTime = new TimeSpan(16, 30, 0),
+            StartingTime = new(16, 30),
             Slug = "test",
             StreamingAbstract = "my abstract",
             Title = "test",
@@ -667,9 +667,9 @@ public class StreamingsControllerTest :
     public async Task DeleteStreaming_Should_Return_NoContent_Status_Code_As_Expected()
     {
         var streamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
+        var scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+        var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
         var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
@@ -704,10 +704,6 @@ public class StreamingsControllerTest :
     public async Task DeleteStreaming_Should_Return_Not_Found_If_Streaming_Id_Is_An_Empty_Guid()
     {
         var streamingId = Guid.Empty;
-        var scheduleDate = DateTime.Today.AddDays(1);
-        var startingTime = TimeSpan.FromHours(16);
-        var endingTime = TimeSpan.FromHours(18);
-        var userId = TestAuthenticationHandler.UserId;
 
         var client = this.factory
             .WithWebHostBuilder(builder =>

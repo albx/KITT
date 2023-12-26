@@ -12,11 +12,11 @@ public class StreamingsListModel
 
         public string Title { get; set; } = string.Empty;
 
-        public DateTime ScheduledOn { get; set; }
+        public DateOnly ScheduledOn { get; set; }
 
-        public TimeSpan StartingTime { get; set; }
+        public TimeOnly StartingTime { get; set; }
 
-        public TimeSpan EndingTime { get; set; }
+        public TimeOnly EndingTime { get; set; }
 
         public string HostingChannelUrl { get; set; } = string.Empty;
 

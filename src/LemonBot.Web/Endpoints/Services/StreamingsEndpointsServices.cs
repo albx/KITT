@@ -36,9 +36,9 @@ public class StreamingsEndpointsServices
             .Select(s => new StreamingsListModel.StreamingListItemModel
             {
                 Id = s.Id,
-                EndingTime = s.EndingTime.ToTimeSpan(),
-                ScheduledOn = s.ScheduleDate.ToDateTime(TimeOnly.MinValue),
-                StartingTime = s.StartingTime.ToTimeSpan(),
+                EndingTime = s.EndingTime,
+                ScheduledOn = s.ScheduleDate,
+                StartingTime = s.StartingTime,
                 Title = s.Title,
                 HostingChannelUrl = s.HostingChannelUrl,
                 YouTubeVideoUrl = s.YouTubeVideoUrl
@@ -59,10 +59,10 @@ public class StreamingsEndpointsServices
         return new()
         {
             Id = streaming.Id,
-            ScheduleDate = streaming.ScheduleDate.ToDateTime(TimeOnly.MinValue),
-            EndingTime = streaming.EndingTime.ToTimeSpan(),
+            ScheduleDate = streaming.ScheduleDate,
+            EndingTime = streaming.EndingTime,
             HostingChannelUrl = streaming.HostingChannelUrl,
-            StartingTime = streaming.StartingTime.ToTimeSpan(),
+            StartingTime = streaming.StartingTime,
             StreamingAbstract = streaming.Abstract,
             Title = streaming.Title,
             YoutubeVideoUrl = streaming.YouTubeVideoUrl,
@@ -145,9 +145,9 @@ public class StreamingsEndpointsServices
         return Commands.UpdateStreamingAsync(
             streamingId,
             model.Title,
-            DateOnly.FromDateTime(model.ScheduleDate),
-            TimeOnly.FromTimeSpan(model.StartingTime),
-            TimeOnly.FromTimeSpan(model.EndingTime),
+            model.ScheduleDate,
+            model.StartingTime,
+            model.EndingTime,
             model.HostingChannelUrl,
             model.StreamingAbstract,
             model.YoutubeVideoUrl,

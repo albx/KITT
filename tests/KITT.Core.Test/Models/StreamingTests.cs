@@ -14,9 +14,9 @@ namespace KITT.Core.Test.Models
         {
             string slug = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "albx87";
             string userId = Guid.NewGuid().ToString();
 
@@ -34,9 +34,9 @@ namespace KITT.Core.Test.Models
         {
             string title = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "albx87";
             string userId = Guid.NewGuid().ToString();
 
@@ -54,9 +54,9 @@ namespace KITT.Core.Test.Models
         {
             string title = "test";
             string slug = "test";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "albx87";
             string userId = Guid.NewGuid().ToString();
 
@@ -72,9 +72,9 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today.AddDays(-1);
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1));
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "albx87";
             string userId = Guid.NewGuid().ToString();
 
@@ -90,9 +90,9 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(15);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(15));
             string hostingChannelUrl = "albx87";
             string userId = Guid.NewGuid().ToString();
 
@@ -111,9 +111,9 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
@@ -132,9 +132,9 @@ namespace KITT.Core.Test.Models
             string slug = "test";
             string twitchChannel = "albx87";
             string hostingChannelUrl = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
 
             var ex = Assert.Throws<ArgumentException>(
                 () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
@@ -148,9 +148,9 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "albx87";
             string userId = Guid.NewGuid().ToString();
 
@@ -205,9 +205,9 @@ namespace KITT.Core.Test.Models
         public void ChangeSchedule_Should_Throw_ArgumentException_If_Ending_Time_Is_Previous_Than_Starting_Time()
         {
             var streaming = CreateStreamingForTests();
-            DateTime scheduleDate = DateTime.Today.AddDays(1);
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(15);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(15));
 
             var ex = Assert.Throws<ArgumentException>(() => streaming.ChangeSchedule(scheduleDate, startingTime, endingTime));
             Assert.Equal(nameof(endingTime), ex.ParamName);
@@ -217,9 +217,9 @@ namespace KITT.Core.Test.Models
         public void ChangeSchedule_Should_Change_Schedule_Date_And_Times_Correctly()
         {
             var streaming = CreateStreamingForTests();
-            DateTime scheduleDate = DateTime.Today.AddDays(1);
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
 
             streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
 
@@ -260,9 +260,9 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "albx87";
 
             var streaming = Streaming.Schedule(
