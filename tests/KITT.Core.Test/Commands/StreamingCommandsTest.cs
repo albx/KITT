@@ -150,7 +150,7 @@ namespace KITT.Core.Test.Commands
             string userId = Guid.NewGuid().ToString();
             string twitchChannel = "albx87";
             string streamingTitle = "test";
-            string streamingSlug = "test-schedule-streaming-slug";
+            string streamingSlug = "test-message-slug";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
@@ -179,7 +179,7 @@ namespace KITT.Core.Test.Commands
                 endingTime,
                 hostingChannelUrl);
 
-            messageBusMock.Verify(m => m.SendAsync(expectedMessage));
+            messageBusMock.Verify(m => m.SendAsync(expectedMessage), Times.Once);
         }
         #endregion
 

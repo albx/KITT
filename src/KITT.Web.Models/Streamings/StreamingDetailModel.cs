@@ -12,7 +12,7 @@ public record StreamingDetailModel
     public string Slug { get; set; } = string.Empty;
 
     [Required]
-    public DateOnly ScheduleDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly ScheduleDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]
     public TimeOnly StartingTime { get; set; }
