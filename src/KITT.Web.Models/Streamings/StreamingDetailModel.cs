@@ -12,13 +12,13 @@ public record StreamingDetailModel
     public string Slug { get; set; } = string.Empty;
 
     [Required]
-    public DateTime ScheduleDate { get; set; } = DateTime.Now;
+    public DateOnly ScheduleDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]
-    public TimeSpan StartingTime { get; set; }
+    public TimeOnly StartingTime { get; set; }
 
     [Required]
-    public TimeSpan EndingTime { get; set; }
+    public TimeOnly EndingTime { get; set; }
 
     [Required]
     public string HostingChannelUrl { get; set; } = string.Empty;

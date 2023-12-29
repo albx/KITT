@@ -14,8 +14,9 @@ public interface IProposalCommands
         string twitchChannel,
         string title,
         string slug,
-        DateTime scheduleDate,
-        TimeSpan startingTime, TimeSpan endingTime,
+        DateOnly scheduleDate,
+        TimeOnly startingTime,
+        TimeOnly endingTime,
         string hostingChannelUrl,
         string streamingAbstract);
 }

@@ -17,12 +17,12 @@ public class StreamingsQuery
             {
                 Id = s.Id,
                 Abstract = s.Abstract,
-                EndingTime = s.EndingTime,
+                EndingTime = s.EndingTime.ToTimeSpan(),
                 HostingChannelUrl = s.HostingChannelUrl,
-                ScheduleDate = s.ScheduleDate,
+                ScheduleDate = s.ScheduleDate.ToDateTime(TimeOnly.MinValue),
                 Seo = s.Seo != null ? new() { Title = s.Seo.Title, Description = s.Seo.Description, Keywords = s.Seo.Keywords } : new(),
                 Slug = s.Slug,
-                StartingTime = s.StartingTime,
+                StartingTime = s.StartingTime.ToTimeSpan(),
                 Title = s.Title,
                 YouTubeVideoUrl = s.YouTubeVideoUrl
             });
@@ -44,14 +44,14 @@ public class StreamingsQuery
         {
             Id = streaming.Id,
             Abstract = streaming.Abstract,
-            EndingTime = streaming.EndingTime,
+            EndingTime = streaming.EndingTime.ToTimeSpan(),
             HostingChannelUrl = streaming.HostingChannelUrl,
-            ScheduleDate = streaming.ScheduleDate,
+            ScheduleDate = streaming.ScheduleDate.ToDateTime(TimeOnly.MinValue),
             Seo = streaming.Seo != null ?
                 new() { Title = streaming.Seo.Title, Description = streaming.Seo.Description, Keywords = streaming.Seo.Keywords }
                 : new(),
             Slug = streaming.Slug,
-            StartingTime = streaming.StartingTime,
+            StartingTime = streaming.StartingTime.ToTimeSpan(),
             Title = streaming.Title,
             YouTubeVideoUrl = streaming.YouTubeVideoUrl
         };

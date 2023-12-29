@@ -74,7 +74,7 @@ public class ProposalCommands : IProposalCommands
         return _context.SaveChangesAsync();
     }
 
-    public Task ScheduleProposalAsync(Guid proposalId, string userId, string twitchChannel, string title, string slug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string streamingAbstract)
+    public Task ScheduleProposalAsync(Guid proposalId, string userId, string twitchChannel, string title, string slug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract)
     {
         var proposal = _context.Proposals.SingleOrDefault(p => p.Id == proposalId);
         if (proposal is null)
@@ -98,7 +98,7 @@ public class ProposalCommands : IProposalCommands
         return _context.SaveChangesAsync();
     }
 
-    private void ScheduleStreaming(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string streamingAbstract, string hostingChannelUrl)
+    private void ScheduleStreaming(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string streamingAbstract, string hostingChannelUrl)
     {
         var streaming = Streaming.Schedule(
             streamingTitle,

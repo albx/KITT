@@ -121,10 +121,10 @@ public partial class StreamingDetail
                 Id = streamingId,
                 Title = this.Title,
                 Slug = this.Slug,
-                ScheduleDate = this.ScheduleDate.Value,
-                EndingTime = this.EndingTime.Value,
+                ScheduleDate = DateOnly.FromDateTime(this.ScheduleDate.Value),
+                EndingTime = TimeOnly.FromTimeSpan(this.EndingTime.Value),
                 HostingChannelUrl = $"{twitchBaseUrl}{this.HostingChannelUrl}",
-                StartingTime = this.StartingTime.Value,
+                StartingTime = TimeOnly.FromTimeSpan(this.StartingTime.Value),
                 StreamingAbstract = this.StreamingAbstract,
                 YoutubeVideoUrl = this.YoutubeVideoUrl,
                 Seo = this.Seo
@@ -137,9 +137,9 @@ public partial class StreamingDetail
             {
                 Title = model.Title,
                 Slug = model.Slug,
-                ScheduleDate = model.ScheduleDate,
-                EndingTime = model.EndingTime,
-                StartingTime = model.StartingTime,
+                ScheduleDate = model.ScheduleDate.ToDateTime(TimeOnly.MinValue),
+                EndingTime = model.EndingTime.ToTimeSpan(),
+                StartingTime = model.StartingTime.ToTimeSpan(),
                 StreamingAbstract = model.StreamingAbstract,
                 YoutubeVideoUrl = model.YoutubeVideoUrl,
                 HostingChannelUrl = model.HostingChannelUrl.Replace(twitchBaseUrl, string.Empty).Trim()

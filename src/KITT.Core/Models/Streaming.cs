@@ -4,11 +4,11 @@ public class Streaming : Content
 {
     public string TwitchChannel { get; protected set; }
 
-    public DateTime ScheduleDate { get; protected set; }
+    public DateOnly ScheduleDate { get; protected set; }
 
-    public TimeSpan StartingTime { get; protected set; }
+    public TimeOnly StartingTime { get; protected set; }
 
-    public TimeSpan EndingTime { get; protected set; }
+    public TimeOnly EndingTime { get; protected set; }
 
     public string HostingChannelUrl { get; protected set; }
 
@@ -19,7 +19,7 @@ public class Streaming : Content
     #endregion
 
     #region Behaviors
-    public void ChangeSchedule(DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime)
+    public void ChangeSchedule(DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
     {
         if (startingTime >= endingTime)
         {
@@ -43,7 +43,7 @@ public class Streaming : Content
     #endregion
 
     #region Factory
-    public static Streaming Schedule(string title, string slug, string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string userId)
+    public static Streaming Schedule(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -60,7 +60,7 @@ public class Streaming : Content
             throw new ArgumentException("value cannot be empty", nameof(twitchChannel));
         }
 
-        if (scheduleDate < DateTime.Today)
+        if (scheduleDate < DateOnly.FromDateTime(DateTime.Today))
         {
             throw new ArgumentException("Schedule date cannot be set in the past", nameof(scheduleDate));
         }
@@ -98,7 +98,7 @@ public class Streaming : Content
         return streaming;
     }
 
-    public static Streaming Import(string title, string slug, string twitchChannel, DateTime scheduleDate, TimeSpan startingTime, TimeSpan endingTime, string hostingChannelUrl, string youtubeVideoUrl, string @abstract, string userId)
+    public static Streaming Import(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string youtubeVideoUrl, string @abstract, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -145,7 +145,7 @@ public class Streaming : Content
             YouTubeVideoUrl = youtubeVideoUrl
         };
 
-        streaming.PublishOn(scheduleDate);
+        streaming.PublishOn(scheduleDate.ToDateTime(TimeOnly.MinValue));
 
         return streaming;
     }

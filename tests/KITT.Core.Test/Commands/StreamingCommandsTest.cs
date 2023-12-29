@@ -5,6 +5,7 @@ using KITT.Core.Persistence;
 using KITT.Core.Test.Fixtures;
 using KITT.Core.Validators;
 using KITT.Telegram.Messages;
+using KITT.Telegram.Messages.Streaming;
 using Moq;
 using Xunit;
 
@@ -54,9 +55,9 @@ namespace KITT.Core.Test.Commands
                     "test1",
                     "test-slug",
                     "albx87",
-                    DateTime.Today.AddDays(1),
-                    TimeSpan.FromHours(16),
-                    TimeSpan.FromHours(18),
+                    DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+                    TimeOnly.FromTimeSpan(TimeSpan.FromHours(16)),
+                    TimeOnly.FromTimeSpan(TimeSpan.FromHours(18)),
                     "https://www.twitch.tv/albx87",
                     userId);
 
@@ -71,9 +72,9 @@ namespace KITT.Core.Test.Commands
             string twitchChannel = "albx87";
             string streamingTitle = "test";
             string streamingSlug = "test-slug";
-            DateTime scheduleDate = DateTime.Today.AddDays(2);
-            TimeSpan startingTime = TimeSpan.FromHours(19);
-            TimeSpan endingTime = TimeSpan.FromHours(20);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2));
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(19));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(20));
             string hostingChannelUrl = "https://www.twitch.tv/albx87";
             string streamingAbstract = "streaming abstract";
             var seo = new Content.SeoData();
@@ -105,9 +106,9 @@ namespace KITT.Core.Test.Commands
             string twitchChannel = "albx87";
             string streamingTitle = "test";
             string streamingSlug = "test-schedule-streaming-slug";
-            DateTime scheduleDate = DateTime.Today;
-            TimeSpan startingTime = TimeSpan.FromHours(16);
-            TimeSpan endingTime = TimeSpan.FromHours(18);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string hostingChannelUrl = "https://www.twitch.tv/albx87";
             string streamingAbstract = "streaming abstract";
             var seo = new Content.SeoData();
@@ -136,6 +137,50 @@ namespace KITT.Core.Test.Commands
             Assert.Equal(hostingChannelUrl, scheduledStreaming.HostingChannelUrl);
             Assert.Equal(streamingAbstract, scheduledStreaming.Abstract);
         }
+
+        [Fact]
+        public async Task ScheduleStreamingAsync_Should_Send_ScheduledStreamingMessage_Correctly()
+        {
+            var messageBusMock = new Mock<IMessageBus>();
+
+            var validator = new StreamingValidator(_fixture.Context);
+            var messageBus = messageBusMock.Object;
+            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
+
+            string userId = Guid.NewGuid().ToString();
+            string twitchChannel = "albx87";
+            string streamingTitle = "test";
+            string streamingSlug = "test-message-slug";
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+            string hostingChannelUrl = "https://www.twitch.tv/albx87";
+            string streamingAbstract = "streaming abstract";
+            var seo = new Content.SeoData();
+
+            var scheduledStreamingId = await commands.ScheduleStreamingAsync(
+                userId,
+                twitchChannel,
+                streamingTitle,
+                streamingSlug,
+                scheduleDate,
+                startingTime,
+                endingTime,
+                hostingChannelUrl,
+                streamingAbstract,
+                seo);
+
+            var expectedMessage = new StreamingScheduledMessage(
+                scheduledStreamingId,
+                streamingTitle,
+                streamingSlug,
+                scheduleDate,
+                startingTime,
+                endingTime,
+                hostingChannelUrl);
+
+            messageBusMock.Verify(m => m.SendAsync(expectedMessage), Times.Once);
+        }
         #endregion
 
         #region UpdateStreamingAsync tests
@@ -155,9 +200,9 @@ namespace KITT.Core.Test.Commands
                     "title",
                     "slug",
                     "albx87",
-                    DateTime.Today,
-                    TimeSpan.FromHours(19),
-                    TimeSpan.FromHours(20),
+                    DateOnly.FromDateTime(DateTime.Today),
+                    TimeOnly.FromTimeSpan(TimeSpan.FromHours(19)),
+                    TimeOnly.FromTimeSpan(TimeSpan.FromHours(20)),
                     "https://www.twitch.tv/albx87",
                     userId);
 
@@ -168,9 +213,9 @@ namespace KITT.Core.Test.Commands
             });
 
             string streamingTitle = "new title";
-            DateTime scheduleDate = DateTime.Today.AddDays(2);
-            TimeSpan startingTime = TimeSpan.FromHours(20);
-            TimeSpan endingTime = TimeSpan.FromHours(21);
+            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2));
+            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(20));
+            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(21));
             string hostingChannelUrl = "https://www.twitch.tv/newfakechannel";
             string streamingAbstract = "new abstract";
             string youtubeRegistrationLink = "https://www.youtube.com";
@@ -202,9 +247,9 @@ namespace KITT.Core.Test.Commands
         public async Task UpdateStreamingAsync_Should_Not_Update_Schedule_If_It_Is_Not_Changed()
         {
             var streamingId = Guid.Empty;
-            var scheduleDate = new DateTime(2022, 01, 01);
-            var startingTime = TimeSpan.FromHours(18);
-            var endingTime = TimeSpan.FromHours(20);
+            var scheduleDate = new DateOnly(2022, 01, 01);
+            var startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+            var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(20));
 
             var validator = new StreamingValidator(_fixture.Context);
             var messageBus = new Mock<IMessageBus>().Object;
