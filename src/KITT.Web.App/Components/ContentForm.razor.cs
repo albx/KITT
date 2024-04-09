@@ -55,9 +55,6 @@ namespace KITT.Web.App.Components
 
         async Task HandleNavigationAsync(LocationChangingContext context)
         {
-            Console.WriteLine($"Edit context modified: {editContext?.IsModified() ?? false}");
-            Console.WriteLine($"Saving: {saving}");
-
             if ((editContext?.IsModified() ?? false) && !saving)
             {
                 string confirmText = Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogContent)];

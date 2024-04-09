@@ -41,12 +41,10 @@
             <MudCardActions>
                 @if (!ReadOnly)
                 {
-                    <MudButton ButtonType="ButtonType.Button" OnClick="CancelAsync" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@Localizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@Localizer[nameof(UI.Resources.Common.Save)]</MudButton>
-                }
-                else if (saving)
-                {
-                    <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Large" />
+                    <Loader Loading="saving" Size="Size.Large">
+                        <MudButton ButtonType="ButtonType.Button" OnClick="CancelAsync" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@Localizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+                        <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@Localizer[nameof(UI.Resources.Common.Save)]</MudButton>
+                    </Loader>
                 }
             </MudCardActions>
         </MudCard>
