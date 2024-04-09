@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Telegram.Messages", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Telegram.Functions", "src\KITT.Telegram.Functions\KITT.Telegram.Functions.csproj", "{A6A4722A-4AA2-4B9C-A2FB-A7C171E03DF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Telegram.Functions.Test", "tests\KITT.Telegram.Functions.Test\KITT.Telegram.Functions.Test.csproj", "{92122C69-6CEC-4FEA-BAC5-AC7F8197C6FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Telegram.Functions.Test", "tests\KITT.Telegram.Functions.Test\KITT.Telegram.Functions.Test.csproj", "{92122C69-6CEC-4FEA-BAC5-AC7F8197C6FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

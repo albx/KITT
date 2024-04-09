@@ -10,15 +10,10 @@
                           Lines="10"/>
         </DialogContent>
         <DialogActions>
-            @if (sending)
-            {
-                <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
-            }
-            else
-            {
+            <Loader Loading="sending">
                 <MudButton OnClick="Close" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.CloseButtonText)]</MudButton>
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.SendButtonText)]</MudButton>
-            }
+            </Loader>
         </DialogActions>
     </MudDialog>
 </EditForm>
