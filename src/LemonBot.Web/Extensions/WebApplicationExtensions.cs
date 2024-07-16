@@ -40,7 +40,8 @@ public static class WebApplicationExtensions
             .MapStreamingsEndpoints()
             .MapSettingsEndpoints()
             .MapMessagesEndpoints()
-            .MapProposalsEndpoints();
+            .MapProposalsEndpoints()
+            .MapDashboardEndpoints();
 
         app.MapKittGraphQL(env);
 

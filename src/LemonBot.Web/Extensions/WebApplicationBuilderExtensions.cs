@@ -51,7 +51,8 @@ public static class WebApplicationBuilderExtensions
             .AddScoped<StreamingsEndpointsServices>()
             .AddScoped<SettingsEndpointsServices>()
             .AddScoped<ProposalsEndpointsServices>()
-            .AddScoped<MessagesEndpointsServices>();
+            .AddScoped<MessagesEndpointsServices>()
+            .AddScoped<DashboardEndpointsServices>();
 
         builder.Services.AddControllersWithViews();
 

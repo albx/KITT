@@ -48,6 +48,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>CreateNewSettings.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Resources\Pages\Index.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Index.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Pages\Proposals\Index.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -122,6 +127,13 @@
 		<EmbeddedResource Update="Resources\Pages\CreateNewSettings.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>CreateNewSettings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Pages\Index.it.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Pages\Index.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Index.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Pages\Proposals\Index.it.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>

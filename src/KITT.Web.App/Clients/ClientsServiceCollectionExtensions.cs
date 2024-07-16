@@ -23,6 +23,10 @@ public static class ClientsServiceCollectionExtensions
             .AddHttpClient<IMessagesClient, MessagesHttpClient>(client => client.BaseAddress = new Uri(clientBaseAddress))
             .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
+        services
+            .AddHttpClient<IDashboardClient, DashboardHttpClient>(client => client.BaseAddress = new Uri(clientBaseAddress))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
         return services;
     }
 }

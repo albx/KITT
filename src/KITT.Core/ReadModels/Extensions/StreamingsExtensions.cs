@@ -14,6 +14,14 @@ public static class StreamingsExtensions
         };
     }
 
+    public static IQueryable<Streaming> DeliveredOnly(this IQueryable<Streaming> streamings) 
+        => streamings.Where(s => s.ScheduleDate < DateOnly.FromDateTime(DateTime.Today));
+
+    public static IQueryable<Streaming> Scheduled(this IQueryable<Streaming> streamings)
+    {
+        return streamings.Where(s => s.ScheduleDate >= DateOnly.FromDateTime(DateTime.Today));
+    }
+
     private static IQueryable<Streaming> OrderedByScheduleAscending(IQueryable<Streaming> streamings)
     {
         return streamings
