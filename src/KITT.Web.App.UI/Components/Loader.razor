@@ -1,6 +1,6 @@
 ﻿@if (Loading)
 {
-    <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="@Size" />
+    @*<MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="@Size" />*@
 }
 else
 {
@@ -11,8 +11,8 @@ else
     [Parameter]
     public bool Loading { get; set; }
 
-    [Parameter]
-    public Size Size { get; set; } = Size.Medium;
+    //[Parameter]
+    //public Size Size { get; set; } = Size.Medium;
 
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;

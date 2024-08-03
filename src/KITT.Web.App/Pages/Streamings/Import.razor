@@ -7,11 +7,11 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]">
     <Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-                   Page="streamings"/>
+        @*<NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
+                   Page="streamings"/>*@
     </Toolbar>
     <PageContent>
-        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        @*@if (!string.IsNullOrWhiteSpace(errorMessage))
         {
             <MudPaper>
                 <MudText Color="Color.Error">@errorMessage</MudText>
@@ -86,6 +86,6 @@
                                 Id="streamingAbstract"
                                 PreviewLabel="Preview" />
             </ContentInfo>
-        </ContentForm>
+        </ContentForm>*@
     </PageContent>
 </PageLayout>

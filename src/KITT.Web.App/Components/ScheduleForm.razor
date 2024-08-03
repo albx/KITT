@@ -7,7 +7,7 @@
              OnSave="SubmitAsync"
              OnCancel="CancelAsync">
     <ContentInfo Context="streaming">
-        <MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.TitleLabel)]"
+        @*<MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.TitleLabel)]"
                       @bind-Value="Model.Title"
                       For="@(() => Model.Title)"
                       Variant="Variant.Outlined"
@@ -56,7 +56,7 @@
                                AutoClose="true"
                                id="streamingEndingTime" />
             </MudItem>
-        </MudGrid>
+        </MudGrid>*@
 
         <MarkdownEditor @bind-Value="Model.StreamingAbstract"
                         EditorLabel="@Localizer[nameof(Resources.Components.ScheduleForm.AbstractLabel)]"

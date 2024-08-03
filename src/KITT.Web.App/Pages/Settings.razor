@@ -8,11 +8,11 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Settings.PageTitle)]">
 	<Toolbar>
-		<NavButton Label="@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]"
-				   Page="settings/new" />
+		@*<NavButton Label="@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]"
+				   Page="settings/new" />*@
 	</Toolbar>
 	<PageContent>
-		<MudPaper>
+		@*<MudPaper>
 			@if (!model.Items.Any())
 			{
 				<h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
@@ -35,7 +35,7 @@
 					</tbody>
 				</MudSimpleTable>
 			}
-		</MudPaper>
+		</MudPaper>*@
 	</PageContent>
 </PageLayout>
 

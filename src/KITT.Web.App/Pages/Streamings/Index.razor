@@ -7,16 +7,16 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]">
 	<Toolbar>
-		<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+		@*<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
 			<NavButton Label="@Localizer[nameof(Resources.Pages.Streamings.Index.ScheduleNewStreamingLabel)]"
 					   Page="streamings/schedule" />
 
 			<NavButton Label="@Localizer[nameof(Resources.Pages.Streamings.Index.ImportStreamingLabel)]"
 					   Page="streamings/import" />
-		</MudButtonGroup>
+		</MudButtonGroup>*@
 	</Toolbar>
 	<PageContent>
-		<MudPaper Class="mb-3 px-2">
+		@*<MudPaper Class="mb-3 px-2">
             <EditForm Model="query" OnValidSubmit="SearchAsync" id="streamingSearchForm">
                 <DataAnnotationsValidator />
 
@@ -124,6 +124,6 @@
                     }
                 </PagerContent>
 			</MudTable>
-		</MudPaper>
+		</MudPaper>*@
 	</PageContent>
 </PageLayout>

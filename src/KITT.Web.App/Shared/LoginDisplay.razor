@@ -2,14 +2,22 @@
 
 <AuthorizeView>
     <Authorized>
-        <MudMenu>
+        <FluentStack HorizontalAlignment="HorizontalAlignment.End"
+                     VerticalAlignment="VerticalAlignment.Center">
+            <FluentProfileMenu Initials="@context.User.Identity!.Name!.First().ToString().ToUpper()"
+                               Status="PresenceStatus.Available"
+                               FullName="@context.User.Identity!.Name"
+                               OnHeaderButtonClick="BeginSignOut"/>
+        </FluentStack>
+
+        @*<MudMenu>
             <ActivatorContent>
                 <MudAvatar Color="Color.Info">@context.User.Identity!.Name!.First().ToString().ToUpper()</MudAvatar>
             </ActivatorContent>
             <ChildContent>
                 <MudListItem Text="Logout" OnClick="BeginSignOut"/>
             </ChildContent>
-        </MudMenu>
+        </MudMenu>*@
     </Authorized>
     <NotAuthorized>
         <a href="authentication/login">Log in</a>
@@ -17,7 +25,7 @@
 </AuthorizeView>
 
 @code{
-    private void BeginSignOut(MouseEventArgs args)
+    private void BeginSignOut(/*MouseEventArgs args*/)
     {
         Navigation.NavigateToLogout("authentication/logout");
     }

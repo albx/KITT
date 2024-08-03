@@ -55,22 +55,22 @@ namespace KITT.Web.App.Components
 
         async Task HandleNavigationAsync(LocationChangingContext context)
         {
-            if ((editContext?.IsModified() ?? false) && !saving)
-            {
-                string confirmText = Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogContent)];
+            //if ((editContext?.IsModified() ?? false) && !saving)
+            //{
+            //    string confirmText = Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogContent)];
 
-                var confirm = await Dialog.Show<ConfirmDialog>(
-                    Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogTitle)],
-                    new DialogParameters
-                    {
-                        [nameof(ConfirmDialog.ConfirmText)] = confirmText
-                    }).Result;
+            //    var confirm = await Dialog.Show<ConfirmDialog>(
+            //        Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogTitle)],
+            //        new DialogParameters
+            //        {
+            //            [nameof(ConfirmDialog.ConfirmText)] = confirmText
+            //        }).Result;
 
-                if (confirm.Canceled)
-                {
-                    context.PreventNavigation();
-                }
-            }
+            //    if (confirm.Canceled)
+            //    {
+            //        context.PreventNavigation();
+            //    }
+            //}
         }
     }
 }

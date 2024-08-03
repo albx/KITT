@@ -7,17 +7,17 @@
 
 <PageLayout PageTitle="@pageTitle">
 	<Toolbar>
-		@if (isReadOnly)
+		@*@if (isReadOnly)
 		{
 			<MudButton OnClick="EnableEditing" Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3">@CommonLocalizer[nameof(UI.Resources.Common.Edit)]</MudButton>
 		}
 
 		<NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-				   Page="streamings" />
+				   Page="streamings" />*@
 	</Toolbar>
 	<PageContent>
         <ErrorBoundary>
-            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            @*@if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 <MudPaper>
                     <MudText Color="Color.Error">@errorMessage</MudText>
@@ -101,7 +101,7 @@
                                     PreviewLabel="Preview"
                                     Disabled="isReadOnly" />
                 </ContentInfo>
-            </ContentForm>
+            </ContentForm>*@
         </ErrorBoundary>
 	</PageContent>
 </PageLayout>

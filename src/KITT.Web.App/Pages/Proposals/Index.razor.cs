@@ -42,86 +42,86 @@ public partial class Index
 
     async Task AcceptProposalAsync(ProposalListModel.ProposalListItemModel proposal)
     {
-        var proposalTitle = proposal.Title;
-        string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmText), proposalTitle];
+        //var proposalTitle = proposal.Title;
+        //string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmText), proposalTitle];
 
-        var confirm = await Dialog.Show<ConfirmDialog>(
-            Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmTitle)],
-            new DialogParameters
-            {
-                [nameof(ConfirmDialog.ConfirmText)] = confirmText
-            }).Result;
+        //var confirm = await Dialog.Show<ConfirmDialog>(
+        //    Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmTitle)],
+        //    new DialogParameters
+        //    {
+        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
+        //    }).Result;
 
-        if (!confirm.Canceled)
-        {
-            try
-            {
-                await Client.AcceptProposalAsync(proposal.Id);
-                Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalSuccessMessage), proposalTitle], Severity.Success);
+        //if (!confirm.Canceled)
+        //{
+        //    try
+        //    {
+        //        await Client.AcceptProposalAsync(proposal.Id);
+        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalSuccessMessage), proposalTitle], Severity.Success);
 
-                await LoadProposalsAsync(query);
-            }
-            catch
-            {
-                Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalErrorMessage), proposalTitle], Severity.Error);
-            }
-        }
+        //        await LoadProposalsAsync(query);
+        //    }
+        //    catch
+        //    {
+        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalErrorMessage), proposalTitle], Severity.Error);
+        //    }
+        //}
     }
 
     async Task RejectProposalAsync(ProposalListModel.ProposalListItemModel proposal)
     {
-        var proposalTitle = proposal.Title;
-        string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmText), proposalTitle];
+        //var proposalTitle = proposal.Title;
+        //string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmText), proposalTitle];
 
-        var confirm = await Dialog.Show<ConfirmDialog>(
-            Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmTitle)],
-            new DialogParameters
-            {
-                [nameof(ConfirmDialog.ConfirmText)] = confirmText
-            }).Result;
+        //var confirm = await Dialog.Show<ConfirmDialog>(
+        //    Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmTitle)],
+        //    new DialogParameters
+        //    {
+        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
+        //    }).Result;
 
-        if (!confirm.Canceled)
-        {
-            try
-            {
-                await Client.RejectProposalAsync(proposal.Id);
-                Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalSuccessMessage), proposalTitle], Severity.Success);
+        //if (!confirm.Canceled)
+        //{
+        //    try
+        //    {
+        //        await Client.RejectProposalAsync(proposal.Id);
+        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalSuccessMessage), proposalTitle], Severity.Success);
 
-                await LoadProposalsAsync(query);
-            }
-            catch
-            {
-                Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalErrorMessage), proposalTitle], Severity.Error);
-            }
-        }
+        //        await LoadProposalsAsync(query);
+        //    }
+        //    catch
+        //    {
+        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalErrorMessage), proposalTitle], Severity.Error);
+        //    }
+        //}
     }
 
     async Task RefuseProposalAsync(ProposalListModel.ProposalListItemModel proposal)
     {
-        var proposalTitle = proposal.Title;
-        string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmText), proposalTitle];
+        //var proposalTitle = proposal.Title;
+        //string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmText), proposalTitle];
 
-        var confirm = await Dialog.Show<ConfirmDialog>(
-            Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmTitle)],
-            new DialogParameters
-            {
-                [nameof(ConfirmDialog.ConfirmText)] = confirmText
-            }).Result;
+        //var confirm = await Dialog.Show<ConfirmDialog>(
+        //    Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmTitle)],
+        //    new DialogParameters
+        //    {
+        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
+        //    }).Result;
 
-        if (!confirm.Canceled)
-        {
-            try
-            {
-                await Client.RefuseProposalAsync(proposal.Id);
-                Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalSuccessMessage), proposalTitle], Severity.Success);
+        //if (!confirm.Canceled)
+        //{
+        //    try
+        //    {
+        //        await Client.RefuseProposalAsync(proposal.Id);
+        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalSuccessMessage), proposalTitle], Severity.Success);
 
-                await LoadProposalsAsync(query);
-            }
-            catch
-            {
-                Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalErrorMessage), proposalTitle], Severity.Error);
-            }
-        }
+        //        await LoadProposalsAsync(query);
+        //    }
+        //    catch
+        //    {
+        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalErrorMessage), proposalTitle], Severity.Error);
+        //    }
+        //}
     }
 
     void ScheduleProposal(ProposalListModel.ProposalListItemModel proposal)

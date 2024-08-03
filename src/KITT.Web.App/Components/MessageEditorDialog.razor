@@ -2,7 +2,7 @@
 
 <EditForm EditContext="context" OnValidSubmit="SendMessageAsync" role="form">
     <DataAnnotationsValidator />
-    <MudDialog>
+    @*<MudDialog>
         <DialogContent>
             <MudTextField @bind-Value="model.Text"
                           For="@(() => model.Text)"
@@ -15,5 +15,5 @@
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.SendButtonText)]</MudButton>
             </Loader>
         </DialogActions>
-    </MudDialog>
+    </MudDialog>*@
 </EditForm>

@@ -10,14 +10,14 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]">
 	<Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-                   Page="settings"/>
+        @*<NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
+                   Page="settings"/>*@
 	</Toolbar>
 	<PageContent>
 		<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" id="newSettingsForm" class="col-md-12 mt-3">
 			<DataAnnotationsValidator />
 
-            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            @*@if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 <MudPaper>
                     <MudText id="errorMessageContainer" Color="Color.Error">@errorMessage</MudText>
@@ -38,7 +38,7 @@
                     <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
                     <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
                 </MudCardActions>
-            </MudCard>
+            </MudCard>*@
 		</EditForm>
 	</PageContent>
 </PageLayout>

@@ -7,14 +7,14 @@
 
 <PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
     <Toolbar>
-        <MudButton Href="streamings"
+        @*<MudButton Href="streamings"
                    Variant="Variant.Filled"
                    Color="Color.Primary">
             @CommonLocalizer[nameof(UI.Resources.Common.Back)]
-        </MudButton>
+        </MudButton>*@
     </Toolbar>
     <PageContent>
-        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        @*@if (!string.IsNullOrWhiteSpace(errorMessage))
         {
             <MudPaper>
                 <MudText Color="Color.Error">@errorMessage</MudText>
@@ -23,6 +23,6 @@
         }
 
         <ScheduleForm Model="model"
-                      OnSave="ScheduleStreamingAsync" />
+                      OnSave="ScheduleStreamingAsync" />*@
     </PageContent>
 </PageLayout>
