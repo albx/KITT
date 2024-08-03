@@ -61,6 +61,15 @@ namespace KITT.Web.App.Resources.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contents.
+        /// </summary>
+        internal static string ContentsMenuLabel {
+            get {
+                return ResourceManager.GetString("ContentsMenuLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string DashboardMenuLabel {

@@ -7,6 +7,48 @@
 		<PageLayout PageTitle="KITT - Console">
 			<PageContent>
                 <Loader Loading="loading">
+                    <FluentGrid>
+                        @if (model.StreamingStats is not null)
+                        {
+                            <FluentGridItem xs="12" md="6">
+                                <FluentCard>
+                                    <FluentStack Style="margin-bottom:1rem;" VerticalAlignment="VerticalAlignment.Center">
+                                        <FluentLabel Typo="Typography.H3" Color="Color.Success">@model.StreamingStats.NumberOfStreamingsScheduled</FluentLabel>
+                                        <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.LivesScheduledLabel)]</FluentLabel>
+                                    </FluentStack>
+
+                                    <FluentStack Style="margin-bottom:1rem;" VerticalAlignment="VerticalAlignment.Center">
+                                        <FluentLabel Typo="Typography.H3" Color="Color.Accent">@model.StreamingStats.NumberOfStreamingsDelivered</FluentLabel>
+                                        <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.LivesDeliveredLabel)]</FluentLabel>
+                                    </FluentStack>
+                                    
+                                    <NavButton Label="@Localizer[nameof(Resources.Pages.Index.ViewStreamingsButtonText)]"
+                                               Page="streamings"/>
+                                </FluentCard>
+                            </FluentGridItem>
+                        }
+
+                        @if (model.ProposalStats is not null)
+                        {
+                            <FluentGridItem xs="12" md="6">
+                                <FluentCard>
+                                    <FluentStack Style="margin-bottom:1rem;" VerticalAlignment="VerticalAlignment.Center">
+                                        <FluentLabel Typo="Typography.H3" Color="Color.Success">@model.ProposalStats.NumberOfProposalAccepted</FluentLabel>
+                                        <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.ProposalsAcceptedLabel)]</FluentLabel>
+                                    </FluentStack>
+
+                                    <FluentStack Style="margin-bottom:1rem;" VerticalAlignment="VerticalAlignment.Center">
+                                        <FluentLabel Typo="Typography.H3" Color="Color.Accent">@model.ProposalStats.TotalNumberOfProposals</FluentLabel>
+                                        <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.ProposalsLabel)]</FluentLabel>
+                                    </FluentStack>
+
+                                    <NavButton Label="@Localizer[nameof(Resources.Pages.Index.ViewProposalsButtonText)]"
+                                               Page="proposals" />
+                                </FluentCard>
+                            </FluentGridItem>
+                        }
+                    </FluentGrid>
+
                     @*<MudGrid>
                         @if (model.StreamingStats is not null)
                         {
