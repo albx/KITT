@@ -15,15 +15,7 @@
 <FluentToolbar>
     <FluentLabel Typo="Typography.H2">@PageTitle</FluentLabel>
     <FluentSpacer />
-    @if (Toolbar is not null)
-    {
-        <FluentStack Orientation="Orientation.Horizontal"
-                     HorizontalAlignment="HorizontalAlignment.End"
-                     VerticalAlignment="VerticalAlignment.Center">
-            @Toolbar
-        </FluentStack>
-    }
-
+    @Toolbar
 </FluentToolbar>
 <FluentDivider />
 <FluentGrid Style="margin-top:1rem;">

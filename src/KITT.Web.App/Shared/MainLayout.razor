@@ -3,7 +3,6 @@
 <FluentToastProvider />
 <FluentDialogProvider />
 <FluentTooltipProvider />
-<FluentMessageBarProvider />
 
 <FluentLayout>
     <FluentHeader>
@@ -21,6 +20,7 @@
         <NavMenu />
         <FluentBodyContent Class="body-content">
             <div class="content">
+                <FluentMessageBarProvider Section="MESSAGES_TOP" />
                 @Body
             </div>
         </FluentBodyContent>
