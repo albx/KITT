@@ -2,14 +2,13 @@
 
 <AuthorizeView>
     <Authorized>
-        <FluentStack HorizontalAlignment="HorizontalAlignment.End"
-                     VerticalAlignment="VerticalAlignment.Center">
-            <FluentProfileMenu Initials="@context.User.Identity!.Name!.First().ToString().ToUpper()"
-                               Status="PresenceStatus.Available"
-                               FullName="@context.User.Identity!.Name"
-                               EMail="@GetUserEmailAddress(context.User)"
-                               OnHeaderButtonClick="BeginSignOut" />
-        </FluentStack>
+        <FluentProfileMenu Initials="@context.User.Identity!.Name!.First().ToString().ToUpper()"
+                           Status="PresenceStatus.Available"
+                           FullName="@context.User.Identity!.Name"
+                           EMail="@GetUserEmailAddress(context.User)"
+                           OnHeaderButtonClick="BeginSignOut">
+            <FooterTemplate></FooterTemplate>
+        </FluentProfileMenu>
 
         @*<MudMenu>
                 <ActivatorContent>

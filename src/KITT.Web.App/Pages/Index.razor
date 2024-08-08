@@ -22,8 +22,10 @@
                                         <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.LivesDeliveredLabel)]</FluentLabel>
                                     </FluentStack>
                                     
-                                    <NavButton Label="@Localizer[nameof(Resources.Pages.Index.ViewStreamingsButtonText)]"
-                                               Page="streamings"/>
+                                    <FluentAnchor Appearance="Appearance.Accent"
+                                                  Href="streamings">
+                                        @Localizer[nameof(Resources.Pages.Index.ViewStreamingsButtonText)]
+                                    </FluentAnchor>
                                 </FluentCard>
                             </FluentGridItem>
                         }
@@ -42,8 +44,10 @@
                                         <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.ProposalsLabel)]</FluentLabel>
                                     </FluentStack>
 
-                                    <NavButton Label="@Localizer[nameof(Resources.Pages.Index.ViewProposalsButtonText)]"
-                                               Page="proposals" />
+                                    <FluentAnchor Appearance="Appearance.Accent"
+                                                  Href="proposals">
+                                        @Localizer[nameof(Resources.Pages.Index.ViewProposalsButtonText)]
+                                    </FluentAnchor>
                                 </FluentCard>
                             </FluentGridItem>
                         }
