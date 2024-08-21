@@ -6,52 +6,50 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Settings.PageTitle)]">
-    <Toolbar>
-        <FluentAnchor Appearance="Appearance.Accent"
-                      Href="settings/new">
-            @Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]
-        </FluentAnchor>
-        @*<NavButton Label="@Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]"
-            Page="settings/new" />*@
-    </Toolbar>
-    <PageContent>
-        <FluentDataGrid ItemsProvider="settingsProvider" Loading="loading">
-            <LoadingContent>Loading...</LoadingContent>
-            <EmptyContent>
-                <h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
-            </EmptyContent>
-            <ChildContent>
-                <PropertyColumn Property="@(s => s.TwitchChannel)" Title="@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]" />
-            </ChildContent>
-        </FluentDataGrid>
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Settings.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="settings/new">
+        @Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]
+    </FluentAnchor>
+</SectionContent>
 
-        @*<MudPaper>
-                @if (!model.Items.Any())
-                {
-                    <h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
-                }
-                else
-                {
-                    <MudSimpleTable>
-                        <thead>
-                            <tr>
-                                <th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in model.Items)
-                            {
-                                <tr>
-                                    <td>@item.TwitchChannel</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </MudSimpleTable>
-                }
-            </MudPaper>*@
-    </PageContent>
-</PageLayout>
+<FluentDataGrid ItemsProvider="settingsProvider" Loading="loading">
+    <LoadingContent>Loading...</LoadingContent>
+    <EmptyContent>
+        <h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
+    </EmptyContent>
+    <ChildContent>
+        <PropertyColumn Property="@(s => s.TwitchChannel)" Title="@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]" />
+    </ChildContent>
+</FluentDataGrid>
+
+@*<MudPaper>
+        @if (!model.Items.Any())
+        {
+            <h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
+        }
+        else
+        {
+            <MudSimpleTable>
+                <thead>
+                    <tr>
+                        <th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in model.Items)
+                    {
+                        <tr>
+                            <td>@item.TwitchChannel</td>
+                        </tr>
+                    }
+                </tbody>
+            </MudSimpleTable>
+        }
+    </MudPaper>*@
 
 @code {
     private bool loading = false;

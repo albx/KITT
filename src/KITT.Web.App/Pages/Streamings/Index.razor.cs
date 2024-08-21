@@ -1,8 +1,8 @@
 ﻿using KITT.Web.App.Clients;
-using KITT.Web.App.UI.Components;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
+using Microsoft.FluentUI.AspNetCore.Components;
+//using MudBlazor;
 
 namespace KITT.Web.App.Pages.Streamings;
 
@@ -15,10 +15,16 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    IDialogService Dialog { get; set; } = default!;
+    public IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; } = default!;
+    public IToastService ToastService { get; set; } = default!;
+
+    //[Inject]
+    //IDialogService Dialog { get; set; } = default!;
+
+    //[Inject]
+    //ISnackbar Snackbar { get; set; } = default!;
 
     private StreamingsListModel model = new();
 
@@ -28,7 +34,21 @@ public partial class Index
 
     private bool loading = false;
 
-    private readonly int[] sizes = new[] { 5, 10, 25, 50 };
+    private Option<StreamingQueryModel.SortDirection>[] directions = [];
+
+    private readonly Option<int>[] sizes = [
+        new() { Value = 5, Text = "5" },
+        new() { Value = 10, Text = "10" },
+        new() { Value = 25, Text = "25" },
+        new() { Value = 50, Text = "50" }
+    ];
+
+    protected override void OnInitialized()
+    {
+        directions = Enum.GetValues<StreamingQueryModel.SortDirection>()
+            .Select(v => new Option<StreamingQueryModel.SortDirection>() { Value = v, Text = Localizer[v.ToString()] })
+            .ToArray();
+    }
 
     private async Task LoadStreamingsAsync(StreamingQueryModel query)
     {
@@ -54,10 +74,32 @@ public partial class Index
     void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming)
         => Navigation.NavigateTo($"streamings/{streaming.Id}");
 
-    async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
+    private async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
     {
-        //var streamingTitle = streaming.Title;
-        //string confirmText = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle];
+        var streamingTitle = streaming.Title;
+        string confirmText = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle];
+
+        var confirm = await DialogService.ShowConfirmationAsync(
+            confirmText,
+            primaryText: CommonLocalizer[nameof(UI.Resources.Common.Confirm)],
+            secondaryText: CommonLocalizer[(nameof(UI.Resources.Common.Cancel))],
+            title: Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle]);
+
+        var result = await confirm.Result;
+        if (!result.Cancelled)
+        {
+            try
+            {
+                await Client.DeleteStreamingAsync(streaming.Id);
+                ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle]);
+
+                await LoadStreamingsAsync(query);
+            }
+            catch
+            {
+                ToastService.ShowError(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle]);
+            }
+        }
 
         //var confirm = await Dialog.Show<ConfirmDialog>(
         //    Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle],

@@ -9,63 +9,64 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]">
-	<Toolbar>
-        <FluentAnchor Appearance="Appearance.Accent"
-                      Href="settings">
-            @CommonLocalizer[nameof(UI.Resources.Common.Back)]
-        </FluentAnchor>
-	</Toolbar>
-	<PageContent>
-		<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" id="newSettingsForm" class="col-md-12 mt-3">
-			<DataAnnotationsValidator />
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="settings">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
 
-            <FluentCard>
-                <FluentStack Orientation="Orientation.Vertical">
-                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
-                                     @bind-Value="model.TwitchChannel"
-                                     Style="width:100%;"
-                                     Required="true">
-                        <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
-                    </FluentTextField>
-                    <FluentValidationMessage For="@(() => model.TwitchChannel)" />
-                </FluentStack>
-                <FluentDivider />
-                <FluentStack Orientation="Orientation.Horizontal" Style="padding-top:10px;">
-                    <FluentButton OnClick="Cancel" Appearance="Appearance.Outline">
-                        @CommonLocalizer[nameof(UI.Resources.Common.Cancel)]
-                    </FluentButton>
-                    <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">
-                        @CommonLocalizer[nameof(UI.Resources.Common.Save)]
-                    </FluentButton>
-                </FluentStack>
-            </FluentCard>
+<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" id="newSettingsForm" class="mt-3">
+    <DataAnnotationsValidator />
 
-            @*@if (!string.IsNullOrWhiteSpace(errorMessage))
-            {
-                <MudPaper>
-                    <MudText id="errorMessageContainer" Color="Color.Error">@errorMessage</MudText>
-                </MudPaper>
-                <MudDivider />
-            }
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
+                             @bind-Value="model.TwitchChannel"
+                             Style="width:100%;"
+                             Required="true"
+                             Appearance="FluentInputAppearance.Filled">
+                <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
+            </FluentTextField>
+            <FluentValidationMessage For="@(() => model.TwitchChannel)" />
+        </FluentStack>
+        <FluentDivider />
+        <FluentStack Orientation="Orientation.Horizontal" Style="padding-top:10px;">
+            <FluentButton OnClick="Cancel" Appearance="Appearance.Outline">
+                @CommonLocalizer[nameof(UI.Resources.Common.Cancel)]
+            </FluentButton>
+            <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">
+                @CommonLocalizer[nameof(UI.Resources.Common.Save)]
+            </FluentButton>
+        </FluentStack>
+    </FluentCard>
 
-            @*<MudCard>
-                <MudCardContent>
-                    <MudTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
-                              @bind-Value="model.TwitchChannel"
-                              Adornment="Adornment.Start"
-                              AdornmentText="https://www.twitch.tv/"
-                              Variant="Variant.Outlined"
-                              For="@(() => model.TwitchChannel)"/>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
-                </MudCardActions>
-            </MudCard>*@
-		</EditForm>
-	</PageContent>
-</PageLayout>
+    @*@if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <MudPaper>
+                <MudText id="errorMessageContainer" Color="Color.Error">@errorMessage</MudText>
+            </MudPaper>
+            <MudDivider />
+        }
+
+        @*<MudCard>
+            <MudCardContent>
+                <MudTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
+                          @bind-Value="model.TwitchChannel"
+                          Adornment="Adornment.Start"
+                          AdornmentText="https://www.twitch.tv/"
+                          Variant="Variant.Outlined"
+                          For="@(() => model.TwitchChannel)"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
+            </MudCardActions>
+        </MudCard>*@
+</EditForm>
 
 @code {
     private CreateNewSettingsModel model = new();

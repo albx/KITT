@@ -12,11 +12,25 @@
     </MudGrid>
 </MudContainer>*@
 
-<FluentToolbar>
+<FluentStack Orientation="Orientation.Horizontal"
+             VerticalAlignment="VerticalAlignment.Center"
+             Style="margin-bottom: 0.5rem;">
+    <FluentLabel Style="width:100%" Typo="Typography.H2">@PageTitle</FluentLabel>
+    @if (Toolbar is not null)
+    {
+        <FluentStack Orientation="Orientation.Horizontal"
+                     HorizontalAlignment="HorizontalAlignment.End"
+                     VerticalAlignment="VerticalAlignment.Center"
+                     Style="width:auto;">
+            @Toolbar
+        </FluentStack>
+    }
+</FluentStack>
+@*<FluentToolbar>
     <FluentLabel Typo="Typography.H2">@PageTitle</FluentLabel>
     <FluentSpacer />
     @Toolbar
-</FluentToolbar>
+</FluentToolbar>*@
 <FluentDivider />
 <FluentGrid Style="margin-top:1rem;">
     <FluentGridItem xs="12" md="12">
