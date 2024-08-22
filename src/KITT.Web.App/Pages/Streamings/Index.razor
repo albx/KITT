@@ -119,9 +119,8 @@
                 </FluentAnchor>
                 <FluentButton Appearance="Appearance.Accent"
                               IconStart="@(new Icons.Filled.Size20.Delete())"
-                              OnClick="@(() => DeleteStreaming(streaming))">
-                    @CommonLocalizer[nameof(UI.Resources.Common.Delete)]
-                </FluentButton>
+                              OnClick="@(() => DeleteStreaming(streaming))"
+                              aria-label="@CommonLocalizer[nameof(UI.Resources.Common.Delete)]"/>
             </FluentStack>
         </TemplateColumn>
     </ChildContent>

@@ -55,10 +55,10 @@ public partial class Index
 
     private async Task LoadStreamingsAsync(StreamingQueryModel query)
     {
+        loading = true;
+
         try
         {
-            loading = true;
-
             model = await Client.GetAllStreamingsAsync(query);
             numberOfPages = (int)Math.Ceiling(model.TotalItems / (decimal)query.Size);
 

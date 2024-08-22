@@ -99,7 +99,14 @@ public static class WebApplicationBuilderExtensions
         builder.Services.Configure<MessageBusOptions>(
             options => options.ConnectionString = builder.Configuration["QueueClientOptions:ConnectionString"]!);
 
-        builder.Services.AddSingleton<IMessageBus, QueueStorageMessageBus>();
+        if (builder.Environment.IsDevelopment())
+        {
+            builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
+        }
+        else
+        {
+            builder.Services.AddSingleton<IMessageBus, QueueStorageMessageBus>();
+        }
 
         return builder;
     }
