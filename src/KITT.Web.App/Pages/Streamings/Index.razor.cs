@@ -12,9 +12,6 @@ public partial class Index
     public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
-    public NavigationManager Navigation { get; set; } = default!;
-
-    [Inject]
     public IDialogService DialogService { get; set; } = default!;
 
     [Inject]
@@ -28,11 +25,15 @@ public partial class Index
 
     private StreamingsListModel model = new();
 
+    private IQueryable<StreamingsListModel.StreamingListItemModel> streamings = new List<StreamingsListModel.StreamingListItemModel>().AsQueryable();
+
     private StreamingQueryModel query = new();
 
     private int numberOfPages = 0;
 
     private bool loading = false;
+
+    private PaginationState paginationState = new();
 
     private Option<StreamingQueryModel.SortDirection>[] directions = [];
 
@@ -48,6 +49,8 @@ public partial class Index
         directions = Enum.GetValues<StreamingQueryModel.SortDirection>()
             .Select(v => new Option<StreamingQueryModel.SortDirection>() { Value = v, Text = Localizer[v.ToString()] })
             .ToArray();
+
+        SetPaginationState();
     }
 
     private async Task LoadStreamingsAsync(StreamingQueryModel query)
@@ -58,6 +61,9 @@ public partial class Index
 
             model = await Client.GetAllStreamingsAsync(query);
             numberOfPages = (int)Math.Ceiling(model.TotalItems / (decimal)query.Size);
+
+            streamings = model.Items.AsQueryable();
+            await paginationState.SetTotalItemCountAsync(model.TotalItems);
         }
         finally
         {
@@ -67,12 +73,12 @@ public partial class Index
 
     private async Task OnPageChangedAsync(int pageIndex)
     {
-        query.Page = pageIndex;
+        query.Page = pageIndex + 1;
         await LoadStreamingsAsync(query);
     }
 
-    void OpenStreamingDetail(StreamingsListModel.StreamingListItemModel streaming)
-        => Navigation.NavigateTo($"streamings/{streaming.Id}");
+    private void SetPaginationState()
+        => paginationState.ItemsPerPage = query.Size;
 
     private async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
     {
@@ -133,6 +139,8 @@ public partial class Index
     async Task ClearSearchAsync()
     {
         query = new();
+        SetPaginationState();
+
         await LoadStreamingsAsync(query);
     }
 }

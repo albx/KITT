@@ -5,6 +5,8 @@
 
 @attribute [Authorize]
 
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]</PageTitle>
+
 <SectionContent SectionName="@SectionNames.PageTitleSectionName">
     @Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]
 </SectionContent>
@@ -67,7 +69,7 @@
                     <FluentButton Type="ButtonType.Submit"
                                   Appearance="Appearance.Accent"
                                   IconStart="@(new Icons.Regular.Size20.Search())">
-                        Search
+                        @Localizer[nameof(Resources.Pages.Streamings.Index.SearchButtonLabel)]
                     </FluentButton>
                     <FluentButton Appearance="Appearance.Outline">
                         <FluentIcon Value="@(new Icons.Regular.Size20.Dismiss())" Color="Color.Accent" />
@@ -78,6 +80,62 @@
     </EditForm>
 </FluentStack>
 <FluentDivider />
+
+<FluentDataGrid Items="streamings"
+                Loading="loading">
+    <EmptyContent>
+        <FluentLabel>@Localizer[nameof(Resources.Pages.Streamings.Index.NoStreamingsFoundLabel)]</FluentLabel>
+    </EmptyContent>
+    <LoadingContent>
+        <FluentProgress />
+    </LoadingContent>
+    <ChildContent>
+        <PropertyColumn Property="@(s => s.Title)" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]" />
+        <PropertyColumn Property="@(s => s.ScheduledOn.ToShortDateString())" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]" />
+        <TemplateColumn Context="streaming" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]">
+            @streaming.StartingTime.ToString("HH\\:mm") - @streaming.EndingTime.ToString("HH\\:mm")
+        </TemplateColumn>
+        <TemplateColumn Context="streaming" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]">
+            <a href="@streaming.HostingChannelUrl" target="_blank">@streaming.HostingChannelUrl</a>
+        </TemplateColumn>
+        <TemplateColumn Context="streaming" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.YoutubeVideoUrlLabel)]">
+            @if (string.IsNullOrWhiteSpace(streaming.YouTubeVideoUrl))
+            {
+                <span>-</span>
+            }
+            else
+            {
+                <a href="@streaming.YouTubeVideoUrl" target="_blank">@streaming.YouTubeVideoUrl</a>
+            }
+        </TemplateColumn>
+        <TemplateColumn Context="streaming">
+            <FluentStack Orientation="Orientation.Horizontal"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.End">
+                <FluentAnchor Appearance="Appearance.Accent"
+                              Href="@($"streamings/{streaming.Id}")">
+                    <FluentIcon Slot="start" Value="@(new Icons.Filled.Size20.Eye())" Color="Color.Fill"></FluentIcon>
+                    @CommonLocalizer[nameof(UI.Resources.Common.View)]
+                </FluentAnchor>
+                <FluentButton Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Filled.Size20.Delete())"
+                              OnClick="@(() => DeleteStreaming(streaming))">
+                    @CommonLocalizer[nameof(UI.Resources.Common.Delete)]
+                </FluentButton>
+            </FluentStack>
+        </TemplateColumn>
+    </ChildContent>
+</FluentDataGrid>
+
+<FluentPaginator State="paginationState"
+                 CurrentPageIndexChanged="OnPageChangedAsync">
+    <SummaryTemplate>
+        @Localizer[nameof(Resources.Pages.Streamings.Index.PaginationItemsNumberText), paginationState.TotalItemCount!]
+    </SummaryTemplate>
+    <PaginationTextTemplate>
+        @Localizer[nameof(Resources.Pages.Streamings.Index.PageNumberLabel), query.Page, numberOfPages]
+    </PaginationTextTemplate>
+</FluentPaginator>
 
 @*<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]">
     <Toolbar>

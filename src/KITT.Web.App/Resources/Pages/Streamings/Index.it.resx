@@ -151,7 +151,7 @@
     <value>Le mie dirette</value>
   </data>
   <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} di {1}</value>
+    <value>{0} dirette</value>
   </data>
   <data name="ScheduleNewStreamingLabel" xml:space="preserve">
     <value>Pianifica una nuova diretta</value>
@@ -170,5 +170,11 @@
   </data>
   <data name="YoutubeVideoUrlLabel" xml:space="preserve">
     <value>YouTube link</value>
+  </data>
+  <data name="PageNumberLabel" xml:space="preserve">
+    <value>pagina {0} di {1}</value>
+  </data>
+  <data name="SearchButtonLabel" xml:space="preserve">
+    <value>Cerca</value>
   </data>
 </root>
