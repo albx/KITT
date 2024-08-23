@@ -91,10 +91,10 @@ public partial class Schedule
         {
             Title = model.Title,
             ScheduleDate = model.ScheduleDate.Value,
-            EndingTime = model.EndingTime.Value,
+            EndingTime = model.EndingTime.Value.TimeOfDay,
             HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
             Slug = model.Slug,
-            StartingTime = model.StartingTime.Value,
+            StartingTime = model.StartingTime.Value.TimeOfDay,
             StreamingAbstract = model.StreamingAbstract,
             Seo = model.Seo
         };

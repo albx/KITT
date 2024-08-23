@@ -10,6 +10,57 @@
     <EditForm EditContext="editContext" OnValidSubmit="SubmitAsync">
         <DataAnnotationsValidator />
 
+        <FluentTabs>
+            <FluentTab Label="@ContentTabTitle">
+                @ContentInfo(Model)
+            </FluentTab>
+            <FluentTab Label="SEO">
+                <div class="mb-2">
+                    <FluentTextField Label="Title"
+                                     @bind-Value="Model.Seo.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="@ReadOnly" />
+                    <FluentValidationMessage For="@(() => Model.Seo.Title)" />
+                </div>
+                <div class="mb-2">
+                    <FluentTextField Label="Description"
+                                     @bind-Value="Model.Seo.Description"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="@ReadOnly" />
+                    <FluentValidationMessage For="@(() => Model.Seo.Description)" />
+                </div>
+                <div class="mb-2">
+                    <FluentTextField Label="Keywords"
+                                     @bind-Value="Model.Seo.Keywords"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="@ReadOnly" />
+                    <FluentValidationMessage For="@(() => Model.Seo.Keywords)" />
+                </div>
+            </FluentTab>
+        </FluentTabs>
+
+        @if (!ReadOnly)
+        {
+            <FluentStack Orientation="Orientation.Horizontal"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.Start"
+                         Class="mt-3">
+                <FluentButton Type="ButtonType.Submit"
+                              Appearance="Appearance.Accent"
+                              Loading="saving">
+                    @Localizer[nameof(UI.Resources.Common.Save)]
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Outline"
+                              Disabled="saving"
+                              OnClick="CancelAsync">
+                    @Localizer[nameof(UI.Resources.Common.Cancel)]
+                </FluentButton>
+            </FluentStack>
+        }
+
         @*<MudCard>
             <MudCardContent>
                 <MudTabs>

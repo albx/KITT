@@ -2,7 +2,7 @@
 using KITT.Web.App.Components;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Web.App.Pages.Streamings;
 
@@ -15,29 +15,34 @@ public partial class Schedule
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; } = default!;
+    public IToastService ToastService { get; set; } = default!;
 
     [Inject]
-    public IDialogService Dialog { get; set; } = default!;
+    public IDialogService DialogService { get; set; } = default!;
+
+    [Inject]
+    public IMessageService MessageService { get; set; } = default!;
 
     private ScheduleForm.ViewModel model = new();
 
-    private string? errorMessage;
-
-    async Task ScheduleStreamingAsync(ScheduleForm.ViewModel model)
+    private async Task ScheduleStreamingAsync(ScheduleForm.ViewModel model)
     {
         try
         {
             var scheduleStreamingModel = ConvertToApiModel(model);
             await Client.ScheduleStreamingAsync(scheduleStreamingModel);
 
-            Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title], Severity.Success);
+            ToastService.ShowSuccess(
+                Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title]);
 
             Navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
         {
-            errorMessage = ex.Message;
+            await MessageService.ShowMessageBarAsync(
+                ex.Message,
+                MessageIntent.Error,
+                "MESSAGES_TOP");
         }
     }
 
@@ -51,10 +56,10 @@ public partial class Schedule
         {
             Title = model.Title,
             ScheduleDate = DateOnly.FromDateTime(model.ScheduleDate.Value),
-            EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value),
+            EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value.TimeOfDay),
             HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
             Slug = model.Slug,
-            StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value),
+            StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value.TimeOfDay),
             StreamingAbstract = model.StreamingAbstract,
             Seo = model.Seo
         };

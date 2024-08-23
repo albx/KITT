@@ -5,16 +5,29 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="streamings">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ScheduleForm Model="model"
+              OnSave="ScheduleStreamingAsync" />
+
+@*<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
     <Toolbar>
-        @*<MudButton Href="streamings"
+        <MudButton Href="streamings"
                    Variant="Variant.Filled"
                    Color="Color.Primary">
             @CommonLocalizer[nameof(UI.Resources.Common.Back)]
-        </MudButton>*@
+        </MudButton>
     </Toolbar>
     <PageContent>
-        @*@if (!string.IsNullOrWhiteSpace(errorMessage))
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
         {
             <MudPaper>
                 <MudText Color="Color.Error">@errorMessage</MudText>
@@ -23,6 +36,6 @@
         }
 
         <ScheduleForm Model="model"
-                      OnSave="ScheduleStreamingAsync" />*@
+                      OnSave="ScheduleStreamingAsync" />
     </PageContent>
-</PageLayout>
+</PageLayout>*@
