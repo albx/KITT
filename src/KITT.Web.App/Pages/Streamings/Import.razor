@@ -5,87 +5,182 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]">
-    <Toolbar>
-        @*<NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-                   Page="streamings"/>*@
-    </Toolbar>
-    <PageContent>
-        @*@if (!string.IsNullOrWhiteSpace(errorMessage))
-        {
-            <MudPaper>
-                <MudText Color="Color.Error">@errorMessage</MudText>
-            </MudPaper>
-            <MudDivider />
-        }
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]</PageTitle>
 
-        <ContentForm TContent="ViewModel"
-                     ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.StreamingTabTitle)]"
-                     OnSave="ImportStreamingAsync"
-                     OnCancel="Cancel"
-                     Model="model">
-            <ContentInfo Context="streaming">
-                <MudGrid>
-                    <MudItem xs="12" md="6">
-                        <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.TitleLabel)]"
-                                      @bind-Value="streaming.Title"
-                                      For="@(() => streaming.Title)"
-                                      Variant="Variant.Outlined" />
-                    </MudItem>
-                    <MudItem xs="12" md="6">
-                        <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.SlugLabel)]"
-                                      @bind-Value="streaming.Slug"
-                                      For="@(() => streaming.Slug)"
-                                      Variant="Variant.Outlined" />
-                    </MudItem>
-                </MudGrid>
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="streamings">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
 
-                <MudGrid>
-                    <MudItem xs="12" md="6">
-                        <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.HostingChannelLabel)]"
-                                      @bind-Value="streaming.HostingChannelUrl"
-                                      Adornment="Adornment.Start"
-                                      AdornmentText="https://www.twitch.tv/"
-                                      Variant="Variant.Outlined"
-                                      For="@(() => streaming.HostingChannelUrl)" />
-                    </MudItem>
-                    <MudItem xs="12" md="6">
-                        <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.YoutubeUrlLabel)]"
-                                      @bind-Value="streaming.YoutubeVideoUrl"
-                                      Variant="Variant.Outlined"
-                                      For="@(() => streaming.YoutubeVideoUrl)" />
-                    </MudItem>
-                </MudGrid>
+<ContentForm TContent="ViewModel"
+             ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.StreamingTabTitle)]"
+             OnSave="ImportStreamingAsync"
+             OnCancel="Cancel"
+             Model="model">
+    <ContentInfo Context="streaming">
+        <FluentGrid>
+            <FluentGridItem xs="12" md="6">
+                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.TitleLabel)]"
+                                 @bind-Value="streaming.Title"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;"
+                                 Required="true"/>
+                <FluentValidationMessage For="@(() => streaming.Title)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="6">
+                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.SlugLabel)]"
+                                 @bind-Value="streaming.Slug"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;"
+                                 Required="true"/>
+                <FluentValidationMessage For="@(() => streaming.Slug)"/>
+            </FluentGridItem>
+        </FluentGrid>
 
-                <MudGrid>
-                    <MudItem xs="12" md="6">
-                        <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.ScheduleDateLabel)]"
-                                       @bind-Date="streaming.ScheduleDate"
-                                       Variant="Variant.Outlined"
-                                       Editable="true"
-                                       AutoClose="true" />
-                    </MudItem>
-                    <MudItem xs="12" md="3">
-                        <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.StartingTimeLabel)]"
-                                       @bind-Time="streaming.StartingTime"
-                                       Variant="Variant.Outlined"
-                                       Editable="true"
-                                       AutoClose="true" />
-                    </MudItem>
-                    <MudItem xs="12" md="3">
-                        <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.EndingTimeLabel)]"
-                                       @bind-Time="streaming.EndingTime"
-                                       Variant="Variant.Outlined"
-                                       Editable="true"
-                                       AutoClose="true" />
-                    </MudItem>
-                </MudGrid>
+        <FluentGrid>
+            <FluentGridItem xs="12" md="6">
+                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.HostingChannelLabel)]"
+                                 @bind-Value="streaming.HostingChannelUrl"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;"
+                                 Required="true">
+                    <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
+                </FluentTextField>
+                <FluentValidationMessage For="@(() => streaming.HostingChannelUrl)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="6">
+                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.YoutubeUrlLabel)]"
+                                 @bind-Value="streaming.YoutubeVideoUrl"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;"/>
+            </FluentGridItem>
+        </FluentGrid>
 
-                <MarkdownEditor @bind-Value="streaming.StreamingAbstract"
-                                EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.Import.AbstractLabel)]"
-                                Id="streamingAbstract"
-                                PreviewLabel="Preview" />
-            </ContentInfo>
-        </ContentForm>*@
-    </PageContent>
-</PageLayout>
+        <FluentGrid>
+            <FluentGridItem xs="12" md="6">
+                <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.ScheduleDateLabel)]"
+                                  @bind-Value="streaming.ScheduleDate"
+                                  Appearance="FluentInputAppearance.Filled"
+                                  Style="width:100%;"
+                                  Required="true"/>
+                <FluentValidationMessage For="@(() => streaming.ScheduleDate)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="3">
+                <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.StartingTimeLabel)]"
+                                  @bind-Value="streaming.StartingTime"
+                                  Appearance="FluentInputAppearance.Filled"
+                                  Style="width:100%;"
+                                  Required="true"/>
+                <FluentValidationMessage For="@(() => streaming.StartingTime)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="3">
+                <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
+                                  @bind-Value="streaming.EndingTime"
+                                  Appearance="FluentInputAppearance.Filled"
+                                  Style="width:100%;"
+                                  Required="true"/>
+                <FluentValidationMessage For="@(() => streaming.EndingTime)" />
+            </FluentGridItem>
+        </FluentGrid>
+
+        <FluentGrid>
+            <FluentGridItem xs="12" md="12">
+                <FluentTextArea Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
+                                @bind-Value="streaming.StreamingAbstract"
+                                Appearance="FluentInputAppearance.Filled"
+                                Rows="10"
+                                Style="width:100%;"/>
+            </FluentGridItem>
+        </FluentGrid>
+    </ContentInfo>
+</ContentForm>
+
+@*<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]">
+        <Toolbar>
+            <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
+                       Page="streamings"/>
+        </Toolbar>
+        <PageContent>
+            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                <MudPaper>
+                    <MudText Color="Color.Error">@errorMessage</MudText>
+                </MudPaper>
+                <MudDivider />
+            }
+
+            <ContentForm TContent="ViewModel"
+                         ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.Import.StreamingTabTitle)]"
+                         OnSave="ImportStreamingAsync"
+                         OnCancel="Cancel"
+                         Model="model">
+                <ContentInfo Context="streaming">
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.TitleLabel)]"
+                                          @bind-Value="streaming.Title"
+                                          For="@(() => streaming.Title)"
+                                          Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.SlugLabel)]"
+                                          @bind-Value="streaming.Slug"
+                                          For="@(() => streaming.Slug)"
+                                          Variant="Variant.Outlined" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.HostingChannelLabel)]"
+                                          @bind-Value="streaming.HostingChannelUrl"
+                                          Adornment="Adornment.Start"
+                                          AdornmentText="https://www.twitch.tv/"
+                                          Variant="Variant.Outlined"
+                                          For="@(() => streaming.HostingChannelUrl)" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Import.YoutubeUrlLabel)]"
+                                          @bind-Value="streaming.YoutubeVideoUrl"
+                                          Variant="Variant.Outlined"
+                                          For="@(() => streaming.YoutubeVideoUrl)" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.ScheduleDateLabel)]"
+                                           @bind-Date="streaming.ScheduleDate"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true" />
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.StartingTimeLabel)]"
+                                           @bind-Time="streaming.StartingTime"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true" />
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.Import.EndingTimeLabel)]"
+                                           @bind-Time="streaming.EndingTime"
+                                           Variant="Variant.Outlined"
+                                           Editable="true"
+                                           AutoClose="true" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <MarkdownEditor @bind-Value="streaming.StreamingAbstract"
+                                    EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.Import.AbstractLabel)]"
+                                    Id="streamingAbstract"
+                                    PreviewLabel="Preview" />
+                </ContentInfo>
+            </ContentForm>
+        </PageContent>
+    </PageLayout>*@

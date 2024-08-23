@@ -7,11 +7,9 @@ public static class StreamingsExtensions
 
     public static IQueryable<Streaming> OrderedBySchedule(this IQueryable<Streaming> streamings, bool ascending = true)
     {
-        return ascending switch
-        {
-            false => OrderedByScheduleDescending(streamings),
-            _ => OrderedByScheduleAscending(streamings)
-        };
+        return ascending ?
+            OrderedByScheduleAscending(streamings) : 
+            OrderedByScheduleDescending(streamings);
     }
 
     public static IQueryable<Streaming> DeliveredOnly(this IQueryable<Streaming> streamings) 

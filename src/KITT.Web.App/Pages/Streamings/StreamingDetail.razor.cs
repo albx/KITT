@@ -31,18 +31,12 @@ public partial class StreamingDetail
 
     private const string twitchBaseUrl = "https://www.twitch.tv/";
 
-    private void EnableEditing()
-    {
-        isReadOnly = false;
-        //StateHasChanged();
-    }
+    private void EnableEditing() => isReadOnly = false;
 
     private void DisableEditing()
     {
         model = ViewModel.FromStreamingDetailModel(streamingDetail);
         isReadOnly = true;
-
-        //StateHasChanged();
     }
 
     private string? errorMessage;

@@ -2,7 +2,7 @@ using KITT.Web.App.Clients;
 using KITT.Web.App.Model;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
+using Microsoft.FluentUI.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Pages.Streamings;
@@ -16,24 +16,31 @@ public partial class Import
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; } = default!;
+    public IToastService ToastService { get; set; } = default!;
+
+    [Inject]
+    public IMessageService MessageService { get; set; } = default!;
 
     private ViewModel model = new();
 
     private string errorMessage = string.Empty;
 
-    async Task ImportStreamingAsync(ViewModel model)
+    private async Task ImportStreamingAsync(ViewModel model)
     {
         try
         {
             await Client.ImportStreamingAsync(model.ToApiModel());
-            Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Import.StreamingImportedSuccessfully), model.Title], Severity.Success);
+            ToastService.ShowSuccess(
+                Localizer[nameof(Resources.Pages.Streamings.Import.StreamingImportedSuccessfully), model.Title]);
 
             Navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
         {
-            errorMessage = ex.Message;
+            await MessageService.ShowMessageBarAsync(
+                ex.Message,
+                MessageIntent.Error,
+                "MESSAGES_TOP");
         }
     }
 
@@ -51,10 +58,10 @@ public partial class Import
         public DateTime? ScheduleDate { get; set; } = DateTime.Now;
 
         [Required]
-        public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;
+        public DateTime? StartingTime { get; set; } = DateTime.Now;
 
         [Required]
-        public TimeSpan? EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+        public DateTime? EndingTime { get; set; } = DateTime.Now.AddHours(1);
 
         [Required]
         public string HostingChannelUrl { get; set; } = string.Empty;
@@ -84,10 +91,10 @@ public partial class Import
             {
                 Title = this.Title,
                 ScheduleDate = this.ScheduleDate.Value,
-                EndingTime = this.EndingTime.Value,
+                EndingTime = this.EndingTime.Value.TimeOfDay,
                 HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
                 Slug = this.Slug,
-                StartingTime = this.StartingTime.Value,
+                StartingTime = this.StartingTime.Value.TimeOfDay,
                 StreamingAbstract = this.StreamingAbstract,
                 YoutubeVideoUrl = this.YoutubeVideoUrl,
                 Seo = this.Seo
