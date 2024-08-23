@@ -37,12 +37,17 @@ public partial class ContentForm<TContent>
         editContext = new EditContext(Model);
     }
 
-    async Task SubmitAsync()
+    private async Task SubmitAsync()
     {
         saving = true;
 
         try
         {
+            if (!editContext.Validate())
+            {
+                return;
+            }
+
             await OnSave.InvokeAsync(Model);
         }
         finally

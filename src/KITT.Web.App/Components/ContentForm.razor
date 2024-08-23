@@ -7,7 +7,7 @@
 
 @if (editContext is not null)
 {
-    <EditForm EditContext="editContext" OnValidSubmit="SubmitAsync">
+    <EditForm EditContext="editContext">
         <DataAnnotationsValidator />
 
         <FluentTabs>
@@ -48,9 +48,10 @@
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.Start"
                          Class="mt-3">
-                <FluentButton Type="ButtonType.Submit"
+                <FluentButton Type="ButtonType.Button"
                               Appearance="Appearance.Accent"
-                              Loading="saving">
+                              Loading="saving"
+                              OnClick="SubmitAsync">
                     @Localizer[nameof(UI.Resources.Common.Save)]
                 </FluentButton>
                 <FluentButton Appearance="Appearance.Outline"

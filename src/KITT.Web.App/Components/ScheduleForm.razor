@@ -35,6 +35,7 @@
                                  Required="true">
                     <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
                 </FluentTextField>
+                <FluentValidationMessage For="@(() => Model.Slug)" />
             </FluentGridItem>
         </FluentGrid>
 
