@@ -205,6 +205,15 @@ namespace KITT.Web.App.Resources.Pages.Proposals {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string ProposalSearchLabel {
+            get {
+                return ResourceManager.GetString("ProposalSearchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
         public static string ProposalsQueryOrderLabel {

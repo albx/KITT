@@ -1,21 +1,12 @@
 ﻿using KITT.Web.App.Clients;
-using KITT.Web.App.UI.Components;
 using KITT.Web.Models.Proposals;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Web.App.Pages.Proposals;
 
 public partial class Index
 {
-    private ProposalsQueryModel query = new();
-
-    private ProposalListModel model = new();
-
-    private bool isLoading = false;
-
-    private int[] sizes = new[] { 10, 25, 50 };
-
     [Inject]
     public IProposalsClient Client { get; set; } = default!;
 
@@ -23,122 +14,164 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = default!;
 
     [Inject]
-    IDialogService Dialog { get; set; } = default!;
+    public IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; } = default!;
+    public IToastService ToastService { get; set; } = default!;
 
-    async Task Search()
+    private ProposalsQueryModel query = new();
+
+    private ProposalListModel model = new();
+
+    private IQueryable<ProposalListModel.ProposalListItemModel> proposals = new List<ProposalListModel.ProposalListItemModel>().AsQueryable();
+
+    private bool loading = false;
+
+    private Option<int>[] sizes = [
+        new() { Value = 5, Text = "5" },
+        new() { Value = 10, Text = "10" },
+        new() { Value = 25, Text = "25" },
+        new() { Value = 50, Text = "50" }
+    ];
+
+    private Option<ProposalsQueryModel.SortDirection>[] directions = [];
+
+    private Option<ProposalStatus?>[] statuses = [];
+
+    protected override void OnInitialized()
+    {
+        directions = Enum.GetValues<ProposalsQueryModel.SortDirection>()
+            .Select(d => new Option<ProposalsQueryModel.SortDirection> { Value = d, Text = Localizer[d.ToString()] })
+            .ToArray();
+
+        var validStatuses = Enum.GetValues<ProposalStatus>()
+            .Select (s => new Option<ProposalStatus?> { Value = s, Text = Localizer[s.ToString()] })
+            .ToArray();
+
+        statuses = [
+            new Option<ProposalStatus?> { Value = null, Text = "" },
+            ..validStatuses,
+        ];
+    }
+
+    private async Task SearchAsync()
     {
         await LoadProposalsAsync(query);
     }
 
-    async void ClearSearch()
+    private async Task ClearSearchAsync()
     {
         query = new();
         await LoadProposalsAsync(query);
-        StateHasChanged();
     }
 
-    async Task AcceptProposalAsync(ProposalListModel.ProposalListItemModel proposal)
+    private async Task AcceptProposalAsync(ProposalListModel.ProposalListItemModel proposal)
     {
-        //var proposalTitle = proposal.Title;
-        //string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmText), proposalTitle];
+        var proposalTitle = proposal.Title;
+        string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmText), proposalTitle];
 
-        //var confirm = await Dialog.Show<ConfirmDialog>(
-        //    Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmTitle)],
-        //    new DialogParameters
-        //    {
-        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
-        //    }).Result;
+        var confirmDialog = await DialogService.ShowConfirmationAsync(
+            confirmText,
+            primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
+            secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
+            title: Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalConfirmTitle)]);
 
-        //if (!confirm.Canceled)
-        //{
-        //    try
-        //    {
-        //        await Client.AcceptProposalAsync(proposal.Id);
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalSuccessMessage), proposalTitle], Severity.Success);
+        var confirmResult = await confirmDialog.Result;
+        if (!confirmResult.Cancelled) 
+        {
+            try
+            {
+                await Client.AcceptProposalAsync(proposal.Id);
+                ToastService.ShowSuccess(
+                    Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalSuccessMessage), proposalTitle]);
 
-        //        await LoadProposalsAsync(query);
-        //    }
-        //    catch
-        //    {
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalErrorMessage), proposalTitle], Severity.Error);
-        //    }
-        //}
+                await LoadProposalsAsync(query);
+            }
+            catch
+            {
+                ToastService.ShowError(
+                    Localizer[nameof(Resources.Pages.Proposals.Index.AcceptProposalErrorMessage), proposalTitle]);
+            }
+        }
     }
 
-    async Task RejectProposalAsync(ProposalListModel.ProposalListItemModel proposal)
+    private async Task RejectProposalAsync(ProposalListModel.ProposalListItemModel proposal)
     {
-        //var proposalTitle = proposal.Title;
-        //string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmText), proposalTitle];
+        var proposalTitle = proposal.Title;
+        string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmText), proposalTitle];
 
-        //var confirm = await Dialog.Show<ConfirmDialog>(
-        //    Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmTitle)],
-        //    new DialogParameters
-        //    {
-        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
-        //    }).Result;
+        var confirmDialog = await DialogService.ShowConfirmationAsync(
+            confirmText,
+            primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
+            secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
+            title: Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalConfirmTitle)]);
 
-        //if (!confirm.Canceled)
-        //{
-        //    try
-        //    {
-        //        await Client.RejectProposalAsync(proposal.Id);
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalSuccessMessage), proposalTitle], Severity.Success);
+        var confirmResult = await confirmDialog.Result;
+        if (!confirmResult.Cancelled)
+        {
+            try
+            {
+                await Client.RejectProposalAsync(proposal.Id);
+                ToastService.ShowSuccess(
+                    Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalSuccessMessage), proposalTitle]);
 
-        //        await LoadProposalsAsync(query);
-        //    }
-        //    catch
-        //    {
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalErrorMessage), proposalTitle], Severity.Error);
-        //    }
-        //}
+                await LoadProposalsAsync(query);
+            }
+            catch
+            {
+                ToastService.ShowError(
+                    Localizer[nameof(Resources.Pages.Proposals.Index.RejectProposalErrorMessage), proposalTitle]);
+            }
+        }
     }
 
-    async Task RefuseProposalAsync(ProposalListModel.ProposalListItemModel proposal)
+    private async Task RefuseProposalAsync(ProposalListModel.ProposalListItemModel proposal)
     {
-        //var proposalTitle = proposal.Title;
-        //string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmText), proposalTitle];
+        var proposalTitle = proposal.Title;
+        string confirmText = Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmText), proposalTitle];
 
-        //var confirm = await Dialog.Show<ConfirmDialog>(
-        //    Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmTitle)],
-        //    new DialogParameters
-        //    {
-        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
-        //    }).Result;
+        var confirmDialog = await DialogService.ShowConfirmationAsync(
+            confirmText,
+            primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
+            secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
+            title: Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalConfirmTitle)]);
 
-        //if (!confirm.Canceled)
-        //{
-        //    try
-        //    {
-        //        await Client.RefuseProposalAsync(proposal.Id);
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalSuccessMessage), proposalTitle], Severity.Success);
+        var confirmResult = await confirmDialog.Result;
+        if (!confirmResult.Cancelled)
+        {
+            try
+            {
+                await Client.RefuseProposalAsync(proposal.Id);
+                ToastService.ShowSuccess(
+                    Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalSuccessMessage), proposalTitle]);
 
-        //        await LoadProposalsAsync(query);
-        //    }
-        //    catch
-        //    {
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalErrorMessage), proposalTitle], Severity.Error);
-        //    }
-        //}
+                await LoadProposalsAsync(query);
+            }
+            catch
+            {
+                ToastService.ShowError(
+                    Localizer[nameof(Resources.Pages.Proposals.Index.RefuseProposalErrorMessage), proposalTitle]);
+            }
+        }
     }
 
-    void ScheduleProposal(ProposalListModel.ProposalListItemModel proposal)
+    private void ScheduleProposal(ProposalListModel.ProposalListItemModel proposal)
     {
         Navigation.NavigateTo($"proposals/schedule/{proposal.Id}");
     }
 
     private async Task LoadProposalsAsync(ProposalsQueryModel query)
     {
+        loading = true;
+
         try
         {
-            isLoading = true;
             model = await Client.GetAllProposalsAsync(query);
+            proposals = model.Items.AsQueryable();
         }
         finally
         {
-            isLoading = false;
+            loading = false;
         }
     }
 }

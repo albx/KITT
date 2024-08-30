@@ -207,4 +207,7 @@
   <data name="WaitingForApproval" xml:space="preserve">
     <value>Waiting for approval</value>
   </data>
+  <data name="ProposalSearchLabel" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>
