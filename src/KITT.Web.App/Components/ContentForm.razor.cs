@@ -72,13 +72,6 @@ public partial class ContentForm<TContent>
 
             var confirmResult = await confirmDialog.Result;
 
-            //var confirm = await Dialog.Show<ConfirmDialog>(
-            //    Localizer[nameof(UI.Resources.Common.UnsavedChangesDialogTitle)],
-            //    new DialogParameters
-            //    {
-            //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
-            //    }).Result;
-
             if (confirmResult.Cancelled)
             {
                 context.PreventNavigation();

@@ -1,5 +1,6 @@
 ﻿using KITT.Web.App.Clients;
 using KITT.Web.App.Model;
+using KITT.Web.App.UI;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -60,7 +61,7 @@ public partial class StreamingDetail
             await MessageService.ShowMessageBarAsync(
                 ex.Message,
                 MessageIntent.Error,
-                "MESSAGES_TOP");
+                SectionNames.MessagesTopSectionName);
         }
     }
 
