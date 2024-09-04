@@ -17,11 +17,8 @@ public partial class Index
     [Inject]
     public IToastService ToastService { get; set; } = default!;
 
-    //[Inject]
-    //IDialogService Dialog { get; set; } = default!;
-
-    //[Inject]
-    //ISnackbar Snackbar { get; set; } = default!;
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
 
     private StreamingsListModel model = new();
 
@@ -80,6 +77,9 @@ public partial class Index
     private void SetPaginationState()
         => paginationState.ItemsPerPage = query.Size;
 
+    private void OpenStreamingDetailPage(StreamingsListModel.StreamingListItemModel streaming)
+        => NavigationManager.NavigateTo($"streamings/{streaming.Id}");
+
     private async Task DeleteStreaming(StreamingsListModel.StreamingListItemModel streaming)
     {
         var streamingTitle = streaming.Title;
@@ -134,9 +134,9 @@ public partial class Index
         //}
     }
 
-    async Task SearchAsync() => await LoadStreamingsAsync(query);
+    private async Task SearchAsync() => await LoadStreamingsAsync(query);
 
-    async Task ClearSearchAsync()
+    private async Task ClearSearchAsync()
     {
         query = new();
         SetPaginationState();

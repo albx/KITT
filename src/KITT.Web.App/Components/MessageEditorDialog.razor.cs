@@ -2,24 +2,24 @@
 using KITT.Web.Models.Messages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MudBlazor;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Web.App.Components;
 
 public partial class MessageEditorDialog
 {
     [CascadingParameter]
-    public MudDialogInstance Dialog { get; set; } = default!;
+    public FluentDialog Dialog { get; set; } = default!;
 
     [Inject]
-    public ISnackbar Snackbar { get; set; } = default!;
+    public IToastService ToastService { get; set; } = default!;
 
     [Inject]
     public IMessagesClient Client { get; set; } = default!;
 
     private SendMessageModel model = new();
 
-    private EditContext? context;
+    private EditContext context = default!;
 
     private bool sending = false;
 
@@ -28,21 +28,23 @@ public partial class MessageEditorDialog
         context = new EditContext(model);
     }
 
-    void Close()
-    {
-        Dialog.Close(DialogResult.Cancel());
-    }
+    private async Task CloseAsync() => await Dialog.CloseAsync();
 
-    async Task SendMessageAsync()
+    private async Task SendMessageAsync()
     {
         sending = true;
 
         try
         {
+            if (!context.Validate())
+            {
+                return;
+            }
+
             await Client.SendMessageAsync(model);
 
-            Snackbar.Add(Localizer[nameof(Resources.Components.MessageEditorDialog.MessageSentSuccessMessage)], Severity.Success);
-            Dialog.Close(DialogResult.Ok(true));
+            ToastService.ShowSuccess(Localizer[nameof(Resources.Components.MessageEditorDialog.MessageSentSuccessMessage)]);
+            await Dialog.CloseAsync();
         }
         finally
         {

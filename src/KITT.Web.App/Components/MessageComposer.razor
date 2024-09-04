@@ -1,25 +1,26 @@
-﻿@inject IDialogService Dialog
+﻿@inject IDialogService DialogService
 @inject IStringLocalizer<Resources.Components.MessageComposer> Localizer
 
 <AuthorizeView>
     <Authorized>
         <FluentButton Appearance="Appearance.Lightweight"
-                      IconStart="@(new Icons.Regular.Size20.Compose())">
+                      IconStart="@(new Icons.Regular.Size20.Compose())"
+                      OnClick="OpenMessageEditorAsync">
             @Localizer[nameof(Resources.Components.MessageComposer.ComposeMessageButtonLabel)]
         </FluentButton>
-
-        @*<MudIconButton Icon="@Icons.Material.Filled.Message"
-        Color="Color.Primary"
-        Variant="Variant.Filled"
-        aria-label="@Localizer[nameof(Resources.Components.MessageComposer.ComposeMessageButtonLabel)]"
-        class="mr-4"
-        OnClick="OpenMessageEditor"/>*@
     </Authorized>
 </AuthorizeView>
 
 @code {
-    private void OpenMessageEditor()
+    private async Task OpenMessageEditorAsync()
     {
+        await DialogService.ShowPanelAsync<MessageEditorDialog>(new()
+        {
+            Title = Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)],
+            Alignment = HorizontalAlignment.Right,
+            Width = "50em"
+        });
+
         //Dialog.Show<MessageEditorDialog>(
         //    Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)],
         //    new DialogOptions
