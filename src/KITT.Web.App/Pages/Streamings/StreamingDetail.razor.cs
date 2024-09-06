@@ -40,8 +40,6 @@ public partial class StreamingDetail
         isReadOnly = true;
     }
 
-    private string? errorMessage;
-
     private StreamingDetailModel streamingDetail = new();
 
     private async Task EditStreamingAsync(ViewModel model)

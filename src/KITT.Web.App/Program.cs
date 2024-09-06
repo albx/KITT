@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
-using MudBlazor;
-using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -18,14 +16,6 @@ builder.Services.AddFluentUIComponents(options =>
 {
     options.ValidateClassNames = false;
 });
-#endregion
-
-#region MudBlazor
-builder.Services.AddMudServices(config =>
-{
-    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
-});
-builder.Services.AddMudMarkdownServices();
 #endregion
 
 builder.Services.AddConsoleClients(builder.HostEnvironment.BaseAddress);

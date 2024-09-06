@@ -28,37 +28,10 @@
     </ChildContent>
 </FluentDataGrid>
 
-@*<MudPaper>
-        @if (!model.Items.Any())
-        {
-            <h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
-        }
-        else
-        {
-            <MudSimpleTable>
-                <thead>
-                    <tr>
-                        <th>@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in model.Items)
-                    {
-                        <tr>
-                            <td>@item.TwitchChannel</td>
-                        </tr>
-                    }
-                </tbody>
-            </MudSimpleTable>
-        }
-    </MudPaper>*@
-
 @code {
     private bool loading = false;
 
     private GridItemsProvider<SettingsListModel.SettingsDescriptor> settingsProvider = default!;
-
-    private IQueryable<SettingsListModel.SettingsDescriptor>? items = null;
 
     protected override void OnInitialized()
     {
