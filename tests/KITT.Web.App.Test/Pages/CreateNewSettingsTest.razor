@@ -5,6 +5,8 @@
 	{
 		this.AddTestAuthorization();
 
+		this.SetupFluentUI();
+
 		Services
 			.AddSingleton<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>(new Mock<IStringLocalizer<KITT.Web.App.UI.Resources.Common>>().Object)
 			.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.CreateNewSettings>>(new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.CreateNewSettings>>().Object);
@@ -22,7 +24,7 @@
 
 		newSettingsForm.Submit();
 
-		var validationContainer = component.FindAll(".mud-input-error")
+		var validationContainer = component.FindAll(".validation-message")
 			.Where(c => !string.IsNullOrWhiteSpace(c.TextContent));
 
 		Assert.NotEmpty(validationContainer);
@@ -42,7 +44,7 @@
 
 		var component = Render(@<CreateNewSettings />);
 
-		var channelInput = component.Find("input[type='text']");
+		var channelInput = component.Find("#twitchChannel");
 		channelInput.Change("albx87");
 
 		var newSettingsForm = component.Find("form");
@@ -64,17 +66,21 @@
 
 		Services.AddSingleton<ISettingsClient>(clientMock.Object);
 
+		var messageServiceMock = new Mock<IMessageService>();
+		Services.AddSingleton(messageServiceMock.Object);
+
 		var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
 
 		var component = Render(@<CreateNewSettings />);
 
-		var channelInput = component.Find("input[type='text']");
+		var channelInput = component.Find("#twitchChannel");
 		channelInput.Change("albx87");
 
 		var newSettingsForm = component.Find("form");
 		newSettingsForm.Submit();
 
-		var errorMessage = component.Find("#errorMessageContainer").TextContent;
-		Assert.Equal(expectedErrorMessage, errorMessage);
+		messageServiceMock.Verify(
+			m => m.ShowMessageBarAsync(expectedErrorMessage, MessageIntent.Error, KITT.Web.App.UI.SectionNames.MessagesTopSectionName),
+			Times.Once);
 	}
 }

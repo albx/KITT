@@ -13,6 +13,8 @@
 			.Returns(new LocalizedString(nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage), noSettingsConfiguredMessage));
 
 		Services.AddSingleton<IStringLocalizer<KITT.Web.App.Resources.Pages.Settings>>(settingsResourcesMock.Object);
+
+		this.SetupFluentUI();
 	}
 
 	[Fact]
@@ -44,7 +46,7 @@
 		Services.AddSingleton<ISettingsClient>(clientMock.Object);
 
 		var component = Render(@<Settings />);
-		var rows = component.FindAll("table > tbody > tr");
+		var rows = component.FindAll("fluent-data-grid > fluent-data-grid-row[row-type=\"default\"]");
 
 		Assert.Equal(items.Length, rows.Count);
 		Assert.Equal(items.First().TwitchChannel, rows.First().TextContent);

@@ -9,21 +9,21 @@
         var scheduleLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Pages.Streamings.Schedule>>();
         var scheduleFormLocalizerMock = new Mock<IStringLocalizer<KITT.Web.App.Resources.Components.ScheduleForm>>();
 
-        var resizeObserverFactoryMock = new Mock<MudBlazor.Services.IResizeObserverFactory>();
-        resizeObserverFactoryMock
-            .Setup(f => f.Create())
-            .Returns(new Mock<MudBlazor.Services.IResizeObserver>().Object);
+        //var resizeObserverFactoryMock = new Mock<MudBlazor.Services.IResizeObserverFactory>();
+        //resizeObserverFactoryMock
+        //    .Setup(f => f.Create())
+        //    .Returns(new Mock<MudBlazor.Services.IResizeObserver>().Object);
 
-        resizeObserverFactoryMock
-            .Setup(f => f.Create(It.IsAny<MudBlazor.Services.ResizeObserverOptions>()))
-            .Returns(new Mock<MudBlazor.Services.IResizeObserver>().Object);
+        //resizeObserverFactoryMock
+        //    .Setup(f => f.Create(It.IsAny<MudBlazor.Services.ResizeObserverOptions>()))
+        //    .Returns(new Mock<MudBlazor.Services.IResizeObserver>().Object);
 
         Services
             .AddSingleton(commonLocalizerMock.Object)
             .AddSingleton(scheduleLocalizerMock.Object)
             .AddSingleton(scheduleFormLocalizerMock.Object)
-            .AddSingleton(resizeObserverFactoryMock.Object)
-            .AddSingleton(new Mock<MudBlazor.Services.IResizeObserver>().Object)
+            //.AddSingleton(resizeObserverFactoryMock.Object)
+            //.AddSingleton(new Mock<MudBlazor.Services.IResizeObserver>().Object)
             .AddSingleton(new Mock<IDialogService>().Object);
     }
 
@@ -33,12 +33,12 @@
         var clientMock = new Mock<IStreamingsClient>();
         Services.AddSingleton(clientMock.Object);
 
-        Services.AddSingleton(new Mock<ISnackbar>().Object);
+        Services.AddSingleton(new Mock<IToastService>().Object);
 
-        ComponentFactories
-            .AddStub<MudDatePicker>()
-            .AddStub<MudTimePicker>()
-            .AddStub<MarkdownEditor>();
+        //ComponentFactories
+        //    .AddStub<MudDatePicker>()
+        //    .AddStub<MudTimePicker>()
+        //    .AddStub<MarkdownEditor>();
 
         var component = Render(@<Schedule />);
 
@@ -57,12 +57,12 @@
         var clientMock = new Mock<IStreamingsClient>();
         Services.AddSingleton(clientMock.Object);
 
-        Services.AddSingleton(new Mock<ISnackbar>().Object);
+        Services.AddSingleton(new Mock<IToastService>().Object);
 
-        ComponentFactories
-            .AddStub<MudDatePicker>()
-            .AddStub<MudTimePicker>()
-            .AddStub<MarkdownEditor>();
+        //ComponentFactories
+        //    .AddStub<MudDatePicker>()
+        //    .AddStub<MudTimePicker>()
+        //    .AddStub<MarkdownEditor>();
 
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
 

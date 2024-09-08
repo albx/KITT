@@ -30,7 +30,8 @@
                              @bind-Value="model.TwitchChannel"
                              Style="width:100%;"
                              Required="true"
-                             Appearance="FluentInputAppearance.Filled">
+                             Appearance="FluentInputAppearance.Filled"
+                             Id="twitchChannel">
                 <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
             </FluentTextField>
             <FluentValidationMessage For="@(() => model.TwitchChannel)" />
@@ -73,8 +74,6 @@
 @code {
     private CreateNewSettingsModel model = new();
 
-    //private string? errorMessage;
-
     private void Cancel() => model = new();
 
     private async Task CreateNewSettingsAsync()
@@ -88,11 +87,10 @@
         }
         catch (ApplicationException ex)
         {
-            //errorMessage = ex.Message;
             await MessageService.ShowMessageBarAsync(
                 ex.Message,
                 MessageIntent.Error,
-                "MESSAGES_TOP");
+                SectionNames.MessagesTopSectionName);
         }
     }
 }
