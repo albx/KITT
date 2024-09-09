@@ -111,18 +111,18 @@
                 <FluentButton Appearance="Appearance.Accent"
                               OnClick="@(() => OpenStreamingDetailPage(streaming))"
                               aria-label="@CommonLocalizer[nameof(UI.Resources.Common.View)]"
-                              Id="@($"viewButton-{streaming.Id}")">
+                              Id="@($"openStreamingDetail-{streaming.Id}")">
                     <FluentIcon Color="Color.Fill" Value="@(new Icons.Filled.Size20.Eye())" />
                 </FluentButton>
-                <FluentTooltip Anchor="@($"viewButton-{streaming.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.View)]</FluentTooltip>
+                <FluentTooltip Anchor="@($"openStreamingDetail-{streaming.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.View)]</FluentTooltip>
 
                 <FluentButton Appearance="Appearance.Outline"
                               OnClick="@(() => DeleteStreaming(streaming))"
                               aria-label="@CommonLocalizer[nameof(UI.Resources.Common.Delete)]"
-                              Id="@($"deleteButton-{streaming.Id}")">
+                              Id="@($"deleteStreaming-{streaming.Id}")">
                     <FluentIcon Value="@(new Icons.Filled.Size20.Delete())" />
                 </FluentButton>
-                <FluentTooltip Anchor="@($"deleteButton-{streaming.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</FluentTooltip>
+                <FluentTooltip Anchor="@($"deleteStreaming-{streaming.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</FluentTooltip>
             </FluentStack>
         </TemplateColumn>
     </ChildContent>

@@ -19,25 +19,3 @@
 
 <ScheduleForm Model="model"
               OnSave="ScheduleStreamingAsync" />
-
-@*<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
-    <Toolbar>
-        <MudButton Href="streamings"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary">
-            @CommonLocalizer[nameof(UI.Resources.Common.Back)]
-        </MudButton>
-    </Toolbar>
-    <PageContent>
-        @if (!string.IsNullOrWhiteSpace(errorMessage))
-        {
-            <MudPaper>
-                <MudText Color="Color.Error">@errorMessage</MudText>
-            </MudPaper>
-            <MudDivider />
-        }
-
-        <ScheduleForm Model="model"
-                      OnSave="ScheduleStreamingAsync" />
-    </PageContent>
-</PageLayout>*@

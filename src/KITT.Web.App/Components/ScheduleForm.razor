@@ -13,7 +13,8 @@
                                  @bind-Value="Model.Title"
                                  Appearance="FluentInputAppearance.Filled"
                                  Style="width:100%;"
-                                 Required="true" />
+                                 Required="true"
+                                 Id="streamingTitle"/>
                 <FluentValidationMessage For="@(() => Model.Title)" />
             </FluentGridItem>
         </FluentGrid>
@@ -24,7 +25,8 @@
                                  @bind-Value="Model.Slug"
                                  Appearance="FluentInputAppearance.Filled"
                                  Style="width:100%;"
-                                 Required="true" />
+                                 Required="true"
+                                 Id="streamingSlug"/>
                 <FluentValidationMessage For="@(() => Model.Slug)" />
             </FluentGridItem>
             <FluentGridItem xs="12" md="5">
@@ -32,7 +34,8 @@
                                  @bind-Value="Model.HostingChannelUrl"
                                  Appearance="FluentInputAppearance.Filled"
                                  Style="width:100%;"
-                                 Required="true">
+                                 Required="true"
+                                 Id="streamingChannel">
                     <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
                 </FluentTextField>
                 <FluentValidationMessage For="@(() => Model.Slug)" />
@@ -45,7 +48,8 @@
                                   @bind-Value="Model.ScheduleDate"
                                   Appearance="FluentInputAppearance.Filled"
                                   Style="width:100%;"
-                                  Required="true" />
+                                  Required="true"
+                                  Id="streamingScheduleDate"/>
                 <FluentValidationMessage For="@(() => Model.ScheduleDate)" />
             </FluentGridItem>
             <FluentGridItem xs="12" md="3">
@@ -53,7 +57,8 @@
                                   @bind-Value="Model.StartingTime"
                                   Appearance="FluentInputAppearance.Filled"
                                   Style="width:100%;"
-                                  Required="true"/>
+                                  Required="true"
+                                  Id="streamingStartTime"/>
                 <FluentValidationMessage For="@(() => Model.StartingTime)"/>
             </FluentGridItem>
             <FluentGridItem xs="12" md="3">
@@ -61,7 +66,8 @@
                                   @bind-Value="Model.EndingTime"
                                   Appearance="FluentInputAppearance.Filled"
                                   Style="width:100%;"
-                                  Required="true" />
+                                  Required="true"
+                                  Id="streamingEndTime"/>
                 <FluentValidationMessage For="@(() => Model.EndingTime)" />
             </FluentGridItem>
         </FluentGrid>
@@ -72,64 +78,9 @@
                                 @bind-Value="Model.StreamingAbstract"
                                 Appearance="FluentInputAppearance.Filled"
                                 Rows="10"
-                                Style="width:100%;"/>
+                                Style="width:100%;"
+                                Id="streamingAbstract"/>
             </FluentGridItem>
         </FluentGrid>
-
-        @*<MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.TitleLabel)]"
-                      @bind-Value="Model.Title"
-                      For="@(() => Model.Title)"
-                      Variant="Variant.Outlined"
-                      id="streamingTitle" />
-        <MudGrid>
-            <MudItem xs="12" md="7">
-                <MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.SlugLabel)]"
-                              @bind-Value="Model.Slug"
-                              For="@(() => Model.Slug)"
-                              Variant="Variant.Outlined"
-                              id="streamingSlug" />
-            </MudItem>
-            <MudItem xs="12" md="5">
-                <MudTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.HostingChannelLabel)]"
-                              @bind-Value="Model.HostingChannelUrl"
-                              Adornment="Adornment.Start"
-                              AdornmentText="https://www.twitch.tv/"
-                              Variant="Variant.Outlined"
-                              For="@(() => Model.HostingChannelUrl)"
-                              id="streamingChannel" />
-            </MudItem>
-        </MudGrid>
-
-        <MudGrid>
-            <MudItem xs="12" md="6">
-                <MudDatePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.ScheduleDateLabel)]"
-                               @bind-Date="Model.ScheduleDate"
-                               Variant="Variant.Outlined"
-                               Editable="true"
-                               AutoClose="true"
-                               id="streamingScheduleDate" />
-            </MudItem>
-            <MudItem xs="12" md="3">
-                <MudTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.StartingTimeLabel)]"
-                               @bind-Time="Model.StartingTime"
-                               Variant="Variant.Outlined"
-                               Editable="true"
-                               AutoClose="true"
-                               id="streamingStartingTime" />
-            </MudItem>
-            <MudItem xs="12" md="3">
-                <MudTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.EndingTimeLabel)]"
-                               @bind-Time="Model.EndingTime"
-                               Variant="Variant.Outlined"
-                               Editable="true"
-                               AutoClose="true"
-                               id="streamingEndingTime" />
-            </MudItem>
-        </MudGrid>
-
-        <MarkdownEditor @bind-Value="Model.StreamingAbstract"
-                        EditorLabel="@Localizer[nameof(Resources.Components.ScheduleForm.AbstractLabel)]"
-                        Id="streamingAbstract"
-                        PreviewLabel="Preview" />*@
     </ContentInfo>
 </ContentForm>

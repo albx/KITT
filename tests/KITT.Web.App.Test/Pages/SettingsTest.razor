@@ -46,7 +46,7 @@
 		Services.AddSingleton<ISettingsClient>(clientMock.Object);
 
 		var component = Render(@<Settings />);
-		var rows = component.FindAll("fluent-data-grid > fluent-data-grid-row[row-type=\"default\"]");
+		var rows = component.FindAll("""fluent-data-grid > fluent-data-grid-row[row-type="default"]""");
 
 		Assert.Equal(items.Length, rows.Count);
 		Assert.Equal(items.First().TwitchChannel, rows.First().TextContent);

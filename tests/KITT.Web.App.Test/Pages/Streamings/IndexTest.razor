@@ -32,14 +32,14 @@
             .ReturnsAsync(new StreamingsListModel { Items = new[] { item }, TotalItems = 1 });
 
         RegisterServices(clientMock: clientMock);
-        RegisterMudDialog();
-
+        RenderComponent<FluentDialogProvider>();
+        
         var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
 
         var searchForm = component.Find("#streamingSearchForm");
         searchForm.Submit();
 
-        var openDetailButton = component.Find($"button#openStreamingDetail-{item.Id}");
+        var openDetailButton = component.Find($"#openStreamingDetail-{item.Id}");
         openDetailButton.Click();
 
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
@@ -57,19 +57,25 @@
         clientMock.Setup(c => c.GetAllStreamingsAsync(It.IsAny<StreamingQueryModel>()))
             .ReturnsAsync(new StreamingsListModel { Items = new[] { item }, TotalItems = 1 });
 
-        RegisterServices(clientMock: clientMock);
-        RegisterMudDialog();
+        var dialogServiceMock = new Mock<IDialogService>();
+        var dialogReferenceMock = new Mock<IDialogReference>();
+        dialogReferenceMock.SetupGet(r => r.Result)
+            .Returns(Task.FromResult(DialogResult.Ok<object>(null)));
+
+        dialogServiceMock
+            .Setup(d => d.ShowConfirmationAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(Task.FromResult(dialogReferenceMock.Object));
+
+        RegisterServices(clientMock: clientMock, dialogServiceMock: dialogServiceMock);
+        RenderComponent<FluentDialogProvider>();
 
         var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
 
         var searchForm = component.Find("#streamingSearchForm");
         searchForm.Submit();
 
-        var deleteButton = component.Find($"button#deleteStreaming-{item.Id}");
+        var deleteButton = component.Find($"#deleteStreaming-{item.Id}");
         deleteButton.Click();
-
-        //var confirmButton = dialogProvider.Find("#confirmButton");
-        //confirmButton.Click();
 
         clientMock.Verify(c => c.DeleteStreamingAsync(item.Id), Times.Once(), "");
     }
@@ -88,50 +94,32 @@
             .ReturnsAsync(new StreamingsListModel { Items = items, TotalItems = items.Length });
 
         RegisterServices(clientMock: clientMock);
-        RegisterMudDialog();
-
+        
         var component = Render(@<KITT.Web.App.Pages.Streamings.Index />);
 
         var searchForm = component.Find("#streamingSearchForm");
         searchForm.Submit();
 
-        var streamingsRows = component.FindAll("table > tbody > tr");
+        var streamingsRows = component.FindAll("""fluent-data-grid > fluent-data-grid-row[row-type="default"]""");
 
         Assert.Equal(items.Length, streamingsRows.Count);
     }
 
-    private void RegisterServices(Mock<IStreamingsClient>? clientMock = null, Mock<IToastService>? toastServiceMock = null)
+    private void RegisterServices(
+        Mock<IStreamingsClient>? clientMock = null, 
+        Mock<IToastService>? toastServiceMock = null, 
+        Mock<IDialogService>? dialogServiceMock = null)
     {
         if (clientMock is null)
             clientMock = new Mock<IStreamingsClient>();
-        //if (snackbarMock is null)
-        //    snackbarMock = new Mock<ISnackbar>();
-
-        //var popoverServiceMock = new Mock<MudBlazor.IPopoverService>();
-        //popoverServiceMock.SetupGet(s => s.PopoverOptions).Returns(new PopoverOptions());
-
-        //var keyInterceptorFactoryMock = new Mock<MudBlazor.Services.IKeyInterceptorFactory>();
-        //keyInterceptorFactoryMock
-        //    .Setup(f => f.Create())
-        //    .Returns(new Mock<MudBlazor.Services.IKeyInterceptor>().Object);
+        if (toastServiceMock is null)
+            toastServiceMock = new Mock<IToastService>();
+        if (dialogServiceMock is null)
+            dialogServiceMock = new Mock<IDialogService>();
 
         Services
-            .AddSingleton<IStreamingsClient>(clientMock.Object);
-        //    .AddSingleton<ISnackbar>(snackbarMock.Object)
-        //    .AddSingleton<MudBlazor.Services.IKeyInterceptorFactory>(keyInterceptorFactoryMock.Object)
-        //    .AddSingleton<MudBlazor.IScrollManager>(new Mock<MudBlazor.IScrollManager>().Object)
-        //    .AddSingleton<MudBlazor.IPopoverService>(popoverServiceMock.Object);
-    }
-
-    private void RegisterMudDialog()
-    {
-        //Services.AddSingleton<IDialogService, DialogService>();
-        //Services.AddMudServices(options =>
-        //{
-        //    options.SnackbarConfiguration.ShowTransitionDuration = 0;
-        //    options.SnackbarConfiguration.HideTransitionDuration = 0;
-        //});
-
-        JSInterop.SetupVoid("mudElementRef.saveFocus", _ => true);
+            .AddSingleton<IStreamingsClient>(clientMock.Object)
+            .AddSingleton(toastServiceMock.Object)
+            .AddSingleton(dialogServiceMock.Object);
     }
 }
