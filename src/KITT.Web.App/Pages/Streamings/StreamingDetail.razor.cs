@@ -1,8 +1,10 @@
 ﻿using KITT.Web.App.Clients;
 using KITT.Web.App.Model;
+using KITT.Web.App.UI;
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
+using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Web.App.Pages.Streamings;
@@ -17,7 +19,10 @@ public partial class StreamingDetail
     public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
-    ISnackbar Snackbar { get; set; } = default!;
+    public IToastService ToastService { get; set; } = default!;
+
+    [Inject]
+    public IMessageService MessageService { get; set; } = default!;
 
     private bool isReadOnly = true;
 
@@ -25,27 +30,19 @@ public partial class StreamingDetail
 
     private string pageTitle = "StreamingDetail";
 
-    const string twitchBaseUrl = "https://www.twitch.tv/";
+    private const string twitchBaseUrl = "https://www.twitch.tv/";
 
-    void EnableEditing()
-    {
-        isReadOnly = false;
-        StateHasChanged();
-    }
+    private void EnableEditing() => isReadOnly = false;
 
-    void DisableEditing()
+    private void DisableEditing()
     {
         model = ViewModel.FromStreamingDetailModel(streamingDetail);
         isReadOnly = true;
-
-        StateHasChanged();
     }
-
-    private string? errorMessage;
 
     private StreamingDetailModel streamingDetail = new();
 
-    async Task EditStreamingAsync(ViewModel model)
+    private async Task EditStreamingAsync(ViewModel model)
     {
         try
         {
@@ -53,13 +50,16 @@ public partial class StreamingDetail
             await Client.UpdateStreamingAsync(detail);
 
             isReadOnly = true;
-            Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)], Severity.Success);
+            ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
 
             streamingDetail = detail;
         }
         catch (ApplicationException ex)
         {
-            errorMessage = ex.Message;
+            await MessageService.ShowMessageBarAsync(
+                ex.Message,
+                MessageIntent.Error,
+                SectionNames.MessagesTopSectionName);
         }
     }
 
@@ -82,10 +82,10 @@ public partial class StreamingDetail
         public DateTime? ScheduleDate { get; set; } = DateTime.Today;
 
         [Required]
-        public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;
+        public DateTime? StartingTime { get; set; } = DateTime.Now;
 
         [Required]
-        public TimeSpan? EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+        public DateTime? EndingTime { get; set; } = DateTime.Now.AddHours(1);
 
         [Required]
         public string HostingChannelUrl { get; set; } = string.Empty;
@@ -122,9 +122,9 @@ public partial class StreamingDetail
                 Title = this.Title,
                 Slug = this.Slug,
                 ScheduleDate = DateOnly.FromDateTime(this.ScheduleDate.Value),
-                EndingTime = TimeOnly.FromTimeSpan(this.EndingTime.Value),
+                EndingTime = TimeOnly.FromTimeSpan(this.EndingTime.Value.TimeOfDay),
                 HostingChannelUrl = $"{twitchBaseUrl}{this.HostingChannelUrl}",
-                StartingTime = TimeOnly.FromTimeSpan(this.StartingTime.Value),
+                StartingTime = TimeOnly.FromTimeSpan(this.StartingTime.Value.TimeOfDay),
                 StreamingAbstract = this.StreamingAbstract,
                 YoutubeVideoUrl = this.YoutubeVideoUrl,
                 Seo = this.Seo
@@ -138,8 +138,8 @@ public partial class StreamingDetail
                 Title = model.Title,
                 Slug = model.Slug,
                 ScheduleDate = model.ScheduleDate.ToDateTime(TimeOnly.MinValue),
-                EndingTime = model.EndingTime.ToTimeSpan(),
-                StartingTime = model.StartingTime.ToTimeSpan(),
+                EndingTime = model.EndingTime.ToDateTime(),
+                StartingTime = model.StartingTime.ToDateTime(),
                 StreamingAbstract = model.StreamingAbstract,
                 YoutubeVideoUrl = model.YoutubeVideoUrl,
                 HostingChannelUrl = model.HostingChannelUrl.Replace(twitchBaseUrl, string.Empty).Trim()

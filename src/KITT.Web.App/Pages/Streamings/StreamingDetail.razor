@@ -5,103 +5,115 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@pageTitle">
-	<Toolbar>
-		@if (isReadOnly)
-		{
-			<MudButton OnClick="EnableEditing" Variant="Variant.Outlined" Color="Color.Primary" Class="mr-3">@CommonLocalizer[nameof(UI.Resources.Common.Edit)]</MudButton>
-		}
+<PageTitle>KITT - @pageTitle</PageTitle>
 
-		<NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-				   Page="streamings" />
-	</Toolbar>
-	<PageContent>
-        <ErrorBoundary>
-            @if (!string.IsNullOrWhiteSpace(errorMessage))
-            {
-                <MudPaper>
-                    <MudText Color="Color.Error">@errorMessage</MudText>
-                </MudPaper>
-                <MudDivider />
-            }
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @pageTitle
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    @if (isReadOnly)
+    {
+        <FluentButton Appearance="Appearance.Outline"
+                      OnClick="EnableEditing">
+            @CommonLocalizer[nameof(UI.Resources.Common.Edit)]
+        </FluentButton>
+    }
 
-            <ContentForm TContent="ViewModel"
-                         Model="model"
-                         ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingTabTitle)]"
-                         Context="streaming"
-                         ReadOnly="isReadOnly"
-                         OnSave="EditStreamingAsync"
-                         OnCancel="DisableEditing">
-                <ContentInfo>
-                    <MudGrid>
-                        <MudItem xs="12" md="6">
-                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
-                                          @bind-Value="streaming.Title"
-                                          For="@(() => streaming.Title)"
-                                          Variant="Variant.Outlined"
-                                          Disabled="@isReadOnly" />
-                        </MudItem>
-                        <MudItem xs="12" md="6">
-                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
-                                          @bind-Value="streaming.Slug"
-                                          Variant="Variant.Outlined"
-                                          Disabled="true" />
-                        </MudItem>
-                    </MudGrid>
+    <FluentAnchor Href="streamings"
+                  Appearance="Appearance.Accent">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
 
-                    <MudGrid>
-                        <MudItem xs="12" md="6">
-                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
-                                          @bind-Value="streaming.HostingChannelUrl"
-                                          Adornment="Adornment.Start"
-                                          AdornmentText="@twitchBaseUrl"
-                                          Variant="Variant.Outlined"
-                                          For="@(() => streaming.HostingChannelUrl)"
-                                          Disabled="@isReadOnly" />
-                        </MudItem>
-                        <MudItem xs="12" md="6">
-                            <MudTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
-                                          @bind-Value="streaming.YoutubeVideoUrl"
-                                          Variant="Variant.Outlined"
-                                          For="@(() => streaming.YoutubeVideoUrl)"
-                                          Disabled="@isReadOnly" />
-                        </MudItem>
-                    </MudGrid>
+<ErrorBoundary>
+    <ContentForm TContent="ViewModel"
+                 Model="model"
+                 ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingTabTitle)]"
+                 Context="streaming"
+                 ReadOnly="isReadOnly"
+                 OnSave="EditStreamingAsync"
+                 OnCancel="DisableEditing">
+        <ContentInfo>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
+                                     @bind-Value="streaming.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true"
+                                     Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.Title)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
+                                     @bind-Value="streaming.Slug"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="true" />
+                </FluentGridItem>
+            </FluentGrid>
 
-                    <MudGrid>
-                        <MudItem xs="12" md="6">
-                            <MudDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
-                                           @bind-Date="streaming.ScheduleDate"
-                                           Variant="Variant.Outlined"
-                                           Editable="true"
-                                           AutoClose="true"
-                                           Disabled="@isReadOnly" />
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
-                                           @bind-Time="streaming.StartingTime"
-                                           Variant="Variant.Outlined"
-                                           Editable="true"
-                                           AutoClose="true"
-                                           Disabled="@isReadOnly" />
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <MudTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
-                                           @bind-Time="streaming.EndingTime"
-                                           Variant="Variant.Outlined"
-                                           Editable="true"
-                                           AutoClose="true"
-                                           Disabled="@isReadOnly" />
-                        </MudItem>
-                    </MudGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
+                                     @bind-Value="streaming.HostingChannelUrl"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true"
+                                     Disabled="@isReadOnly">
+                        <FluentLabel Slot="start">@twitchBaseUrl</FluentLabel>
+                    </FluentTextField>
+                    <FluentValidationMessage For="@(() => streaming.HostingChannelUrl)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
+                                     @bind-Value="streaming.YoutubeVideoUrl"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="@isReadOnly" />
+                </FluentGridItem>
+            </FluentGrid>
 
-                    <MarkdownEditor @bind-Value="streaming.StreamingAbstract"
-                                    EditorLabel="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
-                                    Id="streamingAbstract"
-                                    PreviewLabel="Preview"
-                                    Disabled="isReadOnly" />
-                </ContentInfo>
-            </ContentForm>
-        </ErrorBoundary>
-	</PageContent>
-</PageLayout>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
+                                      @bind-Value="streaming.ScheduleDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true"
+                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.ScheduleDate)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="3">
+                    <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
+                                      @bind-Value="streaming.StartingTime"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true"
+                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.StartingTime)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="3">
+                    <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
+                                      @bind-Value="streaming.EndingTime"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true"
+                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.EndingTime)" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentTextArea Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
+                                    @bind-Value="streaming.StreamingAbstract"
+                                    Appearance="FluentInputAppearance.Filled"
+                                    Rows="10"
+                                    Style="width:100%;" 
+                                    Disabled="@isReadOnly"/>
+                </FluentGridItem>
+            </FluentGrid>
+        </ContentInfo>
+    </ContentForm>
+</ErrorBoundary>

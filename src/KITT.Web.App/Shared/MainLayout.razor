@@ -1,24 +1,45 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<FluentToastProvider Position="ToastPosition.TopCenter" />
+<FluentDialogProvider />
+<FluentTooltipProvider />
 
-<MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">KITT</MudText>
-        <MudSpacer />
-        <MessageComposer />
-        <LoginDisplay />
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+<FluentLayout>
+    <FluentHeader>
+        <FluentLabel Typo="Typography.H1" Color="Color.Fill">KITT</FluentLabel>
+        <FluentSpacer />
+        <FluentStack Orientation="Orientation.Horizontal"
+                     HorizontalAlignment="HorizontalAlignment.End"
+                     VerticalAlignment="VerticalAlignment.Center">
+            <MessageComposer />
+            <LoginDisplay />
+        </FluentStack>
+    </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <NavMenu />
-    </MudDrawer>
-    <MudMainContent>
-        @Body
-    </MudMainContent>
-</MudLayout>
+        <FluentBodyContent Class="body-content">
+            <div class="content">
+                <FluentStack Orientation="Orientation.Horizontal"
+                             VerticalAlignment="VerticalAlignment.Center"
+                             Class="d-flex mb-2">
+                    <FluentLabel Typo="Typography.H2" Class="flex-grow-1">
+                        <SectionOutlet SectionName="@SectionNames.PageTitleSectionName" />
+                    </FluentLabel>
+                    <SectionOutlet SectionName="@SectionNames.ToolbarSectionName" />
+                </FluentStack>
+                <FluentDivider />
+                <FluentMessageBarProvider Section="@SectionNames.MessagesTopSectionName" />
+
+                <div class="mt-4">
+                    @Body
+                </div>
+            </div>
+        </FluentBodyContent>
+    </FluentStack>
+    <FluentFooter>
+        <span>&copy; @DateTime.Today.Year</span> - Dev by&nbsp;<a href="https://www.morialberto.it" target="_blank">Alberto Mori</a>
+    </FluentFooter>
+</FluentLayout>
 
 @code {
     [Inject]

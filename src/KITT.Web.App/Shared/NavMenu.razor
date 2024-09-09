@@ -2,18 +2,25 @@
 
 <AuthorizeView>
     <Authorized>
-        <MudNavMenu Class="mud-width-full">
-            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Dashboard">@Localizer[nameof(Resources.Shared.NavMenu.DashboardMenuLabel)]</MudNavLink>
-            <MudNavGroup Title="Console" @bind-Expanded="isConsoleExpanded">
-                <MudNavLink Href="/streamings" Icon="@Icons.Material.Filled.Videocam">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</MudNavLink>
-                <MudNavLink Href="/proposals" Icon="@Icons.Material.Filled.Lightbulb">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</MudNavLink>
-            </MudNavGroup>
-            
-            <MudNavLink Href="/settings" Icon="@Icons.Material.Filled.Settings">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</MudNavLink>
-        </MudNavMenu>
+        <div class="navmenu">
+            <input type="checkbox" title="Menu expand/collapse toggle" id="navmenu-toggle" class="navmenu-icon" />
+            <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
+            <nav class="sitenav" aria-labelledby="main-menu">
+                <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true" CollapsedChildNavigation="true">
+                    <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Grid())" IconColor="Color.Accent">Dashboard</FluentNavLink>
+                    <FluentNavGroup Title="@Localizer[nameof(Resources.Shared.NavMenu.ContentsMenuLabel)]" @bind-Expanded="@contentsExpanded" Icon="@(new Icons.Regular.Size20.ContentView())">
+                        <FluentNavLink Href="/streamings" Icon="@(new Icons.Regular.Size20.VideoPerson())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</FluentNavLink>
+                        <FluentNavLink Href="/proposals" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavLink>
+                    </FluentNavGroup>
+                    <FluentNavLink Href="/settings" Icon="@(new Icons.Regular.Size20.Settings())">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</FluentNavLink>
+                </FluentNavMenu>
+            </nav>
+        </div>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    private bool isConsoleExpanded = true;
+    private bool expanded = true;
+
+    private bool contentsExpanded = true;
 }

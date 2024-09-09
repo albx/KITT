@@ -2,68 +2,62 @@
 
 @inject IStringLocalizer<Resources.Pages.Index> Localizer
 
+<PageTitle>KITT - Console</PageTitle>
+
 <AuthorizeView>
-	<Authorized>
-		<PageLayout PageTitle="KITT - Console">
-			<PageContent>
-                <Loader Loading="loading">
-                    <MudGrid>
-                        @if (model.StreamingStats is not null)
-                        {
-                            <MudItem xs="12" md="6">
-                                <MudPaper Class="pa-4" Elevation="2">
-                                    <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                        <MudText Typo="Typo.h3" Color="Color.Success" Class="flex-grow-0">@model.StreamingStats.NumberOfStreamingsScheduled</MudText>
-                                        <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.LivesScheduledLabel)]</MudText>
-                                    </div>
+    <Authorized>
+        <SectionContent SectionName="@SectionNames.PageTitleSectionName">
+            KITT - Console
+        </SectionContent>
 
-                                    <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                        <MudText Typo="Typo.h3" Color="Color.Primary" Class="flex-grow-0">@model.StreamingStats.NumberOfStreamingsDelivered</MudText>
-                                        <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.LivesDeliveredLabel)]</MudText>
-                                    </div>
+        <Loader Loading="loading">
+            <FluentGrid>
+                @if (model.StreamingStats is not null)
+                {
+                    <FluentGridItem xs="12" md="6">
+                        <FluentCard>
+                            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                                <FluentLabel Typo="Typography.H3" Color="Color.Success">@model.StreamingStats.NumberOfStreamingsScheduled</FluentLabel>
+                                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.LivesScheduledLabel)]</FluentLabel>
+                            </FluentStack>
 
-                                    <MudDivider />
-                                    <MudButton Variant="Variant.Outlined"
-                                               Color="Color.Primary"
-                                               FullWidth="true"
-                                               Class="mt-2"
-                                               Href="streamings">
-                                        @Localizer[nameof(Resources.Pages.Index.ViewStreamingsButtonText)]
-                                    </MudButton>
-                                </MudPaper>
-                            </MudItem>
-                        }
+                            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                                <FluentLabel Typo="Typography.H3" Color="Color.Accent">@model.StreamingStats.NumberOfStreamingsDelivered</FluentLabel>
+                                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.LivesDeliveredLabel)]</FluentLabel>
+                            </FluentStack>
 
-                        @if (model.ProposalStats is not null)
-                        {
-                            <MudItem xs="12" md="6">
-                                <MudPaper Class="pa-4" Elevation="2">
-                                    <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                        <MudText Typo="Typo.h3" Color="Color.Success" Class="flex-grow-0">@model.ProposalStats.NumberOfProposalAccepted</MudText>
-                                        <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.ProposalsAcceptedLabel)]</MudText>
-                                    </div>
+                            <FluentAnchor Appearance="Appearance.Accent"
+                                          Href="streamings">
+                                @Localizer[nameof(Resources.Pages.Index.ViewStreamingsButtonText)]
+                            </FluentAnchor>
+                        </FluentCard>
+                    </FluentGridItem>
+                }
 
-                                    <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                        <MudText Typo="Typo.h3" Color="Color.Primary" Class="flex-grow-0">@model.ProposalStats.TotalNumberOfProposals</MudText>
-                                        <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.ProposalsLabel)]</MudText>
-                                    </div>
+                @if (model.ProposalStats is not null)
+                {
+                    <FluentGridItem xs="12" md="6">
+                        <FluentCard>
+                            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                                <FluentLabel Typo="Typography.H3" Color="Color.Success">@model.ProposalStats.NumberOfProposalAccepted</FluentLabel>
+                                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.ProposalsAcceptedLabel)]</FluentLabel>
+                            </FluentStack>
 
-                                    <MudDivider />
-                                    <MudButton Variant="Variant.Outlined"
-                                               Color="Color.Primary"
-                                               FullWidth="true"
-                                               Class="mt-2"
-                                               Href="proposals">
-                                        @Localizer[nameof(Resources.Pages.Index.ViewProposalsButtonText)]
-                                    </MudButton>
-                                </MudPaper>
-                            </MudItem>
-                        }
-                    </MudGrid>
-                </Loader>
-			</PageContent>
-		</PageLayout>
-	</Authorized>
+                            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                                <FluentLabel Typo="Typography.H3" Color="Color.Accent">@model.ProposalStats.TotalNumberOfProposals</FluentLabel>
+                                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Pages.Index.ProposalsLabel)]</FluentLabel>
+                            </FluentStack>
+
+                            <FluentAnchor Appearance="Appearance.Accent"
+                                          Href="proposals">
+                                @Localizer[nameof(Resources.Pages.Index.ViewProposalsButtonText)]
+                            </FluentAnchor>
+                        </FluentCard>
+                    </FluentGridItem>
+                }
+            </FluentGrid>
+        </Loader>
+    </Authorized>
 	<NotAuthorized>
 		<RedirectToLogin />
 	</NotAuthorized>

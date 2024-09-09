@@ -151,6 +151,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to page {0} of {1}.
+        /// </summary>
+        public static string PageNumberLabel {
+            get {
+                return ResourceManager.GetString("PageNumberLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My streamings.
         /// </summary>
         public static string PageTitle {
@@ -160,7 +169,7 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of {1}.
+        ///   Looks up a localized string similar to {0} streamings.
         /// </summary>
         public static string PaginationItemsNumberText {
             get {
@@ -174,6 +183,15 @@ namespace KITT.Web.App.Resources.Pages.Streamings {
         public static string ScheduleNewStreamingLabel {
             get {
                 return ResourceManager.GetString("ScheduleNewStreamingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string SearchButtonLabel {
+            get {
+                return ResourceManager.GetString("SearchButtonLabel", resourceCulture);
             }
         }
         

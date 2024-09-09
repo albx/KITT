@@ -15,9 +15,9 @@ public partial class ScheduleForm
     [Parameter]
     public EventCallback OnCancel { get; set; }
 
-    async Task SubmitAsync() => await OnSave.InvokeAsync(Model);
+    private async Task SubmitAsync() => await OnSave.InvokeAsync(Model);
 
-    async Task CancelAsync()
+    private async Task CancelAsync()
     {
         Model = new();
         await OnCancel.InvokeAsync();
@@ -35,10 +35,10 @@ public partial class ScheduleForm
         public DateTime? ScheduleDate { get; set; } = DateTime.Today;
 
         [Required]
-        public TimeSpan? StartingTime { get; set; } = DateTime.Now.TimeOfDay;
+        public DateTime? StartingTime { get; set; } = DateTime.Now;
 
         [Required]
-        public TimeSpan? EndingTime { get; set; } = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+        public DateTime? EndingTime { get; set; } = DateTime.Now.AddHours(1);
 
         [Required]
         public string HostingChannelUrl { get; set; } = string.Empty;

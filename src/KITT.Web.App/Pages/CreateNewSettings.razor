@@ -2,53 +2,58 @@
 
 @inject ISettingsClient Client
 @inject NavigationManager Navigation
+@inject IMessageService MessageService 
 
 @inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 @inject IStringLocalizer<Resources.Pages.CreateNewSettings> Localizer
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]">
-	<Toolbar>
-        <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
-                   Page="settings"/>
-	</Toolbar>
-	<PageContent>
-		<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" id="newSettingsForm" class="col-md-12 mt-3">
-			<DataAnnotationsValidator />
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]</PageTitle>
 
-            @if (!string.IsNullOrWhiteSpace(errorMessage))
-            {
-                <MudPaper>
-                    <MudText id="errorMessageContainer" Color="Color.Error">@errorMessage</MudText>
-                </MudPaper>
-                <MudDivider />
-            }
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.CreateNewSettings.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="settings">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
 
-            <MudCard>
-                <MudCardContent>
-                    <MudTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
-                              @bind-Value="model.TwitchChannel"
-                              Adornment="Adornment.Start"
-                              AdornmentText="https://www.twitch.tv/"
-                              Variant="Variant.Outlined"
-                              For="@(() => model.TwitchChannel)"/>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
-                </MudCardActions>
-            </MudCard>
-		</EditForm>
-	</PageContent>
-</PageLayout>
+<EditForm Model="model" OnValidSubmit="CreateNewSettingsAsync" id="newSettingsForm" class="mt-3">
+    <DataAnnotationsValidator />
+
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
+                             @bind-Value="model.TwitchChannel"
+                             Style="width:100%;"
+                             Required="true"
+                             Appearance="FluentInputAppearance.Filled"
+                             Id="twitchChannel">
+                <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
+            </FluentTextField>
+            <FluentValidationMessage For="@(() => model.TwitchChannel)" />
+        </FluentStack>
+        <FluentDivider />
+        <FluentStack Orientation="Orientation.Horizontal" Style="padding-top:10px;">
+            <FluentButton OnClick="Cancel" Appearance="Appearance.Outline">
+                @CommonLocalizer[nameof(UI.Resources.Common.Cancel)]
+            </FluentButton>
+            <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">
+                @CommonLocalizer[nameof(UI.Resources.Common.Save)]
+            </FluentButton>
+        </FluentStack>
+    </FluentCard>
+</EditForm>
 
 @code {
     private CreateNewSettingsModel model = new();
 
-    private string? errorMessage;
+    private void Cancel() => model = new();
 
-    async Task CreateNewSettingsAsync()
+    private async Task CreateNewSettingsAsync()
     {
         try
         {
@@ -59,7 +64,10 @@
         }
         catch (ApplicationException ex)
         {
-            errorMessage = ex.Message;
+            await MessageService.ShowMessageBarAsync(
+                ex.Message,
+                MessageIntent.Error,
+                SectionNames.MessagesTopSectionName);
         }
     }
 }

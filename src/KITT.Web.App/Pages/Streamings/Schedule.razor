@@ -5,24 +5,17 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
-    <Toolbar>
-        <MudButton Href="streamings"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary">
-            @CommonLocalizer[nameof(UI.Resources.Common.Back)]
-        </MudButton>
-    </Toolbar>
-    <PageContent>
-        @if (!string.IsNullOrWhiteSpace(errorMessage))
-        {
-            <MudPaper>
-                <MudText Color="Color.Error">@errorMessage</MudText>
-            </MudPaper>
-            <MudDivider />
-        }
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]</PageTitle>
 
-        <ScheduleForm Model="model"
-                      OnSave="ScheduleStreamingAsync" />
-    </PageContent>
-</PageLayout>
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="streamings">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ScheduleForm Model="model"
+              OnSave="ScheduleStreamingAsync" />

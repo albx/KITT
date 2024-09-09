@@ -1,7 +1,9 @@
 ﻿using KITT.Web.App.Clients;
 using KITT.Web.App.Components;
+using KITT.Web.App.UI;
 using KITT.Web.Models.Proposals;
 using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Web.App.Pages.Proposals;
 
@@ -16,11 +18,12 @@ public partial class Schedule
     [Inject]
     public NavigationManager Navigation { get; set; } = default!;
 
+    [Inject]
+    public IMessageService MessageService { get; set; } = default!;
+
     private ScheduleForm.ViewModel model = new();
 
     private bool isLoading = false;
-
-    private string errorMessage = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -66,7 +69,10 @@ public partial class Schedule
         }
         catch (Exception ex)
         {
-            errorMessage = ex.Message;
+            await MessageService.ShowMessageBarAsync(
+                ex.Message,
+                MessageIntent.Error,
+                SectionNames.MessagesTopSectionName);
         }
     }
 
@@ -91,10 +97,10 @@ public partial class Schedule
         {
             Title = model.Title,
             ScheduleDate = model.ScheduleDate.Value,
-            EndingTime = model.EndingTime.Value,
+            EndingTime = model.EndingTime.Value.TimeOfDay,
             HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
             Slug = model.Slug,
-            StartingTime = model.StartingTime.Value,
+            StartingTime = model.StartingTime.Value.TimeOfDay,
             StreamingAbstract = model.StreamingAbstract,
             Seo = model.Seo
         };

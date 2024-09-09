@@ -3,8 +3,7 @@ using KITT.Web.App.Clients;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using MudBlazor;
-using MudBlazor.Services;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -12,11 +11,12 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddLocalization();
 
-builder.Services.AddMudServices(config =>
+#region Fluent UI
+builder.Services.AddFluentUIComponents(options =>
 {
-    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+    options.ValidateClassNames = false;
 });
-builder.Services.AddMudMarkdownServices();
+#endregion
 
 builder.Services.AddConsoleClients(builder.HostEnvironment.BaseAddress);
 

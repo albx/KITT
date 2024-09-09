@@ -1,6 +1,9 @@
 ﻿@inject NavigationManager Navigation
 
-<MudButton OnClick="OnButtonClicked" Variant="Variant.Filled" Color="Color.Primary">@Label</MudButton>
+@*<MudButton OnClick="OnButtonClicked" Variant="Variant.Filled" Color="Color.Primary">@Label</MudButton>*@
+<FluentButton OnClick="OnButtonClicked" Appearance="Appearance.Accent">
+	@Label
+</FluentButton>
 
 @code {
 	[Parameter]

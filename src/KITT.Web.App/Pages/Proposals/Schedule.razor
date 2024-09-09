@@ -5,7 +5,22 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="proposals">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<Loader Loading="isLoading">
+    <ScheduleForm Model="model"
+                  OnSave="ScheduleProposalAsync" />
+</Loader>
+
+@*<PageLayout PageTitle="@Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]">
     <Toolbar>
         <NavButton Label="@CommonLocalizer[nameof(UI.Resources.Common.Back)]"
                    Page="proposals" />
@@ -29,4 +44,4 @@
                           OnSave="ScheduleProposalAsync" />
         }
     </PageContent>
-</PageLayout>
+</PageLayout>*@
