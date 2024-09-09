@@ -9,15 +9,6 @@
                            OnHeaderButtonClick="BeginSignOut">
             <FooterTemplate></FooterTemplate>
         </FluentProfileMenu>
-
-        @*<MudMenu>
-                <ActivatorContent>
-                    <MudAvatar Color="Color.Info">@context.User.Identity!.Name!.First().ToString().ToUpper()</MudAvatar>
-                </ActivatorContent>
-                <ChildContent>
-                    <MudListItem Text="Logout" OnClick="BeginSignOut"/>
-                </ChildContent>
-            </MudMenu>*@
     </Authorized>
     <NotAuthorized>
         <a href="authentication/login">Log in</a>

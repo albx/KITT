@@ -46,29 +46,6 @@
             </FluentButton>
         </FluentStack>
     </FluentCard>
-
-    @*@if (!string.IsNullOrWhiteSpace(errorMessage))
-        {
-            <MudPaper>
-                <MudText id="errorMessageContainer" Color="Color.Error">@errorMessage</MudText>
-            </MudPaper>
-            <MudDivider />
-        }
-
-        @*<MudCard>
-            <MudCardContent>
-                <MudTextField Label="@Localizer[nameof(Resources.Pages.CreateNewSettings.TwitchChannelLabel)]"
-                          @bind-Value="model.TwitchChannel"
-                          Adornment="Adornment.Start"
-                          AdornmentText="https://www.twitch.tv/"
-                          Variant="Variant.Outlined"
-                          For="@(() => model.TwitchChannel)"/>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Variant="Variant.Outlined" Class="mr-4">@CommonLocalizer[nameof(UI.Resources.Common.Cancel)]</MudButton>
-                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@CommonLocalizer[nameof(UI.Resources.Common.Save)]</MudButton>
-            </MudCardActions>
-        </MudCard>*@
 </EditForm>
 
 @code {

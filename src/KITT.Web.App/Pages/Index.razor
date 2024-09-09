@@ -2,7 +2,7 @@
 
 @inject IStringLocalizer<Resources.Pages.Index> Localizer
 
-    <PageTitle>KITT - Console</PageTitle>
+<PageTitle>KITT - Console</PageTitle>
 
 <AuthorizeView>
     <Authorized>
@@ -56,60 +56,6 @@
                     </FluentGridItem>
                 }
             </FluentGrid>
-
-            @*<MudGrid>
-                @if (model.StreamingStats is not null)
-                {
-                    <MudItem xs="12" md="6">
-                        <MudPaper Class="pa-4" Elevation="2">
-                            <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                <MudText Typo="Typo.h3" Color="Color.Success" Class="flex-grow-0">@model.StreamingStats.NumberOfStreamingsScheduled</MudText>
-                                <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.LivesScheduledLabel)]</MudText>
-                            </div>
-
-                            <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                <MudText Typo="Typo.h3" Color="Color.Primary" Class="flex-grow-0">@model.StreamingStats.NumberOfStreamingsDelivered</MudText>
-                                <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.LivesDeliveredLabel)]</MudText>
-                            </div>
-
-                            <MudDivider />
-                            <MudButton Variant="Variant.Outlined"
-                                       Color="Color.Primary"
-                                       FullWidth="true"
-                                       Class="mt-2"
-                                       Href="streamings">
-                                @Localizer[nameof(Resources.Pages.Index.ViewStreamingsButtonText)]
-                            </MudButton>
-                        </MudPaper>
-                    </MudItem>
-                }
-
-                @if (model.ProposalStats is not null)
-                {
-                    <MudItem xs="12" md="6">
-                        <MudPaper Class="pa-4" Elevation="2">
-                            <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                <MudText Typo="Typo.h3" Color="Color.Success" Class="flex-grow-0">@model.ProposalStats.NumberOfProposalAccepted</MudText>
-                                <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.ProposalsAcceptedLabel)]</MudText>
-                            </div>
-
-                            <div class="d-flex flex-row align-items-center flex-grow-1 mt-2">
-                                <MudText Typo="Typo.h3" Color="Color.Primary" Class="flex-grow-0">@model.ProposalStats.TotalNumberOfProposals</MudText>
-                                <MudText Typo="Typo.h4" Class="flex-grow-1 ml-2">@Localizer[nameof(Resources.Pages.Index.ProposalsLabel)]</MudText>
-                            </div>
-
-                            <MudDivider />
-                            <MudButton Variant="Variant.Outlined"
-                                       Color="Color.Primary"
-                                       FullWidth="true"
-                                       Class="mt-2"
-                                       Href="proposals">
-                                @Localizer[nameof(Resources.Pages.Index.ViewProposalsButtonText)]
-                            </MudButton>
-                        </MudPaper>
-                    </MudItem>
-                }
-            </MudGrid>*@
         </Loader>
     </Authorized>
 	<NotAuthorized>

@@ -25,19 +25,4 @@
             @Localizer[nameof(Resources.Components.MessageEditorDialog.CloseButtonText)]
         </FluentButton>
     </FluentDialogFooter>
-
-    @*<MudDialog>
-        <DialogContent>
-            <MudTextField @bind-Value="model.Text"
-                          For="@(() => model.Text)"
-                          Variant="Variant.Outlined"
-                          Lines="10"/>
-        </DialogContent>
-        <DialogActions>
-            <Loader Loading="sending">
-                <MudButton OnClick="Close" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.CloseButtonText)]</MudButton>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@Localizer[nameof(Resources.Components.MessageEditorDialog.SendButtonText)]</MudButton>
-            </Loader>
-        </DialogActions>
-    </MudDialog>*@
 </EditForm>

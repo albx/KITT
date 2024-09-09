@@ -2,7 +2,6 @@
 using KITT.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-//using MudBlazor;
 
 namespace KITT.Web.App.Pages.Streamings;
 
@@ -106,32 +105,6 @@ public partial class Index
                 ToastService.ShowError(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle]);
             }
         }
-
-        //var confirm = await Dialog.Show<ConfirmDialog>(
-        //    Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle],
-        //    new DialogParameters
-        //    {
-        //        [nameof(ConfirmDialog.ConfirmText)] = confirmText
-        //    }).Result;
-
-        //if (!confirm.Canceled)
-        //{
-        //    try
-        //    {
-        //        await Client.DeleteStreamingAsync(streaming.Id);
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle], Severity.Success);
-
-        //        await LoadStreamingsAsync(query);
-        //    }
-        //    catch
-        //    {
-        //        Snackbar.Add(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle], Severity.Error);
-        //    }
-        //    finally
-        //    {
-        //        StateHasChanged();
-        //    }
-        //}
     }
 
     private async Task SearchAsync() => await LoadStreamingsAsync(query);
