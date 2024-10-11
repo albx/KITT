@@ -6,8 +6,6 @@ using Microsoft.OpenApi.Any;
 using KITT.Cms.Web.Api.Endpoints.Services;
 using KITT.Cms.Web.Api;
 using KITT.Telegram.Messages;
-using FluentValidation;
-using KITT.Web.Shared.ProblemDetails;
 
 var builder = WebApplication.CreateBuilder(args);
 
