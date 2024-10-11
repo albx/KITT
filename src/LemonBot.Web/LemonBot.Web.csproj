@@ -42,7 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KITT.Core\KITT.Core.csproj" />
-    <ProjectReference Include="..\KITT.Web.App\KITT.Web.App.csproj" />
+    <ProjectReference Include="..\KITT.Web.App.OLD\KITT.Web.App.OLD.csproj" />
   </ItemGroup>
 
 </Project>
