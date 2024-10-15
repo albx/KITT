@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 using System.ComponentModel.DataAnnotations;
+using KITT.Web.App.Clients;
 
 namespace KITT.Web.App.Pages.Streamings;
 
@@ -14,8 +15,8 @@ public partial class StreamingDetail
     [EditorRequired]
     public Guid Id { get; set; }
 
-    //[Inject]
-    //public IStreamingsClient Client { get; set; } = default!;
+    [Inject]
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
     public IToastService ToastService { get; set; } = default!;
@@ -46,7 +47,7 @@ public partial class StreamingDetail
         try
         {
             var detail = model.ToApiModel(Id);
-            //await Client.UpdateStreamingAsync(detail);
+            await Client.UpdateStreamingAsync(detail);
 
             isReadOnly = true;
             ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
@@ -64,7 +65,7 @@ public partial class StreamingDetail
 
     protected override async Task OnInitializedAsync()
     {
-        //streamingDetail = await Client.GetStreamingDetailAsync(Id) ?? new();
+        streamingDetail = await Client.GetStreamingDetailAsync(Id) ?? new();
         model = ViewModel.FromStreamingDetailModel(streamingDetail);
 
         pageTitle = model.Title;

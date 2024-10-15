@@ -9,6 +9,7 @@ using KITT.Telegram.Messages;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
 
 builder.Services.AddDbContext<KittDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));

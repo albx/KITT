@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KITT.Cms.Web.Models\KITT.Cms.Web.Models.csproj" />
     <ProjectReference Include="..\KITT.Core\KITT.Core.csproj" />
+    <ProjectReference Include="..\KITT.ServiceDefaults\KITT.ServiceDefaults.csproj" />
     <ProjectReference Include="..\KITT.Web.Shared\KITT.Web.Shared.csproj" />
   </ItemGroup>
 

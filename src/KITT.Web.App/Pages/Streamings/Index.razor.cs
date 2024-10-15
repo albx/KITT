@@ -1,4 +1,5 @@
 ﻿using KITT.Cms.Web.Models.Streamings;
+using KITT.Web.App.Clients;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -6,8 +7,8 @@ namespace KITT.Web.App.Pages.Streamings;
 
 public partial class Index
 {
-    //[Inject]
-    //public IStreamingsClient Client { get; set; } = default!;
+    [Inject]
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
     public IDialogService DialogService { get; set; } = default!;
@@ -54,7 +55,7 @@ public partial class Index
 
         try
         {
-            //model = await Client.GetAllStreamingsAsync(query);
+            model = await Client.GetAllStreamingsAsync(query);
             numberOfPages = (int)Math.Ceiling(model.TotalItems / (decimal)query.Size);
 
             streamings = model.Items.AsQueryable();
@@ -94,7 +95,7 @@ public partial class Index
         {
             try
             {
-                //await Client.DeleteStreamingAsync(streaming.Id);
+                await Client.DeleteStreamingAsync(streaming.Id);
                 ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle]);
 
                 await LoadStreamingsAsync(query);

@@ -3,13 +3,14 @@ using KITT.Web.App.UI;
 using KITT.Cms.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using KITT.Web.App.Clients;
 
 namespace KITT.Web.App.Pages.Streamings;
 
 public partial class Schedule
 {
-    //[Inject]
-    //public IStreamingsClient Client { get; set; } = default!;
+    [Inject]
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
     public NavigationManager Navigation { get; set; } = default!;
@@ -30,7 +31,7 @@ public partial class Schedule
         try
         {
             var scheduleStreamingModel = ConvertToApiModel(model);
-            //await Client.ScheduleStreamingAsync(scheduleStreamingModel);
+            await Client.ScheduleStreamingAsync(scheduleStreamingModel);
 
             ToastService.ShowSuccess(
                 Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title]);

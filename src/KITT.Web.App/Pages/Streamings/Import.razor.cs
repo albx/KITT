@@ -4,13 +4,14 @@ using KITT.Cms.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
+using KITT.Web.App.Clients;
 
 namespace KITT.Web.App.Pages.Streamings;
 
 public partial class Import
 {
-    //[Inject]
-    //public IStreamingsClient Client { get; set; } = default!;
+    [Inject]
+    public IStreamingsClient Client { get; set; } = default!;
 
     [Inject]
     public NavigationManager Navigation { get; set; } = default!;
@@ -29,7 +30,7 @@ public partial class Import
     {
         try
         {
-            //await Client.ImportStreamingAsync(model.ToApiModel());
+            await Client.ImportStreamingAsync(model.ToApiModel());
             ToastService.ShowSuccess(
                 Localizer[nameof(Resources.Pages.Streamings.Import.StreamingImportedSuccessfully), model.Title]);
 
