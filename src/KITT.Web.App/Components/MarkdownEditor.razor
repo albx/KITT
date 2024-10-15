@@ -1,0 +1,46 @@
+﻿@using System.Linq.Expressions
+
+@*<MudPaper Outlined="true" class="mt-3">
+    <MudTabs>
+        <MudTabPanel Text="@EditorLabel">
+            <MudTextField Value="Value"
+                          ValueChanged="ValueChanged"
+                          For="ValueExpression"
+                          Variant="Variant.Outlined"
+                          Lines="Lines"
+                          id="@Id"
+                          Disabled="Disabled" />
+        </MudTabPanel>
+        <MudTabPanel Text="@PreviewLabel">
+            <MudMarkdown Value="@Value" />
+        </MudTabPanel>
+    </MudTabs>
+</MudPaper>*@
+
+@code {
+    [Parameter]
+    public string Value { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<string>> ValueExpression { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public string EditorLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public string PreviewLabel { get; set; } = "Preview";
+
+    [Parameter]
+    [EditorRequired]
+    public string Id { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public int Lines { get; set; } = 5;
+}
