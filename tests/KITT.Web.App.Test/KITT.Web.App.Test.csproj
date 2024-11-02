@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\KITT.Web.App\KITT.Web.App.csproj" />
-  </ItemGroup>
-
 </Project>

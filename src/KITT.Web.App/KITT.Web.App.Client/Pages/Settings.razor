@@ -1,0 +1,54 @@
+﻿@page "/settings"
+@*@inject ISettingsClient Client*@
+@inject IStringLocalizer<Resources.Pages.Settings> Localizer
+@inject NavigationManager Navigation
+@*@attribute [Authorize]*@
+
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Settings.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Settings.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="settings/new">
+        @Localizer[nameof(Resources.Pages.Settings.CreateNewSettingsLabel)]
+    </FluentAnchor>
+</SectionContent>
+
+<FluentDataGrid ItemsProvider="settingsProvider" Loading="loading">
+    <LoadingContent>Loading...</LoadingContent>
+    <EmptyContent>
+        <h2 id="noSettingsConfiguredContainer">@Localizer[nameof(Resources.Pages.Settings.NoSettingsConfiguredMessage)]</h2>
+    </EmptyContent>
+    <ChildContent>
+        <PropertyColumn Property="@(s => s.TwitchChannel)" Title="@Localizer[nameof(Resources.Pages.Settings.TwitchChannelLabel)]" />
+    </ChildContent>
+</FluentDataGrid>
+
+@code {
+    private bool loading = false;
+
+    private GridItemsProvider<SettingsListModel.SettingsDescriptor> settingsProvider = default!;
+
+    protected override void OnInitialized()
+    {
+        loading = true;
+
+        //settingsProvider = async request =>
+        //{
+        //    try
+        //    {
+        //        var settings = new SettingsListModel(); //await Client.GetAllSettingsAsync();
+
+        //        return GridItemsProviderResult.From(
+        //            items: settings.Items.ToList(),
+        //            totalItemCount: settings.Items.Count());
+        //    }
+        //    finally
+        //    {
+        //        loading = false;
+        //    }
+        //};
+    }
+}

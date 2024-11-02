@@ -2,7 +2,7 @@
 
 public class SettingsListModel
 {
-    public IEnumerable<SettingsDescriptor> Items { get; set; } = Array.Empty<SettingsDescriptor>();
+    public IEnumerable<SettingsDescriptor> Items { get; set; } = [];
 
     public record SettingsDescriptor
     {

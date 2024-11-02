@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KITT.Cms.Web.Api\KITT.Cms.Web.Api.csproj" />
-    <ProjectReference Include="..\KITT.Web.App\KITT.Web.App.csproj" />
+    <ProjectReference Include="..\KITT.Web.App\KITT.Web.App\KITT.Web.App.csproj" />
   </ItemGroup>
 
 </Project>
