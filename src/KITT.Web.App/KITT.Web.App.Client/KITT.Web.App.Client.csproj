@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\KITT.Cms.Web.App\KITT.Cms.Web.App.csproj" />
     <ProjectReference Include="..\..\KITT.Cms.Web.Models\KITT.Cms.Web.Models.csproj" />
     <ProjectReference Include="..\..\KITT.Web.App.UI\KITT.Web.App.UI.csproj" />
     <ProjectReference Include="..\..\KITT.Web.Models\KITT.Web.Models.csproj" />
