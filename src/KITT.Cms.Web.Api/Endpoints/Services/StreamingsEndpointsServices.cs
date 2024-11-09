@@ -22,7 +22,7 @@ public class StreamingsEndpointsServices
         var ascending = sort == StreamingQueryModel.SortDirection.Ascending;
 
         var streamingsQuery = Database.Streamings
-            .ByUserId(userId)
+            //.ByUserId(userId)
             .OrderedBySchedule(ascending);
 
         if (!string.IsNullOrWhiteSpace(query))

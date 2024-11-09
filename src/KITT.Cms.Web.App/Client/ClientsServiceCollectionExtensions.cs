@@ -1,0 +1,19 @@
+﻿using KITT.Cms.Web.App.Client.Http;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace KITT.Cms.Web.App.Client;
+
+public static class ClientsServiceCollectionExtensions
+{
+    public static IServiceCollection AddCmsClients(
+        this IServiceCollection services,
+        string apiBaseUrl)
+    {
+        services.AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client =>
+        {
+            client.BaseAddress = new Uri(apiBaseUrl);
+        });
+
+        return services;
+    }
+}

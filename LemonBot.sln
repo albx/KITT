@@ -49,13 +49,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.AppHost", "src\KITT.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.ServiceDefaults", "src\KITT.ServiceDefaults\KITT.ServiceDefaults.csproj", "{F1D748E1-2241-446F-88D0-CEFCCCEB7A93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Web.App", "src\KITT.Web.App\KITT.Web.App\KITT.Web.App.csproj", "{4CBD2E55-3636-445A-93BB-84D549D64501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Web.App", "src\KITT.Web.App\KITT.Web.App\KITT.Web.App.csproj", "{4CBD2E55-3636-445A-93BB-84D549D64501}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Web.App.Client", "src\KITT.Web.App\KITT.Web.App.Client\KITT.Web.App.Client.csproj", "{C4ED93D6-3B6F-4EF3-84D4-3B76FE7875F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Web.App.Client", "src\KITT.Web.App\KITT.Web.App.Client\KITT.Web.App.Client.csproj", "{C4ED93D6-3B6F-4EF3-84D4-3B76FE7875F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cms", "Cms", "{90F26E81-71A2-4438-ACD9-64D3AC5636AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KITT.Cms.Web.App", "src\KITT.Cms.Web.App\KITT.Cms.Web.App.csproj", "{E51D737B-4337-47BD-84AF-97086FDDA158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KITT.Cms.Web.App", "src\KITT.Cms.Web.App\KITT.Cms.Web.App.csproj", "{E51D737B-4337-47BD-84AF-97086FDDA158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

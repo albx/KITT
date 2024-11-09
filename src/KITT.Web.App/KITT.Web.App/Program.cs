@@ -10,6 +10,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddDefaultServices();
+builder.Services.AddHttpForwarderWithServiceDiscovery();
 
 var app = builder.Build();
 
@@ -33,5 +34,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(KITT.Web.App.Client._Imports).Assembly);
+
+app.MapForwarder("/api/cms/streamings", "https+http://cms-api", "/api/streamings");
+app.MapForwarder("/api/cms/streamings/{id}", "https+http://cms-api", "/api/streamings/{id}");
 
 app.Run();

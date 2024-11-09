@@ -1,6 +1,12 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
+﻿<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="additionalAssemblies">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    private IEnumerable<System.Reflection.Assembly> additionalAssemblies = [
+        typeof(KITT.Cms.Web.App._Imports).Assembly,
+    ];
+}

@@ -21,15 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\" />
-    <Folder Include="Resources\Pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Resources\Components\ScheduleForm.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ScheduleForm.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Streamings\Index.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Index.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -46,6 +46,10 @@
     <EmbeddedResource Update="Resources\Components\ScheduleForm.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScheduleForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Streamings\Index.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
