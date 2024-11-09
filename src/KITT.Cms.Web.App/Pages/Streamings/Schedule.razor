@@ -1,0 +1,21 @@
+﻿@page "/streamings/schedule"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Streamings.Schedule> Localizer
+
+@*@attribute [Authorize]*@
+
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Streamings.Schedule.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="streamings">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ScheduleForm Model="model"
+              OnSave="ScheduleStreamingAsync" />

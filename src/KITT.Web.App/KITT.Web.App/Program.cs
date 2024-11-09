@@ -37,5 +37,6 @@ app.MapRazorComponents<App>()
 
 app.MapForwarder("/api/cms/streamings", "https+http://cms-api", "/api/streamings");
 app.MapForwarder("/api/cms/streamings/{id}", "https+http://cms-api", "/api/streamings/{id}");
+app.MapForwarder("/api/cms/streamings/import", "https+http://cms-api", "/api/streamings/import");
 
 app.Run();
