@@ -1,6 +1,6 @@
 ﻿using KITT.Cms.Web.Models.Streamings;
 
-namespace KITT.Cms.Web.App.Client;
+namespace KITT.Cms.Web.App.Clients;
 
 public interface IStreamingsClient
 {

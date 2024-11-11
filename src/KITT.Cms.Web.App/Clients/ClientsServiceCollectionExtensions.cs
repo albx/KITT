@@ -1,7 +1,7 @@
-﻿using KITT.Cms.Web.App.Client.Http;
+﻿using KITT.Cms.Web.App.Clients.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KITT.Cms.Web.App.Client;
+namespace KITT.Cms.Web.App.Clients;
 
 public static class ClientsServiceCollectionExtensions
 {

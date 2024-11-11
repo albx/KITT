@@ -1,4 +1,4 @@
-using KITT.Cms.Web.App.Client;
+using KITT.Cms.Web.App.Clients;
 using KITT.Cms.Web.Models;
 using KITT.Cms.Web.Models.Streamings;
 using KITT.Web.App.UI;

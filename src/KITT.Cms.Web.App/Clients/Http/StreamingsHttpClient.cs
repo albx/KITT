@@ -1,7 +1,7 @@
 ﻿using KITT.Cms.Web.Models.Streamings;
 using System.Net.Http.Json;
 
-namespace KITT.Cms.Web.App.Client.Http;
+namespace KITT.Cms.Web.App.Clients.Http;
 
 public class StreamingsHttpClient : IStreamingsClient
 {

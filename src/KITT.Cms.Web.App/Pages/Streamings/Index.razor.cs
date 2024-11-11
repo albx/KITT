@@ -1,4 +1,4 @@
-using KITT.Cms.Web.App.Client;
+using KITT.Cms.Web.App.Clients;
 using KITT.Cms.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
