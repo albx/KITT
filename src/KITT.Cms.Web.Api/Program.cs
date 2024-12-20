@@ -57,6 +57,7 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
+app.MapDefaultEndpoints();
 app.MapStreamingsEndpoints();
 
 app.Run();
