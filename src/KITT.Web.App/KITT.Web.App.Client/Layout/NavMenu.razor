@@ -8,9 +8,9 @@
             <FluentNavLink Href="" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Grid())" IconColor="Color.Accent">Dashboard</FluentNavLink>
             <FluentNavGroup Title="@Localizer[nameof(Resources.Shared.NavMenu.ContentsMenuLabel)]" @bind-Expanded="@contentsExpanded" Icon="@(new Icons.Regular.Size20.ContentView())">
                 <FluentNavLink Href="streamings" Icon="@(new Icons.Regular.Size20.VideoPerson())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</FluentNavLink>
-                <FluentNavLink Href="proposals" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavLink>
             </FluentNavGroup>
-            <FluentNavLink Href="/settings" Icon="@(new Icons.Regular.Size20.Settings())">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</FluentNavLink>
+            <FluentNavLink Href="proposals" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavLink>
+            <FluentNavLink Href="settings" Icon="@(new Icons.Regular.Size20.Settings())">@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]</FluentNavLink>
         </FluentNavMenu>
     </nav>
 </div>
