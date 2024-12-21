@@ -12,7 +12,7 @@ public static class ProposalsEndpoints
     public static IEndpointRouteBuilder MapProposalsEndpoints(this IEndpointRouteBuilder builder)
     {
         var proposalsGroup = builder
-            .MapGroup("api/console/proposals")
+            .MapGroup("api/proposals")
             .RequireAuthorization()
             .WithParameterValidation();
 

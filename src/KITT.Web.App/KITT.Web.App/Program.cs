@@ -35,8 +35,16 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(KITT.Web.App.Client._Imports).Assembly);
 
+#region CMS Forwarders
 app.MapForwarder("/api/cms/streamings", "https+http://cms-api", "/api/streamings");
 app.MapForwarder("/api/cms/streamings/{id}", "https+http://cms-api", "/api/streamings/{id}");
 app.MapForwarder("/api/cms/streamings/import", "https+http://cms-api", "/api/streamings/import");
+#endregion
+
+#region Proposals Forwarders
+app.MapForwarder("/api/proposals", "https+http://proposals-api", "/api/proposals");
+app.MapForwarder("/api/proposals/{id}", "https+http://proposals-api", "/api/proposals/{id}");
+app.MapForwarder("/api/proposals/{id}/refuse", "https+http://proposals-api", "/api/proposals/{id}/refuse");
+#endregion
 
 app.Run();
