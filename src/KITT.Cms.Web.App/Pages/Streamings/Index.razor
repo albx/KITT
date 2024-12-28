@@ -88,13 +88,19 @@
     <ChildContent>
         <PropertyColumn Property="@(s => s.Title)" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]" />
         <PropertyColumn Property="@(s => s.ScheduledOn.ToShortDateString())" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.DateLabel)]" />
-        <TemplateColumn Context="streaming" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]">
+        <TemplateColumn Context="streaming" 
+                        Title="@Localizer[nameof(Resources.Pages.Streamings.Index.DurationLabel)]"
+                        Style="height:auto;">
             @streaming.StartingTime.ToString("HH\\:mm") - @streaming.EndingTime.ToString("HH\\:mm")
         </TemplateColumn>
-        <TemplateColumn Context="streaming" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]">
+        <TemplateColumn Context="streaming" 
+                        Title="@Localizer[nameof(Resources.Pages.Streamings.Index.TwitchLinkLabel)]"
+                        Style="height:auto;">
             <a href="@streaming.HostingChannelUrl" target="_blank">@streaming.HostingChannelUrl</a>
         </TemplateColumn>
-        <TemplateColumn Context="streaming" Title="@Localizer[nameof(Resources.Pages.Streamings.Index.YoutubeVideoUrlLabel)]">
+        <TemplateColumn Context="streaming" 
+                        Title="@Localizer[nameof(Resources.Pages.Streamings.Index.YoutubeVideoUrlLabel)]"
+                        Style="height:auto;">
             @if (string.IsNullOrWhiteSpace(streaming.YouTubeVideoUrl))
             {
                 <span>-</span>
@@ -104,7 +110,8 @@
                 <a href="@streaming.YouTubeVideoUrl" target="_blank">@streaming.YouTubeVideoUrl</a>
             }
         </TemplateColumn>
-        <TemplateColumn Context="streaming">
+        <TemplateColumn Context="streaming"
+                        Style="height:auto;">
             <FluentStack Orientation="Orientation.Horizontal"
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.End">

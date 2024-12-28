@@ -90,7 +90,8 @@
         <TemplateColumn Context="proposal" Title="@Localizer[nameof(Resources.Pages.Index.ProposalStatusLabel)]">
             @Localizer[proposal.Status.ToString()]
         </TemplateColumn>
-        <TemplateColumn Context="proposal">
+        <TemplateColumn Context="proposal"
+                        Style="height:auto;">
             <FluentStack Orientation="Orientation.Horizontal"
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.End">
