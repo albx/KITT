@@ -13,7 +13,7 @@ public static class ProposalsEndpoints
     {
         var proposalsGroup = builder
             .MapGroup("api/proposals")
-            .RequireAuthorization()
+            //.RequireAuthorization()
             .WithParameterValidation();
 
         proposalsGroup

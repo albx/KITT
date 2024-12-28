@@ -3,6 +3,8 @@ using KITT.Core.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using KITT.Proposals.Web.Api.Endpoints.Services;
 using KITT.Proposals.Web.Api.Endpoints;
+using KITT.Proposals.Web.Api;
+using KITT.Telegram.Messages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddKittCore();
+
+//TOFIX this line will be fixed in future to use the correct service
+builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
 
 builder.Services.AddScoped<ProposalsEndpointsServices>();
 builder.Services.AddProblemDetails();
