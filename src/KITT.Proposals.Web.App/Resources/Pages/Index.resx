@@ -207,6 +207,9 @@
   <data name="RejectProposalSuccessMessage" xml:space="preserve">
     <value>The proposal {0} has been rejected successfully!</value>
   </data>
+  <data name="ShowProposalDetailLabel" xml:space="preserve">
+    <value>Show</value>
+  </data>
   <data name="WaitingForApproval" xml:space="preserve">
     <value>Waiting for approval</value>
   </data>

@@ -1,4 +1,5 @@
 using KITT.Proposals.Web.App.Clients;
+using KITT.Proposals.Web.App.Components;
 using KITT.Proposals.Web.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -66,100 +67,102 @@ public partial class Index
         await LoadProposalsAsync(query);
     }
 
-    private async Task AcceptProposalAsync(ProposalListModel.ProposalListItemModel proposal)
-    {
-        var proposalTitle = proposal.Title;
-        string confirmText = Localizer[nameof(Resources.Pages.Index.AcceptProposalConfirmText), proposalTitle];
+    #region Proposal management will be refactored in a future iteration
+    //private async Task AcceptProposalAsync(ProposalListModel.ProposalListItemModel proposal)
+    //{
+    //    var proposalTitle = proposal.Title;
+    //    string confirmText = Localizer[nameof(Resources.Pages.Index.AcceptProposalConfirmText), proposalTitle];
 
-        var confirmDialog = await DialogService.ShowConfirmationAsync(
-            confirmText,
-            primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
-            secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
-            title: Localizer[nameof(Resources.Pages.Index.AcceptProposalConfirmTitle)]);
+    //    var confirmDialog = await DialogService.ShowConfirmationAsync(
+    //        confirmText,
+    //        primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
+    //        secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
+    //        title: Localizer[nameof(Resources.Pages.Index.AcceptProposalConfirmTitle)]);
 
-        var confirmResult = await confirmDialog.Result;
-        if (!confirmResult.Cancelled)
-        {
-            try
-            {
-                await Client.AcceptProposalAsync(proposal.Id);
-                ToastService.ShowSuccess(
-                    Localizer[nameof(Resources.Pages.Index.AcceptProposalSuccessMessage), proposalTitle]);
+    //    var confirmResult = await confirmDialog.Result;
+    //    if (!confirmResult.Cancelled)
+    //    {
+    //        try
+    //        {
+    //            await Client.AcceptProposalAsync(proposal.Id);
+    //            ToastService.ShowSuccess(
+    //                Localizer[nameof(Resources.Pages.Index.AcceptProposalSuccessMessage), proposalTitle]);
 
-                await LoadProposalsAsync(query);
-            }
-            catch
-            {
-                ToastService.ShowError(
-                    Localizer[nameof(Resources.Pages.Index.AcceptProposalErrorMessage), proposalTitle]);
-            }
-        }
-    }
+    //            await LoadProposalsAsync(query);
+    //        }
+    //        catch
+    //        {
+    //            ToastService.ShowError(
+    //                Localizer[nameof(Resources.Pages.Index.AcceptProposalErrorMessage), proposalTitle]);
+    //        }
+    //    }
+    //}
 
-    private async Task RejectProposalAsync(ProposalListModel.ProposalListItemModel proposal)
-    {
-        var proposalTitle = proposal.Title;
-        string confirmText = Localizer[nameof(Resources.Pages.Index.RejectProposalConfirmText), proposalTitle];
+    //private async Task RejectProposalAsync(ProposalListModel.ProposalListItemModel proposal)
+    //{
+    //    var proposalTitle = proposal.Title;
+    //    string confirmText = Localizer[nameof(Resources.Pages.Index.RejectProposalConfirmText), proposalTitle];
 
-        var confirmDialog = await DialogService.ShowConfirmationAsync(
-            confirmText,
-            primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
-            secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
-            title: Localizer[nameof(Resources.Pages.Index.RejectProposalConfirmTitle)]);
+    //    var confirmDialog = await DialogService.ShowConfirmationAsync(
+    //        confirmText,
+    //        primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
+    //        secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
+    //        title: Localizer[nameof(Resources.Pages.Index.RejectProposalConfirmTitle)]);
 
-        var confirmResult = await confirmDialog.Result;
-        if (!confirmResult.Cancelled)
-        {
-            try
-            {
-                await Client.RejectProposalAsync(proposal.Id);
-                ToastService.ShowSuccess(
-                    Localizer[nameof(Resources.Pages.Index.RejectProposalSuccessMessage), proposalTitle]);
+    //    var confirmResult = await confirmDialog.Result;
+    //    if (!confirmResult.Cancelled)
+    //    {
+    //        try
+    //        {
+    //            await Client.RejectProposalAsync(proposal.Id);
+    //            ToastService.ShowSuccess(
+    //                Localizer[nameof(Resources.Pages.Index.RejectProposalSuccessMessage), proposalTitle]);
 
-                await LoadProposalsAsync(query);
-            }
-            catch
-            {
-                ToastService.ShowError(
-                    Localizer[nameof(Resources.Pages.Index.RejectProposalErrorMessage), proposalTitle]);
-            }
-        }
-    }
+    //            await LoadProposalsAsync(query);
+    //        }
+    //        catch
+    //        {
+    //            ToastService.ShowError(
+    //                Localizer[nameof(Resources.Pages.Index.RejectProposalErrorMessage), proposalTitle]);
+    //        }
+    //    }
+    //}
 
-    private async Task RefuseProposalAsync(ProposalListModel.ProposalListItemModel proposal)
-    {
-        var proposalTitle = proposal.Title;
-        string confirmText = Localizer[nameof(Resources.Pages.Index.RefuseProposalConfirmText), proposalTitle];
+    //private async Task RefuseProposalAsync(ProposalListModel.ProposalListItemModel proposal)
+    //{
+    //    var proposalTitle = proposal.Title;
+    //    string confirmText = Localizer[nameof(Resources.Pages.Index.RefuseProposalConfirmText), proposalTitle];
 
-        var confirmDialog = await DialogService.ShowConfirmationAsync(
-            confirmText,
-            primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
-            secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
-            title: Localizer[nameof(Resources.Pages.Index.RefuseProposalConfirmTitle)]);
+    //    var confirmDialog = await DialogService.ShowConfirmationAsync(
+    //        confirmText,
+    //        primaryText: CommonLocalizer[UI.Resources.Common.Confirm],
+    //        secondaryText: CommonLocalizer[UI.Resources.Common.Cancel],
+    //        title: Localizer[nameof(Resources.Pages.Index.RefuseProposalConfirmTitle)]);
 
-        var confirmResult = await confirmDialog.Result;
-        if (!confirmResult.Cancelled)
-        {
-            try
-            {
-                await Client.RefuseProposalAsync(proposal.Id);
-                ToastService.ShowSuccess(
-                    Localizer[nameof(Resources.Pages.Index.RefuseProposalSuccessMessage), proposalTitle]);
+    //    var confirmResult = await confirmDialog.Result;
+    //    if (!confirmResult.Cancelled)
+    //    {
+    //        try
+    //        {
+    //            await Client.RefuseProposalAsync(proposal.Id);
+    //            ToastService.ShowSuccess(
+    //                Localizer[nameof(Resources.Pages.Index.RefuseProposalSuccessMessage), proposalTitle]);
 
-                await LoadProposalsAsync(query);
-            }
-            catch
-            {
-                ToastService.ShowError(
-                    Localizer[nameof(Resources.Pages.Index.RefuseProposalErrorMessage), proposalTitle]);
-            }
-        }
-    }
+    //            await LoadProposalsAsync(query);
+    //        }
+    //        catch
+    //        {
+    //            ToastService.ShowError(
+    //                Localizer[nameof(Resources.Pages.Index.RefuseProposalErrorMessage), proposalTitle]);
+    //        }
+    //    }
+    //}
 
-    private void ScheduleProposal(ProposalListModel.ProposalListItemModel proposal)
-    {
-        Navigation.NavigateTo($"proposals/schedule/{proposal.Id}");
-    }
+    //private void ScheduleProposal(ProposalListModel.ProposalListItemModel proposal)
+    //{
+    //    Navigation.NavigateTo($"proposals/schedule/{proposal.Id}");
+    //}
+    #endregion
 
     private async Task LoadProposalsAsync(ProposalsQueryModel query)
     {
@@ -174,5 +177,20 @@ public partial class Index
         {
             loading = false;
         }
+    }
+
+    private async Task OpenProposalDetailAsync(ProposalListModel.ProposalListItemModel proposal)
+    {
+        var content = new ProposalDetailDialog.InputModel(proposal.Id);
+        var dialog = await DialogService.ShowPanelAsync<ProposalDetailDialog>(
+            content,
+            new DialogParameters
+            {
+                Title = proposal.Title,
+                Alignment = HorizontalAlignment.Right,
+                Width = "40em"
+            });
+
+        await dialog.Result;
     }
 }

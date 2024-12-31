@@ -331,6 +331,15 @@ namespace KITT.Proposals.Web.App.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show.
+        /// </summary>
+        internal static string ShowProposalDetailLabel {
+            get {
+                return ResourceManager.GetString("ShowProposalDetailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Waiting for approval.
         /// </summary>
         internal static string WaitingForApproval {

@@ -5,6 +5,8 @@
 
 @*@attribute [Authorize]*@
 
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Index.PageTitle)]</PageTitle>
+
 <SectionContent SectionName="@SectionNames.PageTitleSectionName">
     @Localizer[nameof(Resources.Pages.Index.PageTitle)]
 </SectionContent>
@@ -95,28 +97,11 @@
             <FluentStack Orientation="Orientation.Horizontal"
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.End">
-                @if (proposal.Status == ProposalStatus.Moderating)
-                {
-                    <FluentButton Appearance="Appearance.Accent"
-                                  OnClick="@(() => AcceptProposalAsync(proposal))">
-                        @Localizer[nameof(Resources.Pages.Index.ProposalAcceptLabel)]
-                    </FluentButton>
-                    <FluentButton Appearance="Appearance.Outline"
-                                  OnClick="@(() => RefuseProposalAsync(proposal))">
-                        @Localizer[nameof(Resources.Pages.Index.ProposalRefuseLabel)]
-                    </FluentButton>
-                }
-                else if (proposal.Status == ProposalStatus.WaitingForApproval)
-                {
-                    <FluentButton Appearance="Appearance.Accent"
-                                  OnClick="@(() => ScheduleProposal(proposal))">
-                        @Localizer[nameof(Resources.Pages.Index.ProposalScheduleLabel)]
-                    </FluentButton>
-                    <FluentButton Appearance="Appearance.Outline"
-                                  OnClick="@(() => RejectProposalAsync(proposal))">
-                        @Localizer[nameof(Resources.Pages.Index.ProposalRejectLabel)]
-                    </FluentButton>
-                }
+                <FluentButton Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size20.Eye())"
+                              OnClick="@(() => OpenProposalDetailAsync(proposal))">
+                    @Localizer[nameof(Resources.Pages.Index.ShowProposalDetailLabel)]
+                </FluentButton>
             </FluentStack>
         </TemplateColumn>
     </ChildContent>
