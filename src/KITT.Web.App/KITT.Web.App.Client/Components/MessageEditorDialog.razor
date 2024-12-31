@@ -1,0 +1,28 @@
+﻿@implements IDialogContentComponent
+
+@inject IStringLocalizer<Resources.Components.MessageEditorDialog> Localizer
+
+<EditForm EditContext="context" role="form">
+    <DataAnnotationsValidator />
+
+    <FluentDialogBody>
+        <FluentTextArea @bind-Value="model.Text"
+                        Appearance="FluentInputAppearance.Filled"
+                        Rows="15"
+                        Style="width:100%;" />
+        <FluentValidationMessage For="@(() => model.Text)" />
+    </FluentDialogBody>
+    <FluentDialogFooter>
+        <FluentButton Type="ButtonType.Button"
+                      Appearance="Appearance.Accent"
+                      Loading="sending"
+                      OnClick="SendMessageAsync">
+            @Localizer[nameof(Resources.Components.MessageEditorDialog.SendButtonText)]
+        </FluentButton>
+        <FluentButton Appearance="Appearance.Outline"
+                      Disabled="sending"
+                      OnClick="CloseAsync">
+            @Localizer[nameof(Resources.Components.MessageEditorDialog.CloseButtonText)]
+        </FluentButton>
+    </FluentDialogFooter>
+</EditForm>
