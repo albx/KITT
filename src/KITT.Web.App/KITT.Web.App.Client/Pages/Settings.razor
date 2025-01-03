@@ -1,5 +1,5 @@
 ﻿@page "/settings"
-@*@inject ISettingsClient Client*@
+@inject ISettingsClient Client
 @inject IStringLocalizer<Resources.Pages.Settings> Localizer
 @inject NavigationManager Navigation
 @*@attribute [Authorize]*@
@@ -35,20 +35,21 @@
     {
         loading = true;
 
-        //settingsProvider = async request =>
-        //{
-        //    try
-        //    {
-        //        var settings = new SettingsListModel(); //await Client.GetAllSettingsAsync();
+        settingsProvider = async request =>
+        {
+            try
+            {
+                var settings = await Client.GetAllSettingsAsync();
 
-        //        return GridItemsProviderResult.From(
-        //            items: settings.Items.ToList(),
-        //            totalItemCount: settings.Items.Count());
-        //    }
-        //    finally
-        //    {
-        //        loading = false;
-        //    }
-        //};
+                return GridItemsProviderResult.From(
+                    items: settings.Items.ToList(),
+                    totalItemCount: settings.Items.Count());
+            }
+            finally
+            {
+                loading = false;
+                StateHasChanged();
+            }
+        };
     }
 }

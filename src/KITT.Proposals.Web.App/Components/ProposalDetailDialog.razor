@@ -1,3 +1,21 @@
 ﻿@implements IDialogContentComponent<ProposalDetailDialog.InputModel>
 
+<FluentDialogBody>
+    <Loader Loading="loading">
+        <FluentStack Orientation="Orientation.Horizontal" Class="mb-2">
+            <FluentLabel Weight="FontWeight.Bold">Author:</FluentLabel>
+            <FluentLabel>@model!.AuthorNickname</FluentLabel>
+        </FluentStack>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentLabel Weight="FontWeight.Bold">Description</FluentLabel>
+            <div style="width:100%;">@model!.Description</div>
+        </FluentStack>
+    </Loader>
+</FluentDialogBody>
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="CloseAsync">
+        Close
+    </FluentButton>
+</FluentDialogFooter>
 

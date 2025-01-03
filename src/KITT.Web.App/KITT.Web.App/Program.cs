@@ -1,5 +1,12 @@
+using KITT.Core.DependencyInjection;
+using KITT.Core.Persistence;
+using KITT.Telegram.Messages;
+using KITT.Web.App;
 using KITT.Web.App.Components;
+using KITT.Web.App.Endpoints;
+using KITT.Web.App.Endpoints.Services;
 using KITT.Web.App.UI;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +16,21 @@ builder.AddServiceDefaults();
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDbContext<KittDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
+
+builder.Services.AddKittCore();
+
 builder.Services.AddDefaultServices();
 builder.Services.AddHttpForwarderWithServiceDiscovery();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddScoped<SettingsEndpointsServices>();
+
+//TOFIX this line will be fixed in future to use the correct service
+builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
 
 var app = builder.Build();
 
@@ -28,6 +48,9 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseExceptionHandler();
+app.UseStatusCodePages();
+
 app.UseStaticFiles();
 app.UseAntiforgery();
 
@@ -35,16 +58,9 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(KITT.Web.App.Client._Imports).Assembly);
 
-#region CMS Forwarders
-app.MapForwarder("/api/cms/streamings", "https+http://cms-api", "/api/streamings");
-app.MapForwarder("/api/cms/streamings/{id}", "https+http://cms-api", "/api/streamings/{id}");
-app.MapForwarder("/api/cms/streamings/import", "https+http://cms-api", "/api/streamings/import");
-#endregion
-
-#region Proposals Forwarders
-app.MapForwarder("/api/proposals", "https+http://proposals-api", "/api/proposals");
-app.MapForwarder("/api/proposals/{id}", "https+http://proposals-api", "/api/proposals/{id}");
-app.MapForwarder("/api/proposals/{id}/refuse", "https+http://proposals-api", "/api/proposals/{id}/refuse");
-#endregion
+app
+    .MapSettingsEndpoints()
+    .MapCmsEndpoints()
+    .MapProposalEndpoints();
 
 app.Run();

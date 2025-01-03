@@ -1,6 +1,6 @@
 ﻿@page "/settings/new"
 
-@*@inject ISettingsClient Client*@
+@inject ISettingsClient Client
 @inject NavigationManager Navigation
 @inject IMessageService MessageService
 
@@ -57,7 +57,7 @@
     {
         try
         {
-            //await Client.CreateNewSettingsAsync(model);
+            await Client.CreateNewSettingsAsync(model);
             model = new();
 
             Navigation.NavigateTo("settings");

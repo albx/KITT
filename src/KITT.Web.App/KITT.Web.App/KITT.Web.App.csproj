@@ -7,13 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\KITT.Core\KITT.Core.csproj" />
     <ProjectReference Include="..\..\KITT.ServiceDefaults\KITT.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\KITT.Web.Shared\KITT.Web.Shared.csproj" />
     <ProjectReference Include="..\KITT.Web.App.Client\KITT.Web.App.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="8.2.2" />
+	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
   </ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.0" />
+    <PackageReference Include="MinimalApis.Extensions" Version="0.11.0" />
   </ItemGroup>
 </Project>

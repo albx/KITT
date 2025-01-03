@@ -17,6 +17,7 @@ var proposalsApi = builder.AddProject<KITT_Proposals_Web_Api>("proposals-api")
 var webApp = builder.AddProject<KITT_Web_App>("webapp")
     .WithReference(cmsApi)
     .WithReference(proposalsApi)
+    .WithReference(kittDb)
     .WithExternalHttpEndpoints();
 
 builder.Build().Run();

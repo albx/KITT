@@ -1,4 +1,5 @@
 using KITT.Proposals.Web.App.Clients;
+using KITT.Proposals.Web.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -14,6 +15,26 @@ public partial class ProposalDetailDialog
 
     [Inject]
     public IProposalsClient Client { get; set; } = default!;
+
+    private ProposalDetailModel? model;
+
+    private bool loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+
+        try
+        {
+            model = await Client.GetProposalDetailAsync(Content.ProposalId);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task CloseAsync() => await Dialog.CancelAsync();
 
     public record InputModel(
         Guid ProposalId);
