@@ -49,7 +49,6 @@ else
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
-app.UseStatusCodePages();
 
 app.UseStaticFiles();
 app.UseAntiforgery();

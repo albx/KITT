@@ -9,10 +9,8 @@ public static class ClientsServiceCollectionExtensions
         this IServiceCollection services,
         string apiBaseUrl)
     {
-        services.AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client =>
-        {
-            client.BaseAddress = new Uri(apiBaseUrl);
-        });
+        services
+            .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new(apiBaseUrl));
 
         return services;
     }
