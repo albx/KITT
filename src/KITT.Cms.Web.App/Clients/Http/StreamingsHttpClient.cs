@@ -75,4 +75,10 @@ public class StreamingsHttpClient : IStreamingsClient
             throw new ApplicationException("Error importing streaming");
         }
     }
+
+    public async Task<StreamingStatsModel> GetStreamingStatsAsync()
+    {
+        var streamingStats = await Client.GetFromJsonAsync<StreamingStatsModel>($"{ApiResource}/stats");
+        return streamingStats ?? new(0, 0);
+    }
 }

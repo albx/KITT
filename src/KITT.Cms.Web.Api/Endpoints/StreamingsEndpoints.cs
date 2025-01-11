@@ -46,6 +46,11 @@ public static class StreamingsEndpoints
             .WithName(nameof(DeleteStreaming))
             .WithOpenApi();
 
+        streamingsGroup
+            .MapGet("stats", GetStreamingStats)
+            .WithName(nameof(GetStreamingStats))
+            .WithOpenApi();
+
         return builder;
     }
 
@@ -131,5 +136,15 @@ public static class StreamingsEndpoints
 
         await services.DeleteStreamingAsync(id);
         return TypedResults.NoContent();
+    }
+
+    private static async Task<Ok<StreamingStatsModel>> GetStreamingStats(
+        StreamingsEndpointsServices services,
+        ClaimsPrincipal user)
+    {
+        var userId = user.GetUserId();
+        var streamingStats = await services.GetStreamingStatsAsync(userId);
+
+        return TypedResults.Ok(streamingStats);
     }
 }

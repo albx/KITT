@@ -123,15 +123,6 @@
   <data name="LivesScheduledLabel" xml:space="preserve">
     <value>dirette pianificate</value>
   </data>
-  <data name="ProposalsAcceptedLabel" xml:space="preserve">
-    <value>proposte accettate</value>
-  </data>
-  <data name="ProposalsLabel" xml:space="preserve">
-    <value>proposte</value>
-  </data>
-  <data name="ViewProposalsButtonText" xml:space="preserve">
-    <value>Guarda tutte le proposte</value>
-  </data>
   <data name="ViewStreamingsButtonText" xml:space="preserve">
     <value>Vai all'elenco delle dirette</value>
   </data>

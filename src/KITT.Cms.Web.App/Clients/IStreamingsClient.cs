@@ -15,4 +15,6 @@ public interface IStreamingsClient
     Task DeleteStreamingAsync(Guid streamingId);
 
     Task ImportStreamingAsync(ImportStreamingModel model);
+
+    Task<StreamingStatsModel> GetStreamingStatsAsync();
 }

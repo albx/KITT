@@ -39,11 +39,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CreateNewSettings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Pages\Home.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Home.resx</DependentUpon>
-    </Compile>
     <Compile Update="Resources\Pages\Settings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -77,13 +72,6 @@
     <EmbeddedResource Update="Resources\Pages\CreateNewSettings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CreateNewSettings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Pages\Home.it.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Pages\Home.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Home.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Settings.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

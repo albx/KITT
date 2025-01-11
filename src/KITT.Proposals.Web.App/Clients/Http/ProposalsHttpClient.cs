@@ -75,4 +75,10 @@ public class ProposalsHttpClient : IProposalsClient
             throw new ApplicationException("Error scheduling proposal");
         }
     }
+
+    public async Task<ProposalsStatsModel> GetProposalsStatsAsync()
+    {
+        var proposalsStats = await Client.GetFromJsonAsync<ProposalsStatsModel>($"{ApiResource}/stats");
+        return proposalsStats ?? new(0, 0);
+    }
 }

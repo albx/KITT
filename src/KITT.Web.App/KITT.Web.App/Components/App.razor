@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="KITT.Web.App.styles.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <HeadOutlet @rendermode="InteractiveWebAssembly" />
+    <HeadOutlet @rendermode="@renderMode" />
 </head>
 
 <body>
-    <Routes @rendermode="InteractiveWebAssembly" />
+    <Routes @rendermode="@renderMode" />
     <script src="_framework/blazor.web.js"></script>
 </body>
 
 </html>
+
+@code {
+    private readonly InteractiveWebAssemblyRenderMode renderMode = new InteractiveWebAssemblyRenderMode(prerender: false);
+}

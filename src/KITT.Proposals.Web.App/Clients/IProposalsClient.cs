@@ -15,4 +15,6 @@ public interface IProposalsClient
     Task<ProposalDetailModel?> GetProposalDetailAsync(Guid proposalId);
 
     Task ScheduleProposalAsync(Guid proposalId, ScheduleProposalModel model);
+
+    Task<ProposalsStatsModel> GetProposalsStatsAsync();
 }

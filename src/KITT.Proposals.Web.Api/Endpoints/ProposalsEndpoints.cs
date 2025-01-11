@@ -46,6 +46,11 @@ public static class ProposalsEndpoints
             .WithName(nameof(ScheduleProposal))
             .WithOpenApi();
 
+        proposalsGroup
+            .MapGet("stats", GetProposalsStats)
+            .WithName(nameof(GetProposalsStats))
+            .WithOpenApi();
+
         return builder;
     }
 
@@ -158,5 +163,12 @@ public static class ProposalsEndpoints
         {
             return TypedResults.NotFound();
         }
+    }
+
+    private static async Task<Ok<ProposalsStatsModel>> GetProposalsStats(
+        ProposalsEndpointsServices services)
+    {
+        var proposalsStats = await services.GetProposalsStatsAsync();
+        return TypedResults.Ok(proposalsStats);
     }
 }

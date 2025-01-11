@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KITT.Web.App.Client.Resources.Pages {
+namespace KITT.Proposals.Web.App.Resources.Components {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace KITT.Web.App.Client.Resources.Pages {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Home {
+    internal class ProposalsStats {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Home() {
+        internal ProposalsStats() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Client.Resources.Pages.Home", typeof(Home).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Proposals.Web.App.Resources.Components.ProposalsStats", typeof(ProposalsStats).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace KITT.Web.App.Client.Resources.Pages {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,27 +61,9 @@ namespace KITT.Web.App.Client.Resources.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to lives delivered.
-        /// </summary>
-        public static string LivesDeliveredLabel {
-            get {
-                return ResourceManager.GetString("LivesDeliveredLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to lives scheduled.
-        /// </summary>
-        public static string LivesScheduledLabel {
-            get {
-                return ResourceManager.GetString("LivesScheduledLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to proposals accepted.
         /// </summary>
-        public static string ProposalsAcceptedLabel {
+        internal static string ProposalsAcceptedLabel {
             get {
                 return ResourceManager.GetString("ProposalsAcceptedLabel", resourceCulture);
             }
@@ -90,7 +72,7 @@ namespace KITT.Web.App.Client.Resources.Pages {
         /// <summary>
         ///   Looks up a localized string similar to proposals.
         /// </summary>
-        public static string ProposalsLabel {
+        internal static string ProposalsLabel {
             get {
                 return ResourceManager.GetString("ProposalsLabel", resourceCulture);
             }
@@ -99,18 +81,9 @@ namespace KITT.Web.App.Client.Resources.Pages {
         /// <summary>
         ///   Looks up a localized string similar to View all the proposals.
         /// </summary>
-        public static string ViewProposalsButtonText {
+        internal static string ViewProposalsButtonText {
             get {
                 return ResourceManager.GetString("ViewProposalsButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to View all my streamings.
-        /// </summary>
-        public static string ViewStreamingsButtonText {
-            get {
-                return ResourceManager.GetString("ViewStreamingsButtonText", resourceCulture);
             }
         }
     }

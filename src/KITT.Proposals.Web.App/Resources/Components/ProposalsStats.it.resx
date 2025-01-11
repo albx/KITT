@@ -117,22 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LivesDeliveredLabel" xml:space="preserve">
-    <value>lives delivered</value>
-  </data>
-  <data name="LivesScheduledLabel" xml:space="preserve">
-    <value>lives scheduled</value>
-  </data>
   <data name="ProposalsAcceptedLabel" xml:space="preserve">
-    <value>proposals accepted</value>
+    <value>proposte accettate</value>
   </data>
   <data name="ProposalsLabel" xml:space="preserve">
-    <value>proposals</value>
+    <value>proposte</value>
   </data>
   <data name="ViewProposalsButtonText" xml:space="preserve">
-    <value>View all the proposals</value>
-  </data>
-  <data name="ViewStreamingsButtonText" xml:space="preserve">
-    <value>View all my streamings</value>
+    <value>Guarda tutte le proposte</value>
   </data>
 </root>

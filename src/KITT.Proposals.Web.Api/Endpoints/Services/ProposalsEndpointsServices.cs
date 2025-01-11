@@ -102,4 +102,14 @@ public class ProposalsEndpointsServices
             model.HostingChannelUrl,
             model.StreamingAbstract);
     }
+
+    public async Task<ProposalsStatsModel> GetProposalsStatsAsync()
+    {
+        var proposalsQuery = Database.Proposals;
+
+        var totalNumberOfProposals = await proposalsQuery.CountAsync();
+        var acceptedProposalsNumber = await proposalsQuery.WaitingForApproval().CountAsync();
+        
+        return new ProposalsStatsModel(totalNumberOfProposals, acceptedProposalsNumber);
+    }
 }

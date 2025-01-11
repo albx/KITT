@@ -155,4 +155,16 @@ public class StreamingsEndpointsServices
     }
 
     public Task DeleteStreamingAsync(Guid streamingId) => Commands.DeleteStreamingAsync(streamingId);
+
+    public async Task<StreamingStatsModel?> GetStreamingStatsAsync(string userId)
+    {
+        var streamingsQuery = Database.Streamings
+            //.ByUserId(userId)
+            .OrderedBySchedule();
+
+        var deliveredStreamingsNumber = await streamingsQuery.DeliveredOnly().CountAsync();
+        var scheduledStreamingsNumber = await streamingsQuery.Scheduled().CountAsync();
+
+        return new StreamingStatsModel(deliveredStreamingsNumber, scheduledStreamingsNumber);
+    }
 }

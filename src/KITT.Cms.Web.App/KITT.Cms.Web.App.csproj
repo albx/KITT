@@ -26,6 +26,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ScheduleForm.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\StreamingStats.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StreamingStats.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\Streamings\Import.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -55,6 +60,13 @@
     <EmbeddedResource Update="Resources\Components\ScheduleForm.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScheduleForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\StreamingStats.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\StreamingStats.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StreamingStats.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Streamings\Import.resx">
       <Generator>ResXFileCodeGenerator</Generator>
