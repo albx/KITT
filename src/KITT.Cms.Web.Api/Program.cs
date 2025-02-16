@@ -14,15 +14,7 @@ builder.AddServiceDefaults();
 builder.Services.AddDbContext<KittDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(
-    options => options.MapType<TimeSpan>(() => new Microsoft.OpenApi.Models.OpenApiSchema
-    {
-        Type = "string",
-        Example = new OpenApiString("00:00:00")
-    }));
+builder.Services.AddOpenApi();
 
 builder.Services.AddKittCore();
 
@@ -48,8 +40,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
