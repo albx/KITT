@@ -1,4 +1,6 @@
-﻿@inject KITT.Proposals.Web.App.Clients.IProposalsClient Client
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@inject KITT.Proposals.Web.App.Clients.IProposalsClient Client
 @inject IStringLocalizer<Resources.Components.ProposalsStats> Localizer
 
 <FluentCard>

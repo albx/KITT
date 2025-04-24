@@ -6,15 +6,23 @@
     KITT - Console
 </SectionContent>
 
-<FluentGrid>
-    <FluentGridItem xs="12" md="6">
-        <KITT.Cms.Web.App.Components.StreamingStats />
-    </FluentGridItem>
+@if (!RendererInfo.IsInteractive)
+{
+    <FluentProgress />
+}
+else
+{
+    <FluentGrid>
+        <FluentGridItem xs="12" md="6">
+            <KITT.Cms.Web.App.Components.StreamingStats />
+        </FluentGridItem>
 
-    <FluentGridItem xs="12" md="6">
-        <KITT.Proposals.Web.App.Components.ProposalsStats />
-    </FluentGridItem>
-</FluentGrid>
+        <FluentGridItem xs="12" md="6">
+            <KITT.Proposals.Web.App.Components.ProposalsStats />
+        </FluentGridItem>
+    </FluentGrid>
+}
+
 
 @*<AuthorizeView>
         <Authorized>

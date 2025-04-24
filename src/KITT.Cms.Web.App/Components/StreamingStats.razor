@@ -1,4 +1,6 @@
-﻿@inject KITT.Cms.Web.App.Clients.IStreamingsClient Client
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false)) 
+
+@inject KITT.Cms.Web.App.Clients.IStreamingsClient Client
 @inject IStringLocalizer<Resources.Components.StreamingStats> Localizer
 
 <FluentCard>
