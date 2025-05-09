@@ -1,8 +1,6 @@
 using KITT.Cms.Web.Api.Endpoints;
 using KITT.Core.Persistence;
 using KITT.Core.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Any;
 using KITT.Cms.Web.Api.Endpoints.Services;
 using KITT.Cms.Web.Api;
 using KITT.Telegram.Messages;
@@ -10,9 +8,7 @@ using KITT.Telegram.Messages;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-
-builder.Services.AddDbContext<KittDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
+builder.AddSqlServerDbContext<KittDbContext>("KittDatabase");
 
 builder.Services.AddOpenApi();
 
