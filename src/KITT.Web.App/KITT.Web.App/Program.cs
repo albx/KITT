@@ -6,13 +6,28 @@ using KITT.Web.App.Components;
 using KITT.Web.App.Endpoints;
 using KITT.Web.App.Endpoints.Services;
 using KITT.Web.App.UI;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 // Add services to the container.
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(options =>
+    {
+        options.CallbackPath = "/signin-oidc";
+        options.ClientId = "";
+        options.Domain = "";
+        options.Instance = "https://login.microsoftonline.com/";
+        options.ResponseType = "code";
+        options.TenantId = "";
+    })
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddInMemoryTokenCaches();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
