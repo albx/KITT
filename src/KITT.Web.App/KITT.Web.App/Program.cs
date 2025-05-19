@@ -19,17 +19,20 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
         options.CallbackPath = "/signin-oidc";
-        options.ClientId = "";
-        options.Domain = "";
+        options.ClientId = builder.Configuration["WEB_APPID"];
+        options.Domain = $"{builder.Configuration["DOMAIN_NAME"]}.onmicrosoft.com";
         options.Instance = "https://login.microsoftonline.com/";
         options.ResponseType = "code";
-        options.TenantId = "";
+        options.TenantId = builder.Configuration["TENANT_ID"];
     })
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
+builder.Services.AddMicrosoftIdentityConsentHandler();
+
 builder.Services.AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveWebAssemblyComponents()
+    .AddAuthenticationStateSerialization(options => options.SerializeAllClaims = true);
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -73,6 +76,7 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(KITT.Web.App.Client._Imports).Assembly);
 
 app
+    .MapAuthenticationEndpoints()
     .MapSettingsEndpoints()
     .MapCmsEndpoints()
     .MapProposalEndpoints();
