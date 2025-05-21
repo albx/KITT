@@ -18,7 +18,7 @@
 @code{
     private void BeginSignOut(/*MouseEventArgs args*/)
     {
-        Navigation.NavigateTo("authentication/logout");
+        Navigation.NavigateTo("authentication/logout", forceLoad: true);
     }
 
     private string GetUserEmailAddress(System.Security.Claims.ClaimsPrincipal user)

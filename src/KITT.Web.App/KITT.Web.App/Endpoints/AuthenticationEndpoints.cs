@@ -18,7 +18,7 @@ public static class AuthenticationEndpoints
             .AllowAnonymous();
 
         authenticationGroup
-            .MapPost("logout", Logout)
+            .MapGet("logout", Logout)
             .WithName(nameof(Logout));
 
         return builder;
@@ -26,7 +26,7 @@ public static class AuthenticationEndpoints
 
     private static async Task<SignOutHttpResult> Logout(
         HttpContext httpContext,
-        [FromForm]string? returnUrl)
+        string? returnUrl)
     {
         await Task.CompletedTask;
         return TypedResults.SignOut(
