@@ -16,12 +16,12 @@ public static class TransformBuilderContextExtensions
         {
             var tokenAcquisition = transformContext.HttpContext.RequestServices.GetRequiredService<ITokenAcquisition>();
             var configuration = transformContext.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            
-            var scopes = scopesResolver.Invoke(configuration);
 
-            var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(scopes ??
-                throw new IOException("No downstream API scopes!"));
-            
+            var scopes = scopesResolver.Invoke(configuration) 
+                ?? throw new IOException("No downstream API scopes!");
+
+            var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(scopes);
+
             transformContext.ProxyRequest.Headers.Authorization = new("Bearer", accessToken);
         });
     }

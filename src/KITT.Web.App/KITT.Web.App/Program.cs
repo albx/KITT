@@ -9,6 +9,7 @@ using KITT.Web.App.UI;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,21 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.Instance = "https://login.microsoftonline.com/";
         options.ResponseType = "code";
         options.TenantId = builder.Configuration["TENANT_ID"];
+        options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
     })
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
+
+builder.Services
+    .AddOptions<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme)
+    .Configure(options =>
+    {
+        options.Scope.Add(OpenIdConnectScope.OfflineAccess);
+        options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
+    });
+
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddMicrosoftIdentityConsentHandler();
 
@@ -68,7 +81,7 @@ app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
 
-app.UseStaticFiles();
+app.MapStaticAssets();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

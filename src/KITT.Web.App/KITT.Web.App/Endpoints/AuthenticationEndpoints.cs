@@ -21,7 +21,7 @@ public static class AuthenticationEndpoints
             .MapPost("logout", Logout)
             .WithName(nameof(Logout));
 
-        return authenticationGroup;
+        return builder;
     }
 
     private static async Task<SignOutHttpResult> Logout(

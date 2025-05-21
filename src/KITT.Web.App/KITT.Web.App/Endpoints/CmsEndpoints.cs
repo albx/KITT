@@ -44,6 +44,6 @@ internal static class CmsEndpoints
     private static IEnumerable<string> GetScopes(IConfiguration configuration)
     {
         var scopes = configuration["CMS_API_SCOPES"]?.Split(",") ?? [];
-        return scopes.Select(s => $"api/{configuration["CMS_APPID"]}/{s}");
+        return scopes.Select(s => $"api://{configuration["CMS_APPID"]}/{s}");
     }
 }
