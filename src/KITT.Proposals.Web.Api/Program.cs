@@ -10,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.AddSqlServerDbContext<KittDbContext>("KittDatabase");
 
+builder.Services.AddAuthentication()
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = $"https://sts.windows.net/{builder.Configuration["TENANT_ID"]}/";
+        options.Audience = $"api://{builder.Configuration["PROPOSALS_APPID"]}";
+    });
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddKittCore();

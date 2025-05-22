@@ -26,6 +26,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.ResponseType = "code";
         options.TenantId = builder.Configuration["TENANT_ID"];
         options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
+        options.SaveTokens = true;
     })
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
@@ -36,6 +37,7 @@ builder.Services
     {
         options.Scope.Add(OpenIdConnectScope.OfflineAccess);
         options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
+        options.SaveTokens = true;
     });
 
 builder.Services.AddAuthorization();

@@ -9,6 +9,9 @@ var domainName = builder.AddParameter("EntraIdDomainName", secret: true);
 var cmsApiAppId = builder.AddParameter("CmsApiAppId", secret: true);
 var cmsApiScopes = builder.AddParameter("CmsApiScopes", secret: true);
 
+var proposalsApiAppId = builder.AddParameter("ProposalsApiAppId", secret: true);
+var proposalsApiScopes = builder.AddParameter("ProposalsApiScopes", secret: true);
+
 var webAppId = builder.AddParameter("WebAppId", secret: true);
 var webAppSecret = builder.AddParameter("WebAppSecret", secret: true);
 #endregion
@@ -26,7 +29,9 @@ var cmsApi = builder.AddProject<KITT_Cms_Web_Api>("cms-api")
 #region Proposals
 var proposalsApi = builder.AddProject<KITT_Proposals_Web_Api>("proposals-api")
     .WithReference(kittDb)
-    .WaitFor(kittDb);
+    .WaitFor(kittDb)
+    .WithEnvironment("TENANT_ID", tenantId)
+    .WithEnvironment("PROPOSALS_APPID", proposalsApiAppId);
 #endregion
 
 var webApp = builder.AddProject<KITT_Web_App>("webapp")
@@ -42,6 +47,8 @@ var webApp = builder.AddProject<KITT_Web_App>("webapp")
     .WithEnvironment("WEB_APP_SECRET", webAppSecret)
     .WithEnvironment("CMS_APPID", cmsApiAppId)
     .WithEnvironment("CMS_API_SCOPES", cmsApiScopes)
+    .WithEnvironment("PROPOSALS_APPID", proposalsApiAppId)
+    .WithEnvironment("PROPOSALS_API_SCOPES", proposalsApiScopes)
     .WithExternalHttpEndpoints();
 
 builder.Build().Run();
