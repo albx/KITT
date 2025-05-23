@@ -5,9 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <link href="bootstrap/css/bootstrap-utilities.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="KITT.Web.App.styles.css" />
+    <link href="@Assets["bootstrap/css/bootstrap-utilities.min.css"]" rel="stylesheet" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["KITT.Web.App.styles.css"]" />
+    <ImportMap />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <HeadOutlet @rendermode="@InteractiveWebAssembly" />
 </head>
