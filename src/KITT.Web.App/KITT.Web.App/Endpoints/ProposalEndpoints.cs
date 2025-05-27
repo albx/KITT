@@ -41,9 +41,10 @@ internal static class ProposalEndpoints
         return builder;
     }
 
-    private static IEnumerable<string> GetScopes(IConfiguration configuration)
-    {
-        var scopes = configuration["PROPOSALS_API_SCOPES"]?.Split(",") ?? [];
-        return scopes.Select(s => $"api://{configuration["PROPOSALS_APPID"]}/{s}");
-    }
+    private static IEnumerable<string> GetScopes(IConfiguration configuration) 
+        => [
+            $"api://{configuration["PROPOSALS_APPID"]}/Proposals.Read",
+            $"api://{configuration["PROPOSALS_APPID"]}/Proposals.Write",
+        ];
+
 }
