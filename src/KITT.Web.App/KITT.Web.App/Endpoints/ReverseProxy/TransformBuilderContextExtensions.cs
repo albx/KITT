@@ -11,16 +11,18 @@ public static class TransformBuilderContextExtensions
         string targetPath,
         Func<IConfiguration, IEnumerable<string>> scopesResolver)
     {
-        transformBuilder.AddPathRouteValues(new(targetPath));
         transformBuilder.AddRequestTransform(async transformContext =>
         {
+            transformContext.Path = new(targetPath);
+
             var tokenAcquisition = transformContext.HttpContext.RequestServices.GetRequiredService<ITokenAcquisition>();
             var configuration = transformContext.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            var user = transformContext.HttpContext.User;
 
             var scopes = scopesResolver.Invoke(configuration) 
                 ?? throw new IOException("No downstream API scopes!");
 
-            var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(scopes);
+            var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(scopes, user: user);
 
             transformContext.ProxyRequest.Headers.Authorization = new("Bearer", accessToken);
         });
