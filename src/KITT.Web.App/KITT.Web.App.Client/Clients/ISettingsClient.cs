@@ -1,4 +1,4 @@
-﻿using KITT.Web.Models.Settings;
+﻿using KITT.Cms.Web.Models.Settings;
 
 namespace KITT.Web.App.Client.Clients;
 

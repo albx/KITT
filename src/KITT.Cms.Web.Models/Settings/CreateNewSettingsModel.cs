@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KITT.Web.Models.Settings;
+namespace KITT.Cms.Web.Models.Settings;
 
 public class CreateNewSettingsModel
 {

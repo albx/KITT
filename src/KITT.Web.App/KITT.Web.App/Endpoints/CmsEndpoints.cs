@@ -38,6 +38,22 @@ internal static class CmsEndpoints
                 GetScopes))
             .RequireAuthorization();
 
+        builder.MapForwarder(
+            "/api/cms/settings", 
+            "https+http://cms-api", 
+            transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                "/api/settings", 
+                GetScopes))
+            .RequireAuthorization();
+
+        builder.MapForwarder(
+            "/api/cms/settings/{id}",
+            "https+http://cms-api",
+            transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                "/api/settings/{id}",
+                GetScopes))
+            .RequireAuthorization();
+
         return builder;
     }
 

@@ -1,13 +1,9 @@
-using KITT.Core.DependencyInjection;
-using KITT.Core.Persistence;
 using KITT.Telegram.Messages;
 using KITT.Web.App;
 using KITT.Web.App.Components;
 using KITT.Web.App.Endpoints;
-using KITT.Web.App.Endpoints.Services;
 using KITT.Web.App.UI;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -27,6 +23,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.TenantId = builder.Configuration["TENANT_ID"];
         options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
         options.SaveTokens = true;
+
+        options.TokenValidationParameters.NameClaimType = "name";
     })
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
@@ -38,6 +36,8 @@ builder.Services
         options.Scope.Add(OpenIdConnectScope.OfflineAccess);
         options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
         options.SaveTokens = true;
+
+        options.TokenValidationParameters.NameClaimType = "name";
     });
 
 builder.Services.AddAuthorization();
@@ -51,19 +51,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddDbContext<KittDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("KittDatabase")));
-
-builder.Services.AddKittCore();
-
 builder.Services.AddDefaultServices();
 builder.Services.AddHttpForwarderWithServiceDiscovery();
 builder.Services.AddProblemDetails();
-
-builder.Services.AddScoped<SettingsEndpointsServices>();
-
-//TOFIX this line will be fixed in future to use the correct service
-builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
 
 var app = builder.Build();
 
@@ -95,7 +85,6 @@ app.MapRazorComponents<App>()
 
 app
     .MapAuthenticationEndpoints()
-    .MapSettingsEndpoints()
     .MapCmsEndpoints()
     .MapProposalEndpoints();
 

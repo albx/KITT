@@ -24,21 +24,24 @@ builder.Services.AddOpenApi();
 builder.Services.AddKittCore();
 
 builder.Services
-    .AddScoped<StreamingsEndpointsServices>();
+    .AddScoped<StreamingsEndpointsServices>()
+    .AddScoped<SettingsEndpointsServices>();
 
 builder.Services.AddProblemDetails();
 
 builder.Services.Configure<MessageBusOptions>(
     options => options.ConnectionString = builder.Configuration["QueueClientOptions:ConnectionString"]!);
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
-}
-else
-{
-    builder.Services.AddSingleton<IMessageBus, QueueStorageMessageBus>();
-}
+//TOFIX disable the message bus for now, it will be fixed in future to use the correct service
+builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
+//if (builder.Environment.IsDevelopment())
+//{
+//    builder.Services.AddSingleton<IMessageBus, LocalMessageBus>();
+//}
+//else
+//{
+//    builder.Services.AddSingleton<IMessageBus, QueueStorageMessageBus>();
+//}
 
 var app = builder.Build();
 
@@ -54,6 +57,9 @@ app.UseExceptionHandler();
 app.UseStatusCodePages();
 
 app.MapDefaultEndpoints();
-app.MapStreamingsEndpoints();
+
+app
+    .MapStreamingsEndpoints()
+    .MapSettingsEndpoints();
 
 app.Run();

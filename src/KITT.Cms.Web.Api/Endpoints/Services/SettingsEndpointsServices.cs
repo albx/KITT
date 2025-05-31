@@ -1,9 +1,9 @@
-﻿using KITT.Core.Commands;
+﻿using KITT.Cms.Web.Models.Settings;
+using KITT.Core.Commands;
 using KITT.Core.ReadModels;
-using KITT.Web.Models.Settings;
 using Microsoft.EntityFrameworkCore;
 
-namespace KITT.Web.App.Endpoints.Services;
+namespace KITT.Cms.Web.Api.Endpoints.Services;
 
 public class SettingsEndpointsServices
 {
@@ -19,7 +19,7 @@ public class SettingsEndpointsServices
     public async Task<SettingsListModel> GetAllSettingsAsync(string userId)
     {
         var settings = await Database.Settings
-            //.ByUserId(userId)
+            .ByUserId(userId)
             .OrderBy(s => s.TwitchChannel)
             .Select(s => new SettingsListModel.SettingsDescriptor
             {

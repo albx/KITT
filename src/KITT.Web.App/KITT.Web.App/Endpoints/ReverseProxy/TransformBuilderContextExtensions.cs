@@ -1,4 +1,5 @@
-﻿using Microsoft.Identity.Web;
+﻿using Microsoft.Identity.Client;
+using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Transforms;
 using Yarp.ReverseProxy.Transforms.Builder;
 
@@ -21,10 +22,16 @@ public static class TransformBuilderContextExtensions
 
             var scopes = scopesResolver.Invoke(configuration) 
                 ?? throw new IOException("No downstream API scopes!");
-
-            var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(scopes, user: user);
-
-            transformContext.ProxyRequest.Headers.Authorization = new("Bearer", accessToken);
+            try
+            {
+                var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(scopes, user: user);
+                transformContext.ProxyRequest.Headers.Authorization = new("Bearer", accessToken);
+            }
+            catch (MicrosoftIdentityWebChallengeUserException)
+            {
+                transformContext.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            }
+            
         });
     }
 }

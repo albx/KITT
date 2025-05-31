@@ -1,4 +1,4 @@
-﻿using KITT.Web.Models.Settings;
+﻿using KITT.Cms.Web.Models.Settings;
 using System.Net.Http.Json;
 
 namespace KITT.Web.App.Client.Clients.Http;
@@ -7,7 +7,7 @@ public class SettingsHttpClient : ISettingsClient
 {
     public HttpClient Client { get; }
 
-    public string ApiResource { get; } = "/api/settings";
+    public string ApiResource { get; } = "/api/cms/settings";
 
     public SettingsHttpClient(HttpClient client)
     {

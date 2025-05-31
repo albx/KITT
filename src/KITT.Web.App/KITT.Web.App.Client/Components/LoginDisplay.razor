@@ -23,12 +23,12 @@
 
     private string GetUserEmailAddress(System.Security.Claims.ClaimsPrincipal user)
     {
-        var emails = user.FindFirst(c => c.Type == "emails")?.Value ?? string.Empty;
-        if (string.IsNullOrEmpty(emails))
+        var email = user.FindFirst(c => c.Type == "preferred_username")?.Value ?? string.Empty;
+        if (string.IsNullOrEmpty(email))
         {
             return string.Empty;
         }
 
-        return System.Text.Json.JsonSerializer.Deserialize<string[]>(emails)?.FirstOrDefault() ?? string.Empty;
+        return email;
     }
 }

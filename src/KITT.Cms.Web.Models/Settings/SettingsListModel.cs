@@ -1,4 +1,4 @@
-﻿namespace KITT.Web.Models.Settings;
+﻿namespace KITT.Cms.Web.Models.Settings;
 
 public class SettingsListModel
 {

@@ -22,7 +22,7 @@ public class StreamingsEndpointsServices
         var ascending = sort == StreamingQueryModel.SortDirection.Ascending;
 
         var streamingsQuery = Database.Streamings
-            //.ByUserId(userId)
+            .ByUserId(userId)
             .OrderedBySchedule(ascending);
 
         if (!string.IsNullOrWhiteSpace(query))
@@ -159,7 +159,7 @@ public class StreamingsEndpointsServices
     public async Task<StreamingStatsModel?> GetStreamingStatsAsync(string userId)
     {
         var streamingsQuery = Database.Streamings
-            //.ByUserId(userId)
+            .ByUserId(userId)
             .OrderedBySchedule();
 
         var deliveredStreamingsNumber = await streamingsQuery.DeliveredOnly().CountAsync();
