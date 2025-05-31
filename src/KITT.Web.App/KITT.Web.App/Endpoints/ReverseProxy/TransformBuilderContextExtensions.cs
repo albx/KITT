@@ -31,7 +31,6 @@ public static class TransformBuilderContextExtensions
             {
                 transformContext.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
             }
-            
         });
     }
 }

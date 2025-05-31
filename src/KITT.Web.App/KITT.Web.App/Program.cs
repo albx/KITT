@@ -5,6 +5,7 @@ using KITT.Web.App.Endpoints;
 using KITT.Web.App.UI;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.TokenCacheProviders.Distributed;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,21 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.TokenValidationParameters.NameClaimType = "name";
     })
     .EnableTokenAcquisitionToCallDownstreamApi()
-    .AddInMemoryTokenCaches();
+    .AddDistributedTokenCaches();
+
+builder.Services.Configure<MsalDistributedTokenCacheAdapterOptions>(options =>
+{
+    options.Encrypt = !builder.Environment.IsDevelopment();
+});
+
+builder.Services.AddDistributedSqlServerCache(options =>
+{
+    options.ConnectionString = builder.Configuration.GetConnectionString("KittDatabase");
+    options.SchemaName = "dbo";
+    options.TableName = "SecurityCache";
+
+    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
+});
 
 builder.Services
     .AddOptions<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme)

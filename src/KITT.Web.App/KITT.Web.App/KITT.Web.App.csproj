@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\KITT.Web.Shared\KITT.Web.Shared.csproj" />
     <ProjectReference Include="..\KITT.Web.App.Client\KITT.Web.App.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="9.0.5" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.3.0" />
 	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
   </ItemGroup>
