@@ -63,3 +63,7 @@ app
     .MapSettingsEndpoints();
 
 app.Run();
+
+#region Testing workaround
+public partial class Program { } // This is a workaround for testing purposes, to allow the test project to reference the Program class.
+#endregion

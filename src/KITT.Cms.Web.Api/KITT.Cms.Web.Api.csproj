@@ -18,5 +18,9 @@
     <ProjectReference Include="..\KITT.ServiceDefaults\KITT.ServiceDefaults.csproj" />
     <ProjectReference Include="..\KITT.Web.Shared\KITT.Web.Shared.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <InternalsVisibleTo Include="KITT.Cms.Web.Api.Test"/>
+  </ItemGroup>
 
 </Project>
