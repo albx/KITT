@@ -1,7 +1,9 @@
 ﻿using KITT.Cms.Web.Api.Test.Internals;
 using KITT.Cms.Web.Models.Settings;
+using KITT.Web.Testing.Authentication;
 using KITT.Web.Testing.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using KITT.Web.Testing.Security;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace KITT.Cms.Web.Api.Test;
 
@@ -36,10 +38,20 @@ public class SettingsEndpointsTest : IClassFixture<CmsWebApplicationFactory>
         // Arrange
         using var app = _factory.WithWebHostBuilder(builder =>
         {
-            builder.ConfigureServices(services => services.AddTestAuthentication());
+            builder.ConfigureServices(
+                services => services.ConfigureTestJwtOptions(CmsWebApplicationFactory.TenantId, CmsWebApplicationFactory.AppId));
         });
 
+        var token = TestJwtTokenProvider.JwtSecurityTokenHandler.WriteToken(
+            new JwtSecurityToken(
+                $"https://sts.windows.net/{CmsWebApplicationFactory.TenantId}/",
+                $"api://{CmsWebApplicationFactory.AppId}",
+                new TestClaimsProvider().Claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: TestJwtTokenProvider.SigningCredentials));
+
         using var client = app.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new("Bearer", token);
 
         // Act
         var response = await client.GetAsync(endpoint);
