@@ -14,8 +14,8 @@ builder.AddSqlServerDbContext<KittDbContext>("KittDatabase");
 builder.Services.AddAuthentication()
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
-        options.Authority = $"https://sts.windows.net/{builder.Configuration["TENANT_ID"]}/";
-        options.Audience = $"api://{builder.Configuration["CMS_APPID"]}";
+        options.Authority = $"https://sts.windows.net/{builder.Configuration["Identity:TenantId"]}/";
+        options.Audience = $"api://{builder.Configuration["Identity:Cms:AppId"]}";
     });
 
 builder.Services.AddAuthorization();

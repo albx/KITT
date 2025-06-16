@@ -1,5 +1,3 @@
-using KITT.Telegram.Messages;
-using KITT.Web.App;
 using KITT.Web.App.Components;
 using KITT.Web.App.Endpoints;
 using KITT.Web.App.UI;
@@ -17,12 +15,12 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
         options.CallbackPath = "/signin-oidc";
-        options.ClientId = builder.Configuration["WEB_APPID"];
-        options.Domain = $"{builder.Configuration["DOMAIN_NAME"]}.onmicrosoft.com";
+        options.ClientId = builder.Configuration["Identity:WebApp:AppId"];
+        options.Domain = $"{builder.Configuration["Identity:DomainName"]}.onmicrosoft.com";
         options.Instance = "https://login.microsoftonline.com/";
         options.ResponseType = "code";
-        options.TenantId = builder.Configuration["TENANT_ID"];
-        options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
+        options.TenantId = builder.Configuration["Identity:TenantId"];
+        options.ClientSecret = builder.Configuration["Identity:WebApp:AppSecret"];
         options.SaveTokens = true;
 
         options.TokenValidationParameters.NameClaimType = "name";
@@ -49,7 +47,7 @@ builder.Services
     .Configure(options =>
     {
         options.Scope.Add(OpenIdConnectScope.OfflineAccess);
-        options.ClientSecret = builder.Configuration["WEB_APP_SECRET"];
+        options.ClientSecret = builder.Configuration["Identity:WebApp:AppSecret"];
         options.SaveTokens = true;
 
         options.TokenValidationParameters.NameClaimType = "name";

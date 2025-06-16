@@ -43,8 +43,8 @@ internal static class ProposalEndpoints
 
     private static IEnumerable<string> GetScopes(IConfiguration configuration) 
         => [
-            $"api://{configuration["PROPOSALS_APPID"]}/Proposals.Read",
-            $"api://{configuration["PROPOSALS_APPID"]}/Proposals.Write",
+            $"api://{configuration["Identity:Proposals:AppId"]}/Proposals.Read",
+            $"api://{configuration["Identity:Proposals:AppId"]}/Proposals.Write",
         ];
 
 }

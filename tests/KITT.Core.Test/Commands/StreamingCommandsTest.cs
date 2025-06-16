@@ -138,7 +138,7 @@ namespace KITT.Core.Test.Commands
             Assert.Equal(streamingAbstract, scheduledStreaming.Abstract);
         }
 
-        [Fact]
+        [Fact(Skip = "At this moment the message bus has been disabled")]
         public async Task ScheduleStreamingAsync_Should_Send_ScheduledStreamingMessage_Correctly()
         {
             var messageBusMock = new Mock<IMessageBus>();

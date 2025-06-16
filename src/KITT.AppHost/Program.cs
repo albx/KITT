@@ -20,16 +20,16 @@ var kittDb = builder.AddConnectionString("KittDatabase");
 var cmsApi = builder.AddProject<KITT_Cms_Web_Api>("cms-api")
     .WithReference(kittDb)
     .WaitFor(kittDb)
-    .WithEnvironment("TENANT_ID", tenantId)
-    .WithEnvironment("CMS_APPID", cmsApiAppId);
+    .WithEnvironment("Identity__TenantId", tenantId)
+    .WithEnvironment("Identity__Cms__AppId", cmsApiAppId);
 #endregion
 
 #region Proposals
 var proposalsApi = builder.AddProject<KITT_Proposals_Web_Api>("proposals-api")
     .WithReference(kittDb)
     .WaitFor(kittDb)
-    .WithEnvironment("TENANT_ID", tenantId)
-    .WithEnvironment("PROPOSALS_APPID", proposalsApiAppId);
+    .WithEnvironment("Identity__TenantId", tenantId)
+    .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId);
 #endregion
 
 var webApp = builder.AddProject<KITT_Web_App>("webapp")
@@ -39,12 +39,12 @@ var webApp = builder.AddProject<KITT_Web_App>("webapp")
     .WaitFor(proposalsApi)
     .WithReference(kittDb)
     .WaitFor(kittDb)
-    .WithEnvironment("TENANT_ID", tenantId)
-    .WithEnvironment("DOMAIN_NAME", domainName)
-    .WithEnvironment("WEB_APPID", webAppId)
-    .WithEnvironment("WEB_APP_SECRET", webAppSecret)
-    .WithEnvironment("CMS_APPID", cmsApiAppId)
-    .WithEnvironment("PROPOSALS_APPID", proposalsApiAppId)
+    .WithEnvironment("Identity__TenantId", tenantId)
+    .WithEnvironment("Identity__DomainName", domainName)
+    .WithEnvironment("Identity__WebApp__AppId", webAppId)
+    .WithEnvironment("Identity__WebApp__AppSecret", webAppSecret)
+    .WithEnvironment("Identity__Cms__AppId", cmsApiAppId)
+    .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId)
     .WithExternalHttpEndpoints();
 
 builder.Build().Run();

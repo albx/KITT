@@ -59,7 +59,7 @@ internal static class CmsEndpoints
 
     private static IEnumerable<string> GetScopes(IConfiguration configuration)
         => [
-            $"api://{configuration["CMS_APPID"]}/Cms.Read",
-            $"api://{configuration["CMS_APPID"]}/Cms.Write",
+            $"api://{configuration["Identity:Cms:AppId"]}/Cms.Read",
+            $"api://{configuration["Identity:Cms:AppId"]}/Cms.Write",
         ];
 }

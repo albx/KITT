@@ -17,8 +17,8 @@ public class CmsWebApplicationFactory : WebApplicationFactory<Program>
         {
             configurationBuilder.AddInMemoryCollection(
                 [
-                    new KeyValuePair<string, string?>("TENANT_ID", TenantId),
-                    new KeyValuePair<string, string?>("CMS_APPID", AppId),
+                    new KeyValuePair<string, string?>("Identity__TenantId", TenantId),
+                    new KeyValuePair<string, string?>("Identity__Cms__AppId", AppId),
                 ]);
         });
 
