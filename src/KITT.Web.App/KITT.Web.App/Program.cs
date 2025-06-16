@@ -1,3 +1,4 @@
+using KITT.Web.App.Client;
 using KITT.Web.App.Components;
 using KITT.Web.App.Endpoints;
 using KITT.Web.App.UI;
@@ -94,7 +95,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(KITT.Web.App.Client._Imports).Assembly);
+    .AddAdditionalAssemblies([typeof(KITT.Web.App.Client._Imports).Assembly, ..Modules.AdditionalAssemblies]);
 
 app
     .MapAuthenticationEndpoints()

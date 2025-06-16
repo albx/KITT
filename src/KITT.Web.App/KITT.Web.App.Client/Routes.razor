@@ -1,5 +1,5 @@
 ﻿<CascadingAuthenticationState>
-    <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="additionalAssemblies">
+    <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="Modules.AdditionalAssemblies">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
                 <NotAuthorized>
@@ -10,10 +10,3 @@
         </Found>
     </Router>
 </CascadingAuthenticationState>
-
-@code {
-    private IEnumerable<System.Reflection.Assembly> additionalAssemblies = [
-        typeof(KITT.Cms.Web.App._Imports).Assembly,
-        typeof(KITT.Proposals.Web.App._Imports).Assembly,
-    ];
-}

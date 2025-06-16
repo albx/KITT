@@ -31,7 +31,14 @@
                 <FluentMessageBarProvider Section="@SectionNames.MessagesTopSectionName" />
 
                 <div class="mt-4">
-                    @Body
+                    @if (!RendererInfo.IsInteractive)
+                    {
+                        <FluentProgress />
+                    }
+                    else
+                    {
+                        @Body
+                    }
                 </div>
             </div>
         </FluentBodyContent>
