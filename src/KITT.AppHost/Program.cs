@@ -1,3 +1,4 @@
+using AzureKeyVaultEmulator.Aspire.Hosting;
 using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -12,6 +13,11 @@ var proposalsApiAppId = builder.AddParameter("ProposalsApiAppId", secret: true);
 
 var webAppId = builder.AddParameter("WebAppId", secret: true);
 var webAppSecret = builder.AddParameter("WebAppSecret", secret: true);
+#endregion
+
+#region Key Vault configuration
+var keyVault = builder.AddAzureKeyVault("kitt-keyvault")
+    .RunAsEmulator();
 #endregion
 
 var kittDb = builder.AddConnectionString("KittDatabase");
