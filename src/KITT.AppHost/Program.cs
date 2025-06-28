@@ -1,3 +1,5 @@
+using Azure.Core;
+using Azure.Provisioning.KeyVault;
 using AzureKeyVaultEmulator.Aspire.Hosting;
 using Projects;
 
@@ -17,6 +19,19 @@ var webAppSecret = builder.AddParameter("WebAppSecret", secret: true);
 
 #region Key Vault configuration
 var keyVault = builder.AddAzureKeyVault("kitt-keyvault")
+    .ConfigureInfrastructure(infra =>
+    {
+        var keyVaultResource = infra.GetProvisionableResources()
+            .OfType<KeyVaultService>()
+            .Single();
+
+        keyVaultResource.Location = AzureLocation.ItalyNorth;
+        keyVaultResource.Properties.Sku = new()
+        {
+            Name = KeyVaultSkuName.Standard,
+            Family = KeyVaultSkuFamily.A
+        };
+    })
     .RunAsEmulator();
 #endregion
 
