@@ -1,7 +1,7 @@
 using Azure.Core;
 using Azure.Provisioning.KeyVault;
 using AzureKeyVaultEmulator.Aspire.Hosting;
-using Projects;
+using Microsoft.Extensions.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -38,7 +38,7 @@ var keyVault = builder.AddAzureKeyVault("kitt-keyvault")
 var kittDb = builder.AddConnectionString("KittDatabase");
 
 #region CMS
-var cmsApi = builder.AddProject<KITT_Cms_Web_Api>("cms-api")
+var cmsApi = builder.AddProject<Projects.KITT_Cms_Web_Api>("cms-api")
     .WithReference(kittDb)
     .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
@@ -46,20 +46,22 @@ var cmsApi = builder.AddProject<KITT_Cms_Web_Api>("cms-api")
 #endregion
 
 #region Proposals
-var proposalsApi = builder.AddProject<KITT_Proposals_Web_Api>("proposals-api")
+var proposalsApi = builder.AddProject<Projects.KITT_Proposals_Web_Api>("proposals-api")
     .WithReference(kittDb)
     .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
     .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId);
 #endregion
 
-var webApp = builder.AddProject<KITT_Web_App>("webapp")
+var webApp = builder.AddProject<Projects.KITT_Web_App>("webapp")
     .WithReference(cmsApi)
     .WaitFor(cmsApi)
     .WithReference(proposalsApi)
     .WaitFor(proposalsApi)
     .WithReference(kittDb)
     .WaitFor(kittDb)
+    .WithReference(keyVault)
+    .WaitFor(keyVault)
     .WithEnvironment("Identity__TenantId", tenantId)
     .WithEnvironment("Identity__DomainName", domainName)
     .WithEnvironment("Identity__WebApp__AppId", webAppId)
@@ -67,5 +69,15 @@ var webApp = builder.AddProject<KITT_Web_App>("webapp")
     .WithEnvironment("Identity__Cms__AppId", cmsApiAppId)
     .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId)
     .WithExternalHttpEndpoints();
+
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.AddProject<Projects.KITT_Support_Seeder>("kitt-support-seeder")
+        .WithReference(keyVault)
+        .WaitFor(keyVault)
+        .WithEnvironment("Identity__WebApp__AppSecret", webAppSecret);
+}
+
 
 builder.Build().Run();

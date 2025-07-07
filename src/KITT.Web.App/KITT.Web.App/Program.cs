@@ -2,6 +2,7 @@ using KITT.Web.App.Client;
 using KITT.Web.App.Components;
 using KITT.Web.App.Endpoints;
 using KITT.Web.App.UI;
+using KITT.Web.Shared.Azure;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.TokenCacheProviders.Distributed;
@@ -10,6 +11,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.AddAzureKeyVaultSecretsWithEmulatorFallback("kitt-keyvault");
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
