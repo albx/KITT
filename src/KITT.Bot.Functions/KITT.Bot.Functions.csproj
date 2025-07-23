@@ -7,7 +7,7 @@
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.3.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.SignalRService" Version="2.0.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.6.0" />
-    <PackageReference Include="System.IO.Pipelines" Version="9.0.6" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.7" />
   </ItemGroup>
   <ItemGroup>
     <None Update="content\image.html">

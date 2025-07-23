@@ -1,10 +1,12 @@
+using KITT.Core.Persistence;
 using KITT.Support.Seeder;
-using KITT.Web.Shared.Azure;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.AddServiceDefaults();
-builder.AddAzureKeyVaultClientWithEmulatorFallback("kitt-keyvault");
+
+builder.AddSqlServerDbContext<KittDbContext>("KittDatabase");
+//builder.AddAzureKeyVaultClientWithEmulatorFallback("kitt-keyvault");
 
 builder.Services.AddHostedService<Worker>();
 

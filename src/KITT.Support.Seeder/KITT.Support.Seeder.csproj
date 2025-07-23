@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Azure.Security.KeyVault" Version="9.3.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
+    <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\KITT.Core\KITT.Core.csproj" />
     <ProjectReference Include="..\KITT.ServiceDefaults\KITT.ServiceDefaults.csproj" />
     <ProjectReference Include="..\KITT.Web.Shared\KITT.Web.Shared.csproj" />
   </ItemGroup>
