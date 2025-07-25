@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+    <PackageReference Include="Aspire.Hosting.Azure" Version="9.3.2" />
     <PackageReference Include="Aspire.Hosting.Azure.KeyVault" Version="9.3.1" />
     <PackageReference Include="Aspire.Hosting.Azure.Sql" Version="9.3.2" />
     <PackageReference Include="AzureKeyVaultEmulator.Aspire.Hosting" Version="2.4.6" />
@@ -20,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KITT.Cms.Web.Api\KITT.Cms.Web.Api.csproj" />
     <ProjectReference Include="..\KITT.Proposals.Web.Api\KITT.Proposals.Web.Api.csproj" />
+    <ProjectReference Include="..\KITT.Services\KITT.Services.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\KITT.Support.Seeder\KITT.Support.Seeder.csproj" />
     <ProjectReference Include="..\KITT.Web.App\KITT.Web.App\KITT.Web.App.csproj" />
   </ItemGroup>

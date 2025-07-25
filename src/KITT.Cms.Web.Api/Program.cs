@@ -5,11 +5,12 @@ using KITT.Cms.Web.Api.Endpoints.Services;
 using KITT.Cms.Web.Api;
 using KITT.Telegram.Messages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using KITT.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder.AddSqlServerDbContext<KittDbContext>("KittDatabase");
+builder.AddSqlServerDbContext<KittDbContext>(ServiceNames.Database);
 
 builder.Services.AddAuthentication()
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>

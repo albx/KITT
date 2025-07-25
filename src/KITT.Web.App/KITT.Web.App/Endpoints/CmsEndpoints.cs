@@ -1,4 +1,5 @@
-﻿using KITT.Web.App.Endpoints.ReverseProxy;
+﻿using KITT.Services;
+using KITT.Web.App.Endpoints.ReverseProxy;
 
 namespace KITT.Web.App.Endpoints;
 
@@ -8,23 +9,23 @@ internal static class CmsEndpoints
     {
         builder.MapForwarder(
             "/api/cms/streamings", 
-            "https+http://cms-api", 
+            $"https+http://{ServiceNames.CmsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/streamings", 
                 GetScopes))
             .RequireAuthorization();
 
         builder.MapForwarder(
-            "/api/cms/streamings/{id}", 
-            "https+http://cms-api", 
+            "/api/cms/streamings/{id}",
+            $"https+http://{ServiceNames.CmsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/streamings/{id}",
                 GetScopes))
             .RequireAuthorization();
 
         builder.MapForwarder(
-            "/api/cms/streamings/import", 
-            "https+http://cms-api", 
+            "/api/cms/streamings/import",
+            $"https+http://{ServiceNames.CmsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/streamings/import",
                 GetScopes))
@@ -32,7 +33,7 @@ internal static class CmsEndpoints
 
         builder.MapForwarder(
             "/api/cms/streamings/stats", 
-            "https+http://cms-api", 
+            $"https+http://{ServiceNames.CmsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/streamings/stats", 
                 GetScopes))
@@ -40,7 +41,7 @@ internal static class CmsEndpoints
 
         builder.MapForwarder(
             "/api/cms/settings", 
-            "https+http://cms-api", 
+            $"https+http://{ServiceNames.CmsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/settings", 
                 GetScopes))
@@ -48,7 +49,7 @@ internal static class CmsEndpoints
 
         builder.MapForwarder(
             "/api/cms/settings/{id}",
-            "https+http://cms-api",
+            $"https+http://{ServiceNames.CmsApi}",
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/settings/{id}",
                 GetScopes))

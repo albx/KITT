@@ -1,4 +1,5 @@
-﻿using KITT.Web.App.Endpoints.ReverseProxy;
+﻿using KITT.Services;
+using KITT.Web.App.Endpoints.ReverseProxy;
 
 namespace KITT.Web.App.Endpoints;
 
@@ -8,31 +9,31 @@ internal static class ProposalEndpoints
     {
         builder.MapForwarder(
             "/api/proposals", 
-            "https+http://proposals-api", 
+            $"https+http://{ServiceNames.ProposalsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/proposals", 
                 GetScopes))
             .RequireAuthorization();
 
         builder.MapForwarder(
-            "/api/proposals/{id}", 
-            "https+http://proposals-api", 
+            "/api/proposals/{id}",
+            $"https+http://{ServiceNames.ProposalsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/proposals/{id}", 
                 GetScopes))
             .RequireAuthorization();
 
         builder.MapForwarder(
-            "/api/proposals/{id}/refuse", 
-            "https+http://proposals-api", 
+            "/api/proposals/{id}/refuse",
+            $"https+http://{ServiceNames.ProposalsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/proposals/{id}/refuse", 
                 GetScopes))
             .RequireAuthorization();
         
         builder.MapForwarder(
-            "/api/proposals/stats", 
-            "https+http://proposals-api", 
+            "/api/proposals/stats",
+            $"https+http://{ServiceNames.ProposalsApi}", 
             transformBuilder => transformBuilder.ConfigureWithTargetPath(
                 "/api/proposals/stats", 
                 GetScopes))

@@ -1,5 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using Microsoft.Identity.Web;
+﻿using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Transforms;
 using Yarp.ReverseProxy.Transforms.Builder;
 

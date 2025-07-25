@@ -1,17 +1,19 @@
-using KITT.Core.Persistence;
 using KITT.Core.DependencyInjection;
-using KITT.Proposals.Web.Api.Endpoints.Services;
-using KITT.Proposals.Web.Api.Endpoints;
+using KITT.Core.Persistence;
 using KITT.Proposals.Web.Api;
+using KITT.Proposals.Web.Api.Endpoints;
+using KITT.Proposals.Web.Api.Endpoints.Services;
+using KITT.Services;
 using KITT.Telegram.Messages;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder.AddSqlServerDbContext<KittDbContext>("KittDatabase");
+builder.AddSqlServerDbContext<KittDbContext>(ServiceNames.Database);
 
 builder.Services.AddAuthentication()
-    .AddJwtBearer("Bearer", options =>
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
         options.Authority = $"https://sts.windows.net/{builder.Configuration["Identity:TenantId"]}/";
         options.Audience = $"api://{builder.Configuration["Identity:Proposals:AppId"]}";

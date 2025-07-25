@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Hosting;
+using KITT.Services;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ var webAppSecret = builder.AddParameter("WebAppSecret", secret: true);
 var kittAzureSqlName = builder.AddParameter("KittAzureSqlName");
 var kittAzureSqlResourceGroup = builder.AddParameter("KittAzureSqlResourceGroup");
 
-var kittSql = builder.AddAzureSqlServer("kitt-sql")
+var kittSql = builder.AddAzureSqlServer(ServiceNames.Sql)
     .AsExisting(kittAzureSqlName, kittAzureSqlResourceGroup)
     .RunAsContainer(containerBuilder =>
     {
@@ -45,11 +46,11 @@ var kittSql = builder.AddAzureSqlServer("kitt-sql")
             .WithDataVolume("kitt-data");
     });
 
-var kittDb = kittSql.AddDatabase("KittDatabase"); //builder.AddConnectionString("KittDatabase");
+var kittDb = kittSql.AddDatabase(ServiceNames.Database);
 #endregion
 
 #region CMS
-var cmsApi = builder.AddProject<Projects.KITT_Cms_Web_Api>("cms-api")
+var cmsApi = builder.AddProject<Projects.KITT_Cms_Web_Api>(ServiceNames.CmsApi)
     .WithReference(kittDb)
     .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
@@ -57,14 +58,14 @@ var cmsApi = builder.AddProject<Projects.KITT_Cms_Web_Api>("cms-api")
 #endregion
 
 #region Proposals
-var proposalsApi = builder.AddProject<Projects.KITT_Proposals_Web_Api>("proposals-api")
+var proposalsApi = builder.AddProject<Projects.KITT_Proposals_Web_Api>(ServiceNames.ProposalsApi)
     .WithReference(kittDb)
     .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
     .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId);
 #endregion
 
-var webApp = builder.AddProject<Projects.KITT_Web_App>("webapp")
+var webApp = builder.AddProject<Projects.KITT_Web_App>(ServiceNames.WebApp)
     .WithReference(cmsApi)
     .WaitFor(cmsApi)
     .WithReference(proposalsApi)
@@ -82,7 +83,7 @@ var webApp = builder.AddProject<Projects.KITT_Web_App>("webapp")
 
 if (builder.Environment.IsDevelopment())
 {
-    var seeder = builder.AddProject<Projects.KITT_Support_Seeder>("kitt-support-seeder")
+    var seeder = builder.AddProject<Projects.KITT_Support_Seeder>(ServiceNames.Seeder)
         .WithReference(kittDb)
         .WaitFor(kittSql);
         //.WithReference(keyVault)
