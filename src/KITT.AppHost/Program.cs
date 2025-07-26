@@ -3,6 +3,8 @@ using KITT.Services;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+builder.AddAzureContainerAppEnvironment("kitt-env");
+
 #region EntraID configuration
 var tenantId = builder.AddParameter("EntraIdTenantId", secret: true);
 var domainName = builder.AddParameter("EntraIdDomainName", secret: true);
