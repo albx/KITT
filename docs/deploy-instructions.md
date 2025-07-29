@@ -154,6 +154,124 @@ CMS_API_APP_ID
 PROPOSALS_API_APP_ID
 ```
 
+## Configurazione dei Secrets Azure
+
+### 1. Creazione Service Principal per GitHub Actions
+
+Per configurare l'autenticazione automatica con Azure, devi creare una Service Principal. Esegui il seguente comando con Azure CLI:
+
+```bash
+# Sostituisci <subscription-id> con il tuo ID subscription
+az ad sp create-for-rbac \
+  --name "GitHub-Actions-KITT" \
+  --role contributor \
+  --scopes /subscriptions/<subscription-id> \
+  --sdk-auth
+```
+
+Questo comando restituirà un JSON simile a questo:
+```json
+{
+  "clientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "clientSecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "subscriptionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "tenantId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+```
+
+### 2. Configurazione GitHub Secrets
+
+Aggiungi i seguenti secrets nel tuo repository GitHub (Settings → Secrets and variables → Actions):
+
+#### Secrets Azure Infrastructure
+- **AZURE_CREDENTIALS**: L'intero JSON restituito dal comando `az ad sp create-for-rbac`
+- **AZURE_SUBSCRIPTION_ID**: Il valore di `subscriptionId` dal JSON
+- **AZURE_TENANT_ID**: Il valore di `tenantId` dal JSON  
+- **AZURE_CLIENT_ID**: Il valore di `clientId` dal JSON
+- **AZURE_CLIENT_SECRET**: Il valore di `clientSecret` dal JSON
+- **AZURE_PRINCIPAL_ID**: Il valore di `clientId` dal JSON (stesso valore di AZURE_CLIENT_ID)
+
+#### Secrets Database SQL
+- **KITT_SQL_RESOURCE_GROUP**: Nome del resource group contenente il database SQL
+- **KITT_SQL_NAME**: Nome del server SQL Azure esistente
+
+### 3. Configurazione Entra ID (Azure AD)
+
+Per i secrets di autenticazione delle applicazioni web, devi registrare le applicazioni in Entra ID:
+
+#### 3.1 Ottenere informazioni del tenant
+```bash
+# Ottieni Tenant ID
+az account show --query tenantId -o tsv
+
+# Ottieni Domain Name
+az rest --method GET --url "https://graph.microsoft.com/v1.0/domains" --query "value[?isDefault].id" -o tsv
+```
+
+#### 3.2 Registrare le applicazioni Web
+```bash
+# Registra Web App principale
+az ad app create \
+  --display-name "KITT-WebApp" \
+  --web-redirect-uris "https://your-webapp-url/signin-oidc" \
+  --required-resource-accesses @webapp-manifest.json
+
+# Registra CMS API
+az ad app create \
+  --display-name "KITT-CMS-API" \
+  --identifier-uris "api://kitt-cms-api"
+
+# Registra Proposals API  
+az ad app create \
+  --display-name "KITT-Proposals-API" \
+  --identifier-uris "api://kitt-proposals-api"
+```
+
+#### 3.3 Creare client secrets per le applicazioni
+```bash
+# Per ogni app registrata, crea un client secret
+az ad app credential reset --id <app-id> --display-name "GitHub-Actions-Secret"
+```
+
+#### Secrets Entra ID da configurare
+- **ENTRA_ID_TENANT_ID**: Tenant ID di Entra ID (stesso di AZURE_TENANT_ID)
+- **ENTRA_ID_DOMAIN_NAME**: Nome del dominio del tenant (es. contoso.onmicrosoft.com)
+- **WEB_APP_ID**: Application ID della Web App principale
+- **WEB_APP_SECRET**: Client secret della Web App principale  
+- **CMS_API_APP_ID**: Application ID della CMS API
+- **PROPOSALS_API_APP_ID**: Application ID della Proposals API
+
+### 4. Verifica configurazione
+
+Per verificare che tutto sia configurato correttamente:
+
+```bash
+# Test login con Service Principal
+az login --service-principal \
+  --username <AZURE_CLIENT_ID> \
+  --password <AZURE_CLIENT_SECRET> \
+  --tenant <AZURE_TENANT_ID>
+
+# Verifica permessi
+az account show
+az group list
+```
+
+### Documentazione Microsoft di riferimento
+
+- [**Autenticazione Service Principal**](https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/local-development-service-principal): Guida completa per configurare Service Principal per applicazioni .NET
+- [**Variabili d'ambiente Azure**](https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/on-premises-apps#set-the-app-environment-variables): Come impostare le credenziali Azure nelle variabili d'ambiente
+- [**GitHub Actions con Azure**](https://learn.microsoft.com/en-us/visualstudio/azure/azure-deployment-using-github-actions): Deploy su Azure Container Apps usando GitHub Actions
+- [**Registrazione app Entra ID**](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app): Registrare applicazioni in Entra ID (Azure AD)
+- [**Azure CLI Service Principal**](https://learn.microsoft.com/en-us/cli/azure/ad/sp): Documentazione completa sui comandi `az ad sp`
+- [**Container Apps autenticazione**](https://learn.microsoft.com/en-us/azure/container-apps/authentication): Configurare l'autenticazione per Azure Container Apps
+
 ## Richiesta di Modifica
 L'utente ha richiesto di evitare i Dockerfile e utilizzare le funzionalità native di .NET per la containerizzazione.
 
