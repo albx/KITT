@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using KITT.Services;
+using Azure.Provisioning.Sql;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -41,6 +42,15 @@ var kittAzureSqlResourceGroup = builder.AddParameter("KittAzureSqlResourceGroup"
 
 var kittSql = builder.AddAzureSqlServer(ServiceNames.Sql)
     .AsExisting(kittAzureSqlName, kittAzureSqlResourceGroup)
+    .ConfigureInfrastructure(infra =>
+    {
+        var database = infra.GetProvisionableResources()
+            .OfType<SqlDatabase>()
+            .First();
+
+        database.UseFreeLimit = false;
+        database.Sku = new() { Tier = "Basic", Name = "Basic" };
+    })
     .RunAsContainer(containerBuilder =>
     {
         containerBuilder.WithContainerName("sqlserver-local")
@@ -48,7 +58,7 @@ var kittSql = builder.AddAzureSqlServer(ServiceNames.Sql)
             .WithDataVolume("kitt-data");
     });
 
-var kittDb = kittSql.AddDatabase(ServiceNames.Database);
+var kittDb = kittSql.AddDatabase(ServiceNames.Database, databaseName: "KITT");
 #endregion
 
 #region CMS

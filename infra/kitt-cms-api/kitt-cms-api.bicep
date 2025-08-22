@@ -25,7 +25,7 @@ param cmsapiappid_value string
 
 param kitt_cms_api_identity_outputs_clientid string
 
-resource kitt_cms_api 'Microsoft.App/containerApps@2024-03-01' = {
+resource kitt_cms_api 'Microsoft.App/containerApps@2025-02-02-preview' = {
   name: 'kitt-cms-api'
   location: location
   properties: {
@@ -52,6 +52,11 @@ resource kitt_cms_api 'Microsoft.App/containerApps@2024-03-01' = {
           identity: kitt_env_outputs_azure_container_registry_managed_identity_id
         }
       ]
+      runtime: {
+        dotnet: {
+          autoConfigureDataProtection: true
+        }
+      }
     }
     environmentId: kitt_env_outputs_azure_container_apps_environment_id
     template: {
@@ -82,7 +87,7 @@ resource kitt_cms_api 'Microsoft.App/containerApps@2024-03-01' = {
             }
             {
               name: 'ConnectionStrings__KittDatabase'
-              value: 'Server=tcp:${kitt_sql_outputs_sqlserverfqdn},1433;Encrypt=True;Authentication="Active Directory Default";Database=KittDatabase'
+              value: 'Server=tcp:${kitt_sql_outputs_sqlserverfqdn},1433;Encrypt=True;Authentication="Active Directory Default";Database=KITT'
             }
             {
               name: 'Identity__TenantId'

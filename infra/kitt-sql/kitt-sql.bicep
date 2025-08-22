@@ -3,11 +3,11 @@ param location string = resourceGroup().location
 
 param KittAzureSqlName string
 
-resource kitt_sql 'Microsoft.Sql/servers@2021-11-01' existing = {
+resource kitt_sql 'Microsoft.Sql/servers@2023-08-01' existing = {
   name: KittAzureSqlName
 }
 
-resource sqlFirewallRule_AllowAllAzureIps 'Microsoft.Sql/servers/firewallRules@2021-11-01' = {
+resource sqlFirewallRule_AllowAllAzureIps 'Microsoft.Sql/servers/firewallRules@2023-08-01' = {
   name: 'AllowAllAzureIps'
   properties: {
     endIpAddress: '0.0.0.0'
@@ -17,14 +17,15 @@ resource sqlFirewallRule_AllowAllAzureIps 'Microsoft.Sql/servers/firewallRules@2
 }
 
 resource KittDatabase 'Microsoft.Sql/servers/databases@2023-08-01' = {
-  name: 'KittDatabase'
+  name: 'KITT'
   location: location
   properties: {
     freeLimitExhaustionBehavior: 'AutoPause'
-    useFreeLimit: true
+    useFreeLimit: false
   }
   sku: {
-    name: 'GP_S_Gen5_2'
+    name: 'Basic'
+    tier: 'Basic'
   }
   parent: kitt_sql
 }
