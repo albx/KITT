@@ -1,8 +1,6 @@
 @description('The location for the resource(s) to be deployed.')
 param location string = resourceGroup().location
 
-param kitt_env_outputs_azure_container_apps_environment_default_domain string
-
 param kitt_env_outputs_azure_container_apps_environment_id string
 
 param kitt_env_outputs_azure_container_registry_endpoint string
@@ -11,11 +9,10 @@ param kitt_env_outputs_azure_container_registry_managed_identity_id string
 
 param kitt_proposals_api_containerimage string
 
-param kitt_proposals_api_identity_outputs_id string
-
 param kitt_proposals_api_containerport string
 
-param kitt_sql_outputs_sqlserverfqdn string
+@secure()
+param kittdatabase_connectionstring string
 
 @secure()
 param entraidtenantid_value string
@@ -23,14 +20,16 @@ param entraidtenantid_value string
 @secure()
 param proposalsapiappid_value string
 
-param kitt_proposals_api_identity_outputs_clientid string
-
 resource kitt_proposals_api 'Microsoft.App/containerApps@2025-02-02-preview' = {
   name: 'kitt-proposals-api'
   location: location
   properties: {
     configuration: {
       secrets: [
+        {
+          name: 'connectionstrings--kittdatabase'
+          value: kittdatabase_connectionstring
+        }
         {
           name: 'identity--tenantid'
           value: entraidtenantid_value
@@ -87,7 +86,7 @@ resource kitt_proposals_api 'Microsoft.App/containerApps@2025-02-02-preview' = {
             }
             {
               name: 'ConnectionStrings__KittDatabase'
-              value: 'Server=tcp:${kitt_sql_outputs_sqlserverfqdn},1433;Encrypt=True;Authentication="Active Directory Default";Database=KITT'
+              secretRef: 'connectionstrings--kittdatabase'
             }
             {
               name: 'Identity__TenantId'
@@ -96,10 +95,6 @@ resource kitt_proposals_api 'Microsoft.App/containerApps@2025-02-02-preview' = {
             {
               name: 'Identity__Proposals__AppId'
               secretRef: 'identity--proposals--appid'
-            }
-            {
-              name: 'AZURE_CLIENT_ID'
-              value: kitt_proposals_api_identity_outputs_clientid
             }
           ]
         }
@@ -112,7 +107,6 @@ resource kitt_proposals_api 'Microsoft.App/containerApps@2025-02-02-preview' = {
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '${kitt_proposals_api_identity_outputs_id}': { }
       '${kitt_env_outputs_azure_container_registry_managed_identity_id}': { }
     }
   }

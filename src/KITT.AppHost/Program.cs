@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using KITT.Services;
-using Azure.Provisioning.Sql;
+using KITT.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -18,47 +18,8 @@ var webAppId = builder.AddParameter("WebAppId", secret: true);
 var webAppSecret = builder.AddParameter("WebAppSecret", secret: true);
 #endregion
 
-//#region Key Vault configuration
-//var keyVault = builder.AddAzureKeyVault("kitt-keyvault")
-//    .ConfigureInfrastructure(infra =>
-//    {
-//        var keyVaultResource = infra.GetProvisionableResources()
-//            .OfType<KeyVaultService>()
-//            .Single();
-
-//        keyVaultResource.Location = AzureLocation.ItalyNorth;
-//        keyVaultResource.Properties.Sku = new()
-//        {
-//            Name = KeyVaultSkuName.Standard,
-//            Family = KeyVaultSkuFamily.A
-//        };
-//    })
-//    .RunAsEmulator();
-//#endregion
-
 #region Database
-var kittAzureSqlName = builder.AddParameter("KittAzureSqlName");
-var kittAzureSqlResourceGroup = builder.AddParameter("KittAzureSqlResourceGroup");
-
-var kittSql = builder.AddAzureSqlServer(ServiceNames.Sql)
-    .AsExisting(kittAzureSqlName, kittAzureSqlResourceGroup)
-    .ConfigureInfrastructure(infra =>
-    {
-        var database = infra.GetProvisionableResources()
-            .OfType<SqlDatabase>()
-            .First();
-
-        database.UseFreeLimit = false;
-        database.Sku = new() { Tier = "Basic", Name = "Basic" };
-    })
-    .RunAsContainer(containerBuilder =>
-    {
-        containerBuilder.WithContainerName("sqlserver-local")
-            .WithLifetime(ContainerLifetime.Persistent)
-            .WithDataVolume("kitt-data");
-    });
-
-var kittDb = kittSql.AddDatabase(ServiceNames.Database, databaseName: "KITT");
+var kittDb = builder.AddKittDatabase();
 #endregion
 
 #region CMS
@@ -83,7 +44,7 @@ var webApp = builder.AddProject<Projects.KITT_Web_App>(ServiceNames.WebApp)
     .WithReference(proposalsApi)
     .WaitFor(proposalsApi)
     .WithReference(kittDb)
-    .WaitFor(kittSql)
+    .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
     .WithEnvironment("Identity__DomainName", domainName)
     .WithEnvironment("Identity__WebApp__AppId", webAppId)
@@ -97,10 +58,7 @@ if (builder.Environment.IsDevelopment())
 {
     var seeder = builder.AddProject<Projects.KITT_Support_Seeder>(ServiceNames.Seeder)
         .WithReference(kittDb)
-        .WaitFor(kittSql);
-        //.WithReference(keyVault)
-        //.WaitFor(keyVault)
-        //.WithEnvironment("Identity__WebApp__AppSecret", webAppSecret);
+        .WaitFor(kittDb);
 }
 
 

@@ -32,8 +32,11 @@ jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
     outputs:
-      container-registry-name: ${{ steps.deploy.outputs.containerRegistryName }}
-      container-registry-endpoint: ${{ steps.deploy.outputs.containerRegistryEndpoint }}
+      container-registry-name: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_REGISTRY_NAME }}
+      container-registry-endpoint: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_REGISTRY_ENDPOINT }}
+      container-registry-managed-identity-id: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_REGISTRY_MANAGED_IDENTITY_ID }}
+      container-apps-environment-id: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_APPS_ENVIRONMENT_ID }}
+      container-apps-environment-default-domain: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_APPS_ENVIRONMENT_DEFAULT_DOMAIN }}
     steps:
     - uses: actions/checkout@v4
 
@@ -52,9 +55,6 @@ jobs:
         parameters: >
           resourceGroupName=${{ env.RESOURCE_GROUP }}
           location="${{ env.LOCATION }}"
-          principalId=${{ secrets.AZURE_PRINCIPAL_ID }}
-          KittAzureSqlResourceGroup=${{ secrets.KITT_SQL_RESOURCE_GROUP }}
-          KittAzureSqlName=${{ secrets.KITT_SQL_NAME }}
         deploymentMode: Incremental
 
   build-and-push-images:
@@ -64,14 +64,17 @@ jobs:
       matrix:
         project:
           - name: "kitt-webapp"
-            dockerfile: "./src/KITT.Web.App/KITT.Web.App/Dockerfile"
-            context: "."
+            path: "./src/KITT.Web.App"
+            csproj: "KITT.Web.App.csproj"
+            port: "8080"
           - name: "kitt-cms-api"
-            dockerfile: "./src/KITT.Cms.Web.Api/Dockerfile"
-            context: "."
+            path: "./src/KITT.Cms.Web.Api"
+            csproj: "KITT.Cms.Web.Api.csproj"
+            port: "8080"
           - name: "kitt-proposals-api"
-            dockerfile: "./src/KITT.Proposals.Web.Api/Dockerfile"
-            context: "."
+            path: "./src/KITT.Proposals.Web.Api"
+            csproj: "KITT.Proposals.Web.Api.csproj"
+            port: "8080"
     
     steps:
     - uses: actions/checkout@v4
@@ -90,11 +93,19 @@ jobs:
       run: |
         az acr login --name ${{ needs.deploy-infrastructure.outputs.container-registry-name }}
 
-    - name: Build and Push Docker Image
+    - name: Build and Push Container using .NET SDK
       run: |
-        IMAGE_TAG="${{ needs.deploy-infrastructure.outputs.container-registry-endpoint }}/${{ matrix.project.name }}:${{ github.sha }}"
-        docker build -f ${{ matrix.project.dockerfile }} -t $IMAGE_TAG ${{ matrix.project.context }}
-        docker push $IMAGE_TAG
+        REGISTRY_ENDPOINT="${{ needs.deploy-infrastructure.outputs.container-registry-endpoint }}"
+        IMAGE_TAG="${REGISTRY_ENDPOINT}/${{ matrix.project.name }}:${{ github.sha }}"
+        
+        cd ${{ matrix.project.path }}
+        dotnet publish ${{ matrix.project.csproj }} \
+          --os linux \
+          --arch x64 \
+          -p:PublishProfile=DefaultContainer \
+          -p:ContainerImageName=${{ matrix.project.name }} \
+          -p:ContainerImageTag=${{ github.sha }} \
+          -p:ContainerRegistry=${REGISTRY_ENDPOINT}
 
   deploy-container-apps:
     needs: [deploy-infrastructure, build-and-push-images]
@@ -104,10 +115,13 @@ jobs:
         app:
           - name: "kitt-webapp"
             bicep: "./infra/kitt-webapp/kitt-webapp.bicep"
+            port: "8080"
           - name: "kitt-cms-api"
             bicep: "./infra/kitt-cms-api/kitt-cms-api.bicep"
+            port: "8080"
           - name: "kitt-proposals-api"
             bicep: "./infra/kitt-proposals-api/kitt-proposals-api.bicep"
+            port: "8080"
     
     steps:
     - uses: actions/checkout@v4
@@ -126,7 +140,12 @@ jobs:
         parameters: >
           location="${{ env.LOCATION }}"
           ${{ matrix.app.name }}_containerimage="${{ needs.deploy-infrastructure.outputs.container-registry-endpoint }}/${{ matrix.app.name }}:${{ github.sha }}"
+          ${{ matrix.app.name }}_containerport="${{ matrix.app.port }}"
+          kitt_env_outputs_azure_container_apps_environment_id="${{ needs.deploy-infrastructure.outputs.container-apps-environment-id }}"
           kitt_env_outputs_azure_container_registry_endpoint="${{ needs.deploy-infrastructure.outputs.container-registry-endpoint }}"
+          kitt_env_outputs_azure_container_registry_managed_identity_id="${{ needs.deploy-infrastructure.outputs.container-registry-managed-identity-id }}"
+          kitt_env_outputs_azure_container_apps_environment_default_domain="${{ needs.deploy-infrastructure.outputs.container-apps-environment-default-domain }}"
+          kittdatabase_connectionstring="${{ secrets.KITT_DATABASE_CONNECTION_STRING }}"
           entraidtenantid_value="${{ secrets.ENTRA_ID_TENANT_ID }}"
           entraiddomainname_value="${{ secrets.ENTRA_ID_DOMAIN_NAME }}"
           webappid_value="${{ secrets.WEB_APP_ID }}"
@@ -144,8 +163,7 @@ AZURE_TENANT_ID
 AZURE_CLIENT_ID
 AZURE_CLIENT_SECRET
 AZURE_PRINCIPAL_ID
-KITT_SQL_RESOURCE_GROUP
-KITT_SQL_NAME
+KITT_DATABASE_CONNECTION_STRING
 ENTRA_ID_TENANT_ID
 ENTRA_ID_DOMAIN_NAME
 WEB_APP_ID
@@ -190,16 +208,15 @@ Questo comando restituirà un JSON simile a questo:
 Aggiungi i seguenti secrets nel tuo repository GitHub (Settings → Secrets and variables → Actions):
 
 #### Secrets Azure Infrastructure
-- **AZURE_CREDENTIALS**: L'intero JSON restituito dal comando `az ad sp create-for-rbac`
+- **AZURE_CREDENTIALS**: L'intero JSON restituito dal comando `az ad sp create-for-rbap`
 - **AZURE_SUBSCRIPTION_ID**: Il valore di `subscriptionId` dal JSON
 - **AZURE_TENANT_ID**: Il valore di `tenantId` dal JSON  
 - **AZURE_CLIENT_ID**: Il valore di `clientId` dal JSON
 - **AZURE_CLIENT_SECRET**: Il valore di `clientSecret` dal JSON
 - **AZURE_PRINCIPAL_ID**: Il valore di `clientId` dal JSON (stesso valore di AZURE_CLIENT_ID)
 
-#### Secrets Database SQL
-- **KITT_SQL_RESOURCE_GROUP**: Nome del resource group contenente il database SQL
-- **KITT_SQL_NAME**: Nome del server SQL Azure esistente
+#### Secrets Database
+- **KITT_DATABASE_CONNECTION_STRING**: Stringa di connessione completa al database SQL Azure
 
 ### 3. Configurazione Entra ID (Azure AD)
 
@@ -366,8 +383,11 @@ jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
     outputs:
-      container-registry-name: ${{ steps.deploy.outputs.containerRegistryName }}
-      container-registry-endpoint: ${{ steps.deploy.outputs.containerRegistryEndpoint }}
+      container-registry-name: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_REGISTRY_NAME }}
+      container-registry-endpoint: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_REGISTRY_ENDPOINT }}
+      container-registry-managed-identity-id: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_REGISTRY_MANAGED_IDENTITY_ID }}
+      container-apps-environment-id: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_APPS_ENVIRONMENT_ID }}
+      container-apps-environment-default-domain: ${{ steps.deploy.outputs.kitt_env_AZURE_CONTAINER_APPS_ENVIRONMENT_DEFAULT_DOMAIN }}
     steps:
     - uses: actions/checkout@v4
 
@@ -386,9 +406,6 @@ jobs:
         parameters: >
           resourceGroupName=${{ env.RESOURCE_GROUP }}
           location="${{ env.LOCATION }}"
-          principalId=${{ secrets.AZURE_PRINCIPAL_ID }}
-          KittAzureSqlResourceGroup=${{ secrets.KITT_SQL_RESOURCE_GROUP }}
-          KittAzureSqlName=${{ secrets.KITT_SQL_NAME }}
         deploymentMode: Incremental
 
   build-and-push-images:
@@ -398,7 +415,7 @@ jobs:
       matrix:
         project:
           - name: "kitt-webapp"
-            path: "./src/KITT.Web.App/KITT.Web.App"
+            path: "./src/KITT.Web.App"
             csproj: "KITT.Web.App.csproj"
           - name: "kitt-cms-api"
             path: "./src/KITT.Cms.Web.Api"
@@ -446,10 +463,13 @@ jobs:
         app:
           - name: "kitt-webapp"
             bicep: "./infra/kitt-webapp/kitt-webapp.bicep"
+            port: "8080"
           - name: "kitt-cms-api"
             bicep: "./infra/kitt-cms-api/kitt-cms-api.bicep"
+            port: "8080"
           - name: "kitt-proposals-api"
             bicep: "./infra/kitt-proposals-api/kitt-proposals-api.bicep"
+            port: "8080"
     
     steps:
     - uses: actions/checkout@v4
@@ -468,7 +488,12 @@ jobs:
         parameters: >
           location="${{ env.LOCATION }}"
           ${{ matrix.app.name }}_containerimage="${{ needs.deploy-infrastructure.outputs.container-registry-endpoint }}/${{ matrix.app.name }}:${{ github.sha }}"
+          ${{ matrix.app.name }}_containerport="${{ matrix.app.port }}"
+          kitt_env_outputs_azure_container_apps_environment_id="${{ needs.deploy-infrastructure.outputs.container-apps-environment-id }}"
           kitt_env_outputs_azure_container_registry_endpoint="${{ needs.deploy-infrastructure.outputs.container-registry-endpoint }}"
+          kitt_env_outputs_azure_container_registry_managed_identity_id="${{ needs.deploy-infrastructure.outputs.container-registry-managed-identity-id }}"
+          kitt_env_outputs_azure_container_apps_environment_default_domain="${{ needs.deploy-infrastructure.outputs.container-apps-environment-default-domain }}"
+          kittdatabase_connectionstring="${{ secrets.KITT_DATABASE_CONNECTION_STRING }}"
           entraidtenantid_value="${{ secrets.ENTRA_ID_TENANT_ID }}"
           entraiddomainname_value="${{ secrets.ENTRA_ID_DOMAIN_NAME }}"
           webappid_value="${{ secrets.WEB_APP_ID }}"
@@ -487,7 +512,7 @@ jobs:
 ```powershell
 # build-containers.ps1
 Write-Host "Building KITT Web App container..."
-dotnet publish src/KITT.Web.App/KITT.Web.App/KITT.Web.App.csproj `
+dotnet publish src/KITT.Web.App/KITT.Web.App.csproj `
   --os linux --arch x64 `
   -p:PublishProfile=DefaultContainer `
   -p:ContainerImageName=kitt-webapp `
@@ -508,6 +533,60 @@ dotnet publish src/KITT.Proposals.Web.Api/KITT.Proposals.Web.Api.csproj `
   -p:ContainerImageTag=local
 
 Write-Host "All containers built successfully!"
+```
+
+## Architettura dell'infrastruttura
+
+L'infrastruttura Azure è organizzata in moduli Bicep separati:
+
+### 1. `main.bicep` (Entry Point)
+- **Scope**: Subscription-level deployment
+- **Ruolo**: Crea il resource group e richiama il modulo `kitt-env`
+- **Output**: Espone tutti gli output del modulo environment per gli altri deployment
+
+### 2. `kitt-env/kitt-env.bicep` (Shared Environment)
+- **Azure Container Registry** (Basic SKU) con nome univoco
+- **User-Assigned Managed Identity** per l'accesso al registry
+- **Role Assignment** AcrPull per la managed identity
+- **Log Analytics Workspace** per i log delle container apps
+- **Container Apps Environment** con configurazione log analytics
+- **Aspire Dashboard** component per observability
+
+### 3. `kitt-webapp/kitt-webapp.bicep` (Web Application)
+- **External ingress** su porta 8080
+- **Secrets** per database e identità Entra ID
+- **Service discovery** per CMS e Proposals API
+- **Aspire telemetry** configurato
+
+### 4. `kitt-cms-api/kitt-cms-api.bicep` (CMS API)
+- **Internal ingress** (non esposta esternamente)
+- **Secrets** per database e identità CMS
+- **Aspire telemetry** configurato
+
+### 5. `kitt-proposals-api/kitt-proposals-api.bicep` (Proposals API)
+- **Internal ingress** (non esposta esternamente)
+- **Secrets** per database e identità Proposals
+- **Aspire telemetry** configurato
+
+## Configurazione .NET Container Support
+
+### Proprietà csproj necessarie
+Aggiungi ai file `.csproj` delle applicazioni web:
+
+```xml
+<PropertyGroup>
+  <!-- Container Properties -->
+  <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+  <ContainerImageName>kitt-webapp</ContainerImageName> <!-- Cambia per ogni progetto -->
+  <ContainerImageTag>latest</ContainerImageTag>
+  <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:9.0</ContainerBaseImage>
+  <ContainerWorkingDirectory>/app</ContainerWorkingDirectory>
+</PropertyGroup>
+```
+
+### Package NuGet richiesto
+```xml
+<PackageReference Include="Microsoft.NET.Build.Containers" Version="7.0.401" />
 ```
 
 ## Vantaggi della soluzione finale

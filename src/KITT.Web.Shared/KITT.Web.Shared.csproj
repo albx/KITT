@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Azure.Security.KeyVault" Version="9.4.1" />
-    <PackageReference Include="AzureKeyVaultEmulator.Client" Version="2.5.8" />
+    <PackageReference Include="Aspire.Azure.Security.KeyVault" Version="9.4.2" />
+    <PackageReference Include="AzureKeyVaultEmulator.Client" Version="2.6.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.8" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="3.13.2" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.14.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.8" />
   </ItemGroup>
 
