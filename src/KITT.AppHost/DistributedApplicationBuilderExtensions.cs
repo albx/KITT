@@ -9,7 +9,7 @@ public static class DistributedApplicationBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        if (builder.Environment.IsDevelopment())
+        if (!builder.ExecutionContext.IsPublishMode)
         {
             var kittSql = builder.AddSqlServer(ServiceNames.Sql)
                 .WithContainerName("sqlserver-local")

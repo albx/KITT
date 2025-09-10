@@ -356,3 +356,4 @@ MigrationBackup/
 *.sql
 *.job
 profile.arm.json
+.azure

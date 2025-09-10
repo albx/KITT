@@ -54,7 +54,7 @@ var webApp = builder.AddProject<Projects.KITT_Web_App>(ServiceNames.WebApp)
     .WithExternalHttpEndpoints();
 
 
-if (builder.Environment.IsDevelopment())
+if (!builder.ExecutionContext.IsPublishMode)
 {
     var seeder = builder.AddProject<Projects.KITT_Support_Seeder>(ServiceNames.Seeder)
         .WithReference(kittDb)
