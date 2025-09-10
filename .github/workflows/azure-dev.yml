@@ -5,7 +5,7 @@ on:
     # Run when commits are pushed to mainline branch (main or master)
     # Set this to the mainline branch you are using
     branches:
-      - 109-road-to-aspire
+      - main
 
 # Set up permissions for deploying with secretless Azure federated credentials
 # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#set-up-azure-login-with-openid-connect-authentication
@@ -13,8 +13,34 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  DOTNET_VERSION: 9.0.x
 
 jobs:
+  update-database:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Install Entity Framework Core tools
+      run: |
+          dotnet new tool-manifest
+          dotnet tool install dotnet-ef
+    - name: Generate SQL script
+      run: dotnet ef migrations script --idempotent -p ./src/KITT.Core/KITT.Core.csproj -s ./src/KITT.Support.Seeder/KITT.Support.Seeder.csproj  -o ./scripts/update-database.sql
+    - name: Azure login
+      uses: Azure/login@v1
+      with: 
+        creds: ${{ secrets.KITT_SQL_AZURE_CREDENTIALS }}
+    - name: Update Database
+      uses: Azure/sql-action@v2
+      with:
+        connection-string: ${{ secrets.AZURE_KITT_DATABASE }}
+        path: ./scripts/update-database.sql
   build:
     runs-on: ubuntu-latest
     env:

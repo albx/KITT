@@ -10,7 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Azure.Security.KeyVault" Version="9.4.2" />
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.4.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
   </ItemGroup>
 
   <ItemGroup>
