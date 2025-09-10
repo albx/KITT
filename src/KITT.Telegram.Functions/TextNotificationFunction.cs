@@ -35,7 +35,7 @@ public class TextNotificationFunction
         {
             var messageText = MessageConverter.ToText(message);
 
-            var messageSent = await _telegramClient.SendTextMessageAsync(
+            var messageSent = await _telegramClient.SendMessage(
                 _telegramOptions.ChatId,
                 messageText,
                 parseMode: ParseMode.MarkdownV2);

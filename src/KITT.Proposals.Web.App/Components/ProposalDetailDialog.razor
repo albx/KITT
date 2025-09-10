@@ -1,0 +1,22 @@
+﻿@implements IDialogContentComponent<ProposalDetailDialog.InputModel>
+@inject IStringLocalizer<Resources.Components.ProposalDetailDialog> Localizer
+
+<FluentDialogBody>
+    <Loader Loading="loading">
+        <FluentStack Orientation="Orientation.Horizontal" Class="mb-2">
+            <FluentLabel Weight="FontWeight.Bold">@Localizer[nameof(Resources.Components.ProposalDetailDialog.AuthorLabel)]:</FluentLabel>
+            <FluentLabel>@model!.AuthorNickname</FluentLabel>
+        </FluentStack>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentLabel Weight="FontWeight.Bold">@Localizer[nameof(Resources.Components.ProposalDetailDialog.DescriptionLabel)]</FluentLabel>
+            <div style="width:100%;">@model!.Description</div>
+        </FluentStack>
+    </Loader>
+</FluentDialogBody>
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="CloseAsync">
+        @Localizer[nameof(Resources.Components.ProposalDetailDialog.CloseButtonText)]
+    </FluentButton>
+</FluentDialogFooter>
+

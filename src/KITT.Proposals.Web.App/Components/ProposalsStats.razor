@@ -1,0 +1,45 @@
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@inject KITT.Proposals.Web.App.Clients.IProposalsClient Client
+@inject IStringLocalizer<Resources.Components.ProposalsStats> Localizer
+
+<FluentCard>
+    <ErrorBoundary>
+        <Loader Loading="loading">
+            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                <FluentLabel Typo="Typography.H3" Color="Color.Success">@model.NumberOfProposalAccepted</FluentLabel>
+                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Components.ProposalsStats.ProposalsAcceptedLabel)]</FluentLabel>
+            </FluentStack>
+
+            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                <FluentLabel Typo="Typography.H3" Color="Color.Accent">@model.TotalNumberOfProposals</FluentLabel>
+                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Components.ProposalsStats.ProposalsLabel)]</FluentLabel>
+            </FluentStack>
+
+            <FluentAnchor Appearance="Appearance.Accent"
+                          Href="proposals">
+                @Localizer[nameof(Resources.Components.ProposalsStats.ViewProposalsButtonText)]
+            </FluentAnchor>
+        </Loader>
+    </ErrorBoundary>
+</FluentCard>
+
+@code {
+    private ProposalsStatsModel model = default!;
+
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+
+        try
+        {
+            model = await Client.GetProposalsStatsAsync();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

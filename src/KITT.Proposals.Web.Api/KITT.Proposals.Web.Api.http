@@ -1,0 +1,6 @@
+@KITT.Proposals.Web.Api_HostAddress = http://localhost:5278
+
+GET {{KITT.Proposals.Web.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

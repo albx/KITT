@@ -1,0 +1,34 @@
+﻿@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        <FluentProfileMenu Initials="@context.User.Identity!.Name!.First().ToString().ToUpper()"
+                           Status="PresenceStatus.Available"
+                           FullName="@context.User.Identity!.Name"
+                           EMail="@GetUserEmailAddress(context.User)"
+                           OnHeaderButtonClick="BeginSignOut">
+            <FooterTemplate></FooterTemplate>
+        </FluentProfileMenu>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    private void BeginSignOut(/*MouseEventArgs args*/)
+    {
+        Navigation.NavigateTo("authentication/logout", forceLoad: true);
+    }
+
+    private string GetUserEmailAddress(System.Security.Claims.ClaimsPrincipal user)
+    {
+        var email = user.FindFirst(c => c.Type == "preferred_username")?.Value ?? string.Empty;
+        if (string.IsNullOrEmpty(email))
+        {
+            return string.Empty;
+        }
+
+        return email;
+    }
+}

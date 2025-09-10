@@ -1,0 +1,106 @@
+﻿@page "/proposals"
+
+@inject IStringLocalizer<Resources.Pages.Index> Localizer
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Index.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Index.PageTitle)]
+</SectionContent>
+
+<FluentStack Class="mb-3">
+    <EditForm Model="query" OnValidSubmit="SearchAsync" style="width:100%;">
+        <DataAnnotationsValidator />
+
+        <FluentGrid>
+            <FluentGridItem xs="12" md="4">
+                <FluentSelect TOption="Option<ProposalsQueryModel.SortDirection>"
+                              Items="directions"
+                              OptionValue="@(s => s.Value.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQueryOrderLabel)]"
+                              Value="@query.ScheduleSort.ToString()"
+                              ValueChanged="@(value => query.ScheduleSort = Enum.Parse<ProposalsQueryModel.SortDirection>(value))"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%; min-width:auto;" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="4">
+                <FluentSelect TOption="Option<ProposalStatus?>"
+                              Items="statuses"
+                              OptionValue="@(s => s.Value?.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Label="@Localizer[nameof(Resources.Pages.Index.ProposalStatusLabel)]"
+                              Value="@query.Status?.ToString()"
+                              ValueChanged="@(value => query.Status = string.IsNullOrEmpty(value) ? null : Enum.Parse<ProposalStatus>(value))"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%; min-width:auto;" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="4">
+                <FluentSelect TOption="Option<int>"
+                              Items="sizes"
+                              OptionValue="@(s => s.Value.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Value="@query.Size.ToString()"
+                              ValueChanged="@(value => query.Size = int.Parse(value))"
+                              Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQuerySizeLabel)]"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%;min-width:auto;" />
+            </FluentGridItem>
+
+            <FluentGridItem xs="12" md="10">
+                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQuerySearchLabel)]"
+                                 @bind-Value="query.Query"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="2">
+                <FluentStack Orientation="Orientation.Horizontal"
+                             HorizontalAlignment="HorizontalAlignment.End"
+                             VerticalAlignment="VerticalAlignment.Bottom"
+                             Style="height:100%;">
+                    <FluentButton Type="ButtonType.Submit"
+                                  Appearance="Appearance.Accent"
+                                  IconStart="@(new Icons.Regular.Size20.Search())">
+                        @Localizer[nameof(Resources.Pages.Index.ProposalSearchLabel)]
+                    </FluentButton>
+                    <FluentButton Appearance="Appearance.Outline"
+                                  OnClick="ClearSearchAsync">
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Dismiss())" Color="Color.Accent" />
+                    </FluentButton>
+                </FluentStack>
+            </FluentGridItem>
+        </FluentGrid>
+    </EditForm>
+</FluentStack>
+<FluentDivider />
+
+<FluentDataGrid Items="proposals"
+                Loading="loading">
+    <EmptyContent>
+        <FluentLabel>@Localizer[nameof(Resources.Pages.Index.NoProposalsMessage)]</FluentLabel>
+    </EmptyContent>
+    <ChildContent>
+        <PropertyColumn Property="@(p => p.Title)" Title="@Localizer[nameof(Resources.Pages.Index.ProposalTitleLabel)]" />
+        <PropertyColumn Property="@(p => p.Description)" Title="@Localizer[nameof(Resources.Pages.Index.ProposalDescriptionLabel)]" />
+        <TemplateColumn Context="proposal" Title="@Localizer[nameof(Resources.Pages.Index.ProposalDateLabel)]">
+            @proposal.SubmittedAt.ToShortDateString()
+        </TemplateColumn>
+        <PropertyColumn Property="@(p => p.AuthorNickname)" Title="@Localizer[nameof(Resources.Pages.Index.ProposalAuthorLabel)]" />
+        <TemplateColumn Context="proposal" Title="@Localizer[nameof(Resources.Pages.Index.ProposalStatusLabel)]">
+            @Localizer[proposal.Status.ToString()]
+        </TemplateColumn>
+        <TemplateColumn Context="proposal"
+                        Style="height:auto;">
+            <FluentStack Orientation="Orientation.Horizontal"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.End">
+                <FluentButton Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size20.Eye())"
+                              OnClick="@(() => OpenProposalDetailAsync(proposal))">
+                    @Localizer[nameof(Resources.Pages.Index.ShowProposalDetailLabel)]
+                </FluentButton>
+            </FluentStack>
+        </TemplateColumn>
+    </ChildContent>
+</FluentDataGrid>

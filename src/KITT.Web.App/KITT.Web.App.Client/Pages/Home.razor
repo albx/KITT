@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<PageTitle>KITT - Console</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    KITT - Console
+</SectionContent>
+
+<AuthorizeView>
+    <Authorized>
+        <FluentGrid>
+            <FluentGridItem xs="12" md="6">
+                <KITT.Cms.Web.App.Components.StreamingStats />
+            </FluentGridItem>
+
+            <FluentGridItem xs="12" md="6">
+                <KITT.Proposals.Web.App.Components.ProposalsStats />
+            </FluentGridItem>
+        </FluentGrid>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>

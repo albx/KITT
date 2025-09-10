@@ -1,0 +1,43 @@
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false)) 
+
+@inject KITT.Cms.Web.App.Clients.IStreamingsClient Client
+@inject IStringLocalizer<Resources.Components.StreamingStats> Localizer
+
+<FluentCard>
+    <ErrorBoundary>
+        <Loader Loading="loading">
+            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                <FluentLabel Typo="Typography.H3" Color="Color.Success">@model.NumberOfStreamingsScheduled</FluentLabel>
+                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Components.StreamingStats.LivesScheduledLabel)]</FluentLabel>
+            </FluentStack>
+
+            <FluentStack Class="mb-2" VerticalAlignment="VerticalAlignment.Center">
+                <FluentLabel Typo="Typography.H3" Color="Color.Accent">@model.NumberOfStreamingsDelivered</FluentLabel>
+                <FluentLabel Typo="Typography.H4">@Localizer[nameof(Resources.Components.StreamingStats.LivesDeliveredLabel)]</FluentLabel>
+            </FluentStack>
+
+            <FluentAnchor Appearance="Appearance.Accent"
+                          Href="streamings">
+                @Localizer[nameof(Resources.Components.StreamingStats.ViewStreamingsButtonText)]
+            </FluentAnchor>
+        </Loader>
+    </ErrorBoundary>
+</FluentCard>
+
+@code {
+    private StreamingStatsModel model = default!;
+
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            model = await Client.GetStreamingStatsAsync();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

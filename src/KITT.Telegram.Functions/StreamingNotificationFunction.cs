@@ -36,7 +36,7 @@ public class StreamingNotificationFunction
         {
             var messageText = MessageConverter.ToText(message);
 
-            var messageSent = await _telegramClient.SendTextMessageAsync(
+            var messageSent = await _telegramClient.SendMessage(
                 _telegramOptions.ChatId,
                 messageText,
                 parseMode: ParseMode.MarkdownV2);
@@ -67,7 +67,7 @@ public class StreamingNotificationFunction
         {
             var messageText = MessageConverter.ToText(message);
 
-            var messageSent = await _telegramClient.SendTextMessageAsync(
+            var messageSent = await _telegramClient.SendMessage(
                 _telegramOptions.ChatId,
                 messageText,
                 parseMode: ParseMode.MarkdownV2);
@@ -97,7 +97,7 @@ public class StreamingNotificationFunction
         {
             var messageText = MessageConverter.ToText(message);
 
-            await _telegramClient.SendTextMessageAsync(
+            await _telegramClient.SendMessage(
                 _telegramOptions.ChatId,
                 messageText,
                 parseMode: ParseMode.MarkdownV2);
@@ -123,7 +123,7 @@ public class StreamingNotificationFunction
         {
             var messageText = MessageConverter.ToText(message);
 
-            await _telegramClient.SendTextMessageAsync(
+            await _telegramClient.SendMessage(
                 _telegramOptions.ChatId,
                 messageText,
                 parseMode: ParseMode.MarkdownV2);
@@ -149,7 +149,7 @@ public class StreamingNotificationFunction
         {
             var messageText = MessageConverter.ToText(message);
 
-            await _telegramClient.SendTextMessageAsync(
+            await _telegramClient.SendMessage(
                 _telegramOptions.ChatId,
                 messageText,
                 parseMode: ParseMode.MarkdownV2);

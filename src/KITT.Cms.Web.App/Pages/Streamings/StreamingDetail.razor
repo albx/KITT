@@ -1,0 +1,117 @@
+﻿@page "/streamings/{id:guid}"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Streamings.StreamingDetail> Localizer
+
+<PageTitle>KITT - @pageTitle</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @pageTitle
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    @if (isReadOnly)
+    {
+        <FluentButton Appearance="Appearance.Outline"
+                      OnClick="EnableEditing">
+            @CommonLocalizer[nameof(UI.Resources.Common.Edit)]
+        </FluentButton>
+    }
+
+    <FluentAnchor Href="streamings"
+                  Appearance="Appearance.Accent">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ErrorBoundary>
+    <ContentForm TContent="ViewModel"
+                 Model="model"
+                 ContentTabTitle="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingTabTitle)]"
+                 Context="streaming"
+                 ReadOnly="isReadOnly"
+                 OnSave="EditStreamingAsync"
+                 OnCancel="DisableEditing">
+        <ContentInfo>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
+                                     @bind-Value="streaming.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true"
+                                     Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.Title)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
+                                     @bind-Value="streaming.Slug"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="true" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
+                                     @bind-Value="streaming.HostingChannelUrl"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true"
+                                     Disabled="@isReadOnly">
+                        <FluentLabel Slot="start">@twitchBaseUrl</FluentLabel>
+                    </FluentTextField>
+                    <FluentValidationMessage For="@(() => streaming.HostingChannelUrl)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
+                                     @bind-Value="streaming.YoutubeVideoUrl"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="@isReadOnly" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
+                                      @bind-Value="streaming.ScheduleDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true"
+                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.ScheduleDate)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="3">
+                    <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
+                                      @bind-Value="streaming.StartingTime"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true"
+                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.StartingTime)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="3">
+                    <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
+                                      @bind-Value="streaming.EndingTime"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true"
+                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.EndingTime)" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentTextArea Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
+                                    @bind-Value="streaming.StreamingAbstract"
+                                    Appearance="FluentInputAppearance.Filled"
+                                    Rows="10"
+                                    Style="width:100%;"
+                                    Disabled="@isReadOnly" />
+                </FluentGridItem>
+            </FluentGrid>
+        </ContentInfo>
+    </ContentForm>
+</ErrorBoundary>
