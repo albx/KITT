@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "KITT.Bot.Functions": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7043",
-      "launchBrowser": false
-    }
-  }
-}

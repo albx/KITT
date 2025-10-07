@@ -27,7 +27,11 @@ var cmsApi = builder.AddProject<Projects.KITT_Cms_Web_Api>(ServiceNames.CmsApi)
     .WithReference(kittDb)
     .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
-    .WithEnvironment("Identity__Cms__AppId", cmsApiAppId);
+    .WithEnvironment("Identity__Cms__AppId", cmsApiAppId)
+    .PublishAsAzureContainerApp((_, app) =>
+    {
+        app.Template.Scale = new() { MinReplicas = 0, MaxReplicas = 5 };
+    });
 #endregion
 
 #region Proposals
@@ -35,7 +39,11 @@ var proposalsApi = builder.AddProject<Projects.KITT_Proposals_Web_Api>(ServiceNa
     .WithReference(kittDb)
     .WaitFor(kittDb)
     .WithEnvironment("Identity__TenantId", tenantId)
-    .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId);
+    .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId)
+    .PublishAsAzureContainerApp((_, app) =>
+    {
+        app.Template.Scale = new() { MinReplicas = 0, MaxReplicas = 5 };
+    });
 #endregion
 
 var webApp = builder.AddProject<Projects.KITT_Web_App>(ServiceNames.WebApp)
@@ -51,7 +59,11 @@ var webApp = builder.AddProject<Projects.KITT_Web_App>(ServiceNames.WebApp)
     .WithEnvironment("Identity__WebApp__AppSecret", webAppSecret)
     .WithEnvironment("Identity__Cms__AppId", cmsApiAppId)
     .WithEnvironment("Identity__Proposals__AppId", proposalsApiAppId)
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .PublishAsAzureContainerApp((_, app) =>
+    {
+        app.Template.Scale = new() { MinReplicas = 0, MaxReplicas = 5 };
+    });
 
 
 if (!builder.ExecutionContext.IsPublishMode)
