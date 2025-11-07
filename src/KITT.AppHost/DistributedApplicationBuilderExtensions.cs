@@ -12,8 +12,6 @@ public static class DistributedApplicationBuilderExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             var kittSql = builder.AddSqlServer(ServiceNames.Sql)
-                .WithContainerName("sqlserver-local")
-                .WithLifetime(ContainerLifetime.Persistent)
                 .WithDataVolume("kitt-data");
 
             return kittSql.AddDatabase(ServiceNames.Database, databaseName: "KITT");

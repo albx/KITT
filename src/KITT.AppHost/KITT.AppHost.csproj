@@ -16,7 +16,7 @@
     <PackageReference Include="Aspire.Hosting.Azure.AppContainers" Version="9.5.2" />
     <PackageReference Include="Aspire.Hosting.Azure.KeyVault" Version="9.5.2" />
     <PackageReference Include="Aspire.Hosting.Azure.Sql" Version="9.5.2" />
-    <PackageReference Include="AzureKeyVaultEmulator.Aspire.Hosting" Version="2.6.0" />
+    <PackageReference Include="AzureKeyVaultEmulator.Aspire.Hosting" Version="2.7.0" />
   </ItemGroup>
 
   <ItemGroup>
