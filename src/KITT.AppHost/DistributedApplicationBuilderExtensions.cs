@@ -12,7 +12,11 @@ public static class DistributedApplicationBuilderExtensions
         if (!builder.ExecutionContext.IsPublishMode)
         {
             var kittSql = builder.AddSqlServer(ServiceNames.Sql)
-                .WithDataVolume("kitt-data");
+                .WithDataVolume("kitt-data")
+                .WithDbGate(containerBuilder =>
+                {
+                    containerBuilder.WithExplicitStart();
+                });
 
             return kittSql.AddDatabase(ServiceNames.Database, databaseName: "KITT");
         }

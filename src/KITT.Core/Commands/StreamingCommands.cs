@@ -19,7 +19,7 @@ public class StreamingCommands : IStreamingCommands
         _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
     }
 
-    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract, Content.SeoData seo)
+    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, Content.SeoData seo)
     {
         var streaming = Streaming.Schedule(
             streamingTitle,
@@ -28,7 +28,7 @@ public class StreamingCommands : IStreamingCommands
             scheduleDate,
             startingTime,
             endingTime,
-            hostingChannelUrl,
+            twitchUrl,
             userId);
 
         if (!string.IsNullOrWhiteSpace(streamingAbstract))
@@ -60,7 +60,7 @@ public class StreamingCommands : IStreamingCommands
         return streaming.Id;
     }
 
-    public async Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
+    public async Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, string youtubeUrl, Content.SeoData seo)
     {
         var messagesToSend = new List<object>();
 
@@ -89,9 +89,9 @@ public class StreamingCommands : IStreamingCommands
             //messagesToSend.Add(scheduledChangedMessage);
         }
 
-        if (streaming.HostingChannelUrl != hostingChannelUrl)
+        if (streaming.TwitchUrl != twitchUrl)
         {
-            streaming.ChangeHostingChannelUrl(hostingChannelUrl);
+            streaming.SetTwitchUrl(twitchUrl);
 
             //var hostingChannelChangedMessage = new StreamingHostingChannelChangedMessage(
             //    streamingId,
@@ -109,9 +109,9 @@ public class StreamingCommands : IStreamingCommands
             streaming.SetAbstract(streamingAbstract);
         }
 
-        if (streaming.YouTubeVideoUrl != youtubeRegistrationLink)
+        if (streaming.YouTubeUrl != youtubeUrl)
         {
-            streaming.SetRegistrationYoutubeUrl(youtubeRegistrationLink);
+            streaming.SetYoutubeUrl(youtubeUrl);
             //var videoUploadedMessage = new StreamingVideoUploadedMessage(
             //    streamingId,
             //    streaming.Title,
@@ -157,7 +157,7 @@ public class StreamingCommands : IStreamingCommands
         //await _messageBus.SendAsync(message);
     }
 
-    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string streamingAbstract, string youtubeRegistrationLink, Content.SeoData seo)
+    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, string? youtubeUrl, Content.SeoData seo)
     {
         var streaming = Streaming.Import(
             streamingTitle,
@@ -166,8 +166,8 @@ public class StreamingCommands : IStreamingCommands
             scheduleDate,
             startingTime,
             endingTime,
-            hostingChannelUrl,
-            youtubeRegistrationLink,
+            twitchUrl,
+            youtubeUrl,
             streamingAbstract,
             userId);
 

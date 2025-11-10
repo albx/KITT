@@ -4,9 +4,9 @@ public class Settings
 {
     public Guid Id { get; protected set; }
 
-    public string UserId { get; protected set; }
+    public string UserId { get; protected set; } = string.Empty;
 
-    public string TwitchChannel { get; protected set; }
+    public string TwitchChannel { get; protected set; } = string.Empty;
 
     #region Public methods
     public void Update(string twitchChannel)

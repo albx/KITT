@@ -40,8 +40,8 @@ public class StreamingsEndpointsServices
                 ScheduledOn = s.ScheduleDate,
                 StartingTime = s.StartingTime,
                 Title = s.Title,
-                HostingChannelUrl = s.HostingChannelUrl,
-                YouTubeVideoUrl = s.YouTubeVideoUrl
+                HostingChannelUrl = s.TwitchUrl ?? string.Empty,
+                YouTubeVideoUrl = s.YouTubeUrl
             }).Skip(skip).Take(size).ToArrayAsync();
 
         var model = new StreamingsListModel { TotalItems = streamingsQuery.Count(), Items = streamings };
@@ -61,11 +61,11 @@ public class StreamingsEndpointsServices
             Id = streaming.Id,
             ScheduleDate = streaming.ScheduleDate,
             EndingTime = streaming.EndingTime,
-            HostingChannelUrl = streaming.HostingChannelUrl,
+            HostingChannelUrl = streaming.TwitchUrl ?? string.Empty,
             StartingTime = streaming.StartingTime,
             StreamingAbstract = streaming.Abstract,
             Title = streaming.Title,
-            YoutubeVideoUrl = streaming.YouTubeVideoUrl,
+            YoutubeVideoUrl = streaming.YouTubeUrl,
             Slug = streaming.Slug
         };
     }

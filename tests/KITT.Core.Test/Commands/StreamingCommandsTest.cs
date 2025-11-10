@@ -134,7 +134,7 @@ namespace KITT.Core.Test.Commands
             Assert.Equal(scheduleDate, scheduledStreaming.ScheduleDate);
             Assert.Equal(startingTime, scheduledStreaming.StartingTime);
             Assert.Equal(endingTime, scheduledStreaming.EndingTime);
-            Assert.Equal(hostingChannelUrl, scheduledStreaming.HostingChannelUrl);
+            Assert.Equal(hostingChannelUrl, scheduledStreaming.TwitchUrl);
             Assert.Equal(streamingAbstract, scheduledStreaming.Abstract);
         }
 
@@ -238,9 +238,9 @@ namespace KITT.Core.Test.Commands
             Assert.Equal(scheduleDate, updatedStreaming.ScheduleDate);
             Assert.Equal(startingTime, updatedStreaming.StartingTime);
             Assert.Equal(endingTime, updatedStreaming.EndingTime);
-            Assert.Equal(hostingChannelUrl, updatedStreaming.HostingChannelUrl);
+            Assert.Equal(hostingChannelUrl, updatedStreaming.TwitchUrl);
             Assert.Equal(streamingAbstract, updatedStreaming.Abstract);
-            Assert.Equal(youtubeRegistrationLink, updatedStreaming.YouTubeVideoUrl);
+            Assert.Equal(youtubeRegistrationLink, updatedStreaming.YouTubeUrl);
         }
 
         [Fact]

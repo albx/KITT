@@ -170,7 +170,7 @@ namespace KITT.Core.Test.Models
             Assert.Equal(scheduleDate, streaming.ScheduleDate);
             Assert.Equal(startingTime, streaming.StartingTime);
             Assert.Equal(endingTime, streaming.EndingTime);
-            Assert.Equal(hostingChannelUrl, streaming.HostingChannelUrl);
+            Assert.Equal(hostingChannelUrl, streaming.TwitchUrl);
             Assert.NotEqual(Guid.Empty, streaming.Id);
             Assert.Equal(userId, streaming.UserId);
         }
@@ -248,8 +248,8 @@ namespace KITT.Core.Test.Models
             var streaming = CreateStreamingForTests();
             string youtubeUrl = "https://www.youtube.com";
 
-            streaming.SetRegistrationYoutubeUrl(youtubeUrl);
-            Assert.Equal(youtubeUrl, streaming.YouTubeVideoUrl);
+            streaming.SetYoutubeUrl(youtubeUrl);
+            Assert.Equal(youtubeUrl, streaming.YouTubeUrl);
         }
         #endregion
 

@@ -30,8 +30,8 @@ public class StreamingValidator : AbstractValidator<Streaming>
         RuleFor(streaming => streaming.TwitchChannel).MaximumLength(50).NotEmpty();
         RuleFor(streaming => streaming.Title).MaximumLength(255).NotEmpty();
         RuleFor(streaming => streaming.Slug).MaximumLength(255).NotEmpty();
-        RuleFor(streaming => streaming.HostingChannelUrl).NotEmpty().MaximumLength(255);
-        RuleFor(streaming => streaming.YouTubeVideoUrl).MaximumLength(255);
+        RuleFor(streaming => streaming.TwitchUrl).NotEmpty().MaximumLength(255);
+        RuleFor(streaming => streaming.YouTubeUrl).MaximumLength(255);
 
         RuleSet(ScheduleStreamingAction, () =>
         {

@@ -2,7 +2,9 @@
 
 public class Streaming : Content
 {
-    public string TwitchChannel { get; protected set; }
+    public string? TwitchChannel { get; protected set; }
+
+    public string? YouTubeChannel { get; protected set; }
 
     public DateOnly ScheduleDate { get; protected set; }
 
@@ -10,9 +12,9 @@ public class Streaming : Content
 
     public TimeOnly EndingTime { get; protected set; }
 
-    public string HostingChannelUrl { get; protected set; }
+    public string? TwitchUrl { get; protected set; }
 
-    public string YouTubeVideoUrl { get; protected set; }
+    public string? YouTubeUrl { get; protected set; }
 
     #region Constructor
     protected Streaming() : base() { }
@@ -31,19 +33,19 @@ public class Streaming : Content
         this.EndingTime = endingTime;
     }
 
-    public void SetRegistrationYoutubeUrl(string youtubeUrl)
+    public void SetYoutubeUrl(string youtubeUrl)
     {
-        this.YouTubeVideoUrl = youtubeUrl;
+        YouTubeUrl = youtubeUrl;
     }
 
-    public void ChangeHostingChannelUrl(string hostingChannelUrl)
+    public void SetTwitchUrl(string twitchUrl)
     {
-        this.HostingChannelUrl = hostingChannelUrl;
+        TwitchUrl = twitchUrl;
     }
     #endregion
 
     #region Factory
-    public static Streaming Schedule(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string userId)
+    public static Streaming Schedule(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -70,9 +72,9 @@ public class Streaming : Content
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
         }
 
-        if (string.IsNullOrWhiteSpace(hostingChannelUrl))
+        if (string.IsNullOrWhiteSpace(twitchUrl))
         {
-            throw new ArgumentException("value cannot be empty", nameof(hostingChannelUrl));
+            throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
         }
 
         if (string.IsNullOrWhiteSpace(userId))
@@ -90,7 +92,7 @@ public class Streaming : Content
             ScheduleDate = scheduleDate,
             StartingTime = startingTime,
             EndingTime = endingTime,
-            HostingChannelUrl = hostingChannelUrl
+            TwitchUrl = twitchUrl
         };
 
         streaming.Publish();
@@ -98,7 +100,7 @@ public class Streaming : Content
         return streaming;
     }
 
-    public static Streaming Import(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string youtubeVideoUrl, string @abstract, string userId)
+    public static Streaming Import(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? youtubeUrl, string? @abstract, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -120,9 +122,9 @@ public class Streaming : Content
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
         }
 
-        if (string.IsNullOrWhiteSpace(hostingChannelUrl))
+        if (string.IsNullOrWhiteSpace(twitchUrl))
         {
-            throw new ArgumentException("value cannot be empty", nameof(hostingChannelUrl));
+            throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
         }
 
         if (string.IsNullOrWhiteSpace(userId))
@@ -140,9 +142,9 @@ public class Streaming : Content
             ScheduleDate = scheduleDate,
             StartingTime = startingTime,
             EndingTime = endingTime,
-            HostingChannelUrl = hostingChannelUrl,
+            TwitchUrl = twitchUrl,
             Abstract = @abstract,
-            YouTubeVideoUrl = youtubeVideoUrl
+            YouTubeUrl = youtubeUrl
         };
 
         streaming.PublishOn(scheduleDate.ToDateTime(TimeOnly.MinValue));
