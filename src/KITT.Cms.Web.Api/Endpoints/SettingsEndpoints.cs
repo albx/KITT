@@ -18,18 +18,15 @@ public static class SettingsEndpoints
 
         settingsGroup
             .MapGet("", GetAllSettings)
-            .WithName(nameof(GetAllSettings))
-            .WithOpenApi();
+            .WithName(nameof(GetAllSettings));
 
         settingsGroup
             .MapGet("{id}", GetSettingsDetails)
-            .WithName(nameof(GetSettingsDetails))
-            .WithOpenApi();
+            .WithName(nameof(GetSettingsDetails));
 
         settingsGroup
             .MapPost("", CreateNewSettings)
-            .WithName(nameof(CreateNewSettings))
-            .WithOpenApi();
+            .WithName(nameof(CreateNewSettings));
 
         return builder;
     }

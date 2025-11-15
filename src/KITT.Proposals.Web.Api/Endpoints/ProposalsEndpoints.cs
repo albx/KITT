@@ -18,38 +18,31 @@ public static class ProposalsEndpoints
 
         proposalsGroup
             .MapGet("", GetAllProposals)
-            .WithName(nameof(GetAllProposals))
-            .WithOpenApi();
+            .WithName(nameof(GetAllProposals));
 
         proposalsGroup
             .MapGet("{id:guid}", GetProposalDetail)
-            .WithName(nameof(GetProposalDetail))
-            .WithOpenApi();
+            .WithName(nameof(GetProposalDetail));
 
         proposalsGroup
             .MapPatch("{id:guid}", AcceptProposal)
-            .WithName(nameof(AcceptProposal))
-            .WithOpenApi();
+            .WithName(nameof(AcceptProposal));
 
         proposalsGroup
             .MapDelete("{id:guid}", RejectProposal)
-            .WithName(nameof(RejectProposal))
-            .WithOpenApi();
+            .WithName(nameof(RejectProposal));
 
         proposalsGroup
             .MapDelete("{id:guid}/refuse", RefuseProposal)
-            .WithName(nameof(RefuseProposal))
-            .WithOpenApi();
+            .WithName(nameof(RefuseProposal));
 
         proposalsGroup
             .MapPost("{id:guid}/schedule", ScheduleProposal)
-            .WithName(nameof(ScheduleProposal))
-            .WithOpenApi();
+            .WithName(nameof(ScheduleProposal));
 
         proposalsGroup
             .MapGet("stats", GetProposalsStats)
-            .WithName(nameof(GetProposalsStats))
-            .WithOpenApi();
+            .WithName(nameof(GetProposalsStats));
 
         return builder;
     }

@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\KITT.Telegram.Functions\KITT.Telegram.Functions.csproj" />
-  </ItemGroup>
-
 </Project>
