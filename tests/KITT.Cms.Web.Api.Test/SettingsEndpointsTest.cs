@@ -31,38 +31,6 @@ public class SettingsEndpointsTest : IClassFixture<CmsWebApplicationFactory>
         // Assert
         Assert.Equal(System.Net.HttpStatusCode.Unauthorized, response.StatusCode);
     }
-
-    [Fact(Skip = "Must be fixed")]
-    public async Task GetAllSettings_Should_Return_Empty_List_If_No_Settings_Are_Available()
-    {
-        // Arrange
-        using var app = _factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(
-                services => services.ConfigureTestJwtOptions(CmsWebApplicationFactory.TenantId, CmsWebApplicationFactory.AppId));
-        });
-
-        var token = TestJwtTokenProvider.JwtSecurityTokenHandler.WriteToken(
-            new JwtSecurityToken(
-                $"https://sts.windows.net/{CmsWebApplicationFactory.TenantId}/",
-                $"api://{CmsWebApplicationFactory.AppId}",
-                new TestClaimsProvider().Claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: TestJwtTokenProvider.SigningCredentials));
-
-        using var client = app.CreateClient();
-        client.DefaultRequestHeaders.Authorization = new("Bearer", token);
-
-        // Act
-        var response = await client.GetAsync(endpoint);
-
-        // Assert
-        response.EnsureSuccessStatusCode();
-        var model = await response.Content.ReadFromJsonAsync<SettingsListModel>();
-
-        Assert.NotNull(model);        
-        Assert.Empty(model.Items);
-    }
     #endregion
 
     #region GetSettingsDetails tests

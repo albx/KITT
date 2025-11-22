@@ -13,8 +13,7 @@ public static class StreamingsEndpoints
     {
         var streamingsGroup = builder
             .MapGroup("api/streamings")
-            .RequireAuthorization()
-            .WithParameterValidation();
+            .RequireAuthorization();
 
         streamingsGroup
             .MapGet("", GetAllStreamings)
