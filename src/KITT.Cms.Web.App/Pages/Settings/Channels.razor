@@ -6,6 +6,28 @@
     Connected channels
 </SectionContent>
 
-@code {
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentButton Type="ButtonType.Button"
+                  Appearance="Appearance.Accent"
+                  IconStart="@(new Icons.Filled.Size20.Add())">
+        Add new channel
+    </FluentButton>
+</SectionContent>
 
-}
+<FluentGrid>
+    @foreach (var channel in channels)
+    {
+        <FluentGridItem xs="12" md="3">
+            <FluentCard>
+                <h4>@channel.Name</h4>
+                <p>@channel.Url</p>
+
+                <FluentButton Type="ButtonType.Button"
+                              Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Filled.Size20.Edit())">
+                    Edit
+                </FluentButton>
+            </FluentCard>
+        </FluentGridItem>
+    }
+</FluentGrid>
