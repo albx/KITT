@@ -5,13 +5,14 @@ namespace KITT.Cms.Web.App.Clients;
 
 public static class ClientsServiceCollectionExtensions
 {
-    public static IServiceCollection AddCmsClients(
-        this IServiceCollection services,
-        string apiBaseUrl)
+    extension(IServiceCollection services)
     {
-        services
-            .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new(apiBaseUrl));
+        public IServiceCollection AddCmsClients(string apiBaseUrl)
+        {
+            services
+                .AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new(apiBaseUrl));
 
-        return services;
+            return services;
+        }
     }
 }

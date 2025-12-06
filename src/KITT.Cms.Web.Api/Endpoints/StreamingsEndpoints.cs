@@ -9,41 +9,44 @@ namespace KITT.Cms.Web.Api.Endpoints;
 
 public static class StreamingsEndpoints
 {
-    public static IEndpointRouteBuilder MapStreamingsEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        var streamingsGroup = builder
-            .MapGroup("api/streamings")
-            .RequireAuthorization();
+        public IEndpointRouteBuilder MapStreamingsEndpoints()
+        {
+            var streamingsGroup = builder
+                .MapGroup("api/streamings")
+                .RequireAuthorization();
 
-        streamingsGroup
-            .MapGet("", GetAllStreamings)
-            .WithName(nameof(GetAllStreamings));
+            streamingsGroup
+                .MapGet("", GetAllStreamings)
+                .WithName(nameof(GetAllStreamings));
 
-        streamingsGroup
-            .MapGet("{id:guid}", GetStreamingDetail)
-            .WithName(nameof(GetStreamingDetail));
+            streamingsGroup
+                .MapGet("{id:guid}", GetStreamingDetail)
+                .WithName(nameof(GetStreamingDetail));
 
-        streamingsGroup
-            .MapPost("", ScheduleStreaming)
-            .WithName(nameof(ScheduleStreaming));
+            streamingsGroup
+                .MapPost("", ScheduleStreaming)
+                .WithName(nameof(ScheduleStreaming));
 
-        streamingsGroup
-            .MapPost("import", ImportStreaming)
-            .WithName(nameof(ImportStreaming));
+            streamingsGroup
+                .MapPost("import", ImportStreaming)
+                .WithName(nameof(ImportStreaming));
 
-        streamingsGroup
-            .MapPut("{id:guid}", UpdateStreaming)
-            .WithName(nameof(UpdateStreaming));
+            streamingsGroup
+                .MapPut("{id:guid}", UpdateStreaming)
+                .WithName(nameof(UpdateStreaming));
 
-        streamingsGroup
-            .MapDelete("{id:guid}", DeleteStreaming)
-            .WithName(nameof(DeleteStreaming));
+            streamingsGroup
+                .MapDelete("{id:guid}", DeleteStreaming)
+                .WithName(nameof(DeleteStreaming));
 
-        streamingsGroup
-            .MapGet("stats", GetStreamingStats)
-            .WithName(nameof(GetStreamingStats));
+            streamingsGroup
+                .MapGet("stats", GetStreamingStats)
+                .WithName(nameof(GetStreamingStats));
 
-        return builder;
+            return builder;
+        }
     }
 
     private static async Task<Ok<StreamingsListModel>> GetAllStreamings(

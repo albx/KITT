@@ -5,24 +5,28 @@ namespace KITT.AppHost;
 
 public static class DistributedApplicationBuilderExtensions
 {
-    public static IResourceBuilder<IResourceWithConnectionString> AddKittDatabase(this IDistributedApplicationBuilder builder)
+    extension(IDistributedApplicationBuilder builder)
     {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        if (!builder.ExecutionContext.IsPublishMode)
+        public IResourceBuilder<IResourceWithConnectionString> AddKittDatabase()
         {
-            var kittSql = builder.AddSqlServer(ServiceNames.Sql)
-                .WithDataVolume("kitt-data")
-                .WithDbGate(containerBuilder =>
-                {
-                    containerBuilder.WithExplicitStart();
-                });
+            ArgumentNullException.ThrowIfNull(builder);
 
-            return kittSql.AddDatabase(ServiceNames.Database, databaseName: "KITT");
-        }
-        else
-        {
-            return builder.AddConnectionString(ServiceNames.Database);
+            if (!builder.ExecutionContext.IsPublishMode)
+            {
+                var kittSql = builder.AddSqlServer(ServiceNames.Sql)
+                    .WithDataVolume("kitt-data")
+                    .WithDbGate(containerBuilder =>
+                    {
+                        containerBuilder.WithExplicitStart();
+                    });
+
+                return kittSql.AddDatabase(ServiceNames.Database, databaseName: "KITT");
+            }
+            else
+            {
+                return builder.AddConnectionString(ServiceNames.Database);
+            }
         }
     }
+    
 }

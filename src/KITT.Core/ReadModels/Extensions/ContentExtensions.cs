@@ -2,18 +2,18 @@
 
 public static class ContentExtensions
 {
-    public static IQueryable<TContent> PublishedOnly<TContent>(this IQueryable<TContent> source) where TContent : Content
-        => source.Where(c => c.Status == Content.ContentStatus.Published && c.PublicationDate <= DateTime.UtcNow);
+    extension<TContent>(IQueryable<TContent> source) where TContent : Content
+    {
+        public IQueryable<TContent> PublishedOnly() 
+            => source.Where(c => c.Status == Content.ContentStatus.Published && c.PublicationDate <= DateTime.UtcNow);
 
-    public static IQueryable<TContent> DraftsOnly<TContent>(this IQueryable<TContent> source) where TContent : Content
-        => source.Where(c => c.Status == Content.ContentStatus.Draft);
+        public IQueryable<TContent> DraftsOnly() => source.Where(c => c.Status == Content.ContentStatus.Draft);
 
-    public static IQueryable<TContent> UnpublishedOnly<TContent>(this IQueryable<TContent> source) where TContent : Content
-        => source.Where(c => c.Status == Content.ContentStatus.Unpublished);
+        public IQueryable<TContent> UnpublishedOnly() => source.Where(c => c.Status == Content.ContentStatus.Unpublished);
 
-    public static IQueryable<TContent> OrderedByPublicationDate<TContent>(this IQueryable<TContent> source) where TContent : Content
-        => source.OrderBy(c => c.PublicationDate);
+        public IQueryable<TContent> OrderedByPublicationDate() => source.OrderBy(c => c.PublicationDate);
 
-    public static IQueryable<TContent> WithSlug<TContent>(this IQueryable<TContent> source, string slug) where TContent : Content
-        => source.Where(c => c.Slug == slug);
+        public IQueryable<TContent> WithSlug(string slug) => source.Where(c => c.Slug == slug);
+    }
+    
 }

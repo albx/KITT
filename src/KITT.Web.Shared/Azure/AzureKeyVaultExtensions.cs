@@ -7,41 +7,44 @@ namespace KITT.Web.Shared.Azure;
 
 public static class AzureKeyVaultExtensions
 {
-    public static IHostApplicationBuilder AddAzureKeyVaultClientWithEmulatorFallback(this IHostApplicationBuilder builder, string connectionStringName)
+    extension(IHostApplicationBuilder builder)
     {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        if (builder.Environment.IsDevelopment())
+        public IHostApplicationBuilder AddAzureKeyVaultClientWithEmulatorFallback(string connectionStringName)
         {
-            var vaultUri = builder.Configuration.GetConnectionString(connectionStringName);
-            builder.Services.AddAzureKeyVaultEmulator(vaultUri);
+            ArgumentNullException.ThrowIfNull(builder);
+
+            if (builder.Environment.IsDevelopment())
+            {
+                var vaultUri = builder.Configuration.GetConnectionString(connectionStringName);
+                builder.Services.AddAzureKeyVaultEmulator(vaultUri);
+            }
+            else
+            {
+                builder.AddAzureKeyVaultClient(connectionStringName);
+            }
+
+            return builder;
         }
-        else
+
+        public IHostApplicationBuilder AddAzureKeyVaultSecretsWithEmulatorFallback(string connectionStringName)
         {
-            builder.AddAzureKeyVaultClient(connectionStringName);
+            ArgumentNullException.ThrowIfNull(builder);
+
+            if (builder.Environment.IsDevelopment())
+            {
+                var vaultUri = builder.Configuration.GetConnectionString(connectionStringName);
+
+                var secretClient = KeyVaultHelper.GetSecretClient(vaultUri);
+                builder.Configuration.AddAzureKeyVault(
+                    secretClient,
+                    new AzureKeyVaultConfigurationOptions());
+            }
+            else
+            {
+                builder.Configuration.AddAzureKeyVaultSecrets(connectionStringName);
+            }
+            
+            return builder;
         }
-
-        return builder;
-    }
-
-    public static IHostApplicationBuilder AddAzureKeyVaultSecretsWithEmulatorFallback(this IHostApplicationBuilder builder, string connectionStringName)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        if (builder.Environment.IsDevelopment())
-        {
-            var vaultUri = builder.Configuration.GetConnectionString(connectionStringName);
-
-            var secretClient = KeyVaultHelper.GetSecretClient(vaultUri);
-            builder.Configuration.AddAzureKeyVault(
-                secretClient,
-                new AzureKeyVaultConfigurationOptions());
-        }
-        else
-        {
-            builder.Configuration.AddAzureKeyVaultSecrets(connectionStringName);
-        }
-        
-        return builder;
     }
 }

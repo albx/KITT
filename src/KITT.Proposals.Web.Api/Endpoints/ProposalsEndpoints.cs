@@ -9,41 +9,44 @@ namespace KITT.Proposals.Web.Api.Endpoints;
 
 public static class ProposalsEndpoints
 {
-    public static IEndpointRouteBuilder MapProposalsEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        var proposalsGroup = builder
-            .MapGroup("api/proposals")
-            .RequireAuthorization();
+        public IEndpointRouteBuilder MapProposalsEndpoints()
+        {
+            var proposalsGroup = builder
+                .MapGroup("api/proposals")
+                .RequireAuthorization();
 
-        proposalsGroup
-            .MapGet("", GetAllProposals)
-            .WithName(nameof(GetAllProposals));
+            proposalsGroup
+                .MapGet("", GetAllProposals)
+                .WithName(nameof(GetAllProposals));
 
-        proposalsGroup
-            .MapGet("{id:guid}", GetProposalDetail)
-            .WithName(nameof(GetProposalDetail));
+            proposalsGroup
+                .MapGet("{id:guid}", GetProposalDetail)
+                .WithName(nameof(GetProposalDetail));
 
-        proposalsGroup
-            .MapPatch("{id:guid}", AcceptProposal)
-            .WithName(nameof(AcceptProposal));
+            proposalsGroup
+                .MapPatch("{id:guid}", AcceptProposal)
+                .WithName(nameof(AcceptProposal));
 
-        proposalsGroup
-            .MapDelete("{id:guid}", RejectProposal)
-            .WithName(nameof(RejectProposal));
+            proposalsGroup
+                .MapDelete("{id:guid}", RejectProposal)
+                .WithName(nameof(RejectProposal));
 
-        proposalsGroup
-            .MapDelete("{id:guid}/refuse", RefuseProposal)
-            .WithName(nameof(RefuseProposal));
+            proposalsGroup
+                .MapDelete("{id:guid}/refuse", RefuseProposal)
+                .WithName(nameof(RefuseProposal));
 
-        proposalsGroup
-            .MapPost("{id:guid}/schedule", ScheduleProposal)
-            .WithName(nameof(ScheduleProposal));
+            proposalsGroup
+                .MapPost("{id:guid}/schedule", ScheduleProposal)
+                .WithName(nameof(ScheduleProposal));
 
-        proposalsGroup
-            .MapGet("stats", GetProposalsStats)
-            .WithName(nameof(GetProposalsStats));
+            proposalsGroup
+                .MapGet("stats", GetProposalsStats)
+                .WithName(nameof(GetProposalsStats));
 
-        return builder;
+            return builder;
+        }
     }
 
     private static async Task<Ok<ProposalListModel>> GetAllProposals(

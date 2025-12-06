@@ -7,20 +7,23 @@ namespace KITT.Web.App.Endpoints;
 
 public static class AuthenticationEndpoints
 {
-    public static IEndpointRouteBuilder MapAuthenticationEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        var authenticationGroup = builder.MapGroup("/authentication");
+        public IEndpointRouteBuilder MapAuthenticationEndpoints()
+        {
+            var authenticationGroup = builder.MapGroup("/authentication");
 
-        authenticationGroup
-            .MapGet("login", Login)
-            .WithName(nameof(Login))
-            .AllowAnonymous();
+            authenticationGroup
+                .MapGet("login", Login)
+                .WithName(nameof(Login))
+                .AllowAnonymous();
 
-        authenticationGroup
-            .MapGet("logout", Logout)
-            .WithName(nameof(Logout));
+            authenticationGroup
+                .MapGet("logout", Logout)
+                .WithName(nameof(Logout));
 
-        return builder;
+            return builder;
+        }
     }
 
     private static async Task<SignOutHttpResult> Logout(

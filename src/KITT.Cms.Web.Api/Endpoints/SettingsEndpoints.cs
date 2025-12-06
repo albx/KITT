@@ -9,12 +9,15 @@ namespace KITT.Cms.Web.Api.Endpoints;
 
 public static class SettingsEndpoints
 {
-    public static IEndpointRouteBuilder MapSettingsEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        var settingsGroup = builder
-            .MapGroup("api/settings")
-            .RequireAuthorization();
+        public IEndpointRouteBuilder MapSettingsEndpoints()
+        {
+            var settingsGroup = builder
+                .MapGroup("api/settings")
+                .RequireAuthorization();
 
-        return builder;
+            return builder;
+        }
     }
 }
