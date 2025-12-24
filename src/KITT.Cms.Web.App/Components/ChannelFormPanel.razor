@@ -1,0 +1,47 @@
+﻿@implements IDialogContentComponent<ChannelModel>
+
+<EditForm Model="Content" role="form">
+    <DataAnnotationsValidator />
+
+    <FluentDialogBody>
+        @* <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentCombobox TOption="Option<ChannelType>"
+                            Items="channelTypes" 
+                            Label="Channel type"
+                            @bind-SelectedOption="SelectedChannelType"
+                            Appearance="Appearance.Filled"
+                            Required="true"
+                            Id="channelType"
+                            Style="width:100%;"/>
+        </FluentStack> *@
+        <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentTextField Label="Name"
+                            @bind-Value="Content.Name"
+                            Appearance="FluentInputAppearance.Filled"
+                            Style="width:100%;"
+                            Required="true"
+                            Id="channelName"/>
+            <FluentValidationMessage For="@(() => Content.Name)"/>
+        </FluentStack>
+        <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentTextField Label="Url"
+                            @bind-Value="Content.Url"
+                            Appearance="FluentInputAppearance.Filled"
+                            TextFieldType="TextFieldType.Url"
+                            Style="width:100%;"
+                            Required="true"
+                            Id="channelUrl"/>
+            <FluentValidationMessage For="@(() => Content.Url)"/>
+        </FluentStack>
+    </FluentDialogBody>
+    <FluentDialogFooter>
+        <FluentButton Type="ButtonType.Button"
+                        Appearance="Appearance.Accent">
+                Save
+            </FluentButton>
+            <FluentButton Appearance="Appearance.Outline"
+                        OnClick="CloseAsync">
+                Close
+            </FluentButton>
+    </FluentDialogFooter>
+</EditForm>
