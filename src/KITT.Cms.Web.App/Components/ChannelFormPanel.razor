@@ -4,16 +4,18 @@
     <DataAnnotationsValidator />
 
     <FluentDialogBody>
-        @* <FluentStack Orientation="Orientation.Vertical" class="mb-2">
-            <FluentCombobox TOption="Option<ChannelType>"
-                            Items="channelTypes" 
-                            Label="Channel type"
-                            @bind-SelectedOption="SelectedChannelType"
-                            Appearance="Appearance.Filled"
-                            Required="true"
-                            Id="channelType"
-                            Style="width:100%;"/>
-        </FluentStack> *@
+        <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentSelect TOption="ChannelType"
+                          Label="Channel type"
+                          Items="channelTypes"
+                          Id="channelType"
+                          Appearance="Appearance.Filled"
+                          Style="width:100%;"
+                          OptionValue="@(t => t.ToString())"
+                          OptionText="@(t => t.ToString())"
+                          @bind-SelectedOption="Content.Type"/>
+            <FluentValidationMessage For="@(() => Content.Type)"/>
+        </FluentStack>
         <FluentStack Orientation="Orientation.Vertical" class="mb-2">
             <FluentTextField Label="Name"
                             @bind-Value="Content.Name"
@@ -30,7 +32,8 @@
                             TextFieldType="TextFieldType.Url"
                             Style="width:100%;"
                             Required="true"
-                            Id="channelUrl"/>
+                            Id="channelUrl"
+                            Placeholder="@UrlPlaceholder"/>
             <FluentValidationMessage For="@(() => Content.Url)"/>
         </FluentStack>
     </FluentDialogBody>

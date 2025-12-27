@@ -23,11 +23,18 @@
                 <h4>@channel.Name</h4>
                 <p>@channel.Url</p>
 
-                <FluentButton Type="ButtonType.Button"
-                              Appearance="Appearance.Accent"
-                              IconStart="@(new Icons.Filled.Size20.Edit())">
-                    Edit
-                </FluentButton>
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentButton Type="ButtonType.Button"
+                                Appearance="Appearance.Accent"
+                                IconStart="@(new Icons.Filled.Size20.Edit())">
+                        Edit
+                    </FluentButton>
+                    <FluentButton Type="ButtonType.Button"
+                                Appearance="Appearance.Outline"
+                                IconStart="@(new Icons.Filled.Size20.Delete())">
+                        Delete
+                    </FluentButton>
+                </FluentStack>
             </FluentCard>
         </FluentGridItem>
     }

@@ -12,15 +12,14 @@ public partial class ChannelFormPanel : IDialogContentComponent<ChannelModel>
     [CascadingParameter]
     public DialogReference Dialog { get; set; } = default!;
 
-    private readonly Option<ChannelType>[] channelTypes = Enum.GetValues<ChannelType>().Select(t => new Option<ChannelType>{ Value = t, Text = t.ToString() }).ToArray();
+    private readonly ChannelType[] channelTypes = Enum.GetValues<ChannelType>();
 
-    private string urlPrefix = string.Empty;
-
-    private Option<ChannelType> SelectedChannelType
+    private string UrlPlaceholder => Content.Type switch
     {
-        get => new() { Value = Content.Type, Text = Content.Type.ToString() };
-        set => Content.Type = value.Value;
-    }
+        ChannelType.Twitch => "https://www.twitch.tv/channelName",
+        ChannelType.YouTube => "https://www.youtube.com/@channelName",
+        _ => string.Empty
+    };
 
     private async Task CloseAsync() => await Dialog.CloseAsync(DialogResult.Cancel());
 }
