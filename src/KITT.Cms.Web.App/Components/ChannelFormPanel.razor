@@ -1,6 +1,8 @@
 ﻿@implements IDialogContentComponent<ChannelModel>
 
-<EditForm Model="Content" role="form">
+@using KITT.Cms.Settings
+
+<EditForm EditContext="context" role="form">
     <DataAnnotationsValidator />
 
     <FluentDialogBody>
@@ -39,11 +41,12 @@
     </FluentDialogBody>
     <FluentDialogFooter>
         <FluentButton Type="ButtonType.Button"
-                        Appearance="Appearance.Accent">
+                      Appearance="Appearance.Accent"
+                      OnClick="SaveAsync">
                 Save
             </FluentButton>
             <FluentButton Appearance="Appearance.Outline"
-                        OnClick="CloseAsync">
+                          OnClick="CloseAsync">
                 Close
             </FluentButton>
     </FluentDialogFooter>

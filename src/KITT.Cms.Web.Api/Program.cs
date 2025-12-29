@@ -6,11 +6,14 @@ using KITT.Cms.Web.Api;
 using KITT.Telegram.Messages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using KITT.Services;
+using KITT.Cms.Settings.Stores;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.AddSqlServerDbContext<KittDbContext>(ServiceNames.Database);
+
+builder.AddAzureTableServiceClient(ServiceNames.SettingsTables);
 
 builder.Services.AddValidation();
 
@@ -27,9 +30,11 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddKittCore();
 
+builder.Services.AddScoped<IConnectedChannelStore, ConnectedChannelStore>();
+
 builder.Services
     .AddScoped<StreamingsEndpointsServices>()
-    .AddScoped<SettingsEndpointsServices>();
+    .AddScoped<ChannelsEndpointsServices>();
 
 builder.Services.AddProblemDetails();
 

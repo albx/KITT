@@ -42,18 +42,18 @@ internal static class CmsEndpoints
                 .RequireAuthorization();
 
             builder.MapForwarder(
-                "/api/cms/settings", 
+                "/api/cms/settings/channels", 
                 $"https+http://{ServiceNames.CmsApi}", 
                 transformBuilder => transformBuilder.ConfigureWithTargetPath(
-                    "/api/settings", 
+                    "/api/settings/channels", 
                     GetScopes))
                 .RequireAuthorization();
 
             builder.MapForwarder(
-                "/api/cms/settings/{id}",
+                "/api/cms/settings/channels/{id}",
                 $"https+http://{ServiceNames.CmsApi}",
                 transformBuilder => transformBuilder.ConfigureWithTargetPath(
-                    "/api/settings/{id}",
+                    "/api/settings/channels/{id}",
                     GetScopes))
                 .RequireAuthorization();
 

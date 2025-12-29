@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Hosting;
 using KITT.Services;
 using KITT.AppHost;
+using Aspire.Hosting.Azure;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -22,10 +23,37 @@ var webAppSecret = builder.AddParameter("WebAppSecret", secret: true);
 var kittDb = builder.AddKittDatabase();
 #endregion
 
+#region Azure Storage Account
+var azureStorage = builder.AddAzureStorage(ServiceNames.DataStorageAccount)
+    .ConfigureInfrastructure(infra =>
+    {
+        var storageAccountResource = infra.GetProvisionableResources()
+            .OfType<Azure.Provisioning.Storage.StorageAccount>()
+            .SingleOrDefault();
+
+        if (storageAccountResource is not null)
+        {
+            storageAccountResource.Kind = Azure.Provisioning.Storage.StorageKind.StorageV2;
+            storageAccountResource.Sku = new()
+            {
+                Name = Azure.Provisioning.Storage.StorageSkuName.StandardLrs
+            };
+        }
+    })
+    .RunAsEmulator(azurite =>
+    {
+        azurite.WithDataVolume("kittdatastorage-data");
+    });
+
+var settingsTables = azureStorage.AddTables(ServiceNames.SettingsTables);
+#endregion
+
 #region CMS
 var cmsApi = builder.AddProject<Projects.KITT_Cms_Web_Api>(ServiceNames.CmsApi)
     .WithReference(kittDb)
     .WaitFor(kittDb)
+    .WithReference(settingsTables)
+    .WaitFor(settingsTables)
     .WithEnvironment("Identity__TenantId", tenantId)
     .WithEnvironment("Identity__Cms__AppId", cmsApiAppId)
     .PublishAsAzureContainerApp((_, app) =>

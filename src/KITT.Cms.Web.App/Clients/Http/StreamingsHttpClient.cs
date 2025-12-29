@@ -3,20 +3,13 @@ using System.Net.Http.Json;
 
 namespace KITT.Cms.Web.App.Clients.Http;
 
-public class StreamingsHttpClient : IStreamingsClient
+public class StreamingsHttpClient(HttpClient httpClient) : IStreamingsClient
 {
-    public HttpClient Client { get; }
-
     public string ApiResource { get; } = "/api/cms/streamings";
-
-    public StreamingsHttpClient(HttpClient client)
-    {
-        Client = client ?? throw new ArgumentNullException(nameof(client));
-    }
 
     public async Task ScheduleStreamingAsync(ScheduleStreamingModel model)
     {
-        var response = await Client.PostAsJsonAsync(ApiResource, model);
+        var response = await httpClient.PostAsJsonAsync(ApiResource, model);
         if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException("Error scheduling streaming");
@@ -32,7 +25,7 @@ public class StreamingsHttpClient : IStreamingsClient
             url = $"{url}?{queryString}";
         }
 
-        var model = await Client.GetFromJsonAsync<StreamingsListModel>(url);
+        var model = await httpClient.GetFromJsonAsync<StreamingsListModel>(url);
         return model ?? new StreamingsListModel();
     }
 
@@ -40,7 +33,7 @@ public class StreamingsHttpClient : IStreamingsClient
     {
         try
         {
-            var model = await Client.GetFromJsonAsync<StreamingDetailModel>($"{ApiResource}/{streamingId}");
+            var model = await httpClient.GetFromJsonAsync<StreamingDetailModel>($"{ApiResource}/{streamingId}");
             return model;
         }
         catch
@@ -51,7 +44,7 @@ public class StreamingsHttpClient : IStreamingsClient
 
     public async Task UpdateStreamingAsync(StreamingDetailModel model)
     {
-        var response = await Client.PutAsJsonAsync($"{ApiResource}/{model.Id}", model);
+        var response = await httpClient.PutAsJsonAsync($"{ApiResource}/{model.Id}", model);
         if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException("Error updating streaming");
@@ -60,7 +53,7 @@ public class StreamingsHttpClient : IStreamingsClient
 
     public async Task DeleteStreamingAsync(Guid streamingId)
     {
-        var response = await Client.DeleteAsync($"{ApiResource}/{streamingId}");
+        var response = await httpClient.DeleteAsync($"{ApiResource}/{streamingId}");
         if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException("Error deleting streaming");
@@ -69,7 +62,7 @@ public class StreamingsHttpClient : IStreamingsClient
 
     public async Task ImportStreamingAsync(ImportStreamingModel model)
     {
-        var response = await Client.PostAsJsonAsync($"{ApiResource}/import", model);
+        var response = await httpClient.PostAsJsonAsync($"{ApiResource}/import", model);
         if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException("Error importing streaming");
@@ -78,7 +71,7 @@ public class StreamingsHttpClient : IStreamingsClient
 
     public async Task<StreamingStatsModel> GetStreamingStatsAsync()
     {
-        var streamingStats = await Client.GetFromJsonAsync<StreamingStatsModel>($"{ApiResource}/stats");
+        var streamingStats = await httpClient.GetFromJsonAsync<StreamingStatsModel>($"{ApiResource}/stats");
         return streamingStats ?? new(0, 0);
     }
 }

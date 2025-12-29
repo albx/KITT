@@ -12,4 +12,7 @@ public static class ServiceNames
     public const string WebApp = "kitt-webapp";
 
     public const string Seeder = "kitt-support-seeder";
+
+    public const string DataStorageAccount = "kittdatastorage";
+    public const string SettingsTables = "kitt-settings-tables";
 }

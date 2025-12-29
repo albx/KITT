@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using KITT.Cms.Settings;
+using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.Models.Settings;
 
@@ -13,10 +14,4 @@ public class ChannelModel
 
     [Required]
     public string Url { get; set; } = string.Empty;
-}
-
-public enum ChannelType
-{
-    Twitch,
-    YouTube
 }

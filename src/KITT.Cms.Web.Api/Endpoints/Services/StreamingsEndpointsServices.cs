@@ -5,17 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KITT.Cms.Web.Api.Endpoints.Services;
 
-public class StreamingsEndpointsServices
+public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands commands)
 {
-    public IDatabase Database { get; }
+    public IDatabase Database { get; } = database ?? throw new ArgumentNullException(nameof(database));
 
-    public IStreamingCommands Commands { get; }
-
-    public StreamingsEndpointsServices(IDatabase database, IStreamingCommands commands)
-    {
-        Database = database ?? throw new ArgumentNullException(nameof(database));
-        Commands = commands ?? throw new ArgumentNullException(nameof(commands));
-    }
+    public IStreamingCommands Commands { get; } = commands ?? throw new ArgumentNullException(nameof(commands));
 
     public async Task<StreamingsListModel> GetAllStreamingsAsync(string userId, int page, int size, StreamingQueryModel.SortDirection sort, string? query)
     {

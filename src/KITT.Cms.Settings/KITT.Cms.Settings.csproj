@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KITT.Cms.Settings\KITT.Cms.Settings.csproj" />
+    <PackageReference Include="Azure.Data.Tables" Version="12.11.0" />
   </ItemGroup>
 
 </Project>
