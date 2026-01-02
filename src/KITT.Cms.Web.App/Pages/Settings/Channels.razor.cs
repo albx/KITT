@@ -1,6 +1,7 @@
 using KITT.Cms.Web.App.Clients;
 using KITT.Cms.Web.App.Components;
 using KITT.Cms.Web.Models.Settings;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Pages.Settings;
@@ -13,7 +14,7 @@ public partial class Channels(IDialogService dialogService, IConnectedChannelsCl
 
     protected override async Task OnInitializedAsync()
     {
-        channels = await client.GetConnectedChannelsAsync();
+        await LoadConnectedChannelsAsync();
     }
 
     private async Task CreateNewChannelAsync(ChannelModel channel)
@@ -21,20 +22,30 @@ public partial class Channels(IDialogService dialogService, IConnectedChannelsCl
         await client.CreateNewConnectedChannelAsync(channel);
     }
 
+    private async Task LoadConnectedChannelsAsync() => channels = await client.GetConnectedChannelsAsync();
+
     private async Task OpenAddNewChannelPanelAsync()
     {
-        var model = new ChannelModel();
+        var panelModel = new ChannelFormPanel.ViewModel
+        {
+            Model = new(),
+            OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, CreateNewChannelAsync)
+        };
 
         dialogReference = await dialogService.ShowPanelAsync<ChannelFormPanel>(
-            model,
-            new DialogParameters<ChannelModel>()
+            panelModel,
+            new DialogParameters<ChannelFormPanel.ViewModel>()
             {
-                Content = model,
+                Content = panelModel,
                 Alignment = HorizontalAlignment.Right,
                 Title = "Add new channel",
                 Width = "50em",
             });
 
-        await dialogReference.Result;
+        var result = await dialogReference.Result;
+        if (!result.Cancelled)
+        {
+            await LoadConnectedChannelsAsync();
+        }
     }
 }

@@ -1,4 +1,4 @@
-using KITT.Cms.Settings;
+using KITT.Cms.Settings.Models;
 using KITT.Cms.Web.Models.Settings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -6,13 +6,10 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Components;
 
-public partial class ChannelFormPanel : IDialogContentComponent<ChannelModel>
+public partial class ChannelFormPanel(IToastService toastService) : IDialogContentComponent<ChannelFormPanel.ViewModel>
 {
     [Parameter]
-    public ChannelModel Content { get; set; } = new();
-
-    [Parameter]
-    public EventCallback<ChannelModel> OnSaveChannel { get; set; }
+    public ViewModel Content { get; set; } = new();
 
     [CascadingParameter]
     public DialogReference Dialog { get; set; } = default!;
@@ -23,7 +20,7 @@ public partial class ChannelFormPanel : IDialogContentComponent<ChannelModel>
 
     private readonly ChannelType[] channelTypes = Enum.GetValues<ChannelType>();
 
-    private string UrlPlaceholder => Content.Type switch
+    private string UrlPlaceholder => Content.Model.Type switch
     {
         ChannelType.Twitch => "https://www.twitch.tv/channelName",
         ChannelType.YouTube => "https://www.youtube.com/@channelName",
@@ -32,7 +29,7 @@ public partial class ChannelFormPanel : IDialogContentComponent<ChannelModel>
 
     protected override void OnInitialized()
     {
-        context = new(Content);
+        context = new(Content.Model);
     }
 
     private async Task SaveAsync()
@@ -46,7 +43,14 @@ public partial class ChannelFormPanel : IDialogContentComponent<ChannelModel>
                 return;
             }
 
-            await OnSaveChannel.InvokeAsync(Content);
+            await Content.OnChannelSave.InvokeAsync(Content.Model);
+
+            toastService.ShowSuccess("Channel saved correctly");
+            await Dialog.CloseAsync(DialogResult.Ok(true));
+        }
+        catch
+        {
+            toastService.ShowError("Error saving the channel");
         }
         finally
         {
@@ -55,4 +59,11 @@ public partial class ChannelFormPanel : IDialogContentComponent<ChannelModel>
     }
 
     private async Task CloseAsync() => await Dialog.CloseAsync(DialogResult.Cancel());
+
+    public class ViewModel
+    {
+        public ChannelModel Model { get; set; } = new();
+
+        public EventCallback<ChannelModel> OnChannelSave { get; set; }
+    }
 }

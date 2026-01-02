@@ -1,14 +1,14 @@
 ﻿using KITT.Cms.Settings;
-using KITT.Cms.Settings.Stores;
+using KITT.Cms.Settings.Models;
 using KITT.Cms.Web.Models.Settings;
 
 namespace KITT.Cms.Web.Api.Endpoints.Services;
 
-public class ChannelsEndpointsServices(IConnectedChannelStore connectedChannelStore)
+public class ChannelsEndpointsServices(IConnectedChannelsRepository connectedChannelsRepository)
 {
     public async Task<ChannelModel[]> GetChannelsAsync(string userId)
     {
-        var channels = await connectedChannelStore.GetConnectedChannelsAsync(userId);
+        var channels = await connectedChannelsRepository.GetConnectedChannelsAsync(userId);
         return channels.Select(c => new ChannelModel
         {
             Id = Guid.Parse(c.RowKey),
@@ -20,7 +20,7 @@ public class ChannelsEndpointsServices(IConnectedChannelStore connectedChannelSt
 
     public async Task<ChannelModel?> GetChannelAsync(Guid channelId, string userId)
     {
-        var channel = await connectedChannelStore.GetConnectedChannelAsync(channelId, userId);
+        var channel = await connectedChannelsRepository.GetConnectedChannelAsync(channelId, userId);
         if (channel is null)
         {
             return null;
@@ -40,19 +40,19 @@ public class ChannelsEndpointsServices(IConnectedChannelStore connectedChannelSt
         model.Id = Guid.NewGuid();
 
         var channelEntity = MapToConnectedChannel(model, userId);
-        await connectedChannelStore.SaveAsync(channelEntity);
+        await connectedChannelsRepository.SaveAsync(channelEntity);
 
         return model;
     }
 
     public async Task DeleteChannelAsync(Guid channelId, string userId)
     {
-        await connectedChannelStore.DeleteAsync(channelId, userId);
+        await connectedChannelsRepository.DeleteAsync(channelId, userId);
     }
 
     public async Task UpdateChannelAsync(Guid channelId, ChannelModel model, string userId)
     {
-        var connectedChannel = await connectedChannelStore.GetConnectedChannelAsync(channelId, userId);
+        var connectedChannel = await connectedChannelsRepository.GetConnectedChannelAsync(channelId, userId);
         if (connectedChannel is null)
         {
             throw new ArgumentOutOfRangeException(nameof(channelId));
@@ -62,7 +62,7 @@ public class ChannelsEndpointsServices(IConnectedChannelStore connectedChannelSt
         connectedChannel.Url = model.Url;
         connectedChannel.Type = model.Type;
 
-        await connectedChannelStore.SaveAsync(connectedChannel);
+        await connectedChannelsRepository.SaveAsync(connectedChannel);
     }
 
     private static ConnectedChannel MapToConnectedChannel(ChannelModel model, string userId)

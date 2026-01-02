@@ -1,7 +1,7 @@
 ﻿using Azure;
 using Azure.Data.Tables;
 
-namespace KITT.Cms.Settings;
+namespace KITT.Cms.Settings.Models;
 
 public class ConnectedChannel : ITableEntity
 {

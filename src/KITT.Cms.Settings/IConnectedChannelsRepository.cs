@@ -1,6 +1,8 @@
-﻿namespace KITT.Cms.Settings.Stores;
+﻿using KITT.Cms.Settings.Models;
 
-public interface IConnectedChannelStore
+namespace KITT.Cms.Settings;
+
+public interface IConnectedChannelsRepository
 {
     Task<ConnectedChannel[]> GetConnectedChannelsAsync(string userId);
 

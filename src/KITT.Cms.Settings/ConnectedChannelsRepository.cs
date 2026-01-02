@@ -1,14 +1,15 @@
 ﻿using Azure.Data.Tables;
+using KITT.Cms.Settings.Models;
 
-namespace KITT.Cms.Settings.Stores;
+namespace KITT.Cms.Settings;
 
-public class ConnectedChannelStore : IConnectedChannelStore
+public class ConnectedChannelsRepository : IConnectedChannelsRepository
 {
     private readonly TableClient _tableClient;
 
-    internal const string ConnectedChannelsTableName = "Settings_Channels";
+    internal const string ConnectedChannelsTableName = "SettingsChannels";
 
-    public ConnectedChannelStore(TableServiceClient tableServiceClient)
+    public ConnectedChannelsRepository(TableServiceClient tableServiceClient)
     {
         _tableClient = CreateTableIfNotExist(tableServiceClient) ?? throw new ArgumentNullException("tableClient");
     }

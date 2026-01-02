@@ -1,4 +1,4 @@
-﻿using KITT.Cms.Settings;
+﻿using KITT.Cms.Settings.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.Models.Settings;

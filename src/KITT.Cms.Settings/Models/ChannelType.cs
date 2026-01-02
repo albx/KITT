@@ -1,4 +1,4 @@
-﻿namespace KITT.Cms.Settings;
+﻿namespace KITT.Cms.Settings.Models;
 
 public enum ChannelType
 {

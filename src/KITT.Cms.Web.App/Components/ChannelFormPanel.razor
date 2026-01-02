@@ -1,6 +1,6 @@
-﻿@implements IDialogContentComponent<ChannelModel>
+﻿@implements IDialogContentComponent<ChannelFormPanel.ViewModel>
 
-@using KITT.Cms.Settings
+@using KITT.Cms.Settings.Models
 
 <EditForm EditContext="context" role="form">
     <DataAnnotationsValidator />
@@ -15,37 +15,39 @@
                           Style="width:100%;"
                           OptionValue="@(t => t.ToString())"
                           OptionText="@(t => t.ToString())"
-                          @bind-SelectedOption="Content.Type"/>
-            <FluentValidationMessage For="@(() => Content.Type)"/>
+                          @bind-SelectedOption="Content.Model.Type"/>
+            <FluentValidationMessage For="@(() => Content.Model.Type)"/>
         </FluentStack>
         <FluentStack Orientation="Orientation.Vertical" class="mb-2">
             <FluentTextField Label="Name"
-                            @bind-Value="Content.Name"
+                            @bind-Value="Content.Model.Name"
                             Appearance="FluentInputAppearance.Filled"
                             Style="width:100%;"
                             Required="true"
                             Id="channelName"/>
-            <FluentValidationMessage For="@(() => Content.Name)"/>
+            <FluentValidationMessage For="@(() => Content.Model.Name)"/>
         </FluentStack>
         <FluentStack Orientation="Orientation.Vertical" class="mb-2">
             <FluentTextField Label="Url"
-                            @bind-Value="Content.Url"
+                            @bind-Value="Content.Model.Url"
                             Appearance="FluentInputAppearance.Filled"
                             TextFieldType="TextFieldType.Url"
                             Style="width:100%;"
                             Required="true"
                             Id="channelUrl"
                             Placeholder="@UrlPlaceholder"/>
-            <FluentValidationMessage For="@(() => Content.Url)"/>
+            <FluentValidationMessage For="@(() => Content.Model.Url)"/>
         </FluentStack>
     </FluentDialogBody>
     <FluentDialogFooter>
         <FluentButton Type="ButtonType.Button"
                       Appearance="Appearance.Accent"
+                      Loading="saving"
                       OnClick="SaveAsync">
                 Save
             </FluentButton>
             <FluentButton Appearance="Appearance.Outline"
+                          Disabled="saving"
                           OnClick="CloseAsync">
                 Close
             </FluentButton>
