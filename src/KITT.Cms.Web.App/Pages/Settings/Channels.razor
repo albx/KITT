@@ -25,13 +25,15 @@
 
                 <FluentStack Orientation="Orientation.Horizontal">
                     <FluentButton Type="ButtonType.Button"
-                                Appearance="Appearance.Accent"
-                                IconStart="@(new Icons.Filled.Size20.Edit())">
+                                  Appearance="Appearance.Accent"
+                                  IconStart="@(new Icons.Filled.Size20.Edit())"
+                                  OnClick="@(() => OpenEditChannelPanelAsync(channel))">
                         Edit
                     </FluentButton>
                     <FluentButton Type="ButtonType.Button"
-                                Appearance="Appearance.Outline"
-                                IconStart="@(new Icons.Filled.Size20.Delete())">
+                                  Appearance="Appearance.Outline"
+                                  IconStart="@(new Icons.Filled.Size20.Delete())"
+                                  OnClick="@(() => DeleteChannelAsync(channel))">
                         Delete
                     </FluentButton>
                 </FluentStack>

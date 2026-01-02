@@ -14,7 +14,7 @@ public class ConnectedChannelsRepository : IConnectedChannelsRepository
         _tableClient = CreateTableIfNotExist(tableServiceClient) ?? throw new ArgumentNullException("tableClient");
     }
 
-    private TableClient? CreateTableIfNotExist(TableServiceClient tableServiceClient)
+    private static TableClient? CreateTableIfNotExist(TableServiceClient tableServiceClient)
     {
         var tableClient = tableServiceClient.GetTableClient(ConnectedChannelsTableName);
         tableClient.CreateIfNotExists();

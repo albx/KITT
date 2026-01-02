@@ -48,4 +48,34 @@ public partial class Channels(IDialogService dialogService, IConnectedChannelsCl
             await LoadConnectedChannelsAsync();
         }
     }
+
+    private async Task OpenEditChannelPanelAsync(ChannelModel channel)
+    {
+        var panelModel = new ChannelFormPanel.ViewModel
+        {
+            Model = channel,
+            OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, CreateNewChannelAsync)
+        };
+
+        dialogReference = await dialogService.ShowPanelAsync<ChannelFormPanel>(
+            panelModel,
+            new DialogParameters<ChannelFormPanel.ViewModel>()
+            {
+                Content = panelModel,
+                Alignment = HorizontalAlignment.Right,
+                Title = $"Edit channel {channel.Name}",
+                Width = "50em",
+            });
+
+        var result = await dialogReference.Result;
+        if (!result.Cancelled)
+        {
+            await LoadConnectedChannelsAsync();
+        }
+    }
+
+    private async Task DeleteChannelAsync(ChannelModel channel)
+    {
+        //TODO
+    }
 }
