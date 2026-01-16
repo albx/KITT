@@ -2,6 +2,7 @@ using KITT.Cms.Web.App.Clients;
 using KITT.Cms.Web.App.Components;
 using KITT.Cms.Web.Models.Settings;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Pages.Settings;
@@ -9,13 +10,12 @@ namespace KITT.Cms.Web.App.Pages.Settings;
 public partial class Channels(
     IDialogService dialogService, 
     IToastService toastService,
-    IConnectedChannelsClient client)
+    IConnectedChannelsClient client,
+    IStringLocalizer<Resources.Pages.Settings.Channels> localizer)
 {
     private ChannelModel[] channels = [];
 
     private bool loading = false;
-
-    private IDialogReference? dialogReference;
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,17 +49,17 @@ public partial class Channels(
             OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, CreateNewChannelAsync)
         };
 
-        dialogReference = await dialogService.ShowPanelAsync<ChannelFormPanel>(
+        var dialog = await dialogService.ShowPanelAsync<ChannelFormPanel>(
             panelModel,
             new DialogParameters<ChannelFormPanel.ViewModel>()
             {
                 Content = panelModel,
                 Alignment = HorizontalAlignment.Right,
-                Title = "Add new channel",
+                Title = localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelPanelTitle)],
                 Width = "50em",
             });
 
-        var result = await dialogReference.Result;
+        var result = await dialog.Result;
         if (!result.Cancelled)
         {
             await LoadConnectedChannelsAsync();
@@ -82,17 +82,17 @@ public partial class Channels(
             OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, UpdateChannelAsync)
         };
 
-        dialogReference = await dialogService.ShowPanelAsync<ChannelFormPanel>(
+        var dialog = await dialogService.ShowPanelAsync<ChannelFormPanel>(
             panelModel,
             new DialogParameters<ChannelFormPanel.ViewModel>()
             {
                 Content = panelModel,
                 Alignment = HorizontalAlignment.Right,
-                Title = $"Edit channel {channel.Name}",
+                Title = localizer[nameof(Resources.Pages.Settings.Channels.EditChannelPanelTitle), channel.Name],
                 Width = "50em",
             });
 
-        var result = await dialogReference.Result;
+        var result = await dialog.Result;
         if (!result.Cancelled)
         {
             await LoadConnectedChannelsAsync();
@@ -109,8 +109,9 @@ public partial class Channels(
         var channelName = channel.Name;
 
         var confirm = await dialogService.ShowConfirmationAsync(
-            "You are going to delete this channel. Are you sure?",
-            title: $"Delete channel {channelName}");
+            localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmMessage)],
+            title: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmTitle)],
+            primaryText: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmPrimaryButtonText)]);
 
         var result = await confirm.Result;
 
@@ -119,13 +120,13 @@ public partial class Channels(
             try
             {
                 await client.DeleteConnectedChannelAsync(channel);
-                toastService.ShowSuccess($"{channelName} deleted successfully!");
+                toastService.ShowSuccess(localizer[nameof(Resources.Pages.Settings.Channels.DeletedChannelSuccessMessage), channelName]);
 
                 await LoadConnectedChannelsAsync();
             }
             catch 
             {
-                toastService.ShowError($"There was an error deleting channel {channelName}");
+                toastService.ShowError(localizer[nameof(Resources.Pages.Settings.Channels.DeletedChannelErrorMessage), channelName]);
             }
         }
     }

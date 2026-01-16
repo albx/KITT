@@ -1,9 +1,9 @@
 ﻿@page "/settings/channels"
 
-<PageTitle>KITT - Connected channels</PageTitle>
+<PageTitle>KITT - @localizer[nameof(Resources.Pages.Settings.Channels.PageTitle)]</PageTitle>
 
 <SectionContent SectionName="@SectionNames.PageTitleSectionName">
-    Connected channels
+    @localizer[nameof(Resources.Pages.Settings.Channels.PageTitle)]
 </SectionContent>
 
 <SectionContent SectionName="@SectionNames.ToolbarSectionName">
@@ -11,13 +11,13 @@
                   Appearance="Appearance.Accent"
                   IconStart="@(new Icons.Filled.Size20.Add())"
                   OnClick="OpenAddNewChannelPanelAsync">
-        Add new channel
+        @localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelButtonText)]
     </FluentButton>
     <FluentButton Type="ButtonType.Button"
                   Appearance="Appearance.Outline"
                   IconStart="@(new Icons.Filled.Size20.ArrowClockwise())"
                   OnClick="LoadConnectedChannelsAsync">
-        Refresh
+        @localizer[nameof(Resources.Pages.Settings.Channels.RefreshChannelsButtonText)]
     </FluentButton>
 </SectionContent>
 
@@ -35,13 +35,13 @@
                                       Appearance="Appearance.Accent"
                                       IconStart="@(new Icons.Filled.Size20.Edit())"
                                       OnClick="@(() => OpenEditChannelPanelAsync(channel))">
-                            Edit
+                            @localizer[nameof(Resources.Pages.Settings.Channels.EditChannelButtonText)]
                         </FluentButton>
                         <FluentButton Type="ButtonType.Button"
                                       Appearance="Appearance.Outline"
                                       IconStart="@(new Icons.Filled.Size20.Delete())"
                                       OnClick="@(() => DeleteChannelAsync(channel))">
-                            Delete
+                            @localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelButtonText)]
                         </FluentButton>
                     </FluentStack>
                 </FluentCard>

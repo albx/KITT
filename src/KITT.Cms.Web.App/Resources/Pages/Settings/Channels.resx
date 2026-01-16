@@ -117,22 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ContentsMenuLabel" xml:space="preserve">
-    <value>Contenuti</value>
+  <data name="AddNewChannelButtonText" xml:space="preserve">
+    <value>Add new channel</value>
   </data>
-  <data name="DashboardMenuLabel" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="AddNewChannelPanelTitle" xml:space="preserve">
+    <value>Add new channel</value>
   </data>
-  <data name="ProposalsMenuLabel" xml:space="preserve">
-    <value>Proposte</value>
+  <data name="DeleteChannelButtonText" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="SettingsChannelsMenuLabel" xml:space="preserve">
-    <value>Canali collegati</value>
+  <data name="DeleteChannelConfirmMessage" xml:space="preserve">
+    <value>You are going to delete this channel. Are you sure?</value>
   </data>
-  <data name="SettingsMenuLabel" xml:space="preserve">
-    <value>Impostazioni</value>
+  <data name="DeleteChannelConfirmPrimaryButtonText" xml:space="preserve">
+    <value>Yes</value>
   </data>
-  <data name="StreamingsMenuLabel" xml:space="preserve">
-    <value>Dirette</value>
+  <data name="DeleteChannelConfirmTitle" xml:space="preserve">
+    <value>Delete channel {0}</value>
+  </data>
+  <data name="DeletedChannelErrorMessage" xml:space="preserve">
+    <value>There was an error deleting channel {0}</value>
+  </data>
+  <data name="DeletedChannelSuccessMessage" xml:space="preserve">
+    <value>{0} deleted successfully!</value>
+  </data>
+  <data name="EditChannelButtonText" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditChannelPanelTitle" xml:space="preserve">
+    <value>Edit channel {0}</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Connected channels</value>
+  </data>
+  <data name="RefreshChannelsButtonText" xml:space="preserve">
+    <value>Refresh</value>
   </data>
 </root>

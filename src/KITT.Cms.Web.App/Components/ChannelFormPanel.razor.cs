@@ -2,11 +2,14 @@ using KITT.Cms.Settings.Models;
 using KITT.Cms.Web.Models.Settings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Components;
 
-public partial class ChannelFormPanel(IToastService toastService) : IDialogContentComponent<ChannelFormPanel.ViewModel>
+public partial class ChannelFormPanel(
+    IToastService toastService,
+    IStringLocalizer<Resources.Components.ChannelFormPanel> localizer) : IDialogContentComponent<ChannelFormPanel.ViewModel>
 {
     [Parameter]
     public ViewModel Content { get; set; } = new();
@@ -45,14 +48,13 @@ public partial class ChannelFormPanel(IToastService toastService) : IDialogConte
 
             await Content.OnChannelSave.InvokeAsync(Content.Model);
 
-            toastService.ShowSuccess("Channel saved correctly");
+            toastService.ShowSuccess(localizer[nameof(Resources.Components.ChannelFormPanel.ChannelSavedSuccessMessage)]);
 
             await Dialog.CloseAsync(DialogResult.Ok(true));
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine(ex);
-            toastService.ShowError("Error saving the channel");
+            toastService.ShowError(localizer[nameof(Resources.Components.ChannelFormPanel.ChannelSavedErrorMessage)]);
         }
         finally
         {

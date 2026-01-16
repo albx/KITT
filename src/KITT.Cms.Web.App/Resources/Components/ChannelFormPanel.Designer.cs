@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KITT.Web.App.Client.Resources.Shared {
+namespace KITT.Cms.Web.App.Resources.Components {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace KITT.Web.App.Client.Resources.Shared {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class NavMenu {
+    public class ChannelFormPanel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal NavMenu() {
+        internal ChannelFormPanel() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace KITT.Web.App.Client.Resources.Shared {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Web.App.Client.Resources.Shared.NavMenu", typeof(NavMenu).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KITT.Cms.Web.App.Resources.Components.ChannelFormPanel", typeof(ChannelFormPanel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,38 @@ namespace KITT.Web.App.Client.Resources.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contents.
+        ///   Looks up a localized string similar to Error saving the channel.
         /// </summary>
-        public static string ContentsMenuLabel {
+        public static string ChannelSavedErrorMessage {
             get {
-                return ResourceManager.GetString("ContentsMenuLabel", resourceCulture);
+                return ResourceManager.GetString("ChannelSavedErrorMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dashboard.
+        ///   Looks up a localized string similar to Channel saved correctly.
         /// </summary>
-        public static string DashboardMenuLabel {
+        public static string ChannelSavedSuccessMessage {
             get {
-                return ResourceManager.GetString("DashboardMenuLabel", resourceCulture);
+                return ResourceManager.GetString("ChannelSavedSuccessMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proposals.
+        ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string ProposalsMenuLabel {
+        public static string CloseButtonText {
             get {
-                return ResourceManager.GetString("ProposalsMenuLabel", resourceCulture);
+                return ResourceManager.GetString("CloseButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connected channels.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string SettingsChannelsMenuLabel {
+        public static string SaveButtonText {
             get {
-                return ResourceManager.GetString("SettingsChannelsMenuLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        public static string SettingsMenuLabel {
-            get {
-                return ResourceManager.GetString("SettingsMenuLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to My streamings.
-        /// </summary>
-        public static string StreamingsMenuLabel {
-            get {
-                return ResourceManager.GetString("StreamingsMenuLabel", resourceCulture);
+                return ResourceManager.GetString("SaveButtonText", resourceCulture);
             }
         }
     }

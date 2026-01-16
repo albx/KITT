@@ -117,22 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ContentsMenuLabel" xml:space="preserve">
-    <value>Contenuti</value>
+  <data name="ChannelSavedErrorMessage" xml:space="preserve">
+    <value>Error saving the channel</value>
   </data>
-  <data name="DashboardMenuLabel" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="ChannelSavedSuccessMessage" xml:space="preserve">
+    <value>Channel saved correctly</value>
   </data>
-  <data name="ProposalsMenuLabel" xml:space="preserve">
-    <value>Proposte</value>
+  <data name="CloseButtonText" xml:space="preserve">
+    <value>Close</value>
   </data>
-  <data name="SettingsChannelsMenuLabel" xml:space="preserve">
-    <value>Canali collegati</value>
-  </data>
-  <data name="SettingsMenuLabel" xml:space="preserve">
-    <value>Impostazioni</value>
-  </data>
-  <data name="StreamingsMenuLabel" xml:space="preserve">
-    <value>Dirette</value>
+  <data name="SaveButtonText" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿@inject IStringLocalizer<Resources.Shared.NavMenu> Localizer
+﻿@inject IStringLocalizer<Resources.Shared.NavMenu> localizer
 
 <AuthorizeView>
     <Authorized>
@@ -8,12 +8,12 @@
             <nav class="sitenav" aria-labelledby="main-menu">
                 <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true" CollapsedChildNavigation="true">
                     <FluentNavLink Href="" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Grid())" IconColor="Color.Accent">Dashboard</FluentNavLink>
-                    <FluentNavGroup Title="@Localizer[nameof(Resources.Shared.NavMenu.ContentsMenuLabel)]" @bind-Expanded="@contentsExpanded" Icon="@(new Icons.Regular.Size20.ContentView())">
-                        <FluentNavLink Href="streamings" Icon="@(new Icons.Regular.Size20.VideoPerson())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</FluentNavLink>
+                    <FluentNavGroup Title="@localizer[nameof(Resources.Shared.NavMenu.ContentsMenuLabel)]" @bind-Expanded="@contentsExpanded" Icon="@(new Icons.Regular.Size20.ContentView())">
+                        <FluentNavLink Href="streamings" Icon="@(new Icons.Regular.Size20.VideoPerson())" IconColor="Color.Accent">@localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</FluentNavLink>
                     </FluentNavGroup>
-                    <FluentNavLink Href="proposals" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">@Localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavLink>
-                    <FluentNavGroup Title="@Localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]" @bind-Expanded="@settingsExpanded" Icon="@(new Icons.Regular.Size20.Settings())">
-                        <FluentNavLink Href="settings/channels" Icon="@(new Icons.Regular.Size20.Channel())">Connected channels</FluentNavLink>
+                    <FluentNavLink Href="proposals" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">@localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavLink>
+                    <FluentNavGroup Title="@localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]" @bind-Expanded="@settingsExpanded" Icon="@(new Icons.Regular.Size20.Settings())">
+                        <FluentNavLink Href="settings/channels" Icon="@(new Icons.Regular.Size20.Channel())">@localizer[nameof(Resources.Shared.NavMenu.SettingsChannelsMenuLabel)]</FluentNavLink>
                     </FluentNavGroup>
                 </FluentNavMenu>
             </nav>

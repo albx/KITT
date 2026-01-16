@@ -117,22 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ContentsMenuLabel" xml:space="preserve">
-    <value>Contenuti</value>
+  <data name="AddNewChannelButtonText" xml:space="preserve">
+    <value>Nuovo canale</value>
   </data>
-  <data name="DashboardMenuLabel" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="AddNewChannelPanelTitle" xml:space="preserve">
+    <value>Nuovo canale</value>
   </data>
-  <data name="ProposalsMenuLabel" xml:space="preserve">
-    <value>Proposte</value>
+  <data name="DeleteChannelButtonText" xml:space="preserve">
+    <value>Cancella</value>
   </data>
-  <data name="SettingsChannelsMenuLabel" xml:space="preserve">
+  <data name="DeleteChannelConfirmMessage" xml:space="preserve">
+    <value>Stai per cancellare questo canale. Sei sicuro?</value>
+  </data>
+  <data name="DeleteChannelConfirmPrimaryButtonText" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="DeleteChannelConfirmTitle" xml:space="preserve">
+    <value>Cancellazione canale {0}</value>
+  </data>
+  <data name="DeletedChannelErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante la cancellazione del canale {0}</value>
+  </data>
+  <data name="DeletedChannelSuccessMessage" xml:space="preserve">
+    <value>{0} cancellato con successo!</value>
+  </data>
+  <data name="EditChannelButtonText" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
+  <data name="EditChannelPanelTitle" xml:space="preserve">
+    <value>Modifica canale {0}</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
     <value>Canali collegati</value>
   </data>
-  <data name="SettingsMenuLabel" xml:space="preserve">
-    <value>Impostazioni</value>
-  </data>
-  <data name="StreamingsMenuLabel" xml:space="preserve">
-    <value>Dirette</value>
+  <data name="RefreshChannelsButtonText" xml:space="preserve">
+    <value>Ricarica</value>
   </data>
 </root>

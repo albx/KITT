@@ -44,12 +44,12 @@
                       Appearance="Appearance.Accent"
                       Loading="saving"
                       OnClick="SaveAsync">
-                Save
+                @localizer[nameof(Resources.Components.ChannelFormPanel.SaveButtonText)]
             </FluentButton>
             <FluentButton Appearance="Appearance.Outline"
                           Disabled="saving"
                           OnClick="CloseAsync">
-                Close
+                @localizer[nameof(Resources.Components.ChannelFormPanel.CloseButtonText)]
             </FluentButton>
     </FluentDialogFooter>
 </EditForm>
