@@ -6,9 +6,14 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Pages.Settings;
 
-public partial class Channels(IDialogService dialogService, IConnectedChannelsClient client)
+public partial class Channels(
+    IDialogService dialogService, 
+    IToastService toastService,
+    IConnectedChannelsClient client)
 {
     private ChannelModel[] channels = [];
+
+    private bool loading = false;
 
     private IDialogReference? dialogReference;
 
@@ -22,7 +27,19 @@ public partial class Channels(IDialogService dialogService, IConnectedChannelsCl
         await client.CreateNewConnectedChannelAsync(channel);
     }
 
-    private async Task LoadConnectedChannelsAsync() => channels = await client.GetConnectedChannelsAsync();
+    private async Task LoadConnectedChannelsAsync()
+    {
+        loading = true;
+
+        try
+        {
+            channels = await client.GetConnectedChannelsAsync();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
 
     private async Task OpenAddNewChannelPanelAsync()
     {
@@ -51,10 +68,18 @@ public partial class Channels(IDialogService dialogService, IConnectedChannelsCl
 
     private async Task OpenEditChannelPanelAsync(ChannelModel channel)
     {
+        var channelCopy = new ChannelModel
+        {
+            Id = channel.Id,
+            Name = channel.Name,
+            Type = channel.Type,
+            Url = channel.Url,
+        };
+
         var panelModel = new ChannelFormPanel.ViewModel
         {
-            Model = channel,
-            OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, CreateNewChannelAsync)
+            Model = channelCopy,
+            OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, UpdateChannelAsync)
         };
 
         dialogReference = await dialogService.ShowPanelAsync<ChannelFormPanel>(
@@ -74,8 +99,34 @@ public partial class Channels(IDialogService dialogService, IConnectedChannelsCl
         }
     }
 
+    private async Task UpdateChannelAsync(ChannelModel channel)
+    {
+        await client.UpdateConnectedChannelAsync(channel);
+    }
+
     private async Task DeleteChannelAsync(ChannelModel channel)
     {
-        //TODO
+        var channelName = channel.Name;
+
+        var confirm = await dialogService.ShowConfirmationAsync(
+            "You are going to delete this channel. Are you sure?",
+            title: $"Delete channel {channelName}");
+
+        var result = await confirm.Result;
+
+        if (!result.Cancelled)
+        {
+            try
+            {
+                await client.DeleteConnectedChannelAsync(channel);
+                toastService.ShowSuccess($"{channelName} deleted successfully!");
+
+                await LoadConnectedChannelsAsync();
+            }
+            catch 
+            {
+                toastService.ShowError($"There was an error deleting channel {channelName}");
+            }
+        }
     }
 }

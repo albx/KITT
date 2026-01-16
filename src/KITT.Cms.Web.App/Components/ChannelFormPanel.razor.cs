@@ -12,7 +12,7 @@ public partial class ChannelFormPanel(IToastService toastService) : IDialogConte
     public ViewModel Content { get; set; } = new();
 
     [CascadingParameter]
-    public DialogReference Dialog { get; set; } = default!;
+    FluentDialog Dialog { get; set; } = default!;
 
     private EditContext context = default!;
 
@@ -46,10 +46,12 @@ public partial class ChannelFormPanel(IToastService toastService) : IDialogConte
             await Content.OnChannelSave.InvokeAsync(Content.Model);
 
             toastService.ShowSuccess("Channel saved correctly");
+
             await Dialog.CloseAsync(DialogResult.Ok(true));
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex);
             toastService.ShowError("Error saving the channel");
         }
         finally

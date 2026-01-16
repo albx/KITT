@@ -34,7 +34,7 @@ public static class SettingsEndpoints
                 .WithName(nameof(UpdateChannel));
 
             settingsGroup
-                .MapDelete("channels/{id}", DeleteChannel)
+                .MapDelete("channels/{id:guid}", DeleteChannel)
                 .WithName(nameof(DeleteChannel));
 
             return builder;
