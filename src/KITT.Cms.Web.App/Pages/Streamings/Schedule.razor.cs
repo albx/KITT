@@ -24,9 +24,9 @@ public partial class Schedule
     [Inject]
     public IMessageService MessageService { get; set; } = default!;
 
-    private ScheduleForm.ViewModel model = new();
+    private StreamingForm.ViewModel model = new();
 
-    private async Task ScheduleStreamingAsync(ScheduleForm.ViewModel model)
+    private async Task ScheduleStreamingAsync(StreamingForm.ViewModel model)
     {
         try
         {
@@ -47,7 +47,7 @@ public partial class Schedule
         }
     }
 
-    private static ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
+    private static ScheduleStreamingModel ConvertToApiModel(StreamingForm.ViewModel model)
     {
         ArgumentNullException.ThrowIfNull(model.ScheduleDate);
         ArgumentNullException.ThrowIfNull(model.StartingTime);
@@ -58,7 +58,7 @@ public partial class Schedule
             Title = model.Title,
             ScheduleDate = DateOnly.FromDateTime(model.ScheduleDate.Value),
             EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value.TimeOfDay),
-            HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
+            TwitchUrl = $"https://www.twitch.tv/{model.TwitchUrl}",
             Slug = model.Slug,
             StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value.TimeOfDay),
             StreamingAbstract = model.StreamingAbstract,

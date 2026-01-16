@@ -20,7 +20,9 @@ public record ScheduleStreamingModel
     public TimeOnly EndingTime { get; set; }
 
     [Required]
-    public string HostingChannelUrl { get; set; } = string.Empty;
+    public string TwitchUrl { get; set; } = string.Empty;
+
+    public string YouTubeUrl { get; set; } = string.Empty;
 
     public string? StreamingAbstract { get; set; }
 

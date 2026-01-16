@@ -122,7 +122,7 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
             model.ScheduleDate,
             model.StartingTime,
             model.EndingTime,
-            model.HostingChannelUrl,
+            model.TwitchUrl,
             model.StreamingAbstract,
             seo);
     }
