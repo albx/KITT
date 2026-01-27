@@ -27,11 +27,10 @@ public class StreamingValidator : AbstractValidator<Streaming>
 
     private void DefineRules()
     {
-        RuleFor(streaming => streaming.TwitchChannel).MaximumLength(50).NotEmpty();
         RuleFor(streaming => streaming.Title).MaximumLength(255).NotEmpty();
         RuleFor(streaming => streaming.Slug).MaximumLength(255).NotEmpty();
-        RuleFor(streaming => streaming.TwitchUrl).NotEmpty().MaximumLength(255);
-        RuleFor(streaming => streaming.YouTubeUrl).MaximumLength(255);
+        RuleFor(streaming => streaming.TwitchUrl).NotEmpty().When(streaming => !string.IsNullOrWhiteSpace(streaming.TwitchChannel)).MaximumLength(255);
+        RuleFor(streaming => streaming.YouTubeUrl).NotEmpty().When(streaming => !string.IsNullOrWhiteSpace(streaming.YouTubeChannel)).MaximumLength(255);
 
         RuleSet(ScheduleStreamingAction, () =>
         {

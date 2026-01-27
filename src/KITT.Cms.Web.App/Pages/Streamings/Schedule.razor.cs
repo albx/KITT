@@ -49,16 +49,30 @@ public partial class Schedule
 
     private static ScheduleStreamingModel ConvertToApiModel(StreamingForm.ViewModel model)
     {
-        ArgumentNullException.ThrowIfNull(model.ScheduleDate);
-        ArgumentNullException.ThrowIfNull(model.StartingTime);
-        ArgumentNullException.ThrowIfNull(model.EndingTime);
+        if (!model.ScheduleDate.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.ScheduleDate));
+        }
+
+        if (!model.StartingTime.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.StartingTime));
+        }
+
+        if (!model.EndingTime.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.EndingTime));
+        }
 
         return new ScheduleStreamingModel
         {
             Title = model.Title,
+            TwitchChannel = model.TwitchChannel,
+            YouTubeChannel = model.YouTubeChannel,
             ScheduleDate = DateOnly.FromDateTime(model.ScheduleDate.Value),
             EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value.TimeOfDay),
             TwitchUrl = $"https://www.twitch.tv/{model.TwitchUrl}",
+            YouTubeUrl = model.YouTubeUrl,
             Slug = model.Slug,
             StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value.TimeOfDay),
             StreamingAbstract = model.StreamingAbstract,

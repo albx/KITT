@@ -98,15 +98,6 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
 
     public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)
     {
-        var settings = Database.Settings
-            .ByUserId(userId)
-            .FirstOrDefault();
-
-        if (settings is null)
-        {
-            throw new InvalidOperationException("No settings configured");
-        }
-
         var seo = new Core.Models.Content.SeoData
         {
             Title = model.Seo.Title,
@@ -116,13 +107,15 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
 
         return Commands.ScheduleStreamingAsync(
             userId,
-            settings.TwitchChannel,
+            model.TwitchChannel,
+            model.YouTubeChannel,
             model.Title,
             model.Slug,
             model.ScheduleDate,
             model.StartingTime,
             model.EndingTime,
             model.TwitchUrl,
+            model.YouTubeUrl,
             model.StreamingAbstract,
             seo);
     }

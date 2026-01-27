@@ -1,6 +1,5 @@
 ﻿using KITT.Core.Validators;
 using KITT.Telegram.Messages;
-using KITT.Telegram.Messages.Streaming;
 
 namespace KITT.Core.Commands;
 
@@ -10,25 +9,36 @@ public class StreamingCommands : IStreamingCommands
 
     private readonly StreamingValidator _validator;
 
-    private readonly IMessageBus _messageBus;
-
-    public StreamingCommands(KittDbContext context, StreamingValidator validator, IMessageBus messageBus)
+    public StreamingCommands(KittDbContext context, StreamingValidator validator)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _validator = validator ?? throw new ArgumentNullException(nameof(validator));
-        _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
     }
 
-    public async Task<Guid> ScheduleStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, Content.SeoData seo)
+    public async Task<Guid> ScheduleStreamingAsync(
+        string userId, 
+        string twitchChannel, 
+        string youTubeChannel,
+        string streamingTitle, 
+        string streamingSlug, 
+        DateOnly scheduleDate, 
+        TimeOnly startingTime, 
+        TimeOnly endingTime, 
+        string twitchUrl, 
+        string youTubeUrl,
+        string? streamingAbstract, 
+        Content.SeoData seo)
     {
         var streaming = Streaming.Schedule(
             streamingTitle,
             streamingSlug,
             twitchChannel,
+            youTubeChannel,
             scheduleDate,
             startingTime,
             endingTime,
             twitchUrl,
+            youTubeUrl,
             userId);
 
         if (!string.IsNullOrWhiteSpace(streamingAbstract))
@@ -45,17 +55,6 @@ public class StreamingCommands : IStreamingCommands
 
         _context.Streamings.Add(streaming);
         await _context.SaveChangesAsync();
-
-        //var message = new StreamingScheduledMessage(
-        //    streaming.Id,
-        //    streamingTitle,
-        //    streamingSlug,
-        //    scheduleDate,
-        //    startingTime,
-        //    endingTime,
-        //    hostingChannelUrl);
-
-        //await _messageBus.SendAsync(message);
 
         return streaming.Id;
     }
@@ -78,30 +77,11 @@ public class StreamingCommands : IStreamingCommands
         if (ScheduleHasChanged(streaming, scheduleDate, startingTime, endingTime))
         {
             streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
-            //var scheduledChangedMessage = new StreamingScheduleChangedMessage(
-            //    streamingId,
-            //    streaming.Title,
-            //    streaming.Slug,
-            //    scheduleDate,
-            //    startingTime,
-            //    endingTime);
-
-            //messagesToSend.Add(scheduledChangedMessage);
         }
 
         if (streaming.TwitchUrl != twitchUrl)
         {
             streaming.SetTwitchUrl(twitchUrl);
-
-            //var hostingChannelChangedMessage = new StreamingHostingChannelChangedMessage(
-            //    streamingId,
-            //    streaming.Title,
-            //    streaming.Slug,
-            //    hostingChannelUrl,
-            //    scheduleDate,
-            //    startingTime);
-
-            //messagesToSend.Add(hostingChannelChangedMessage);
         }
 
         if (streaming.Abstract != streamingAbstract)
@@ -112,13 +92,6 @@ public class StreamingCommands : IStreamingCommands
         if (streaming.YouTubeUrl != youtubeUrl)
         {
             streaming.SetYoutubeUrl(youtubeUrl);
-            //var videoUploadedMessage = new StreamingVideoUploadedMessage(
-            //    streamingId,
-            //    streaming.Title,
-            //    streaming.Slug,
-            //    youtubeRegistrationLink);
-
-            //messagesToSend.Add(videoUploadedMessage);
         }
 
         if (seo is not null)
@@ -129,11 +102,6 @@ public class StreamingCommands : IStreamingCommands
         _validator.ValidateForUpdateStreaming(streaming);
 
         await _context.SaveChangesAsync();
-
-        //foreach (var message in messagesToSend)
-        //{
-        //    await _messageBus.SendAsync(message);
-        //}
     }
 
     public async Task DeleteStreamingAsync(Guid streamingId)
@@ -146,15 +114,6 @@ public class StreamingCommands : IStreamingCommands
 
         _context.Streamings.Remove(streaming);
         await _context.SaveChangesAsync();
-
-        //var message = new StreamingCanceledMessage(
-        //    streamingId,
-        //    streaming.Title,
-        //    streaming.ScheduleDate,
-        //    streaming.StartingTime,
-        //    streaming.EndingTime);
-
-        //await _messageBus.SendAsync(message);
     }
 
     public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, string? youtubeUrl, Content.SeoData seo)

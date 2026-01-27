@@ -26,9 +26,8 @@ namespace KITT.Core.Test.Commands
         {
             KittDbContext context = null;
             var validator = new StreamingValidator(_fixture.Context);
-            var messageBus = new Mock<IMessageBus>().Object;
-
-            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator, messageBus));
+            
+            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator));
             Assert.Equal(nameof(context), ex.ParamName);
         }
 
@@ -37,9 +36,8 @@ namespace KITT.Core.Test.Commands
         {
             KittDbContext context = _fixture.Context;
             StreamingValidator validator = null;
-            var messageBus = new Mock<IMessageBus>().Object;
-
-            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator, messageBus));
+            
+            var ex = Assert.Throws<ArgumentNullException>(() => new StreamingCommands(context, validator));
             Assert.Equal(nameof(validator), ex.ParamName);
         }
         #endregion
@@ -55,10 +53,12 @@ namespace KITT.Core.Test.Commands
                     "test1",
                     "test-slug",
                     "albx87",
+                    "@albx87",
                     DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
                     TimeOnly.FromTimeSpan(TimeSpan.FromHours(16)),
                     TimeOnly.FromTimeSpan(TimeSpan.FromHours(18)),
                     "https://www.twitch.tv/albx87",
+                    "https://www.youtube.com/@albx87",
                     userId);
 
                 context.Add(streaming);
@@ -66,16 +66,17 @@ namespace KITT.Core.Test.Commands
             });
 
             var validator = new StreamingValidator(_fixture.Context);
-            var messageBus = new Mock<IMessageBus>().Object;
-            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
+            var commands = new StreamingCommands(_fixture.Context, validator);
 
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             string streamingTitle = "test";
             string streamingSlug = "test-slug";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2));
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(19));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(20));
-            string hostingChannelUrl = "https://www.twitch.tv/albx87";
+            string twitchUrl = "https://www.twitch.tv/albx87";
+            string youTubeUrl = "https://www.youtube.com/@albx87";
             string streamingAbstract = "streaming abstract";
             var seo = new Content.SeoData();
 
@@ -83,12 +84,14 @@ namespace KITT.Core.Test.Commands
                 () => commands.ScheduleStreamingAsync(
                     userId,
                     twitchChannel,
+                    youTubeChannel,
                     streamingTitle,
                     streamingSlug,
                     scheduleDate,
                     startingTime,
                     endingTime,
-                    hostingChannelUrl,
+                    twitchUrl,
+                    youTubeUrl,
                     streamingAbstract,
                     seo));
 
@@ -99,29 +102,32 @@ namespace KITT.Core.Test.Commands
         public async Task ScheduleStreamingAsync_Should_Add_Streaming_With_Specified_Values()
         {
             var validator = new StreamingValidator(_fixture.Context);
-            var messageBus = new Mock<IMessageBus>().Object;
-            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
+            var commands = new StreamingCommands(_fixture.Context, validator);
 
             string userId = Guid.NewGuid().ToString();
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             string streamingTitle = "test";
             string streamingSlug = "test-schedule-streaming-slug";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "https://www.twitch.tv/albx87";
+            string twitchUrl = "https://www.twitch.tv/albx87";
+            string youTubeUrl = "https://www.twitch.tv/@albx87";
             string streamingAbstract = "streaming abstract";
             var seo = new Content.SeoData();
 
             var scheduledStreamingId = await commands.ScheduleStreamingAsync(
                 userId,
                 twitchChannel,
+                youTubeChannel,
                 streamingTitle,
                 streamingSlug,
                 scheduleDate,
                 startingTime,
                 endingTime,
-                hostingChannelUrl,
+                twitchUrl,
+                youTubeUrl,
                 streamingAbstract,
                 seo);
 
@@ -134,52 +140,8 @@ namespace KITT.Core.Test.Commands
             Assert.Equal(scheduleDate, scheduledStreaming.ScheduleDate);
             Assert.Equal(startingTime, scheduledStreaming.StartingTime);
             Assert.Equal(endingTime, scheduledStreaming.EndingTime);
-            Assert.Equal(hostingChannelUrl, scheduledStreaming.TwitchUrl);
+            Assert.Equal(twitchUrl, scheduledStreaming.TwitchUrl);
             Assert.Equal(streamingAbstract, scheduledStreaming.Abstract);
-        }
-
-        [Fact(Skip = "At this moment the message bus has been disabled")]
-        public async Task ScheduleStreamingAsync_Should_Send_ScheduledStreamingMessage_Correctly()
-        {
-            var messageBusMock = new Mock<IMessageBus>();
-
-            var validator = new StreamingValidator(_fixture.Context);
-            var messageBus = messageBusMock.Object;
-            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
-
-            string userId = Guid.NewGuid().ToString();
-            string twitchChannel = "albx87";
-            string streamingTitle = "test";
-            string streamingSlug = "test-message-slug";
-            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
-            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
-            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "https://www.twitch.tv/albx87";
-            string streamingAbstract = "streaming abstract";
-            var seo = new Content.SeoData();
-
-            var scheduledStreamingId = await commands.ScheduleStreamingAsync(
-                userId,
-                twitchChannel,
-                streamingTitle,
-                streamingSlug,
-                scheduleDate,
-                startingTime,
-                endingTime,
-                hostingChannelUrl,
-                streamingAbstract,
-                seo);
-
-            var expectedMessage = new StreamingScheduledMessage(
-                scheduledStreamingId,
-                streamingTitle,
-                streamingSlug,
-                scheduleDate,
-                startingTime,
-                endingTime,
-                hostingChannelUrl);
-
-            messageBusMock.Verify(m => m.SendAsync(expectedMessage), Times.Once);
         }
         #endregion
 
@@ -190,8 +152,7 @@ namespace KITT.Core.Test.Commands
             var streamingId = Guid.Empty;
 
             var validator = new StreamingValidator(_fixture.Context);
-            var messageBus = new Mock<IMessageBus>().Object;
-            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
+            var commands = new StreamingCommands(_fixture.Context, validator);
 
             _fixture.PrepareData(context =>
             {
@@ -200,10 +161,12 @@ namespace KITT.Core.Test.Commands
                     "title",
                     "slug",
                     "albx87",
+                    "@albx87",
                     DateOnly.FromDateTime(DateTime.Today),
                     TimeOnly.FromTimeSpan(TimeSpan.FromHours(19)),
                     TimeOnly.FromTimeSpan(TimeSpan.FromHours(20)),
                     "https://www.twitch.tv/albx87",
+                    "https://www.youtube.com/@albx87",
                     userId);
 
                 context.Add(newStreaming);
@@ -252,8 +215,7 @@ namespace KITT.Core.Test.Commands
             var endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(20));
 
             var validator = new StreamingValidator(_fixture.Context);
-            var messageBus = new Mock<IMessageBus>().Object;
-            var commands = new StreamingCommands(_fixture.Context, validator, messageBus);
+            var commands = new StreamingCommands(_fixture.Context, validator);
 
             _fixture.PrepareData(context =>
             {

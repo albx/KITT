@@ -22,7 +22,7 @@
                               Items="availableYouTubeChannels"
                               Appearance="Appearance.Filled"
                               Style="width:100%"
-                              OptionValue="@(c => c.Name)"
+                              OptionValue="@(c => c.Url)"
                               OptionText="@(c => $"{c.Name} ({c.Url})")"
                               @bind-Value="streaming.YouTubeChannel" />
                 <FluentValidationMessage For="@(() => streaming.YouTubeChannel)" />

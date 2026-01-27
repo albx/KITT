@@ -45,7 +45,7 @@ public class Streaming : Content
     #endregion
 
     #region Factory
-    public static Streaming Schedule(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string userId)
+    public static Streaming Schedule(string title, string slug, string twitchChannel, string youTubeChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string youTubeUrl, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -55,11 +55,6 @@ public class Streaming : Content
         if (string.IsNullOrWhiteSpace(slug))
         {
             throw new ArgumentException("value cannot be empty", nameof(slug));
-        }
-
-        if (string.IsNullOrWhiteSpace(twitchChannel))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(twitchChannel));
         }
 
         if (scheduleDate < DateOnly.FromDateTime(DateTime.Today))
@@ -72,7 +67,11 @@ public class Streaming : Content
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
         }
 
-        if (string.IsNullOrWhiteSpace(twitchUrl))
+        if (!string.IsNullOrWhiteSpace(twitchChannel) && string.IsNullOrWhiteSpace(twitchUrl))
+        {
+            throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
+        }
+        if (!string.IsNullOrWhiteSpace(youTubeChannel) && string.IsNullOrWhiteSpace(youTubeUrl))
         {
             throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
         }
@@ -89,10 +88,12 @@ public class Streaming : Content
             Title = title,
             Slug = slug,
             TwitchChannel = twitchChannel,
+            YouTubeChannel = youTubeChannel,
             ScheduleDate = scheduleDate,
             StartingTime = startingTime,
             EndingTime = endingTime,
-            TwitchUrl = twitchUrl
+            TwitchUrl = twitchUrl,
+            YouTubeUrl = youTubeUrl,
         };
 
         streaming.Publish();
