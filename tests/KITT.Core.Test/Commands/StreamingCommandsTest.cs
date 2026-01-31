@@ -224,6 +224,7 @@ namespace KITT.Core.Test.Commands
                     "title",
                     "slug",
                     "albx87",
+                    "@albx87",
                     scheduleDate,
                     startingTime,
                     endingTime,

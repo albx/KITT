@@ -67,6 +67,48 @@ public class Streaming : Content
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
         }
 
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("value cannot be empty", nameof(userId));
+        }
+
+        var streaming = new Streaming
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Title = title,
+            Slug = slug,
+            TwitchChannel = twitchChannel,
+            YouTubeChannel = youTubeChannel,
+            ScheduleDate = scheduleDate,
+            StartingTime = startingTime,
+            EndingTime = endingTime,
+            TwitchUrl = twitchUrl,
+            YouTubeUrl = youTubeUrl,
+        };
+
+        streaming.Publish();
+
+        return streaming;
+    }
+
+    public static Streaming Import(string title, string slug, string twitchChannel, string youTubeChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? youTubeUrl, string? @abstract, string userId)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new ArgumentException("value cannot be empty", nameof(title));
+        }
+
+        if (string.IsNullOrWhiteSpace(slug))
+        {
+            throw new ArgumentException("value cannot be empty", nameof(slug));
+        }
+
+        if (startingTime >= endingTime)
+        {
+            throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
+        }
+
         if (!string.IsNullOrWhiteSpace(twitchChannel) && string.IsNullOrWhiteSpace(twitchUrl))
         {
             throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
@@ -93,59 +135,8 @@ public class Streaming : Content
             StartingTime = startingTime,
             EndingTime = endingTime,
             TwitchUrl = twitchUrl,
-            YouTubeUrl = youTubeUrl,
-        };
-
-        streaming.Publish();
-
-        return streaming;
-    }
-
-    public static Streaming Import(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? youtubeUrl, string? @abstract, string userId)
-    {
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(title));
-        }
-
-        if (string.IsNullOrWhiteSpace(slug))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(slug));
-        }
-
-        if (string.IsNullOrWhiteSpace(twitchChannel))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(twitchChannel));
-        }
-
-        if (startingTime >= endingTime)
-        {
-            throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
-        }
-
-        if (string.IsNullOrWhiteSpace(twitchUrl))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
-        }
-
-        if (string.IsNullOrWhiteSpace(userId))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(userId));
-        }
-
-        var streaming = new Streaming
-        {
-            Id = Guid.NewGuid(),
-            UserId = userId,
-            Title = title,
-            Slug = slug,
-            TwitchChannel = twitchChannel,
-            ScheduleDate = scheduleDate,
-            StartingTime = startingTime,
-            EndingTime = endingTime,
-            TwitchUrl = twitchUrl,
             Abstract = @abstract,
-            YouTubeUrl = youtubeUrl
+            YouTubeUrl = youTubeUrl
         };
 
         streaming.PublishOn(scheduleDate.ToDateTime(TimeOnly.MinValue));

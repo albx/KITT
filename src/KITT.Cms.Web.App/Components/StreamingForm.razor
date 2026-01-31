@@ -11,7 +11,7 @@
                               Items="availableTwitchChannels"
                               Appearance="Appearance.Filled"
                               Style="width:100%"
-                              OptionValue="@(c => c.Name)"
+                              OptionValue="@(c => c.Url)"
                               OptionText="@(c => $"{c.Name} ({c.Url})")"
                               @bind-Value="streaming.TwitchChannel"/>
                 <FluentValidationMessage For="@(() => streaming.TwitchChannel)" />
@@ -52,14 +52,14 @@
                 <FluentTextField Label="Twitch URL"
                                  @bind-Value="streaming.TwitchUrl"
                                  Appearance="FluentInputAppearance.Filled"
-                                 Style="width:100%;" />
+                                 Style="width:100%;"/>
                 <FluentValidationMessage For="@(() => streaming.TwitchUrl)" />
             </FluentGridItem>
             <FluentGridItem xs="12" md="6">
                 <FluentTextField Label="YouTube URL"
                                  @bind-Value="streaming.YouTubeUrl"
                                  Appearance="FluentInputAppearance.Filled"
-                                 Style="width:100%;" />
+                                 Style="width:100%;"/>
                 <FluentValidationMessage For="@(() => streaming.YouTubeUrl)" />
             </FluentGridItem>
         </FluentGrid>

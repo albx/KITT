@@ -9,20 +9,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.App.Pages.Streamings;
 
-public partial class StreamingDetail
+public partial class StreamingDetail(
+    IStreamingsClient client,
+    IToastService toastService,
+    IMessageService messageService)
 {
     [Parameter]
     [EditorRequired]
     public Guid Id { get; set; }
-
-    [Inject]
-    public IStreamingsClient Client { get; set; } = default!;
-
-    [Inject]
-    public IToastService ToastService { get; set; } = default!;
-
-    [Inject]
-    public IMessageService MessageService { get; set; } = default!;
 
     private bool isReadOnly = true;
 
@@ -47,16 +41,16 @@ public partial class StreamingDetail
         try
         {
             var detail = model.ToApiModel(Id);
-            await Client.UpdateStreamingAsync(detail);
+            await client.UpdateStreamingAsync(detail);
 
             isReadOnly = true;
-            ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
+            toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
 
             streamingDetail = detail;
         }
         catch (ApplicationException ex)
         {
-            await MessageService.ShowMessageBarAsync(
+            await messageService.ShowMessageBarAsync(
                 ex.Message,
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
@@ -65,7 +59,7 @@ public partial class StreamingDetail
 
     protected override async Task OnInitializedAsync()
     {
-        streamingDetail = await Client.GetStreamingDetailAsync(Id) ?? new();
+        streamingDetail = await client.GetStreamingDetailAsync(Id) ?? new();
         model = ViewModel.FromStreamingDetailModel(streamingDetail);
 
         pageTitle = model.Title;

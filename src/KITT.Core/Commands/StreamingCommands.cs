@@ -116,17 +116,30 @@ public class StreamingCommands : IStreamingCommands
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Guid> ImportStreamingAsync(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, string? youtubeUrl, Content.SeoData seo)
+    public async Task<Guid> ImportStreamingAsync(
+        string userId, 
+        string twitchChannel, 
+        string youTubeChannel,
+        string streamingTitle, 
+        string streamingSlug, 
+        DateOnly scheduleDate, 
+        TimeOnly startingTime, 
+        TimeOnly endingTime, 
+        string twitchUrl, 
+        string? streamingAbstract, 
+        string? youTubeUrl, 
+        Content.SeoData seo)
     {
         var streaming = Streaming.Import(
             streamingTitle,
             streamingSlug,
             twitchChannel,
+            youTubeChannel,
             scheduleDate,
             startingTime,
             endingTime,
             twitchUrl,
-            youtubeUrl,
+            youTubeUrl,
             streamingAbstract,
             userId);
 

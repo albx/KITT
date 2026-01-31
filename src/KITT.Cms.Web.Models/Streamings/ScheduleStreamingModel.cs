@@ -37,15 +37,5 @@ public record ScheduleStreamingModel : IValidatableObject
         {
             yield return new("At least a channel must be selected", [nameof(TwitchChannel), nameof(YouTubeChannel)]);
         }
-
-        if (!string.IsNullOrWhiteSpace(TwitchChannel) && string.IsNullOrWhiteSpace(TwitchUrl))
-        {
-            yield return new("Twitch URL is required since a Twitch channel has been set", [nameof(TwitchUrl)]);
-        }
-
-        if (!string.IsNullOrWhiteSpace(YouTubeChannel) && string.IsNullOrWhiteSpace(YouTubeUrl))
-        {
-            yield return new("YouTube URL is required since a YouTube channel has been set", [nameof(YouTubeUrl)]);
-        }
     }
 }
