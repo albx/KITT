@@ -17,8 +17,10 @@ public interface IStreamingCommands
         Content.SeoData seo);
 
     Task UpdateStreamingAsync(
-        Guid streamingId, 
-        string streamingTitle, 
+        Guid streamingId,
+        string? twitchChannel,
+        string? youTubeChannel,
+        string streamingTitle,
         DateOnly scheduleDate, 
         TimeOnly startingTime, 
         TimeOnly endingTime, 

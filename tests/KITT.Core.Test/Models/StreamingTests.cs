@@ -246,7 +246,7 @@ namespace KITT.Core.Test.Models
             var streaming = CreateStreamingForTests();
             string youtubeUrl = "https://www.youtube.com";
 
-            streaming.SetYoutubeUrl(youtubeUrl);
+            streaming.SetYouTubeUrl(youtubeUrl);
             Assert.Equal(youtubeUrl, streaming.YouTubeUrl);
         }
         #endregion

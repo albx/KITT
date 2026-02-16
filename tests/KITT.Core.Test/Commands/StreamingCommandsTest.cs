@@ -186,6 +186,8 @@ namespace KITT.Core.Test.Commands
 
             await commands.UpdateStreamingAsync(
                 streamingId,
+                "https://twitch.tv/albx87",
+                "https://youtube.com/@albx87",
                 streamingTitle,
                 scheduleDate,
                 startingTime,
@@ -247,6 +249,8 @@ namespace KITT.Core.Test.Commands
 
             await commands.UpdateStreamingAsync(
                 streamingId,
+                "https://twitch.tv/albx87",
+                "https://youtube.com/@albx87",
                 streamingTitle,
                 scheduleDate,
                 startingTime,

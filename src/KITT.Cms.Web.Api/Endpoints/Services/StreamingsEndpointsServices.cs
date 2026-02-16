@@ -53,14 +53,22 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
         return new()
         {
             Id = streaming.Id,
+            TwitchChannel = streaming.TwitchChannel,
+            YouTubeChannel = streaming.YouTubeChannel,
             ScheduleDate = streaming.ScheduleDate,
             EndingTime = streaming.EndingTime,
-            HostingChannelUrl = streaming.TwitchUrl ?? string.Empty,
+            TwitchUrl = streaming.TwitchUrl ?? string.Empty,
             StartingTime = streaming.StartingTime,
             StreamingAbstract = streaming.Abstract,
             Title = streaming.Title,
-            YoutubeVideoUrl = streaming.YouTubeUrl,
-            Slug = streaming.Slug
+            YouTubeUrl = streaming.YouTubeUrl ?? string.Empty,
+            Slug = streaming.Slug,
+            Seo = new Models.SeoData 
+            { 
+                Title = streaming.Seo?.Title ?? string.Empty, 
+                Description = streaming.Seo?.Description ?? string.Empty,
+                Keywords = streaming.Seo?.Keywords ?? string.Empty,
+            }
         };
     }
 
@@ -123,13 +131,15 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
 
         return Commands.UpdateStreamingAsync(
             streamingId,
+            model.TwitchChannel,
+            model.YouTubeChannel,
             model.Title,
             model.ScheduleDate,
             model.StartingTime,
             model.EndingTime,
-            model.HostingChannelUrl,
+            model.TwitchUrl,
             model.StreamingAbstract,
-            model.YoutubeVideoUrl,
+            model.YouTubeUrl,
             seo);
     }
 

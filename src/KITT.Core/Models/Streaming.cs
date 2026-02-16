@@ -21,6 +21,22 @@ public class Streaming : Content
     #endregion
 
     #region Behaviors
+    public void ChangeInformation(
+        string? twitchChannel, 
+        string? youTubeChannel,
+        string title,
+        string? @abstract,
+        string? twitchUrl,
+        string? youTubeUrl)
+    {
+        TwitchChannel = twitchChannel;
+        YouTubeChannel = youTubeChannel;
+        Title = title;
+        Abstract = @abstract;
+        TwitchUrl = twitchUrl;
+        YouTubeUrl = youTubeUrl;
+    }
+
     public void ChangeSchedule(DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
     {
         if (startingTime >= endingTime)
@@ -28,12 +44,20 @@ public class Streaming : Content
             throw new ArgumentException("Ending time cannot be previous than starting time", nameof(endingTime));
         }
 
+        if (!ScheduleHasChanged(scheduleDate, startingTime, endingTime))
+        {
+            return;
+        }
+
         this.ScheduleDate = scheduleDate;
         this.StartingTime = startingTime;
         this.EndingTime = endingTime;
     }
 
-    public void SetYoutubeUrl(string youtubeUrl)
+    public bool ScheduleHasChanged(DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
+        => ScheduleDate != scheduleDate || StartingTime != startingTime || EndingTime != endingTime;
+
+    public void SetYouTubeUrl(string youtubeUrl)
     {
         YouTubeUrl = youtubeUrl;
     }

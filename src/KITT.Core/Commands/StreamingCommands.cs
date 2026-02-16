@@ -59,40 +59,34 @@ public class StreamingCommands : IStreamingCommands
         return streaming.Id;
     }
 
-    public async Task UpdateStreamingAsync(Guid streamingId, string streamingTitle, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? streamingAbstract, string youtubeUrl, Content.SeoData seo)
+    public async Task UpdateStreamingAsync(
+        Guid streamingId,
+        string? twitchChannel,
+        string? youTubeChannel,
+        string streamingTitle, 
+        DateOnly scheduleDate, 
+        TimeOnly startingTime, 
+        TimeOnly endingTime, 
+        string twitchUrl, 
+        string? streamingAbstract, 
+        string youtubeUrl, 
+        Content.SeoData seo)
     {
-        var messagesToSend = new List<object>();
-
         var streaming = _context.Streamings.SingleOrDefault(s => s.Id == streamingId);
         if (streaming is null)
         {
             throw new ArgumentOutOfRangeException(nameof(streamingId));
         }
 
-        if (streaming.Title != streamingTitle)
-        {
-            streaming.ChangeTitle(streamingTitle);
-        }
+        streaming.ChangeInformation(
+            twitchChannel,
+            youTubeChannel,
+            streamingTitle,
+            streamingAbstract,
+            twitchUrl,
+            youtubeUrl);
 
-        if (ScheduleHasChanged(streaming, scheduleDate, startingTime, endingTime))
-        {
-            streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
-        }
-
-        if (streaming.TwitchUrl != twitchUrl)
-        {
-            streaming.SetTwitchUrl(twitchUrl);
-        }
-
-        if (streaming.Abstract != streamingAbstract)
-        {
-            streaming.SetAbstract(streamingAbstract);
-        }
-
-        if (streaming.YouTubeUrl != youtubeUrl)
-        {
-            streaming.SetYoutubeUrl(youtubeUrl);
-        }
+        streaming.ChangeSchedule(scheduleDate, startingTime, endingTime);
 
         if (seo is not null)
         {
@@ -153,9 +147,4 @@ public class StreamingCommands : IStreamingCommands
 
         return streaming.Id;
     }
-
-    #region Private methods
-    private bool ScheduleHasChanged(Streaming streaming, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
-        => streaming.ScheduleDate != scheduleDate || streaming.StartingTime != startingTime || streaming.EndingTime != endingTime;
-    #endregion
 }
