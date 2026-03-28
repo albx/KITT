@@ -13,11 +13,11 @@
 
   <ItemGroup>
     <PackageReference Include="FluentUI.Blazor.Community.Components" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.5" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.14.0" />
-	<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="10.0.3" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup>
