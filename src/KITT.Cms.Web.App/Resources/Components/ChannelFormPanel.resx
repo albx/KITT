@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChannelNameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="ChannelSavedErrorMessage" xml:space="preserve">
     <value>Error saving the channel</value>
   </data>
   <data name="ChannelSavedSuccessMessage" xml:space="preserve">
     <value>Channel saved correctly</value>
+  </data>
+  <data name="ChannelTypeLabel" xml:space="preserve">
+    <value>Channel type</value>
+  </data>
+  <data name="ChannelUrlLabel" xml:space="preserve">
+    <value>Url</value>
   </data>
   <data name="CloseButtonText" xml:space="preserve">
     <value>Close</value>

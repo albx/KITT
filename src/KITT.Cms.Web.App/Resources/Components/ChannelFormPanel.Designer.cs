@@ -61,6 +61,15 @@ namespace KITT.Cms.Web.App.Resources.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string ChannelNameLabel {
+            get {
+                return ResourceManager.GetString("ChannelNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error saving the channel.
         /// </summary>
         public static string ChannelSavedErrorMessage {
@@ -75,6 +84,24 @@ namespace KITT.Cms.Web.App.Resources.Components {
         public static string ChannelSavedSuccessMessage {
             get {
                 return ResourceManager.GetString("ChannelSavedSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel type.
+        /// </summary>
+        public static string ChannelTypeLabel {
+            get {
+                return ResourceManager.GetString("ChannelTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url.
+        /// </summary>
+        public static string ChannelUrlLabel {
+            get {
+                return ResourceManager.GetString("ChannelUrlLabel", resourceCulture);
             }
         }
         

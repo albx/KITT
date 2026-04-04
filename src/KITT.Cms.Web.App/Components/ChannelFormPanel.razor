@@ -8,7 +8,7 @@
     <FluentDialogBody>
         <FluentStack Orientation="Orientation.Vertical" class="mb-2">
             <FluentSelect TOption="ChannelType"
-                          Label="Channel type"
+                          Label="@localizer[nameof(Resources.Components.ChannelFormPanel.ChannelTypeLabel)]"
                           Items="channelTypes"
                           Id="channelType"
                           Appearance="Appearance.Filled"
@@ -19,7 +19,7 @@
             <FluentValidationMessage For="@(() => Content.Model.Type)"/>
         </FluentStack>
         <FluentStack Orientation="Orientation.Vertical" class="mb-2">
-            <FluentTextField Label="Name"
+            <FluentTextField Label="@localizer[nameof(Resources.Components.ChannelFormPanel.ChannelNameLabel)]"
                             @bind-Value="Content.Model.Name"
                             Appearance="FluentInputAppearance.Filled"
                             Style="width:100%;"
@@ -28,7 +28,7 @@
             <FluentValidationMessage For="@(() => Content.Model.Name)"/>
         </FluentStack>
         <FluentStack Orientation="Orientation.Vertical" class="mb-2">
-            <FluentTextField Label="Url"
+            <FluentTextField Label="@localizer[nameof(Resources.Components.ChannelFormPanel.ChannelUrlLabel)]"
                             @bind-Value="Content.Model.Url"
                             Appearance="FluentInputAppearance.Filled"
                             TextFieldType="TextFieldType.Url"

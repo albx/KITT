@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "src/KITT.AppHost/KITT.AppHost.csproj"
+  }
+}
