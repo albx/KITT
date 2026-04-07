@@ -5,42 +5,46 @@ namespace KITT.Web.App.Endpoints;
 
 internal static class ProposalEndpoints
 {
-    public static IEndpointRouteBuilder MapProposalEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        builder.MapForwarder(
-            "/api/proposals", 
-            $"https+http://{ServiceNames.ProposalsApi}", 
-            transformBuilder => transformBuilder.ConfigureWithTargetPath(
+        public IEndpointRouteBuilder MapProposalEndpoints()
+        {
+            builder.MapForwarder(
                 "/api/proposals", 
-                GetScopes))
-            .RequireAuthorization();
+                $"https+http://{ServiceNames.ProposalsApi}", 
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/proposals", 
+                    GetScopes))
+                .RequireAuthorization();
 
-        builder.MapForwarder(
-            "/api/proposals/{id}",
-            $"https+http://{ServiceNames.ProposalsApi}", 
-            transformBuilder => transformBuilder.ConfigureWithTargetPath(
-                "/api/proposals/{id}", 
-                GetScopes))
-            .RequireAuthorization();
+            builder.MapForwarder(
+                "/api/proposals/{id}",
+                $"https+http://{ServiceNames.ProposalsApi}", 
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/proposals/{id}", 
+                    GetScopes))
+                .RequireAuthorization();
 
-        builder.MapForwarder(
-            "/api/proposals/{id}/refuse",
-            $"https+http://{ServiceNames.ProposalsApi}", 
-            transformBuilder => transformBuilder.ConfigureWithTargetPath(
-                "/api/proposals/{id}/refuse", 
-                GetScopes))
-            .RequireAuthorization();
-        
-        builder.MapForwarder(
-            "/api/proposals/stats",
-            $"https+http://{ServiceNames.ProposalsApi}", 
-            transformBuilder => transformBuilder.ConfigureWithTargetPath(
-                "/api/proposals/stats", 
-                GetScopes))
-            .RequireAuthorization();
+            builder.MapForwarder(
+                "/api/proposals/{id}/refuse",
+                $"https+http://{ServiceNames.ProposalsApi}", 
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/proposals/{id}/refuse", 
+                    GetScopes))
+                .RequireAuthorization();
+            
+            builder.MapForwarder(
+                "/api/proposals/stats",
+                $"https+http://{ServiceNames.ProposalsApi}", 
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/proposals/stats", 
+                    GetScopes))
+                .RequireAuthorization();
 
-        return builder;
+            return builder;
+        }
     }
+    
 
     private static IEnumerable<string> GetScopes(IConfiguration configuration) 
         => [

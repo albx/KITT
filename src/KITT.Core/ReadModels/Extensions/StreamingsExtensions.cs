@@ -2,22 +2,23 @@
 
 public static class StreamingsExtensions
 {
-    public static IQueryable<Streaming> ByUserId(this IQueryable<Streaming> streamings, string userId)
-        => streamings.Where(s => s.UserId == userId);
-
-    public static IQueryable<Streaming> OrderedBySchedule(this IQueryable<Streaming> streamings, bool ascending = true)
+    extension(IQueryable<Streaming> streamings)
     {
-        return ascending ?
-            OrderedByScheduleAscending(streamings) : 
-            OrderedByScheduleDescending(streamings);
-    }
+        public IQueryable<Streaming> ByUserId(string userId) => streamings.Where(s => s.UserId == userId);
 
-    public static IQueryable<Streaming> DeliveredOnly(this IQueryable<Streaming> streamings) 
-        => streamings.Where(s => s.ScheduleDate < DateOnly.FromDateTime(DateTime.Today));
+        public IQueryable<Streaming> OrderedBySchedule(bool ascending = true)
+        {
+            return ascending ?
+                OrderedByScheduleAscending(streamings) :
+                OrderedByScheduleDescending(streamings);
+        }
 
-    public static IQueryable<Streaming> Scheduled(this IQueryable<Streaming> streamings)
-    {
-        return streamings.Where(s => s.ScheduleDate >= DateOnly.FromDateTime(DateTime.Today));
+        public IQueryable<Streaming> DeliveredOnly() => streamings.Where(s => s.ScheduleDate < DateOnly.FromDateTime(DateTime.Today));
+
+        public IQueryable<Streaming> Scheduled()
+        {
+            return streamings.Where(s => s.ScheduleDate >= DateOnly.FromDateTime(DateTime.Today));
+        }
     }
 
     private static IQueryable<Streaming> OrderedByScheduleAscending(IQueryable<Streaming> streamings)

@@ -14,14 +14,16 @@ namespace KITT.Core.Test.Models
         {
             string slug = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
             string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
 
             Assert.Equal(nameof(title), ex.ParamName);
         }
@@ -34,36 +36,18 @@ namespace KITT.Core.Test.Models
         {
             string title = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
             string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
 
             Assert.Equal(nameof(slug), ex.ParamName);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void Schedule_Should_Throw_ArgumentException_If_Twitch_Channel_Is_Empty(string twitchChannel)
-        {
-            string title = "test";
-            string slug = "test";
-            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
-            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
-            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "albx87";
-            string userId = Guid.NewGuid().ToString();
-
-            var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
-
-            Assert.Equal(nameof(twitchChannel), ex.ParamName);
         }
 
         [Fact]
@@ -72,14 +56,16 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1));
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
             string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
 
             Assert.Equal(nameof(scheduleDate), ex.ParamName);
         }
@@ -90,14 +76,16 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(15));
-            string hostingChannelUrl = "albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
             string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
 
             Assert.Equal(nameof(endingTime), ex.ParamName);
         }
@@ -106,20 +94,22 @@ namespace KITT.Core.Test.Models
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Schedule_Should_Throw_ArgumentException_If_Hosting_Channel_Url_Is_Empty(string hostingChannelUrl)
+        public void Schedule_Should_Throw_ArgumentException_If_Twitch_Url_Is_Empty(string twitchUrl)
         {
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+            string youTubeUrl = "@albx87";
             string userId = Guid.NewGuid().ToString();
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
 
-            Assert.Equal(nameof(hostingChannelUrl), ex.ParamName);
+            Assert.Equal(nameof(twitchUrl), ex.ParamName);
         }
 
         [Theory]
@@ -131,13 +121,15 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
-            string hostingChannelUrl = "albx87";
+            string youTubeChannel = "@albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
 
             var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, scheduleDate, startingTime, endingTime, hostingChannelUrl, userId));
+                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
 
             Assert.Equal(nameof(userId), ex.ParamName);
         }
@@ -148,29 +140,35 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
             string userId = Guid.NewGuid().ToString();
 
             var streaming = Streaming.Schedule(
                 title,
                 slug,
                 twitchChannel,
+                youTubeChannel,
                 scheduleDate,
                 startingTime,
                 endingTime,
-                hostingChannelUrl,
+                twitchUrl,
+                youTubeUrl,
                 userId);
 
             Assert.Equal(title, streaming.Title);
             Assert.Equal(slug, streaming.Slug);
             Assert.Equal(twitchChannel, streaming.TwitchChannel);
+            Assert.Equal(youTubeChannel, streaming.YouTubeChannel);
             Assert.Equal(scheduleDate, streaming.ScheduleDate);
             Assert.Equal(startingTime, streaming.StartingTime);
             Assert.Equal(endingTime, streaming.EndingTime);
-            Assert.Equal(hostingChannelUrl, streaming.HostingChannelUrl);
+            Assert.Equal(twitchUrl, streaming.TwitchUrl);
+            Assert.Equal(youTubeUrl, streaming.YouTubeUrl);
             Assert.NotEqual(Guid.Empty, streaming.Id);
             Assert.Equal(userId, streaming.UserId);
         }
@@ -248,8 +246,8 @@ namespace KITT.Core.Test.Models
             var streaming = CreateStreamingForTests();
             string youtubeUrl = "https://www.youtube.com";
 
-            streaming.SetRegistrationYoutubeUrl(youtubeUrl);
-            Assert.Equal(youtubeUrl, streaming.YouTubeVideoUrl);
+            streaming.SetYouTubeUrl(youtubeUrl);
+            Assert.Equal(youtubeUrl, streaming.YouTubeUrl);
         }
         #endregion
 
@@ -260,19 +258,23 @@ namespace KITT.Core.Test.Models
             string title = "test";
             string slug = "test";
             string twitchChannel = "albx87";
+            string youTubeChannel = "@albx87";
             DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string hostingChannelUrl = "albx87";
+            string twitchUrl = "albx87";
+            string youTubeUrl = "@albx87";
 
             var streaming = Streaming.Schedule(
                 title,
                 slug,
                 twitchChannel,
+                youTubeChannel,
                 scheduleDate,
                 startingTime,
                 endingTime,
-                hostingChannelUrl,
+                twitchUrl,
+                youTubeUrl,
                 userId);
 
             return streaming;

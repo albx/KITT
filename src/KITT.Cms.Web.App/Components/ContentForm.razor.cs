@@ -53,6 +53,7 @@ public partial class ContentForm<TContent>
         finally
         {
             saving = false;
+            editContext?.MarkAsUnmodified();
         }
     }
 

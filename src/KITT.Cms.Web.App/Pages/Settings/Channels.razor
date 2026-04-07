@@ -1,0 +1,51 @@
+﻿@page "/settings/channels"
+
+<PageTitle>KITT - @localizer[nameof(Resources.Pages.Settings.Channels.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @localizer[nameof(Resources.Pages.Settings.Channels.PageTitle)]
+</SectionContent>
+
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentButton Type="ButtonType.Button"
+                  Appearance="Appearance.Accent"
+                  IconStart="@(new Icons.Filled.Size20.Add())"
+                  OnClick="OpenAddNewChannelPanelAsync">
+        @localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelButtonText)]
+    </FluentButton>
+    <FluentButton Type="ButtonType.Button"
+                  Appearance="Appearance.Outline"
+                  IconStart="@(new Icons.Filled.Size20.ArrowClockwise())"
+                  OnClick="LoadConnectedChannelsAsync">
+        @localizer[nameof(Resources.Pages.Settings.Channels.RefreshChannelsButtonText)]
+    </FluentButton>
+</SectionContent>
+
+<Loader Loading="loading">
+    <FluentGrid>
+        @foreach (var channel in channels)
+        {
+            <FluentGridItem xs="12" md="3">
+                <FluentCard>
+                    <h4>@channel.Name</h4>
+                    <p>@channel.Url</p>
+
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <FluentButton Type="ButtonType.Button"
+                                      Appearance="Appearance.Accent"
+                                      IconStart="@(new Icons.Filled.Size20.Edit())"
+                                      OnClick="@(() => OpenEditChannelPanelAsync(channel))">
+                            @localizer[nameof(Resources.Pages.Settings.Channels.EditChannelButtonText)]
+                        </FluentButton>
+                        <FluentButton Type="ButtonType.Button"
+                                      Appearance="Appearance.Outline"
+                                      IconStart="@(new Icons.Filled.Size20.Delete())"
+                                      OnClick="@(() => DeleteChannelAsync(channel))">
+                            @localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelButtonText)]
+                        </FluentButton>
+                    </FluentStack>
+                </FluentCard>
+            </FluentGridItem>
+        }
+    </FluentGrid>
+</Loader>

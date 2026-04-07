@@ -9,49 +9,44 @@ namespace KITT.Cms.Web.Api.Endpoints;
 
 public static class StreamingsEndpoints
 {
-    public static IEndpointRouteBuilder MapStreamingsEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        var streamingsGroup = builder
-            .MapGroup("api/streamings")
-            .RequireAuthorization()
-            .WithParameterValidation();
+        public IEndpointRouteBuilder MapStreamingsEndpoints()
+        {
+            var streamingsGroup = builder
+                .MapGroup("api/streamings")
+                .RequireAuthorization();
 
-        streamingsGroup
-            .MapGet("", GetAllStreamings)
-            .WithName(nameof(GetAllStreamings))
-            .WithOpenApi();
+            streamingsGroup
+                .MapGet("", GetAllStreamings)
+                .WithName(nameof(GetAllStreamings));
 
-        streamingsGroup
-            .MapGet("{id:guid}", GetStreamingDetail)
-            .WithName(nameof(GetStreamingDetail))
-            .WithOpenApi();
+            streamingsGroup
+                .MapGet("{id:guid}", GetStreamingDetail)
+                .WithName(nameof(GetStreamingDetail));
 
-        streamingsGroup
-            .MapPost("", ScheduleStreaming)
-            .WithName(nameof(ScheduleStreaming))
-            .WithOpenApi();
+            streamingsGroup
+                .MapPost("", ScheduleStreaming)
+                .WithName(nameof(ScheduleStreaming));
 
-        streamingsGroup
-            .MapPost("import", ImportStreaming)
-            .WithName(nameof(ImportStreaming))
-            .WithOpenApi();
+            streamingsGroup
+                .MapPost("import", ImportStreaming)
+                .WithName(nameof(ImportStreaming));
 
-        streamingsGroup
-            .MapPut("{id:guid}", UpdateStreaming)
-            .WithName(nameof(UpdateStreaming))
-            .WithOpenApi();
+            streamingsGroup
+                .MapPut("{id:guid}", UpdateStreaming)
+                .WithName(nameof(UpdateStreaming));
 
-        streamingsGroup
-            .MapDelete("{id:guid}", DeleteStreaming)
-            .WithName(nameof(DeleteStreaming))
-            .WithOpenApi();
+            streamingsGroup
+                .MapDelete("{id:guid}", DeleteStreaming)
+                .WithName(nameof(DeleteStreaming));
 
-        streamingsGroup
-            .MapGet("stats", GetStreamingStats)
-            .WithName(nameof(GetStreamingStats))
-            .WithOpenApi();
+            streamingsGroup
+                .MapGet("stats", GetStreamingStats)
+                .WithName(nameof(GetStreamingStats));
 
-        return builder;
+            return builder;
+        }
     }
 
     private static async Task<Ok<StreamingsListModel>> GetAllStreamings(

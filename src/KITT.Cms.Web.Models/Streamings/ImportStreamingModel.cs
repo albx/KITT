@@ -2,8 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.Models.Streamings;
 
-public record ImportStreamingModel
+public record ImportStreamingModel : IValidatableObject
 {
+    public string TwitchChannel { get; set; } = string.Empty;
+
+    public string YouTubeChannel { get; set; } = string.Empty;
+
     [Required]
     public string Title { get; set; } = string.Empty;
 
@@ -11,20 +15,36 @@ public record ImportStreamingModel
     public string Slug { get; set; } = string.Empty;
 
     [Required]
-    public DateTime ScheduleDate { get; set; } = DateTime.Now;
+    public DateOnly ScheduleDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]
-    public TimeSpan StartingTime { get; set; }
+    public TimeOnly StartingTime { get; set; }
 
     [Required]
-    public TimeSpan EndingTime { get; set; }
+    public TimeOnly EndingTime { get; set; }
 
-    [Required]
-    public string HostingChannelUrl { get; set; } = string.Empty;
+    public string TwitchUrl { get; set; } = string.Empty;
+
+    public string YouTubeUrl { get; set; } = string.Empty;
 
     public string? StreamingAbstract { get; set; }
 
-    public string? YoutubeVideoUrl { get; set; }
-
     public SeoData Seo { get; set; } = new();
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (string.IsNullOrWhiteSpace(TwitchChannel) && string.IsNullOrWhiteSpace(YouTubeChannel))
+        {
+            yield return new("At least a channel must be selected", [nameof(TwitchChannel), nameof(YouTubeChannel)]);
+        }
+
+        if (!string.IsNullOrWhiteSpace(TwitchChannel) && string.IsNullOrWhiteSpace(TwitchUrl))
+        {
+            yield return new("A Twitch URL is required since a Twitch channel has been selected", [nameof(TwitchUrl)]);
+        }
+        if (!string.IsNullOrWhiteSpace(YouTubeChannel) && string.IsNullOrWhiteSpace(YouTubeUrl))
+        {
+            yield return new("A YouTube URL is required since a YouTube channel has been selected", [nameof(YouTubeUrl)]);
+        }
+    }
 }

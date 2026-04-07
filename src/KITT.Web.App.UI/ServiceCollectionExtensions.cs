@@ -5,14 +5,17 @@ namespace KITT.Web.App.UI;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDefaultServices(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        services.AddLocalization();
-        services.AddFluentUIComponents(options =>
+        public IServiceCollection AddDefaultServices()
         {
-            options.ValidateClassNames = false;
-        });
+            services.AddLocalization();
+            services.AddFluentUIComponents(options =>
+            {
+                options.ValidateClassNames = false;
+            });
 
-        return services;
+            return services;
+        }
     }
 }

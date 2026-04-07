@@ -5,17 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KITT.Cms.Web.Api.Endpoints.Services;
 
-public class StreamingsEndpointsServices
+public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands commands)
 {
-    public IDatabase Database { get; }
+    public IDatabase Database { get; } = database ?? throw new ArgumentNullException(nameof(database));
 
-    public IStreamingCommands Commands { get; }
-
-    public StreamingsEndpointsServices(IDatabase database, IStreamingCommands commands)
-    {
-        Database = database ?? throw new ArgumentNullException(nameof(database));
-        Commands = commands ?? throw new ArgumentNullException(nameof(commands));
-    }
+    public IStreamingCommands Commands { get; } = commands ?? throw new ArgumentNullException(nameof(commands));
 
     public async Task<StreamingsListModel> GetAllStreamingsAsync(string userId, int page, int size, StreamingQueryModel.SortDirection sort, string? query)
     {
@@ -40,8 +34,8 @@ public class StreamingsEndpointsServices
                 ScheduledOn = s.ScheduleDate,
                 StartingTime = s.StartingTime,
                 Title = s.Title,
-                HostingChannelUrl = s.HostingChannelUrl,
-                YouTubeVideoUrl = s.YouTubeVideoUrl
+                HostingChannelUrl = s.TwitchUrl ?? string.Empty,
+                YouTubeVideoUrl = s.YouTubeUrl
             }).Skip(skip).Take(size).ToArrayAsync();
 
         var model = new StreamingsListModel { TotalItems = streamingsQuery.Count(), Items = streamings };
@@ -59,28 +53,27 @@ public class StreamingsEndpointsServices
         return new()
         {
             Id = streaming.Id,
+            TwitchChannel = streaming.TwitchChannel,
+            YouTubeChannel = streaming.YouTubeChannel,
             ScheduleDate = streaming.ScheduleDate,
             EndingTime = streaming.EndingTime,
-            HostingChannelUrl = streaming.HostingChannelUrl,
+            TwitchUrl = streaming.TwitchUrl ?? string.Empty,
             StartingTime = streaming.StartingTime,
             StreamingAbstract = streaming.Abstract,
             Title = streaming.Title,
-            YoutubeVideoUrl = streaming.YouTubeVideoUrl,
-            Slug = streaming.Slug
+            YouTubeUrl = streaming.YouTubeUrl ?? string.Empty,
+            Slug = streaming.Slug,
+            Seo = new Models.SeoData 
+            { 
+                Title = streaming.Seo?.Title ?? string.Empty, 
+                Description = streaming.Seo?.Description ?? string.Empty,
+                Keywords = streaming.Seo?.Keywords ?? string.Empty,
+            }
         };
     }
 
     public Task<Guid> ImportStreamingAsync(ImportStreamingModel model, string userId)
     {
-        var settings = Database.Settings
-            .ByUserId(userId)
-            .FirstOrDefault();
-
-        if (settings is null)
-        {
-            throw new InvalidOperationException("No settings configured");
-        }
-
         var seo = new Core.Models.Content.SeoData
         {
             Title = model.Seo.Title,
@@ -90,29 +83,21 @@ public class StreamingsEndpointsServices
 
         return Commands.ImportStreamingAsync(
             userId,
-            settings.TwitchChannel,
+            model.TwitchChannel,
+            model.YouTubeChannel,
             model.Title,
             model.Slug,
-            DateOnly.FromDateTime(model.ScheduleDate),
-            TimeOnly.FromTimeSpan(model.StartingTime),
-            TimeOnly.FromTimeSpan(model.EndingTime),
-            model.HostingChannelUrl,
+            model.ScheduleDate,
+            model.StartingTime,
+            model.EndingTime,
+            model.TwitchUrl,
             model.StreamingAbstract,
-            model.YoutubeVideoUrl,
+            model.YouTubeUrl,
             seo);
     }
 
     public Task<Guid> ScheduleStreamingAsync(ScheduleStreamingModel model, string userId)
     {
-        var settings = Database.Settings
-            .ByUserId(userId)
-            .FirstOrDefault();
-
-        if (settings is null)
-        {
-            throw new InvalidOperationException("No settings configured");
-        }
-
         var seo = new Core.Models.Content.SeoData
         {
             Title = model.Seo.Title,
@@ -122,13 +107,15 @@ public class StreamingsEndpointsServices
 
         return Commands.ScheduleStreamingAsync(
             userId,
-            settings.TwitchChannel,
+            model.TwitchChannel,
+            model.YouTubeChannel,
             model.Title,
             model.Slug,
             model.ScheduleDate,
             model.StartingTime,
             model.EndingTime,
-            model.HostingChannelUrl,
+            model.TwitchUrl,
+            model.YouTubeUrl,
             model.StreamingAbstract,
             seo);
     }
@@ -144,13 +131,15 @@ public class StreamingsEndpointsServices
 
         return Commands.UpdateStreamingAsync(
             streamingId,
+            model.TwitchChannel,
+            model.YouTubeChannel,
             model.Title,
             model.ScheduleDate,
             model.StartingTime,
             model.EndingTime,
-            model.HostingChannelUrl,
+            model.TwitchUrl,
             model.StreamingAbstract,
-            model.YoutubeVideoUrl,
+            model.YouTubeUrl,
             seo);
     }
 

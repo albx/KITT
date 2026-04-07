@@ -4,9 +4,9 @@ public class Rating
 {
     public Guid Id { get; protected set; }
 
-    public string Website { get; protected set; }
+    public string Website { get; protected set; } = string.Empty;
 
-    public string PageUrl { get; protected set; }
+    public string PageUrl { get; protected set; } = string.Empty;
 
     public int NumberOfLikes { get; protected set; }
 

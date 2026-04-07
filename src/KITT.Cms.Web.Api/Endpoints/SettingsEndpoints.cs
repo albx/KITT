@@ -9,61 +9,101 @@ namespace KITT.Cms.Web.Api.Endpoints;
 
 public static class SettingsEndpoints
 {
-    public static IEndpointRouteBuilder MapSettingsEndpoints(this IEndpointRouteBuilder builder)
+    extension(IEndpointRouteBuilder builder)
     {
-        var settingsGroup = builder
-            .MapGroup("api/settings")
-            .RequireAuthorization()
-            .WithParameterValidation();
+        public IEndpointRouteBuilder MapSettingsEndpoints()
+        {
+            var settingsGroup = builder
+                .MapGroup("api/settings")
+                .RequireAuthorization();
 
-        settingsGroup
-            .MapGet("", GetAllSettings)
-            .WithName(nameof(GetAllSettings))
-            .WithOpenApi();
+            settingsGroup
+                .MapGet("channels", GetChannels)
+                .WithName(nameof(GetChannels));
 
-        settingsGroup
-            .MapGet("{id}", GetSettingsDetails)
-            .WithName(nameof(GetSettingsDetails))
-            .WithOpenApi();
+            settingsGroup
+                .MapPost("channels", CreateChannel)
+                .WithName(nameof(CreateChannel));
 
-        settingsGroup
-            .MapPost("", CreateNewSettings)
-            .WithName(nameof(CreateNewSettings))
-            .WithOpenApi();
+            settingsGroup
+                .MapGet("channels/{id:guid}", GetChannelDetail)
+                .WithName(nameof(GetChannelDetail));
 
-        return builder;
+            settingsGroup
+                .MapPut("channels/{id:guid}", UpdateChannel)
+                .WithName(nameof(UpdateChannel));
+
+            settingsGroup
+                .MapDelete("channels/{id:guid}", DeleteChannel)
+                .WithName(nameof(DeleteChannel));
+
+            return builder;
+        }
     }
 
-    private static async Task<Ok<SettingsListModel>> GetAllSettings(
-       SettingsEndpointsServices services,
-       ClaimsPrincipal user)
+    private static async Task<Ok<ChannelModel[]>> GetChannels(
+        ChannelsEndpointsServices services,
+        ClaimsPrincipal user)
     {
-        var model = await services.GetAllSettingsAsync(user.GetUserId());
-        return TypedResults.Ok(model);
+        var userId = user.GetUserId();
+        var channels = await services.GetChannelsAsync(userId);
+
+        return TypedResults.Ok(channels);
     }
 
-    private static async Task<Results<Ok<SettingsDetailModel>, NotFound>> GetSettingsDetails(
-        SettingsEndpointsServices services,
+    private static async Task<Results<CreatedAtRoute<ChannelModel>, BadRequest, ValidationProblem>> CreateChannel(
+        ChannelsEndpointsServices services,
+        ClaimsPrincipal user,
+        [FromBody] ChannelModel model)
+    {
+        var userId = user.GetUserId();
+        var createdChannel = await services.CreateChannelAsync(model, userId);
+
+        return TypedResults.CreatedAtRoute(createdChannel, nameof(GetChannelDetail), new { id = createdChannel.Id });
+    }
+
+    private static async Task<Results<Ok<ChannelModel>, NotFound>> GetChannelDetail(
+        ChannelsEndpointsServices services,
+        ClaimsPrincipal user,
         Guid id)
     {
-        var settings = await services.GetSettingsDetailAsync(id);
-        if (settings is null)
+        var userId = user.GetUserId();
+        var channel = await services.GetChannelAsync(id, userId);
+        if (channel is null)
         {
             return TypedResults.NotFound();
         }
 
-        return TypedResults.Ok(settings);
+        return TypedResults.Ok(channel);
     }
 
-    private static async Task<Results<CreatedAtRoute<CreateNewSettingsModel>, BadRequest, ValidationProblem>> CreateNewSettings(
-        SettingsEndpointsServices services,
+    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateChannel(
+        ChannelsEndpointsServices services,
         ClaimsPrincipal user,
-        [FromBody] CreateNewSettingsModel model)
+        Guid id,
+        [FromBody] ChannelModel model)
     {
-        var settingsId = await services.CreateNewSettingsAsync(model, user.GetUserId());
-        return TypedResults.CreatedAtRoute(
-            model,
-            nameof(GetSettingsDetails),
-            new { id = settingsId });
+        var userId = user.GetUserId();
+
+        try
+        {
+            await services.UpdateChannelAsync(id, model, userId);
+            return TypedResults.NoContent();
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return TypedResults.NotFound();
+        }
+    }
+
+    private static async Task<NoContent> DeleteChannel(
+        ChannelsEndpointsServices services,
+        ClaimsPrincipal user,
+        Guid id)
+    {
+        var userId = user.GetUserId();
+        await services.DeleteChannelAsync(id, userId);
+
+        return TypedResults.NoContent();
     }
 }

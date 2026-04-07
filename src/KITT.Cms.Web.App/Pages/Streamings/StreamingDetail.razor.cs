@@ -1,5 +1,6 @@
 using KITT.Cms.Web.App.Clients;
 using KITT.Cms.Web.Models;
+using KITT.Cms.Web.Models.Settings;
 using KITT.Cms.Web.Models.Streamings;
 using KITT.Web.App.UI;
 using Microsoft.AspNetCore.Components;
@@ -9,20 +10,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.App.Pages.Streamings;
 
-public partial class StreamingDetail
+public partial class StreamingDetail(
+    IStreamingsClient client,
+    IToastService toastService,
+    IMessageService messageService,
+    IConnectedChannelsClient channelsClient)
 {
     [Parameter]
     [EditorRequired]
     public Guid Id { get; set; }
-
-    [Inject]
-    public IStreamingsClient Client { get; set; } = default!;
-
-    [Inject]
-    public IToastService ToastService { get; set; } = default!;
-
-    [Inject]
-    public IMessageService MessageService { get; set; } = default!;
 
     private bool isReadOnly = true;
 
@@ -30,7 +26,9 @@ public partial class StreamingDetail
 
     private string pageTitle = "StreamingDetail";
 
-    private const string twitchBaseUrl = "https://www.twitch.tv/";
+    private ChannelModel?[] availableTwitchChannels = [];
+
+    private ChannelModel?[] availableYouTubeChannels = [];
 
     private void EnableEditing() => isReadOnly = false;
 
@@ -47,16 +45,16 @@ public partial class StreamingDetail
         try
         {
             var detail = model.ToApiModel(Id);
-            await Client.UpdateStreamingAsync(detail);
+            await client.UpdateStreamingAsync(detail);
 
             isReadOnly = true;
-            ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
+            toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
 
             streamingDetail = detail;
         }
         catch (ApplicationException ex)
         {
-            await MessageService.ShowMessageBarAsync(
+            await messageService.ShowMessageBarAsync(
                 ex.Message,
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
@@ -65,14 +63,28 @@ public partial class StreamingDetail
 
     protected override async Task OnInitializedAsync()
     {
-        streamingDetail = await Client.GetStreamingDetailAsync(Id) ?? new();
+        await LoadConnectedChannelsAsync();
+
+        streamingDetail = await client.GetStreamingDetailAsync(Id) ?? new();
         model = ViewModel.FromStreamingDetailModel(streamingDetail);
 
         pageTitle = model.Title;
     }
 
+    private async Task LoadConnectedChannelsAsync()
+    {
+        var channels = await channelsClient.GetConnectedChannelsAsync();
+
+        availableTwitchChannels = [null, .. channels.Where(c => c.Type is Cms.Settings.Models.ChannelType.Twitch).ToArray()];
+        availableYouTubeChannels = [null, .. channels.Where(c => c.Type is Cms.Settings.Models.ChannelType.YouTube).ToArray()];
+    }
+
     class ViewModel : ContentViewModel
     {
+        public string? TwitchChannel { get; set; }
+
+        public string? YouTubeChannel { get; set; }
+
         [Required]
         public string Title { get; set; } = string.Empty;
 
@@ -87,12 +99,11 @@ public partial class StreamingDetail
         [Required]
         public DateTime? EndingTime { get; set; } = DateTime.Now.AddHours(1);
 
-        [Required]
-        public string HostingChannelUrl { get; set; } = string.Empty;
+        public string TwitchUrl { get; set; } = string.Empty;
 
         public string? StreamingAbstract { get; set; }
 
-        public string? YoutubeVideoUrl { get; set; }
+        public string YouTubeUrl { get; set; } = string.Empty;
 
         public StreamingDetailModel ToApiModel(Guid streamingId)
         {
@@ -119,14 +130,16 @@ public partial class StreamingDetail
             return new()
             {
                 Id = streamingId,
+                TwitchChannel = this.TwitchChannel,
+                YouTubeChannel = this.YouTubeChannel,
                 Title = this.Title,
                 Slug = this.Slug,
                 ScheduleDate = DateOnly.FromDateTime(this.ScheduleDate.Value),
                 EndingTime = TimeOnly.FromTimeSpan(this.EndingTime.Value.TimeOfDay),
-                HostingChannelUrl = $"{twitchBaseUrl}{this.HostingChannelUrl}",
+                TwitchUrl = this.TwitchUrl,
                 StartingTime = TimeOnly.FromTimeSpan(this.StartingTime.Value.TimeOfDay),
                 StreamingAbstract = this.StreamingAbstract,
-                YoutubeVideoUrl = this.YoutubeVideoUrl,
+                YouTubeUrl = this.YouTubeUrl,
                 Seo = this.Seo
             };
         }
@@ -136,13 +149,16 @@ public partial class StreamingDetail
             return new()
             {
                 Title = model.Title,
+                TwitchChannel = model.TwitchChannel,
+                YouTubeChannel = model.YouTubeChannel,
                 Slug = model.Slug,
                 ScheduleDate = model.ScheduleDate.ToDateTime(TimeOnly.MinValue),
                 EndingTime = model.EndingTime.ToDateTime(),
                 StartingTime = model.StartingTime.ToDateTime(),
                 StreamingAbstract = model.StreamingAbstract,
-                YoutubeVideoUrl = model.YoutubeVideoUrl,
-                HostingChannelUrl = model.HostingChannelUrl.Replace(twitchBaseUrl, string.Empty).Trim()
+                YouTubeUrl = model.YouTubeUrl,
+                TwitchUrl = model.TwitchUrl,
+                Seo = model.Seo
             };
         }
     }

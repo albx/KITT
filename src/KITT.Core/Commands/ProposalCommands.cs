@@ -100,23 +100,24 @@ public class ProposalCommands : IProposalCommands
 
     private void ScheduleStreaming(string userId, string twitchChannel, string streamingTitle, string streamingSlug, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string streamingAbstract, string hostingChannelUrl)
     {
-        var streaming = Streaming.Schedule(
-            streamingTitle,
-            streamingSlug,
-            twitchChannel,
-            scheduleDate,
-            startingTime,
-            endingTime,
-            hostingChannelUrl,
-            userId);
+        throw new NotImplementedException();
+        //var streaming = Streaming.Schedule(
+        //    streamingTitle,
+        //    streamingSlug,
+        //    twitchChannel,
+        //    scheduleDate,
+        //    startingTime,
+        //    endingTime,
+        //    hostingChannelUrl,
+        //    userId);
 
-        if (!string.IsNullOrWhiteSpace(streamingAbstract))
-        {
-            streaming.SetAbstract(streamingAbstract);
-        }
+        //if (!string.IsNullOrWhiteSpace(streamingAbstract))
+        //{
+        //    streaming.SetAbstract(streamingAbstract);
+        //}
 
-        _validator.ValidateForScheduleStreaming(streaming);
+        //_validator.ValidateForScheduleStreaming(streaming);
 
-        _context.Streamings.Add(streaming);
+        //_context.Streamings.Add(streaming);
     }
 }

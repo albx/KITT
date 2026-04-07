@@ -5,13 +5,13 @@ public abstract class Content
     #region Properties
     public Guid Id { get; protected set; }
 
-    public string UserId { get; protected set; }
+    public string UserId { get; protected set; } = string.Empty;
 
-    public string Title { get; protected set; }
+    public string Title { get; protected set; } = string.Empty;
 
-    public string Slug { get; protected set; }
+    public string Slug { get; protected set; } = string.Empty;
 
-    public string Abstract { get; protected set; }
+    public string? Abstract { get; protected set; }
 
     public virtual SeoData Seo { get; protected set; }
 
@@ -41,7 +41,7 @@ public abstract class Content
         Title = title;
     }
 
-    public virtual void SetAbstract(string @abstract)
+    public virtual void SetAbstract(string? @abstract)
     {
         Abstract = @abstract;
     }
@@ -64,11 +64,11 @@ public abstract class Content
     #region Inner classes
     public record SeoData
     {
-        public string Title { get; init; }
+        public string? Title { get; init; }
 
-        public string Description { get; init; }
+        public string? Description { get; init; }
 
-        public string Keywords { get; init; }
+        public string? Keywords { get; init; }
     }
 
     public enum ContentStatus

@@ -6,6 +6,10 @@ public record StreamingDetailModel
 {
     public Guid Id { get; set; }
 
+    public string? TwitchChannel { get; set; }
+
+    public string? YouTubeChannel { get; set; }
+
     [Required]
     public string Title { get; set; } = string.Empty;
 
@@ -20,12 +24,11 @@ public record StreamingDetailModel
     [Required]
     public TimeOnly EndingTime { get; set; }
 
-    [Required]
-    public string HostingChannelUrl { get; set; } = string.Empty;
+    public string TwitchUrl { get; set; } = string.Empty;
 
     public string? StreamingAbstract { get; set; }
 
-    public string? YoutubeVideoUrl { get; set; }
+    public string YouTubeUrl { get; set; } = string.Empty;
 
     public SeoData Seo { get; set; } = new();
 }

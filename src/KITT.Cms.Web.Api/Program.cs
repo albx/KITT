@@ -6,11 +6,16 @@ using KITT.Cms.Web.Api;
 using KITT.Telegram.Messages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using KITT.Services;
+using KITT.Cms.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.AddSqlServerDbContext<KittDbContext>(ServiceNames.Database);
+
+builder.AddAzureTableServiceClient(ServiceNames.SettingsTables);
+
+builder.Services.AddValidation();
 
 builder.Services.AddAuthentication()
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -25,9 +30,11 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddKittCore();
 
+builder.Services.AddSingleton<IConnectedChannelsRepository, ConnectedChannelsRepository>();
+
 builder.Services
     .AddScoped<StreamingsEndpointsServices>()
-    .AddScoped<SettingsEndpointsServices>();
+    .AddScoped<ChannelsEndpointsServices>();
 
 builder.Services.AddProblemDetails();
 
@@ -65,7 +72,3 @@ app
     .MapSettingsEndpoints();
 
 app.Run();
-
-#region Testing workaround
-public partial class Program { } // This is a workaround for testing purposes, to allow the test project to reference the Program class.
-#endregion

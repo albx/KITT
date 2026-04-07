@@ -11,7 +11,7 @@ internal class StreamingMapper : IEntityTypeConfiguration<Streaming>
         builder.Property(s => s.TwitchChannel).HasMaxLength(50).IsRequired();
         builder.HasIndex(s => s.TwitchChannel);
 
-        builder.Property(s => s.HostingChannelUrl).HasMaxLength(255).IsRequired();
-        builder.Property(s => s.YouTubeVideoUrl).HasMaxLength(255);
+        builder.Property(s => s.TwitchUrl).HasMaxLength(255).IsRequired();
+        builder.Property(s => s.YouTubeUrl).HasMaxLength(255);
     }
 }

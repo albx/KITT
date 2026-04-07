@@ -7,58 +7,63 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Pages.Streamings;
 
-public partial class Schedule
+public partial class Schedule(
+    IStreamingsClient client,
+    NavigationManager navigation,
+    IToastService toastService,
+    IMessageService messageService)
 {
-    [Inject]
-    public IStreamingsClient Client { get; set; } = default!;
+    private StreamingForm.ViewModel model = new();
 
-    [Inject]
-    public NavigationManager Navigation { get; set; } = default!;
-
-    [Inject]
-    public IToastService ToastService { get; set; } = default!;
-
-    [Inject]
-    public IDialogService DialogService { get; set; } = default!;
-
-    [Inject]
-    public IMessageService MessageService { get; set; } = default!;
-
-    private ScheduleForm.ViewModel model = new();
-
-    private async Task ScheduleStreamingAsync(ScheduleForm.ViewModel model)
+    private async Task ScheduleStreamingAsync(StreamingForm.ViewModel model)
     {
         try
         {
             var scheduleStreamingModel = ConvertToApiModel(model);
-            await Client.ScheduleStreamingAsync(scheduleStreamingModel);
+            await client.ScheduleStreamingAsync(scheduleStreamingModel);
 
-            ToastService.ShowSuccess(
+            toastService.ShowSuccess(
                 Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title]);
 
-            Navigation.NavigateTo("/streamings");
+            navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
         {
-            await MessageService.ShowMessageBarAsync(
+            await messageService.ShowMessageBarAsync(
                 ex.Message,
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
         }
     }
 
-    private static ScheduleStreamingModel ConvertToApiModel(ScheduleForm.ViewModel model)
+    private void Cancel() => model = new();
+
+    private static ScheduleStreamingModel ConvertToApiModel(StreamingForm.ViewModel model)
     {
-        ArgumentNullException.ThrowIfNull(model.ScheduleDate);
-        ArgumentNullException.ThrowIfNull(model.StartingTime);
-        ArgumentNullException.ThrowIfNull(model.EndingTime);
+        if (!model.ScheduleDate.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.ScheduleDate));
+        }
+
+        if (!model.StartingTime.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.StartingTime));
+        }
+
+        if (!model.EndingTime.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.EndingTime));
+        }
 
         return new ScheduleStreamingModel
         {
             Title = model.Title,
+            TwitchChannel = model.TwitchChannel,
+            YouTubeChannel = model.YouTubeChannel,
             ScheduleDate = DateOnly.FromDateTime(model.ScheduleDate.Value),
             EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value.TimeOfDay),
-            HostingChannelUrl = $"https://www.twitch.tv/{model.HostingChannelUrl}",
+            TwitchUrl = model.TwitchUrl,
+            YouTubeUrl = model.YouTubeUrl,
             Slug = model.Slug,
             StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value.TimeOfDay),
             StreamingAbstract = model.StreamingAbstract,

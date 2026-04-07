@@ -17,7 +17,7 @@ namespace KITT.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -69,46 +69,13 @@ namespace KITT.Core.Migrations
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("KITT.Core.Models.Expense", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("ExpenseDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Method")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentInfo")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KITT_Expenses", (string)null);
-                });
-
             modelBuilder.Entity("KITT.Core.Models.Proposal", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AuthorNickname")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -186,44 +153,12 @@ namespace KITT.Core.Migrations
                     b.ToTable("KITT_Settings", (string)null);
                 });
 
-            modelBuilder.Entity("KITT.Core.Models.StreamingStats", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("StreamingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Subscribers")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserJoinedNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserLeftNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Viewers")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StreamingId");
-
-                    b.ToTable("KITT_StreamingStats", (string)null);
-                });
-
             modelBuilder.Entity("KITT.Core.Models.Streaming", b =>
                 {
                     b.HasBaseType("KITT.Core.Models.Content");
 
                     b.Property<TimeOnly>("EndingTime")
                         .HasColumnType("time");
-
-                    b.Property<string>("HostingChannelUrl")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateOnly>("ScheduleDate")
                         .HasColumnType("date");
@@ -236,7 +171,15 @@ namespace KITT.Core.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("YouTubeVideoUrl")
+                    b.Property<string>("TwitchUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("YouTubeChannel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("YouTubeUrl")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -269,16 +212,8 @@ namespace KITT.Core.Migrations
                                 .HasForeignKey("ContentId");
                         });
 
-                    b.Navigation("Seo");
-                });
-
-            modelBuilder.Entity("KITT.Core.Models.StreamingStats", b =>
-                {
-                    b.HasOne("KITT.Core.Models.Streaming", "Streaming")
-                        .WithMany()
-                        .HasForeignKey("StreamingId");
-
-                    b.Navigation("Streaming");
+                    b.Navigation("Seo")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KITT.Core.Models.Streaming", b =>

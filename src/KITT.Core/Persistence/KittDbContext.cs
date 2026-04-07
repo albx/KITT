@@ -15,10 +15,6 @@ public class KittDbContext : DbContext
 
     public DbSet<Proposal> Proposals { get; set; }
 
-    public DbSet<Expense> Expenses { get; set; }
-
-    public DbSet<StreamingStats> StreamingStats { get; set; }
-
     public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

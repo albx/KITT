@@ -2,6 +2,8 @@
 
 public static class SettingsExtensions
 {
-    public static IQueryable<Settings> ByUserId(this IQueryable<Settings> settings, string userId)
-        => settings.Where(s => s.UserId == userId);
+    extension(IQueryable<Settings> settings)
+    {
+        public IQueryable<Settings> ByUserId(string userId) => settings.Where(s => s.UserId == userId);
+    }
 }

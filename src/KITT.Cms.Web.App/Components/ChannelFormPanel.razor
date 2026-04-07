@@ -1,0 +1,55 @@
+﻿@implements IDialogContentComponent<ChannelFormPanel.ViewModel>
+
+@using KITT.Cms.Settings.Models
+
+<EditForm EditContext="context" role="form">
+    <DataAnnotationsValidator />
+
+    <FluentDialogBody>
+        <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentSelect TOption="ChannelType"
+                          Label="@localizer[nameof(Resources.Components.ChannelFormPanel.ChannelTypeLabel)]"
+                          Items="channelTypes"
+                          Id="channelType"
+                          Appearance="Appearance.Filled"
+                          Style="width:100%;"
+                          OptionValue="@(t => t.ToString())"
+                          OptionText="@(t => t.ToString())"
+                          @bind-SelectedOption="Content.Model.Type"/>
+            <FluentValidationMessage For="@(() => Content.Model.Type)"/>
+        </FluentStack>
+        <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentTextField Label="@localizer[nameof(Resources.Components.ChannelFormPanel.ChannelNameLabel)]"
+                            @bind-Value="Content.Model.Name"
+                            Appearance="FluentInputAppearance.Filled"
+                            Style="width:100%;"
+                            Required="true"
+                            Id="channelName"/>
+            <FluentValidationMessage For="@(() => Content.Model.Name)"/>
+        </FluentStack>
+        <FluentStack Orientation="Orientation.Vertical" class="mb-2">
+            <FluentTextField Label="@localizer[nameof(Resources.Components.ChannelFormPanel.ChannelUrlLabel)]"
+                            @bind-Value="Content.Model.Url"
+                            Appearance="FluentInputAppearance.Filled"
+                            TextFieldType="TextFieldType.Url"
+                            Style="width:100%;"
+                            Required="true"
+                            Id="channelUrl"
+                            Placeholder="@UrlPlaceholder"/>
+            <FluentValidationMessage For="@(() => Content.Model.Url)"/>
+        </FluentStack>
+    </FluentDialogBody>
+    <FluentDialogFooter>
+        <FluentButton Type="ButtonType.Button"
+                      Appearance="Appearance.Accent"
+                      Loading="saving"
+                      OnClick="SaveAsync">
+                @localizer[nameof(Resources.Components.ChannelFormPanel.SaveButtonText)]
+            </FluentButton>
+            <FluentButton Appearance="Appearance.Outline"
+                          Disabled="saving"
+                          OnClick="CloseAsync">
+                @localizer[nameof(Resources.Components.ChannelFormPanel.CloseButtonText)]
+            </FluentButton>
+    </FluentDialogFooter>
+</EditForm>

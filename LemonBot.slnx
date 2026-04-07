@@ -1,0 +1,40 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/KITT.AppHost/KITT.AppHost.csproj" />
+    <Project Path="src/KITT.ServiceDefaults/KITT.ServiceDefaults.csproj" />
+    <Project Path="src/KITT.Services/KITT.Services.csproj" />
+  </Folder>
+  <Folder Name="/src/KITT/">
+    <Project Path="src/KITT.Core/KITT.Core.csproj" />
+    <Project Path="src/KITT.Telegram.Messages/KITT.Telegram.Messages.csproj" />
+    <Project Path="src/KITT.Web.App.UI/KITT.Web.App.UI.csproj" />
+    <Project Path="src/KITT.Web.App/KITT.Web.App.Client/KITT.Web.App.Client.csproj" />
+    <Project Path="src/KITT.Web.App/KITT.Web.App/KITT.Web.App.csproj" />
+    <Project Path="src/KITT.Web.Models/KITT.Web.Models.csproj" />
+    <Project Path="src/KITT.Web.Shared/KITT.Web.Shared.csproj" />
+  </Folder>
+  <Folder Name="/src/KITT/Cms/">
+    <Project Path="src/KITT.Cms.Settings/KITT.Cms.Settings.csproj" />
+    <Project Path="src/KITT.Cms.Web.Api/KITT.Cms.Web.Api.csproj" />
+    <Project Path="src/KITT.Cms.Web.App/KITT.Cms.Web.App.csproj" />
+    <Project Path="src/KITT.Cms.Web.Models/KITT.Cms.Web.Models.csproj" />
+  </Folder>
+  <Folder Name="/src/KITT/Proposals/">
+    <Project Path="src/KITT.Proposals.Web.Api/KITT.Proposals.Web.Api.csproj" />
+    <Project Path="src/KITT.Proposals.Web.App/KITT.Proposals.Web.App.csproj" />
+    <Project Path="src/KITT.Proposals.Web.Models/KITT.Proposals.Web.Models.csproj" />
+  </Folder>
+  <Folder Name="/src/KITT/Support/">
+    <Project Path="src/KITT.Support.Seeder/KITT.Support.Seeder.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KITT.Cms.Web.Api.Test/KITT.Cms.Web.Api.Test.csproj" />
+    <Project Path="tests/KITT.Core.Test/KITT.Core.Test.csproj" />
+    <Project Path="tests/KITT.Web.Testing/KITT.Web.Testing.csproj" />
+  </Folder>
+</Solution>

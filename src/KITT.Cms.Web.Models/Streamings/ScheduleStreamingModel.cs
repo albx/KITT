@@ -2,8 +2,12 @@
 
 namespace KITT.Cms.Web.Models.Streamings;
 
-public record ScheduleStreamingModel
+public record ScheduleStreamingModel : IValidatableObject
 {
+    public string TwitchChannel { get; set; } = string.Empty;
+
+    public string YouTubeChannel { get; set; } = string.Empty;
+
     [Required]
     public string Title { get; set; } = string.Empty;
 
@@ -19,10 +23,19 @@ public record ScheduleStreamingModel
     [Required]
     public TimeOnly EndingTime { get; set; }
 
-    [Required]
-    public string HostingChannelUrl { get; set; } = string.Empty;
+    public string TwitchUrl { get; set; } = string.Empty;
+
+    public string YouTubeUrl { get; set; } = string.Empty;
 
     public string? StreamingAbstract { get; set; }
 
     public SeoData Seo { get; set; } = new();
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (string.IsNullOrWhiteSpace(TwitchChannel) && string.IsNullOrWhiteSpace(YouTubeChannel))
+        {
+            yield return new("At least a channel must be selected", [nameof(TwitchChannel), nameof(YouTubeChannel)]);
+        }
+    }
 }

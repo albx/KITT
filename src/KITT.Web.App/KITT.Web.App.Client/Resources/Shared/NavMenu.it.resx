@@ -126,6 +126,9 @@
   <data name="ProposalsMenuLabel" xml:space="preserve">
     <value>Proposte</value>
   </data>
+  <data name="SettingsChannelsMenuLabel" xml:space="preserve">
+    <value>Canali collegati</value>
+  </data>
   <data name="SettingsMenuLabel" xml:space="preserve">
     <value>Impostazioni</value>
   </data>

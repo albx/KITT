@@ -1,44 +1,33 @@
 using KITT.Cms.Web.App.Clients;
-using KITT.Cms.Web.Models;
+using KITT.Cms.Web.App.Components;
 using KITT.Cms.Web.Models.Streamings;
 using KITT.Web.App.UI;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.App.Pages.Streamings;
 
-public partial class Import
+public partial class Import(
+    IStreamingsClient client,
+    NavigationManager navigation,
+    IToastService toastService,
+    IMessageService messageService)
 {
-    [Inject]
-    public IStreamingsClient Client { get; set; } = default!;
+    private StreamingForm.ViewModel model = new();
 
-    [Inject]
-    public NavigationManager Navigation { get; set; } = default!;
-
-    [Inject]
-    public IToastService ToastService { get; set; } = default!;
-
-    [Inject]
-    public IMessageService MessageService { get; set; } = default!;
-
-    private ViewModel model = new();
-
-    private string errorMessage = string.Empty;
-
-    private async Task ImportStreamingAsync(ViewModel model)
+    private async Task ImportStreamingAsync(StreamingForm.ViewModel model)
     {
         try
         {
-            await Client.ImportStreamingAsync(model.ToApiModel());
-            ToastService.ShowSuccess(
+            await client.ImportStreamingAsync(ConvertToApiModel(model));
+            toastService.ShowSuccess(
                 Localizer[nameof(Resources.Pages.Streamings.Import.StreamingImportedSuccessfully), model.Title]);
 
-            Navigation.NavigateTo("/streamings");
+            navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
         {
-            await MessageService.ShowMessageBarAsync(
+            await messageService.ShowMessageBarAsync(
                 ex.Message,
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
@@ -47,59 +36,36 @@ public partial class Import
 
     void Cancel() => model = new();
 
-    class ViewModel : ContentViewModel
+    private static ImportStreamingModel ConvertToApiModel(StreamingForm.ViewModel model)
     {
-        [Required]
-        public string Title { get; set; } = string.Empty;
-
-        [Required]
-        public string Slug { get; set; } = string.Empty;
-
-        [Required]
-        public DateTime? ScheduleDate { get; set; } = DateTime.Now;
-
-        [Required]
-        public DateTime? StartingTime { get; set; } = DateTime.Now;
-
-        [Required]
-        public DateTime? EndingTime { get; set; } = DateTime.Now.AddHours(1);
-
-        [Required]
-        public string HostingChannelUrl { get; set; } = string.Empty;
-
-        public string? StreamingAbstract { get; set; }
-
-        public string? YoutubeVideoUrl { get; set; }
-
-        public ImportStreamingModel ToApiModel()
+        if (!model.ScheduleDate.HasValue)
         {
-            if (this.ScheduleDate is null)
-            {
-                throw new ArgumentNullException(nameof(ScheduleDate));
-            }
-
-            if (this.StartingTime is null)
-            {
-                throw new ArgumentNullException(nameof(this.StartingTime));
-            }
-
-            if (this.EndingTime is null)
-            {
-                throw new ArgumentNullException(nameof(this.EndingTime));
-            }
-
-            return new()
-            {
-                Title = this.Title,
-                ScheduleDate = this.ScheduleDate.Value,
-                EndingTime = this.EndingTime.Value.TimeOfDay,
-                HostingChannelUrl = $"https://www.twitch.tv/{this.HostingChannelUrl}",
-                Slug = this.Slug,
-                StartingTime = this.StartingTime.Value.TimeOfDay,
-                StreamingAbstract = this.StreamingAbstract,
-                YoutubeVideoUrl = this.YoutubeVideoUrl,
-                Seo = this.Seo
-            };
+            throw new ArgumentNullException(nameof(model.ScheduleDate));
         }
+
+        if (!model.StartingTime.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.StartingTime));
+        }
+
+        if (!model.EndingTime.HasValue)
+        {
+            throw new ArgumentNullException(nameof(model.EndingTime));
+        }
+
+        return new ImportStreamingModel
+        {
+            Title = model.Title,
+            TwitchChannel = model.TwitchChannel,
+            YouTubeChannel = model.YouTubeChannel,
+            ScheduleDate = DateOnly.FromDateTime(model.ScheduleDate.Value),
+            EndingTime = TimeOnly.FromTimeSpan(model.EndingTime.Value.TimeOfDay),
+            TwitchUrl = model.TwitchUrl,
+            YouTubeUrl = model.YouTubeUrl,
+            Slug = model.Slug,
+            StartingTime = TimeOnly.FromTimeSpan(model.StartingTime.Value.TimeOfDay),
+            StreamingAbstract = model.StreamingAbstract,
+            Seo = model.Seo
+        };
     }
 }

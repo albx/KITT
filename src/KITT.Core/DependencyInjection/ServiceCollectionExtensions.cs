@@ -8,16 +8,19 @@ namespace KITT.Core.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddKittCore(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        services
-            .AddValidatorsFromAssemblyContaining<StreamingValidator>()
-            .AddScoped<IDatabase, Database>()
-            .AddScoped<ISettingsCommands, SettingsCommands>()
-            .AddScoped<IStreamingCommands, StreamingCommands>()
-            .AddScoped<IProposalCommands, ProposalCommands>()
-            .AddScoped<IStreamingStatsCommands, StreamingStatsCommands>();
+        public IServiceCollection AddKittCore()
+        {
+            services
+                .AddValidatorsFromAssemblyContaining<StreamingValidator>()
+                .AddScoped<IDatabase, Database>()
+                .AddScoped<ISettingsCommands, SettingsCommands>()
+                .AddScoped<IStreamingCommands, StreamingCommands>()
+                .AddScoped<IProposalCommands, ProposalCommands>();
 
-        return services;
+            return services;
+        }
     }
+    
 }

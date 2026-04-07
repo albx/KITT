@@ -2,7 +2,9 @@
 
 public class Streaming : Content
 {
-    public string TwitchChannel { get; protected set; }
+    public string? TwitchChannel { get; protected set; }
+
+    public string? YouTubeChannel { get; protected set; }
 
     public DateOnly ScheduleDate { get; protected set; }
 
@@ -10,15 +12,31 @@ public class Streaming : Content
 
     public TimeOnly EndingTime { get; protected set; }
 
-    public string HostingChannelUrl { get; protected set; }
+    public string? TwitchUrl { get; protected set; }
 
-    public string YouTubeVideoUrl { get; protected set; }
+    public string? YouTubeUrl { get; protected set; }
 
     #region Constructor
     protected Streaming() : base() { }
     #endregion
 
     #region Behaviors
+    public void ChangeInformation(
+        string? twitchChannel, 
+        string? youTubeChannel,
+        string title,
+        string? @abstract,
+        string? twitchUrl,
+        string? youTubeUrl)
+    {
+        TwitchChannel = twitchChannel;
+        YouTubeChannel = youTubeChannel;
+        Title = title;
+        Abstract = @abstract;
+        TwitchUrl = twitchUrl;
+        YouTubeUrl = youTubeUrl;
+    }
+
     public void ChangeSchedule(DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
     {
         if (startingTime >= endingTime)
@@ -26,24 +44,32 @@ public class Streaming : Content
             throw new ArgumentException("Ending time cannot be previous than starting time", nameof(endingTime));
         }
 
+        if (!ScheduleHasChanged(scheduleDate, startingTime, endingTime))
+        {
+            return;
+        }
+
         this.ScheduleDate = scheduleDate;
         this.StartingTime = startingTime;
         this.EndingTime = endingTime;
     }
 
-    public void SetRegistrationYoutubeUrl(string youtubeUrl)
+    public bool ScheduleHasChanged(DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime)
+        => ScheduleDate != scheduleDate || StartingTime != startingTime || EndingTime != endingTime;
+
+    public void SetYouTubeUrl(string youtubeUrl)
     {
-        this.YouTubeVideoUrl = youtubeUrl;
+        YouTubeUrl = youtubeUrl;
     }
 
-    public void ChangeHostingChannelUrl(string hostingChannelUrl)
+    public void SetTwitchUrl(string twitchUrl)
     {
-        this.HostingChannelUrl = hostingChannelUrl;
+        TwitchUrl = twitchUrl;
     }
     #endregion
 
     #region Factory
-    public static Streaming Schedule(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string userId)
+    public static Streaming Schedule(string title, string slug, string twitchChannel, string youTubeChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string youTubeUrl, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -53,11 +79,6 @@ public class Streaming : Content
         if (string.IsNullOrWhiteSpace(slug))
         {
             throw new ArgumentException("value cannot be empty", nameof(slug));
-        }
-
-        if (string.IsNullOrWhiteSpace(twitchChannel))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(twitchChannel));
         }
 
         if (scheduleDate < DateOnly.FromDateTime(DateTime.Today))
@@ -70,11 +91,6 @@ public class Streaming : Content
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
         }
 
-        if (string.IsNullOrWhiteSpace(hostingChannelUrl))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(hostingChannelUrl));
-        }
-
         if (string.IsNullOrWhiteSpace(userId))
         {
             throw new ArgumentException("value cannot be empty", nameof(userId));
@@ -87,10 +103,12 @@ public class Streaming : Content
             Title = title,
             Slug = slug,
             TwitchChannel = twitchChannel,
+            YouTubeChannel = youTubeChannel,
             ScheduleDate = scheduleDate,
             StartingTime = startingTime,
             EndingTime = endingTime,
-            HostingChannelUrl = hostingChannelUrl
+            TwitchUrl = twitchUrl,
+            YouTubeUrl = youTubeUrl,
         };
 
         streaming.Publish();
@@ -98,7 +116,7 @@ public class Streaming : Content
         return streaming;
     }
 
-    public static Streaming Import(string title, string slug, string twitchChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string hostingChannelUrl, string youtubeVideoUrl, string @abstract, string userId)
+    public static Streaming Import(string title, string slug, string twitchChannel, string youTubeChannel, DateOnly scheduleDate, TimeOnly startingTime, TimeOnly endingTime, string twitchUrl, string? youTubeUrl, string? @abstract, string userId)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -110,19 +128,18 @@ public class Streaming : Content
             throw new ArgumentException("value cannot be empty", nameof(slug));
         }
 
-        if (string.IsNullOrWhiteSpace(twitchChannel))
-        {
-            throw new ArgumentException("value cannot be empty", nameof(twitchChannel));
-        }
-
         if (startingTime >= endingTime)
         {
             throw new ArgumentException("Starting time should be previuos than ending time", nameof(endingTime));
         }
 
-        if (string.IsNullOrWhiteSpace(hostingChannelUrl))
+        if (!string.IsNullOrWhiteSpace(twitchChannel) && string.IsNullOrWhiteSpace(twitchUrl))
         {
-            throw new ArgumentException("value cannot be empty", nameof(hostingChannelUrl));
+            throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
+        }
+        if (!string.IsNullOrWhiteSpace(youTubeChannel) && string.IsNullOrWhiteSpace(youTubeUrl))
+        {
+            throw new ArgumentException("value cannot be empty", nameof(youTubeChannel));
         }
 
         if (string.IsNullOrWhiteSpace(userId))
@@ -137,12 +154,13 @@ public class Streaming : Content
             Title = title,
             Slug = slug,
             TwitchChannel = twitchChannel,
+            YouTubeChannel = youTubeChannel,
             ScheduleDate = scheduleDate,
             StartingTime = startingTime,
             EndingTime = endingTime,
-            HostingChannelUrl = hostingChannelUrl,
+            TwitchUrl = twitchUrl,
             Abstract = @abstract,
-            YouTubeVideoUrl = youtubeVideoUrl
+            YouTubeUrl = youTubeUrl
         };
 
         streaming.PublishOn(scheduleDate.ToDateTime(TimeOnly.MinValue));

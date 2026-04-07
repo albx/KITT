@@ -34,6 +34,32 @@
         <ContentInfo>
             <FluentGrid>
                 <FluentGridItem xs="12" md="6">
+                    <FluentSelect TOption="ChannelModel"
+                                  Label="Twitch channel"
+                                  Items="availableTwitchChannels"
+                                  Appearance="Appearance.Filled"
+                                  Style="width:100%"
+                                  OptionValue="@(c => c?.Url)"
+                                  OptionText="@(c => c is null ? string.Empty : $"{c.Name} ({c.Url})")"
+                                  @bind-Value="streaming.TwitchChannel"
+                                  Disabled="@isReadOnly"/>
+                    <FluentValidationMessage For="@(() => streaming.TwitchChannel)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentSelect TOption="ChannelModel"
+                                  Label="YouTube channel"
+                                  Items="availableYouTubeChannels"
+                                  Appearance="Appearance.Filled"
+                                  Style="width:100%"
+                                  OptionValue="@(c => c.Url)"
+                                  OptionText="@(c => $"{c.Name} ({c.Url})")"
+                                  @bind-Value="streaming.YouTubeChannel"
+                                  Disabled="@isReadOnly"/>
+                    <FluentValidationMessage For="@(() => streaming.YouTubeChannel)" />
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
                     <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
                                      @bind-Value="streaming.Title"
                                      Appearance="FluentInputAppearance.Filled"
@@ -54,21 +80,20 @@
             <FluentGrid>
                 <FluentGridItem xs="12" md="6">
                     <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
-                                     @bind-Value="streaming.HostingChannelUrl"
+                                     @bind-Value="streaming.TwitchUrl"
                                      Appearance="FluentInputAppearance.Filled"
                                      Style="width:100%;"
                                      Required="true"
-                                     Disabled="@isReadOnly">
-                        <FluentLabel Slot="start">@twitchBaseUrl</FluentLabel>
-                    </FluentTextField>
-                    <FluentValidationMessage For="@(() => streaming.HostingChannelUrl)" />
+                                     Disabled="@isReadOnly"/>
+                    <FluentValidationMessage For="@(() => streaming.TwitchUrl)" />
                 </FluentGridItem>
                 <FluentGridItem xs="12" md="6">
                     <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
-                                     @bind-Value="streaming.YoutubeVideoUrl"
+                                     @bind-Value="streaming.YouTubeUrl"
                                      Appearance="FluentInputAppearance.Filled"
                                      Style="width:100%;"
                                      Disabled="@isReadOnly" />
+                    <FluentValidationMessage For="@(() => streaming.YouTubeUrl)" />
                 </FluentGridItem>
             </FluentGrid>
 
