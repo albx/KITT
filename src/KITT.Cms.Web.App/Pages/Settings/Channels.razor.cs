@@ -110,7 +110,7 @@ public partial class Channels(
 
         var confirm = await dialogService.ShowConfirmationAsync(
             localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmMessage)],
-            title: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmTitle)],
+            title: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmTitle), channelName],
             primaryText: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmPrimaryButtonText)]);
 
         var result = await confirm.Result;

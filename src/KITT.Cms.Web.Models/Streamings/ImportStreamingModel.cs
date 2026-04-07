@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.Models.Streamings;
 
-public record ImportStreamingModel
+public record ImportStreamingModel : IValidatableObject
 {
     public string TwitchChannel { get; set; } = string.Empty;
 

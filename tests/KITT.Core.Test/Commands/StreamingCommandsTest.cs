@@ -113,7 +113,7 @@ namespace KITT.Core.Test.Commands
             TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
             TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
             string twitchUrl = "https://www.twitch.tv/albx87";
-            string youTubeUrl = "https://www.twitch.tv/@albx87";
+            string youTubeUrl = "https://www.youtube.com/@albx87";
             string streamingAbstract = "streaming abstract";
             var seo = new Content.SeoData();
 

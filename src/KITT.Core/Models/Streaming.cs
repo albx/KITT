@@ -139,7 +139,7 @@ public class Streaming : Content
         }
         if (!string.IsNullOrWhiteSpace(youTubeChannel) && string.IsNullOrWhiteSpace(youTubeUrl))
         {
-            throw new ArgumentException("value cannot be empty", nameof(twitchUrl));
+            throw new ArgumentException("value cannot be empty", nameof(youTubeChannel));
         }
 
         if (string.IsNullOrWhiteSpace(userId))

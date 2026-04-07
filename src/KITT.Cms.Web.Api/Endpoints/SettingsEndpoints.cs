@@ -96,7 +96,7 @@ public static class SettingsEndpoints
         }
     }
 
-    private static async Task<Results<NoContent, NotFound>> DeleteChannel(
+    private static async Task<NoContent> DeleteChannel(
         ChannelsEndpointsServices services,
         ClaimsPrincipal user,
         Guid id)

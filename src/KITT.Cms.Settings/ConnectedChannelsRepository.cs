@@ -11,6 +11,7 @@ public class ConnectedChannelsRepository : IConnectedChannelsRepository
 
     public ConnectedChannelsRepository(TableServiceClient tableServiceClient)
     {
+        ArgumentNullException.ThrowIfNull(tableServiceClient);
         _tableClient = CreateTableIfNotExist(tableServiceClient) ?? throw new ArgumentNullException("tableClient");
     }
 

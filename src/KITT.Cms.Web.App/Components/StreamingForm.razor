@@ -11,8 +11,8 @@
                               Items="availableTwitchChannels"
                               Appearance="Appearance.Filled"
                               Style="width:100%"
-                              OptionValue="@(c => c.Url)"
-                              OptionText="@(c => $"{c.Name} ({c.Url})")"
+                              OptionValue="@(c => c?.Url)"
+                              OptionText="@(c => c is null ? string.Empty : $"{c.Name} ({c.Url})")"
                               @bind-Value="streaming.TwitchChannel"/>
                 <FluentValidationMessage For="@(() => streaming.TwitchChannel)" />
             </FluentGridItem>
@@ -22,8 +22,8 @@
                               Items="availableYouTubeChannels"
                               Appearance="Appearance.Filled"
                               Style="width:100%"
-                              OptionValue="@(c => c.Url)"
-                              OptionText="@(c => $"{c.Name} ({c.Url})")"
+                              OptionValue="@(c => c?.Url)"
+                              OptionText="@(c => c is null ? string.Empty : $"{c.Name} ({c.Url})")"
                               @bind-Value="streaming.YouTubeChannel" />
                 <FluentValidationMessage For="@(() => streaming.YouTubeChannel)" />
             </FluentGridItem>
