@@ -26,6 +26,8 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Restore
+      run: dotnet restore
     - name: Install Entity Framework Core tools
       run: |
           dotnet new tool-manifest
