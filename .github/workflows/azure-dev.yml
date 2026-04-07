@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  DOTNET_VERSION: 9.0.x
+  DOTNET_VERSION: 10.0.x
 
 jobs:
   update-database:
@@ -58,8 +58,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: | 
-            8.x.x
-            9.x.x
+            10.x.x
 
       - name: Log in with Azure (Federated Credentials)
         run: |
