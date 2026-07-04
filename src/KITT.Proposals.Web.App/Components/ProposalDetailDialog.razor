@@ -3,11 +3,11 @@
 
 <Loader Loading="loading">
     <FluentStack Orientation="Orientation.Horizontal" Class="mb-2">
-        <FluentLabel Weight="FontWeight.Bold">@LocalizerFor[nameof(Resources.Components.ProposalDetailDialog.AuthorLabel)]:</FluentLabel>
+        <FluentLabel Weight="LabelWeight.Semibold">@LocalizerFor[nameof(Resources.Components.ProposalDetailDialog.AuthorLabel)]:</FluentLabel>
         <FluentLabel>@model!.AuthorNickname</FluentLabel>
     </FluentStack>
     <FluentStack Orientation="Orientation.Vertical">
-        <FluentLabel Weight="FontWeight.Bold">@LocalizerFor[nameof(Resources.Components.ProposalDetailDialog.DescriptionLabel)]</FluentLabel>
+        <FluentLabel Weight="LabelWeight.Semibold">@LocalizerFor[nameof(Resources.Components.ProposalDetailDialog.DescriptionLabel)]</FluentLabel>
         <div style="width:100%;">@model!.Description</div>
     </FluentStack>
 </Loader>

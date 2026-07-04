@@ -76,8 +76,15 @@ Replaced the remaining `IToastService`/`IMessageService` injections with the uni
 
 **Build status after Phase 5 (and the fixes above)**: error count is now 21, and **100% of the remaining errors are Phase 6 scope** — `FluentButton`/`FluentAnchor` `Appearance="Appearance.X"` type mismatches (needs the `.ToButtonAppearance()` sweep) across `Channels.razor`, `ContentForm.razor`, `StreamingDetail.razor`, `Streamings/Index.razor`, `Proposals/Index.razor`; and a `FluentLabel Weight="FontWeight.Bold"` error in `ProposalDetailDialog.razor` (`FontWeight` doesn't exist as a type — needs the real `LabelWeight` enum). A handful of secondary "lambda not convertible to delegate type" errors are expected to resolve automatically once the button appearance mismatches are fixed.
 
+## Phase 6 — Button/Anchor appearance sweep + FluentLabel fix (complete)
+
+- `FluentButton Appearance="Appearance.Accent"`/`"Appearance.Outline"` → `Appearance="Appearance.Accent.ToButtonAppearance()"` (mechanical sweep) across `ContentForm.razor`, `Channels.razor`, `Streamings/Index.razor`, `StreamingDetail.razor`, `Proposals/Index.razor`, and `MessageComposer.razor` (Web.App.Client).
+- All 7 button-styled `FluentAnchor` usages converted to `FluentAnchorButton` (same `Href`/`Appearance` shape) in `StreamingStats.razor`, `Import.razor`, `Streamings/Index.razor` (x2), `Schedule.razor`, `StreamingDetail.razor`, `ProposalsStats.razor`.
+- `src/KITT.Proposals.Web.App/Components/ProposalDetailDialog.razor`: `FluentLabel Weight="FontWeight.Bold"` → `Weight="LabelWeight.Semibold"` (the real enum only has `Regular`/`Semibold`, no `Bold`/no `FontWeight` type at all).
+
+**Build status after Phase 6**: `KITT.Cms.Web.App` and `KITT.Proposals.Web.App` now build with **zero errors** (warnings only — mostly `CS0618` obsolete-value warnings for `Color.Accent`/`Color.Fill` literals and `FluentProgress`, intentionally left for a later cleanup pass since they don't block compilation). Only **3 errors remain in the entire solution**, all in `src/KITT.Web.App/KITT.Web.App.Client/Layout/NavMenu.razor` (`bind-Expanded` on `FluentNavMenu`/`FluentNavGroup`) — squarely Phase 2 scope (`FluentNavMenu` → `FluentNav` rewrite).
+
 ## Remaining phases (not started)
 
-- **Phase 2** — Layout and navigation (`MainLayout.razor`, `NavMenu.razor`, `LoginDisplay.razor`).
-- **Phase 6** — Remaining component sweep: `FluentButton`/`FluentAnchor` appearance enums (now confirmed as the only remaining compile blockers), `FluentLabel.Weight` → `LabelWeight`, `FluentCard`, icons, `FluentDataGrid` renames.
+- **Phase 2** — Layout and navigation: `NavMenu.razor` (`FluentNavMenu`→`FluentNav`/`FluentNavCategory`/`FluentNavItem`, the only remaining compile errors), `LoginDisplay.razor` (`FluentProfileMenu` removed — currently only a warning, not an error, but non-functional), `MainLayout.razor` (`FluentHeader`/`FluentBodyContent`/`FluentFooter` unknown-element warnings, `<FluentProviders>` wrapper still not added per Phase 1).
 - **Phase 7** — New bUnit test suites for the 5 Web App projects.

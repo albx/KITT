@@ -60,11 +60,11 @@
                              VerticalAlignment="VerticalAlignment.Bottom"
                              Style="height:100%;">
                     <FluentButton Type="ButtonType.Submit"
-                                  Appearance="Appearance.Accent"
+                                  Appearance="Appearance.Accent.ToButtonAppearance()"
                                   IconStart="@(new Icons.Regular.Size20.Search())">
                         @Localizer[nameof(Resources.Pages.Index.ProposalSearchLabel)]
                     </FluentButton>
-                    <FluentButton Appearance="Appearance.Outline"
+                    <FluentButton Appearance="Appearance.Outline.ToButtonAppearance()"
                                   OnClick="ClearSearchAsync">
                         <FluentIcon Value="@(new Icons.Regular.Size20.Dismiss())" Color="Color.Accent" />
                     </FluentButton>
@@ -95,7 +95,7 @@
             <FluentStack Orientation="Orientation.Horizontal"
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.End">
-                <FluentButton Appearance="Appearance.Accent"
+                <FluentButton Appearance="Appearance.Accent.ToButtonAppearance()"
                               IconStart="@(new Icons.Regular.Size20.Eye())"
                               OnClick="@(() => OpenProposalDetailAsync(proposal))">
                     @Localizer[nameof(Resources.Pages.Index.ShowProposalDetailLabel)]

@@ -49,13 +49,13 @@
                          HorizontalAlignment="HorizontalAlignment.Start"
                          Class="mt-3">
                 <FluentButton Type="ButtonType.Button"
-                              Appearance="Appearance.Accent"
+                              Appearance="Appearance.Accent.ToButtonAppearance()"
                               Loading="saving"
                               OnClick="SubmitAsync"
                               Id="saveContentButton">
                     @Localizer[nameof(KITT.Web.App.UI.Resources.Common.Save)]
                 </FluentButton>
-                <FluentButton Appearance="Appearance.Outline"
+                <FluentButton Appearance="Appearance.Outline.ToButtonAppearance()"
                               Disabled="saving"
                               OnClick="CancelAsync">
                     @Localizer[nameof(KITT.Web.App.UI.Resources.Common.Cancel)]

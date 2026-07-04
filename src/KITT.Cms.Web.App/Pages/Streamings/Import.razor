@@ -9,10 +9,10 @@
     @Localizer[nameof(Resources.Pages.Streamings.Import.PageTitle)]
 </SectionContent>
 <SectionContent SectionName="@SectionNames.ToolbarSectionName">
-    <FluentAnchor Appearance="Appearance.Accent"
+    <FluentAnchorButton Appearance="Appearance.Accent.ToButtonAppearance()"
                   Href="streamings">
         @CommonLocalizer[nameof(UI.Resources.Common.Back)]
-    </FluentAnchor>
+    </FluentAnchorButton>
 </SectionContent>
 
 <StreamingForm Model="model"

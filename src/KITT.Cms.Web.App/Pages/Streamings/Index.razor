@@ -9,14 +9,14 @@
     @Localizer[nameof(Resources.Pages.Streamings.Index.PageTitle)]
 </SectionContent>
 <SectionContent SectionName="@SectionNames.ToolbarSectionName">
-    <FluentAnchor Appearance="Appearance.Accent"
+    <FluentAnchorButton Appearance="Appearance.Accent.ToButtonAppearance()"
                   Href="streamings/schedule">
         @Localizer[nameof(Resources.Pages.Streamings.Index.ScheduleNewStreamingLabel)]
-    </FluentAnchor>
-    <FluentAnchor Appearance="Appearance.Accent"
+    </FluentAnchorButton>
+    <FluentAnchorButton Appearance="Appearance.Accent.ToButtonAppearance()"
                   Href="streamings/import">
         @Localizer[nameof(Resources.Pages.Streamings.Index.ImportStreamingLabel)]
-    </FluentAnchor>
+    </FluentAnchorButton>
 </SectionContent>
 
 <FluentStack Class="mb-3">
@@ -60,11 +60,11 @@
                              VerticalAlignment="VerticalAlignment.Bottom"
                              Style="height:100%;">
                     <FluentButton Type="ButtonType.Submit"
-                                  Appearance="Appearance.Accent"
+                                  Appearance="Appearance.Accent.ToButtonAppearance()"
                                   IconStart="@(new Icons.Regular.Size20.Search())">
                         @Localizer[nameof(Resources.Pages.Streamings.Index.SearchButtonLabel)]
                     </FluentButton>
-                    <FluentButton Appearance="Appearance.Outline"
+                    <FluentButton Appearance="Appearance.Outline.ToButtonAppearance()"
                                   OnClick="ClearSearchAsync">
                         <FluentIcon Value="@(new Icons.Regular.Size20.Dismiss())" Color="Color.Accent" />
                     </FluentButton>
@@ -113,7 +113,7 @@
             <FluentStack Orientation="Orientation.Horizontal"
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.End">
-                <FluentButton Appearance="Appearance.Accent"
+                <FluentButton Appearance="Appearance.Accent.ToButtonAppearance()"
                               OnClick="@(() => OpenStreamingDetailPage(streaming))"
                               aria-label="@CommonLocalizer[nameof(UI.Resources.Common.View)]"
                               Id="@($"openStreamingDetail-{streaming.Id}")">
@@ -121,7 +121,7 @@
                 </FluentButton>
                 <FluentTooltip Anchor="@($"openStreamingDetail-{streaming.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.View)]</FluentTooltip>
 
-                <FluentButton Appearance="Appearance.Outline"
+                <FluentButton Appearance="Appearance.Outline.ToButtonAppearance()"
                               OnClick="@(() => DeleteStreaming(streaming))"
                               aria-label="@CommonLocalizer[nameof(UI.Resources.Common.Delete)]"
                               Id="@($"deleteStreaming-{streaming.Id}")">

@@ -8,13 +8,13 @@
 
 <SectionContent SectionName="@SectionNames.ToolbarSectionName">
     <FluentButton Type="ButtonType.Button"
-                  Appearance="Appearance.Accent"
+                  Appearance="Appearance.Accent.ToButtonAppearance()"
                   IconStart="@(new Icons.Filled.Size20.Add())"
                   OnClick="OpenAddNewChannelPanelAsync">
         @localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelButtonText)]
     </FluentButton>
     <FluentButton Type="ButtonType.Button"
-                  Appearance="Appearance.Outline"
+                  Appearance="Appearance.Outline.ToButtonAppearance()"
                   IconStart="@(new Icons.Filled.Size20.ArrowClockwise())"
                   OnClick="LoadConnectedChannelsAsync">
         @localizer[nameof(Resources.Pages.Settings.Channels.RefreshChannelsButtonText)]
@@ -32,13 +32,13 @@
 
                     <FluentStack Orientation="Orientation.Horizontal">
                         <FluentButton Type="ButtonType.Button"
-                                      Appearance="Appearance.Accent"
+                                      Appearance="Appearance.Accent.ToButtonAppearance()"
                                       IconStart="@(new Icons.Filled.Size20.Edit())"
                                       OnClick="@(() => OpenEditChannelPanelAsync(channel))">
                             @localizer[nameof(Resources.Pages.Settings.Channels.EditChannelButtonText)]
                         </FluentButton>
                         <FluentButton Type="ButtonType.Button"
-                                      Appearance="Appearance.Outline"
+                                      Appearance="Appearance.Outline.ToButtonAppearance()"
                                       IconStart="@(new Icons.Filled.Size20.Delete())"
                                       OnClick="@(() => DeleteChannelAsync(channel))">
                             @localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelButtonText)]

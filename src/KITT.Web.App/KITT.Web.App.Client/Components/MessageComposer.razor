@@ -1,7 +1,7 @@
 ﻿@inject IDialogService DialogService
 @inject IStringLocalizer<Resources.Components.MessageComposer> Localizer
 
-<FluentButton Appearance="Appearance.Lightweight"
+<FluentButton Appearance="Appearance.Lightweight.ToButtonAppearance()"
               IconStart="@(new Icons.Regular.Size20.Compose())"
               OnClick="OpenMessageEditorAsync">
     @Localizer[nameof(Resources.Components.MessageComposer.ComposeMessageButtonLabel)]
