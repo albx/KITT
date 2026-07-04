@@ -7,6 +7,9 @@
         "agent",
         "mcp"
       ]
+    },
+    "fluent-ui-blazor": {
+      "command": "fluentui-mcp"
     }
   }
 }
