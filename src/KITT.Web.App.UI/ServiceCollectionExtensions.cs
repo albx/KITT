@@ -10,9 +10,11 @@ public static class ServiceCollectionExtensions
         public IServiceCollection AddDefaultServices()
         {
             services.AddLocalization();
-            services.AddFluentUIComponents(options =>
+            services.AddFluentUIComponents(config =>
             {
-                options.ValidateClassNames = false;
+                config.DefaultValues.For<FluentStack>().Set(p => p.HorizontalGap, "10px");
+                config.DefaultValues.For<FluentStack>().Set(p => p.VerticalGap, "10px");
+                config.Toast.Position = ToastPosition.TopCenter;
             });
 
             return services;

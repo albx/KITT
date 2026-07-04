@@ -1,5 +1,6 @@
-﻿@implements IDialogContentComponent<ProposalDetailDialog.InputModel>
+﻿@inherits FluentDialogInstance
 @inject IStringLocalizer<Resources.Components.ProposalDetailDialog> Localizer
+@using Microsoft.FluentUI.AspNetCore.Components.Migration
 
 <FluentDialogBody>
     <Loader Loading="loading">
@@ -14,7 +15,7 @@
     </Loader>
 </FluentDialogBody>
 <FluentDialogFooter>
-    <FluentButton Appearance="Appearance.Accent"
+    <FluentButton Appearance="Appearance.Accent.ToButtonAppearance()"
                   OnClick="CloseAsync">
         @Localizer[nameof(Resources.Components.ProposalDetailDialog.CloseButtonText)]
     </FluentButton>

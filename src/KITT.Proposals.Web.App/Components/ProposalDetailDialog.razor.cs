@@ -7,9 +7,6 @@ namespace KITT.Proposals.Web.App.Components;
 
 public partial class ProposalDetailDialog
 {
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
     [Parameter]
     public InputModel Content { get; set; } = default!;
 
@@ -34,7 +31,7 @@ public partial class ProposalDetailDialog
         }
     }
 
-    private async Task CloseAsync() => await Dialog.CancelAsync();
+    private async Task CloseAsync() => await DialogInstance.CloseAsync();
 
     public record InputModel(
         Guid ProposalId);

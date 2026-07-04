@@ -1,7 +1,8 @@
 ﻿@inject NavigationManager Navigation
+@using Microsoft.FluentUI.AspNetCore.Components.Migration
 
 @*<MudButton OnClick="OnButtonClicked" Variant="Variant.Filled" Color="Color.Primary">@Label</MudButton>*@
-<FluentButton OnClick="OnButtonClicked" Appearance="Appearance.Accent">
+<FluentButton OnClick="OnButtonClicked" Appearance="Appearance.Accent.ToButtonAppearance()">
 	@Label
 </FluentButton>
 
