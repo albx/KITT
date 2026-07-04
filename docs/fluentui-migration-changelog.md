@@ -84,7 +84,26 @@ Replaced the remaining `IToastService`/`IMessageService` injections with the uni
 
 **Build status after Phase 6**: `KITT.Cms.Web.App` and `KITT.Proposals.Web.App` now build with **zero errors** (warnings only — mostly `CS0618` obsolete-value warnings for `Color.Accent`/`Color.Fill` literals and `FluentProgress`, intentionally left for a later cleanup pass since they don't block compilation). Only **3 errors remain in the entire solution**, all in `src/KITT.Web.App/KITT.Web.App.Client/Layout/NavMenu.razor` (`bind-Expanded` on `FluentNavMenu`/`FluentNavGroup`) — squarely Phase 2 scope (`FluentNavMenu` → `FluentNav` rewrite).
 
-## Remaining phases (not started)
+## Phase 2 — Layout and navigation (complete) — 🎉 last phase, brings the whole solution to 0 build errors
 
-- **Phase 2** — Layout and navigation: `NavMenu.razor` (`FluentNavMenu`→`FluentNav`/`FluentNavCategory`/`FluentNavItem`, the only remaining compile errors), `LoginDisplay.razor` (`FluentProfileMenu` removed — currently only a warning, not an error, but non-functional), `MainLayout.razor` (`FluentHeader`/`FluentBodyContent`/`FluentFooter` unknown-element warnings, `<FluentProviders>` wrapper still not added per Phase 1).
-- **Phase 7** — New bUnit test suites for the 5 Web App projects.
+- `src/KITT.Web.App/KITT.Web.App.Client/Layout/NavMenu.razor`: `FluentNavMenu` → `FluentNav` (`Width="250"` int → `Width="250px"` string; dropped `Collapsible`, `Title`, `CustomToggle`, `CollapsedChildNavigation`, and the top-level `@bind-Expanded` — none of these exist on `FluentNav`), `FluentNavGroup` → `FluentNavCategory` (`Icon` → `IconRest`), `FluentNavLink` → `FluentNavItem` (`Icon`/`IconColor` → `IconRest`). Hamburger icon `Color="Color.Fill"` → `Color="Color.Default"`.
+- `src/KITT.Web.App/KITT.Web.App.Client/Components/LoginDisplay.razor`: `FluentProfileMenu` (fully removed, no direct replacement) rebuilt as a custom `FluentButton` (`Appearance="ButtonAppearance.Transparent"`) containing a `FluentAvatar` (`Initials`/`Name`), which toggles a `FluentPopover` (`AnchorId` + `@bind-Opened`) showing the user's name/email and a "Sign out" button.
+- `src/KITT.Web.App/KITT.Web.App.Client/Layout/MainLayout.razor`:
+  - Confirmed via `dotnet-inspect find` that `FluentHeader`, `FluentFooter`, and `FluentBodyContent` **do not exist at all** in v5 — replaced with plain `<header>`/`<footer>`/`<div class="body-content">` HTML elements, preserving the existing CSS class hooks.
+  - Added the `<FluentProviders>` wrapper around the whole layout (the Phase 1 requirement that had been deferred until now).
+  - Removed `FluentToastProvider`'s `Position` attribute — the component takes zero parameters now; position is configured once via `AddFluentUIComponents` (done in Phase 0).
+  - `FluentLabel Typo="Typography.H1"/"H2" Color="Color.Fill"` → `FluentText As="TextTag.H1"/"H2" Color="Color.Default"` (the new v5 typography component).
+  - `FluentProgress` → `FluentProgressBar` (non-interactive prerender fallback).
+
+**Build status after Phase 2**: `dotnet build` on the entire solution (all `src`/`tests` projects, including `KITT.AppHost`) completes with **0 errors** — only 43 warnings remain, all either `CS0618` (obsolete-but-still-functional enum values like `Appearance.Accent`/`Color.Fill`/`FluentProgress`, intentionally left as a low-priority cosmetic cleanup item) or `CS0414` (a couple of now-unused private fields left over from the dialog rearchitecture in Phase 3).
+
+## 🎉 Migration status: complete (compiles cleanly)
+
+The Fluent UI Blazor v4 → v5 migration is functionally complete. The entire solution builds with zero errors.
+
+## Remaining follow-up work (optional, not blocking)
+
+- **Phase 7** — New bUnit test suites for the 5 Web App projects (`KITT.Web.App.UI`, `KITT.Web.App.Client`, `KITT.Web.App`, `KITT.Cms.Web.App`, `KITT.Proposals.Web.App`).
+- Cosmetic cleanup of remaining `CS0618` obsolete-enum warnings (`Appearance.Accent`/`Outline`/`Lightweight`, `Color.Accent`/`Color.Fill`, `FluentProgress`) — functional as-is, but could be swept to the new enum values for consistency.
+- Remove the 2 now-unused private fields flagged by `CS0414` (`MessageEditorDialog.sending`; check for others).
+- Manual/visual QA pass: run the app and verify dialogs, forms, navigation, and the profile menu render and behave correctly, since several components were rebuilt from scratch (`LoginDisplay`, dialog footers) rather than mechanically translated.

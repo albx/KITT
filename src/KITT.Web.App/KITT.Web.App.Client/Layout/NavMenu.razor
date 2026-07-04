@@ -4,26 +4,24 @@
     <Authorized>
         <div class="navmenu">
             <input type="checkbox" title="Menu expand/collapse toggle" id="navmenu-toggle" class="navmenu-icon" />
-            <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
+            <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Default" /></label>
             <nav class="sitenav" aria-labelledby="main-menu">
-                <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true" CollapsedChildNavigation="true">
-                    <FluentNavLink Href="" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Grid())" IconColor="Color.Accent">Dashboard</FluentNavLink>
-                    <FluentNavGroup Title="@localizer[nameof(Resources.Shared.NavMenu.ContentsMenuLabel)]" @bind-Expanded="@contentsExpanded" Icon="@(new Icons.Regular.Size20.ContentView())">
-                        <FluentNavLink Href="streamings" Icon="@(new Icons.Regular.Size20.VideoPerson())" IconColor="Color.Accent">@localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</FluentNavLink>
-                    </FluentNavGroup>
-                    <FluentNavLink Href="proposals" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">@localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavLink>
-                    <FluentNavGroup Title="@localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]" @bind-Expanded="@settingsExpanded" Icon="@(new Icons.Regular.Size20.Settings())">
-                        <FluentNavLink Href="settings/channels" Icon="@(new Icons.Regular.Size20.Channel())">@localizer[nameof(Resources.Shared.NavMenu.SettingsChannelsMenuLabel)]</FluentNavLink>
-                    </FluentNavGroup>
-                </FluentNavMenu>
+                <FluentNav Id="main-menu" Width="250px">
+                    <FluentNavItem Href="" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Grid())">Dashboard</FluentNavItem>
+                    <FluentNavCategory Title="@localizer[nameof(Resources.Shared.NavMenu.ContentsMenuLabel)]" @bind-Expanded="@contentsExpanded" IconRest="@(new Icons.Regular.Size20.ContentView())">
+                        <FluentNavItem Href="streamings" IconRest="@(new Icons.Regular.Size20.VideoPerson())">@localizer[nameof(Resources.Shared.NavMenu.StreamingsMenuLabel)]</FluentNavItem>
+                    </FluentNavCategory>
+                    <FluentNavItem Href="proposals" IconRest="@(new Icons.Regular.Size20.Lightbulb())">@localizer[nameof(Resources.Shared.NavMenu.ProposalsMenuLabel)]</FluentNavItem>
+                    <FluentNavCategory Title="@localizer[nameof(Resources.Shared.NavMenu.SettingsMenuLabel)]" @bind-Expanded="@settingsExpanded" IconRest="@(new Icons.Regular.Size20.Settings())">
+                        <FluentNavItem Href="settings/channels" IconRest="@(new Icons.Regular.Size20.Channel())">@localizer[nameof(Resources.Shared.NavMenu.SettingsChannelsMenuLabel)]</FluentNavItem>
+                    </FluentNavCategory>
+                </FluentNav>
             </nav>
         </div>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    private bool expanded = true;
-
     private bool contentsExpanded = true;
 
     private bool settingsExpanded = true;

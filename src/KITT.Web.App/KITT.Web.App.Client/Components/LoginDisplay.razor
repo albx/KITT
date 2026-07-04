@@ -2,13 +2,17 @@
 
 <AuthorizeView>
     <Authorized>
-        <FluentProfileMenu Initials="@context.User.Identity!.Name!.First().ToString().ToUpper()"
-                           Status="PresenceStatus.Available"
-                           FullName="@context.User.Identity!.Name"
-                           EMail="@GetUserEmailAddress(context.User)"
-                           OnHeaderButtonClick="BeginSignOut">
-            <FooterTemplate></FooterTemplate>
-        </FluentProfileMenu>
+        <FluentButton Id="profileMenuAnchor"
+                      Appearance="ButtonAppearance.Transparent"
+                      OnClick="@(() => opened = !opened)">
+            <FluentAvatar Initials="@context.User.Identity!.Name!.First().ToString().ToUpper()"
+                          Name="@context.User.Identity!.Name" />
+        </FluentButton>
+        <FluentPopover AnchorId="profileMenuAnchor" @bind-Opened="opened">
+            <p>@context.User.Identity!.Name</p>
+            <p>@GetUserEmailAddress(context.User)</p>
+            <FluentButton Appearance="ButtonAppearance.Transparent" OnClick="BeginSignOut">Sign out</FluentButton>
+        </FluentPopover>
     </Authorized>
     <NotAuthorized>
         <a href="authentication/login">Log in</a>
@@ -16,6 +20,8 @@
 </AuthorizeView>
 
 @code{
+    private bool opened;
+
     private void BeginSignOut(/*MouseEventArgs args*/)
     {
         Navigation.NavigateTo("authentication/logout", forceLoad: true);
