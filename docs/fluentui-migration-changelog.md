@@ -47,10 +47,25 @@ Rewrote every `IDialogContentComponent<T>` dialog to the new `FluentDialogInstan
 
 **Build status after Phase 3**: error count dropped from 47 to 38; zero remaining errors are dialog-related. Remaining errors are all `FluentSelect`/`FluentTextField`/`Option<>` (Phase 4) and `IToastService`/`IMessageService` (Phase 5) in files not yet touched.
 
+## Phase 4 — Forms and inputs (complete)
+
+Fixed every remaining `FluentSelect` missing-`TValue` error, `FluentTextField`/`FluentTextArea` removal, `Option<T>` removal, and `FluentGridItem`/`FluentGrid` casing/spacing issue.
+
+- Added `src/KITT.Web.App.UI/SelectOption.cs` usage across the codebase as the `Option<T>` replacement (see Phase 0 — the type was added there).
+- `src/KITT.Cms.Web.App/Components/ContentForm.razor`: 3x `FluentTextField` → `FluentTextInput` (SEO Title/Description/Keywords fields).
+- `src/KITT.Cms.Web.App/Components/ScheduleForm.razor`: `FluentGridItem` casing (`xs`/`md` → `Xs`/`Md`), `FluentGrid Spacing="3"` added to all 4 grids, 3x `FluentTextField` → `FluentTextInput`, the hosting-channel prefix converted from slot-based `<FluentLabel Slot="start">` to `<StartTemplate>`, `FluentTextArea` `Rows="10"` → `Height="10em"`.
+- `src/KITT.Cms.Web.App/Components/StreamingForm.razor`: same pattern as ScheduleForm, plus 2x `FluentSelect` (Twitch/YouTube channel pickers) given `TOption="ChannelModel" TValue="string"` and `Appearance="ListAppearance.FilledDarker"`.
+- `src/KITT.Cms.Web.App/Pages/Streamings/Index.razor` + `.razor.cs`: 2x `FluentSelect` (`TOption="SelectOption<...>" TValue="string"`), 1x `FluentTextField` → `FluentTextInput`, `FluentGridItem`/`FluentGrid` casing/spacing, and `Option<T>` → `SelectOption<T>` in the code-behind (added `using KITT.Web.App.UI;`).
+- `src/KITT.Cms.Web.App/Pages/Streamings/StreamingDetail.razor`: same pattern as StreamingForm (2x `FluentSelect`, 4x `FluentTextField`, `FluentTextArea`, grid casing/spacing).
+- `src/KITT.Cms.Web.App/Pages/Settings/Channels.razor`: `FluentGridItem` casing + `FluentGrid Spacing="3"`.
+- `src/KITT.Proposals.Web.App/Pages/Index.razor` + `.razor.cs`: 3x `FluentSelect` (`TOption="UI.SelectOption<...>" TValue="string"`), 1x `FluentTextField` → `FluentTextInput`, grid casing/spacing, and `Option<T>` → `UI.SelectOption<T>` in the code-behind (already had the `UI` alias).
+- `src/KITT.Web.App/KITT.Web.App.Client/Pages/Home.razor`: `FluentGridItem` casing + `FluentGrid Spacing="3"`.
+
+**Build status after Phase 4**: error count dropped from 38 to 8. All 8 remaining errors are `IToastService`/`IMessageService` not found (Phase 5 scope, in `Import.razor.cs`, `Schedule.razor.cs`, `StreamingDetail.razor.cs`, `Streamings/Index.razor.cs`, `Proposals/Index.razor.cs`). No new errors were introduced by touching `FluentButton`/`FluentAnchor` `Appearance` usages in the same files — those remain a Phase 6 sweep item regardless of build-error visibility.
+
 ## Remaining phases (not started)
 
 - **Phase 2** — Layout and navigation (`MainLayout.razor`, `NavMenu.razor`, `LoginDisplay.razor`).
-- **Phase 4** — Forms and inputs (`FluentTextField` to `FluentTextInput`, `FluentSelect` `TValue`, `FluentGridItem` casing, `FluentGrid` spacing).
-- **Phase 5** — Toast sanity pass (remaining `IToastService`/`IMessageService` call sites: `Import.razor.cs`, `Schedule.razor.cs`, `StreamingDetail.razor.cs`, `Streamings/Index.razor.cs`, `Proposals/Index.razor.cs`).
+- **Phase 5** — Toast sanity pass / `INotificationService` migration for the remaining `IToastService`/`IMessageService` call sites: `Import.razor.cs`, `Schedule.razor.cs`, `StreamingDetail.razor.cs`, `Streamings/Index.razor.cs`, `Proposals/Index.razor.cs`.
 - **Phase 6** — Remaining component sweep (`FluentAnchor`, `FluentButton` appearance enums, `FluentCard`, icons, `FluentDataGrid` renames).
 - **Phase 7** — New bUnit test suites for the 5 Web App projects.

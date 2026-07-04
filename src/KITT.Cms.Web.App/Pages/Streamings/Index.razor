@@ -23,38 +23,38 @@
     <EditForm Model="query" OnValidSubmit="SearchAsync" id="streamingSearchForm" style="width:100%;">
         <DataAnnotationsValidator />
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="2">
-                <FluentSelect TOption="Option<StreamingQueryModel.SortDirection>"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="2">
+                <FluentSelect TOption="SelectOption<StreamingQueryModel.SortDirection>" TValue="string"
                               Items="directions"
                               OptionValue="@(s => s.Value.ToString())"
                               OptionText="@(s => s.Text)"
                               Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQueryOrderLabel)]"
                               Value="@query.ScheduleSort.ToString()"
                               ValueChanged="@(value => query.ScheduleSort = Enum.Parse<StreamingQueryModel.SortDirection>(value))"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%; min-width:auto;" />
                 <FluentValidationMessage For="@(() => query.ScheduleSort)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="5">
-                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]"
+            <FluentGridItem Xs="12" Md="5">
+                <FluentTextInput Label="@Localizer[nameof(Resources.Pages.Streamings.Index.TitleLabel)]"
                                  @bind-Value="query.Query"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;" />
                 <FluentValidationMessage For="@(() => query.Query)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="2">
-                <FluentSelect TOption="Option<int>"
+            <FluentGridItem Xs="12" Md="2">
+                <FluentSelect TOption="SelectOption<int>" TValue="string"
                               Items="sizes"
                               OptionValue="@(s => s.Value.ToString())"
                               OptionText="@(s => s.Text)"
                               Value="@query.Size.ToString()"
                               ValueChanged="@(value => query.Size = int.Parse(value))"
                               Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQuerySizeLabel)]"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%;min-width:auto;" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="2">
+            <FluentGridItem Xs="12" Md="2">
                 <FluentStack Orientation="Orientation.Horizontal"
                              HorizontalAlignment="HorizontalAlignment.End"
                              VerticalAlignment="VerticalAlignment.Bottom"

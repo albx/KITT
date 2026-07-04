@@ -22,10 +22,10 @@
 </SectionContent>
 
 <Loader Loading="loading">
-    <FluentGrid>
+    <FluentGrid Spacing="3">
         @foreach (var channel in channels)
         {
-            <FluentGridItem xs="12" md="3">
+            <FluentGridItem Xs="12" Md="3">
                 <FluentCard>
                     <h4>@channel.Name</h4>
                     <p>@channel.Url</p>

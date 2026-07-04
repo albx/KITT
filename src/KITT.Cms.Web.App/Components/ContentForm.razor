@@ -16,25 +16,25 @@
             </FluentTab>
             <FluentTab Label="SEO">
                 <div class="mb-2">
-                    <FluentTextField Label="Title"
+                    <FluentTextInput Label="Title"
                                      @bind-Value="Model.Seo.Title"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Disabled="@ReadOnly" />
                     <FluentValidationMessage For="@(() => Model.Seo.Title)" />
                 </div>
                 <div class="mb-2">
-                    <FluentTextField Label="Description"
+                    <FluentTextInput Label="Description"
                                      @bind-Value="Model.Seo.Description"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Disabled="@ReadOnly" />
                     <FluentValidationMessage For="@(() => Model.Seo.Description)" />
                 </div>
                 <div class="mb-2">
-                    <FluentTextField Label="Keywords"
+                    <FluentTextInput Label="Keywords"
                                      @bind-Value="Model.Seo.Keywords"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Disabled="@ReadOnly" />
                     <FluentValidationMessage For="@(() => Model.Seo.Keywords)" />

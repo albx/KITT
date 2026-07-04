@@ -13,48 +13,48 @@
     <EditForm Model="query" OnValidSubmit="SearchAsync" style="width:100%;">
         <DataAnnotationsValidator />
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="4">
-                <FluentSelect TOption="Option<ProposalsQueryModel.SortDirection>"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="4">
+                <FluentSelect TOption="UI.SelectOption<ProposalsQueryModel.SortDirection>" TValue="string"
                               Items="directions"
                               OptionValue="@(s => s.Value.ToString())"
                               OptionText="@(s => s.Text)"
                               Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQueryOrderLabel)]"
                               Value="@query.ScheduleSort.ToString()"
                               ValueChanged="@(value => query.ScheduleSort = Enum.Parse<ProposalsQueryModel.SortDirection>(value))"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%; min-width:auto;" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="4">
-                <FluentSelect TOption="Option<ProposalStatus?>"
+            <FluentGridItem Xs="12" Md="4">
+                <FluentSelect TOption="UI.SelectOption<ProposalStatus?>" TValue="string"
                               Items="statuses"
                               OptionValue="@(s => s.Value?.ToString())"
                               OptionText="@(s => s.Text)"
                               Label="@Localizer[nameof(Resources.Pages.Index.ProposalStatusLabel)]"
                               Value="@query.Status?.ToString()"
                               ValueChanged="@(value => query.Status = string.IsNullOrEmpty(value) ? null : Enum.Parse<ProposalStatus>(value))"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%; min-width:auto;" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="4">
-                <FluentSelect TOption="Option<int>"
+            <FluentGridItem Xs="12" Md="4">
+                <FluentSelect TOption="UI.SelectOption<int>" TValue="string"
                               Items="sizes"
                               OptionValue="@(s => s.Value.ToString())"
                               OptionText="@(s => s.Text)"
                               Value="@query.Size.ToString()"
                               ValueChanged="@(value => query.Size = int.Parse(value))"
                               Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQuerySizeLabel)]"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%;min-width:auto;" />
             </FluentGridItem>
 
-            <FluentGridItem xs="12" md="10">
-                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQuerySearchLabel)]"
+            <FluentGridItem Xs="12" Md="10">
+                <FluentTextInput Label="@Localizer[nameof(Resources.Pages.Index.ProposalsQuerySearchLabel)]"
                                  @bind-Value="query.Query"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="2">
+            <FluentGridItem Xs="12" Md="2">
                 <FluentStack Orientation="Orientation.Horizontal"
                              HorizontalAlignment="HorizontalAlignment.End"
                              VerticalAlignment="VerticalAlignment.Bottom"

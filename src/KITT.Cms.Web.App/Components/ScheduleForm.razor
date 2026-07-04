@@ -6,11 +6,11 @@
              OnSave="SubmitAsync"
              OnCancel="CancelAsync">
     <ContentInfo Context="streaming">
-        <FluentGrid>
-            <FluentGridItem xs="12" md="12">
-                <FluentTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.TitleLabel)]"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="12">
+                <FluentTextInput Label="@Localizer[nameof(Resources.Components.ScheduleForm.TitleLabel)]"
                                  @bind-Value="Model.Title"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"
                                  Required="true"
                                  Id="streamingTitle" />
@@ -18,31 +18,31 @@
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="7">
-                <FluentTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.SlugLabel)]"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="7">
+                <FluentTextInput Label="@Localizer[nameof(Resources.Components.ScheduleForm.SlugLabel)]"
                                  @bind-Value="Model.Slug"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"
                                  Required="true"
                                  Id="streamingSlug" />
                 <FluentValidationMessage For="@(() => Model.Slug)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="5">
-                <FluentTextField Label="@Localizer[nameof(Resources.Components.ScheduleForm.HostingChannelLabel)]"
+            <FluentGridItem Xs="12" Md="5">
+                <FluentTextInput Label="@Localizer[nameof(Resources.Components.ScheduleForm.HostingChannelLabel)]"
                                  @bind-Value="Model.HostingChannelUrl"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"
                                  Required="true"
                                  Id="streamingChannel">
-                    <FluentLabel Slot="start">https://www.twitch.tv/</FluentLabel>
-                </FluentTextField>
+                    <StartTemplate>https://www.twitch.tv/</StartTemplate>
+                </FluentTextInput>
                 <FluentValidationMessage For="@(() => Model.Slug)" />
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="6">
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="6">
                 <FluentDatePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.ScheduleDateLabel)]"
                                   @bind-Value="Model.ScheduleDate"
                                   Appearance="FluentInputAppearance.Filled"
@@ -51,7 +51,7 @@
                                   Id="streamingScheduleDate" />
                 <FluentValidationMessage For="@(() => Model.ScheduleDate)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="3">
+            <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.StartingTimeLabel)]"
                                   @bind-Value="Model.StartingTime"
                                   Appearance="FluentInputAppearance.Filled"
@@ -60,7 +60,7 @@
                                   Id="streamingStartTime" />
                 <FluentValidationMessage For="@(() => Model.StartingTime)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="3">
+            <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.EndingTimeLabel)]"
                                   @bind-Value="Model.EndingTime"
                                   Appearance="FluentInputAppearance.Filled"
@@ -71,12 +71,12 @@
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="12">
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="12">
                 <FluentTextArea Label="@Localizer[nameof(Resources.Components.ScheduleForm.AbstractLabel)]"
                                 @bind-Value="Model.StreamingAbstract"
-                                Appearance="FluentInputAppearance.Filled"
-                                Rows="10"
+                                Appearance="FluentInputAppearance.Filled.ToTextAreaAppearance()"
+                                Height="10em"
                                 Style="width:100%;"
                                 Id="streamingAbstract" />
             </FluentGridItem>

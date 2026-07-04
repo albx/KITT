@@ -29,29 +29,29 @@ public partial class Index
 
     private bool loading = false;
 
-    private Option<int>[] sizes = [
+    private UI.SelectOption<int>[] sizes = [
         new() { Value = 5, Text = "5" },
         new() { Value = 10, Text = "10" },
         new() { Value = 25, Text = "25" },
         new() { Value = 50, Text = "50" }
     ];
 
-    private Option<ProposalsQueryModel.SortDirection>[] directions = [];
+    private UI.SelectOption<ProposalsQueryModel.SortDirection>[] directions = [];
 
-    private Option<ProposalStatus?>[] statuses = [];
+    private UI.SelectOption<ProposalStatus?>[] statuses = [];
 
     protected override void OnInitialized()
     {
         directions = Enum.GetValues<ProposalsQueryModel.SortDirection>()
-            .Select(d => new Option<ProposalsQueryModel.SortDirection> { Value = d, Text = Localizer[d.ToString()] })
+            .Select(d => new UI.SelectOption<ProposalsQueryModel.SortDirection> { Value = d, Text = Localizer[d.ToString()] })
             .ToArray();
 
         var validStatuses = Enum.GetValues<ProposalStatus>()
-            .Select(s => new Option<ProposalStatus?> { Value = s, Text = Localizer[s.ToString()] })
+            .Select(s => new UI.SelectOption<ProposalStatus?> { Value = s, Text = Localizer[s.ToString()] })
             .ToArray();
 
         statuses = [
-            new Option<ProposalStatus?> { Value = null, Text = "" },
+            new UI.SelectOption<ProposalStatus?> { Value = null, Text = "" },
             ..validStatuses,
         ];
     }

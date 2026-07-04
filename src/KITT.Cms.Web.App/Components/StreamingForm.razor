@@ -4,23 +4,23 @@
              OnCancel="OnCancel"
              Model="Model">
     <ContentInfo Context="streaming">
-        <FluentGrid>
-            <FluentGridItem xs="12" md="6">
-                <FluentSelect TOption="ChannelModel"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="6">
+                <FluentSelect TOption="ChannelModel" TValue="string"
                               Label="Twitch channel"
                               Items="availableTwitchChannels"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%"
                               OptionValue="@(c => c?.Url)"
                               OptionText="@(c => c is null ? string.Empty : $"{c.Name} ({c.Url})")"
                               @bind-Value="streaming.TwitchChannel"/>
                 <FluentValidationMessage For="@(() => streaming.TwitchChannel)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="6">
-                <FluentSelect TOption="ChannelModel"
+            <FluentGridItem Xs="12" Md="6">
+                <FluentSelect TOption="ChannelModel" TValue="string"
                               Label="YouTube channel"
                               Items="availableYouTubeChannels"
-                              Appearance="Appearance.Filled"
+                              Appearance="ListAppearance.FilledDarker"
                               Style="width:100%"
                               OptionValue="@(c => c?.Url)"
                               OptionText="@(c => c is null ? string.Empty : $"{c.Name} ({c.Url})")"
@@ -28,44 +28,44 @@
                 <FluentValidationMessage For="@(() => streaming.YouTubeChannel)" />
             </FluentGridItem>
         </FluentGrid>
-        <FluentGrid>
-            <FluentGridItem xs="12" md="6">
-                <FluentTextField Label="Title"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="6">
+                <FluentTextInput Label="Title"
                                  @bind-Value="streaming.Title"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"
                                  Required="true" />
                 <FluentValidationMessage For="@(() => streaming.Title)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="6">
-                <FluentTextField Label="Slug"
+            <FluentGridItem Xs="12" Md="6">
+                <FluentTextInput Label="Slug"
                                  @bind-Value="streaming.Slug"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"
                                  Required="true" />
                 <FluentValidationMessage For="@(() => streaming.Slug)" />
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="6">
-                <FluentTextField Label="Twitch URL"
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="6">
+                <FluentTextInput Label="Twitch URL"
                                  @bind-Value="streaming.TwitchUrl"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"/>
                 <FluentValidationMessage For="@(() => streaming.TwitchUrl)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="6">
-                <FluentTextField Label="YouTube URL"
+            <FluentGridItem Xs="12" Md="6">
+                <FluentTextInput Label="YouTube URL"
                                  @bind-Value="streaming.YouTubeUrl"
-                                 Appearance="FluentInputAppearance.Filled"
+                                 Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                  Style="width:100%;"/>
                 <FluentValidationMessage For="@(() => streaming.YouTubeUrl)" />
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="6">
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="6">
                 <FluentDatePicker Label="Schedule date"
                                   @bind-Value="streaming.ScheduleDate"
                                   Appearance="FluentInputAppearance.Filled"
@@ -73,7 +73,7 @@
                                   Required="true" />
                 <FluentValidationMessage For="@(() => streaming.ScheduleDate)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="3">
+            <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="Start time"
                                   @bind-Value="streaming.StartingTime"
                                   Appearance="FluentInputAppearance.Filled"
@@ -81,7 +81,7 @@
                                   Required="true" />
                 <FluentValidationMessage For="@(() => streaming.StartingTime)" />
             </FluentGridItem>
-            <FluentGridItem xs="12" md="3">
+            <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="End time"
                                   @bind-Value="streaming.EndingTime"
                                   Appearance="FluentInputAppearance.Filled"
@@ -91,12 +91,12 @@
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentGrid>
-            <FluentGridItem xs="12" md="12">
+        <FluentGrid Spacing="3">
+            <FluentGridItem Xs="12" Md="12">
                 <FluentTextArea Label="Abstract"
                                 @bind-Value="streaming.StreamingAbstract"
-                                Appearance="FluentInputAppearance.Filled"
-                                Rows="10"
+                                Appearance="FluentInputAppearance.Filled.ToTextAreaAppearance()"
+                                Height="10em"
                                 Style="width:100%;" />
             </FluentGridItem>
         </FluentGrid>

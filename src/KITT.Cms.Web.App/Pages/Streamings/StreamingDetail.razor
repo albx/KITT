@@ -32,12 +32,12 @@
                  OnSave="EditStreamingAsync"
                  OnCancel="DisableEditing">
         <ContentInfo>
-            <FluentGrid>
-                <FluentGridItem xs="12" md="6">
-                    <FluentSelect TOption="ChannelModel"
+            <FluentGrid Spacing="3">
+                <FluentGridItem Xs="12" Md="6">
+                    <FluentSelect TOption="ChannelModel" TValue="string"
                                   Label="Twitch channel"
                                   Items="availableTwitchChannels"
-                                  Appearance="Appearance.Filled"
+                                  Appearance="ListAppearance.FilledDarker"
                                   Style="width:100%"
                                   OptionValue="@(c => c?.Url)"
                                   OptionText="@(c => c is null ? string.Empty : $"{c.Name} ({c.Url})")"
@@ -45,11 +45,11 @@
                                   Disabled="@isReadOnly"/>
                     <FluentValidationMessage For="@(() => streaming.TwitchChannel)" />
                 </FluentGridItem>
-                <FluentGridItem xs="12" md="6">
-                    <FluentSelect TOption="ChannelModel"
+                <FluentGridItem Xs="12" Md="6">
+                    <FluentSelect TOption="ChannelModel" TValue="string"
                                   Label="YouTube channel"
                                   Items="availableYouTubeChannels"
-                                  Appearance="Appearance.Filled"
+                                  Appearance="ListAppearance.FilledDarker"
                                   Style="width:100%"
                                   OptionValue="@(c => c.Url)"
                                   OptionText="@(c => $"{c.Name} ({c.Url})")"
@@ -58,47 +58,47 @@
                     <FluentValidationMessage For="@(() => streaming.YouTubeChannel)" />
                 </FluentGridItem>
             </FluentGrid>
-            <FluentGrid>
-                <FluentGridItem xs="12" md="6">
-                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
+            <FluentGrid Spacing="3">
+                <FluentGridItem Xs="12" Md="6">
+                    <FluentTextInput Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.TitleLabel)]"
                                      @bind-Value="streaming.Title"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Required="true"
                                      Disabled="@isReadOnly" />
                     <FluentValidationMessage For="@(() => streaming.Title)" />
                 </FluentGridItem>
-                <FluentGridItem xs="12" md="6">
-                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
+                <FluentGridItem Xs="12" Md="6">
+                    <FluentTextInput Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.SlugLabel)]"
                                      @bind-Value="streaming.Slug"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Disabled="true" />
                 </FluentGridItem>
             </FluentGrid>
 
-            <FluentGrid>
-                <FluentGridItem xs="12" md="6">
-                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
+            <FluentGrid Spacing="3">
+                <FluentGridItem Xs="12" Md="6">
+                    <FluentTextInput Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.HostingChannelLabel)]"
                                      @bind-Value="streaming.TwitchUrl"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Required="true"
                                      Disabled="@isReadOnly"/>
                     <FluentValidationMessage For="@(() => streaming.TwitchUrl)" />
                 </FluentGridItem>
-                <FluentGridItem xs="12" md="6">
-                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
+                <FluentGridItem Xs="12" Md="6">
+                    <FluentTextInput Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.YoutubeUrlLabel)]"
                                      @bind-Value="streaming.YouTubeUrl"
-                                     Appearance="FluentInputAppearance.Filled"
+                                     Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                      Style="width:100%;"
                                      Disabled="@isReadOnly" />
                     <FluentValidationMessage For="@(() => streaming.YouTubeUrl)" />
                 </FluentGridItem>
             </FluentGrid>
 
-            <FluentGrid>
-                <FluentGridItem xs="12" md="6">
+            <FluentGrid Spacing="3">
+                <FluentGridItem Xs="12" Md="6">
                     <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
                                       @bind-Value="streaming.ScheduleDate"
                                       Appearance="FluentInputAppearance.Filled"
@@ -107,7 +107,7 @@
                                       Disabled="@isReadOnly" />
                     <FluentValidationMessage For="@(() => streaming.ScheduleDate)" />
                 </FluentGridItem>
-                <FluentGridItem xs="12" md="3">
+                <FluentGridItem Xs="12" Md="3">
                     <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
                                       @bind-Value="streaming.StartingTime"
                                       Appearance="FluentInputAppearance.Filled"
@@ -116,7 +116,7 @@
                                       Disabled="@isReadOnly" />
                     <FluentValidationMessage For="@(() => streaming.StartingTime)" />
                 </FluentGridItem>
-                <FluentGridItem xs="12" md="3">
+                <FluentGridItem Xs="12" Md="3">
                     <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
                                       @bind-Value="streaming.EndingTime"
                                       Appearance="FluentInputAppearance.Filled"
@@ -127,12 +127,12 @@
                 </FluentGridItem>
             </FluentGrid>
 
-            <FluentGrid>
-                <FluentGridItem xs="12" md="12">
+            <FluentGrid Spacing="3">
+                <FluentGridItem Xs="12" Md="12">
                     <FluentTextArea Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
                                     @bind-Value="streaming.StreamingAbstract"
-                                    Appearance="FluentInputAppearance.Filled"
-                                    Rows="10"
+                                    Appearance="FluentInputAppearance.Filled.ToTextAreaAppearance()"
+                                    Height="10em"
                                     Style="width:100%;"
                                     Disabled="@isReadOnly" />
                 </FluentGridItem>
