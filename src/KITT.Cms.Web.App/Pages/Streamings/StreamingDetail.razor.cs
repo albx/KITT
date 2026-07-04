@@ -12,8 +12,7 @@ namespace KITT.Cms.Web.App.Pages.Streamings;
 
 public partial class StreamingDetail(
     IStreamingsClient client,
-    IToastService toastService,
-    IMessageService messageService,
+    INotificationService notificationService,
     IConnectedChannelsClient channelsClient)
 {
     [Parameter]
@@ -48,16 +47,15 @@ public partial class StreamingDetail(
             await client.UpdateStreamingAsync(detail);
 
             isReadOnly = true;
-            toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
+            await notificationService.ShowSuccessToastAsync(Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StreamingSavedSuccessfully)]);
 
             streamingDetail = detail;
         }
         catch (ApplicationException ex)
         {
-            await messageService.ShowMessageBarAsync(
-                ex.Message,
-                MessageIntent.Error,
-                SectionNames.MessagesTopSectionName);
+            await notificationService.ShowErrorBarAsync(
+                SectionNames.MessagesTopSectionName,
+                message: ex.Message);
         }
     }
 

@@ -65,13 +65,11 @@ public partial class ContentForm<TContent>
         {
             string confirmText = Localizer[nameof(KITT.Web.App.UI.Resources.Common.UnsavedChangesDialogContent)];
 
-            var confirmDialog = await DialogService.ShowConfirmationAsync(
+            var confirmResult = await DialogService.ShowConfirmationAsync(
                 confirmText,
-                primaryText: Localizer[nameof(KITT.Web.App.UI.Resources.Common.Confirm)],
-                secondaryText: Localizer[nameof(KITT.Web.App.UI.Resources.Common.Cancel)],
+                primaryButton: Localizer[nameof(KITT.Web.App.UI.Resources.Common.Confirm)],
+                secondaryButton: Localizer[nameof(KITT.Web.App.UI.Resources.Common.Cancel)],
                 title: Localizer[nameof(KITT.Web.App.UI.Resources.Common.UnsavedChangesDialogTitle)]);
-
-            var confirmResult = await confirmDialog.Result;
 
             if (confirmResult.Cancelled)
             {

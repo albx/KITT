@@ -63,9 +63,21 @@ Fixed every remaining `FluentSelect` missing-`TValue` error, `FluentTextField`/`
 
 **Build status after Phase 4**: error count dropped from 38 to 8. All 8 remaining errors are `IToastService`/`IMessageService` not found (Phase 5 scope, in `Import.razor.cs`, `Schedule.razor.cs`, `StreamingDetail.razor.cs`, `Streamings/Index.razor.cs`, `Proposals/Index.razor.cs`). No new errors were introduced by touching `FluentButton`/`FluentAnchor` `Appearance` usages in the same files — those remain a Phase 6 sweep item regardless of build-error visibility.
 
+## Phase 5 — Toast service migration, plus fixing hidden defects from Phases 3/4 (complete)
+
+Replaced the remaining `IToastService`/`IMessageService` injections with the unified `INotificationService` in `Import.razor.cs`, `Schedule.razor.cs`, `StreamingDetail.razor.cs`, `Streamings/Index.razor.cs`, `Proposals/Index.razor.cs` (constructor/property rename, `ShowSuccess`/`ShowError` → `ShowSuccessToastAsync`/`ShowErrorToastAsync`, `ShowMessageBarAsync(msg, MessageIntent.Error, section)` → `ShowErrorBarAsync(section, message: msg)`).
+
+**Important discovery**: applying this fix alone caused the build error count to jump from 8 to **59** — not fewer. This happened because the Roslyn compiler suppresses many additional real diagnostics in a file/type once a "fundamental" error (like an unresolvable constructor parameter type) exists in it. Removing that one blocking error in each file revealed a batch of previously-hidden errors. Root causes found and fixed:
+
+- Missing `@using Microsoft.FluentUI.AspNetCore.Components.Migration` for the `.ToTextInputAppearance()` / `.ToTextAreaAppearance()` extension methods introduced in Phase 4 — added the `using` to `_Imports.razor` in `KITT.Cms.Web.App`, `KITT.Proposals.Web.App`, and `KITT.Web.App.Client` instead of per-file.
+- `DialogOptions.Header` and `.Footer` are **get-only** properties. The Phase 3 code incorrectly wrote `Header = new DialogOptionsHeader { Title = x }` (CS0200 read-only assignment). Fixed to the correct nested-initializer form `Header = { Title = x }` in `Channels.razor.cs` (both call sites), `Proposals/Index.razor.cs`, and `MessageComposer.razor`.
+- A missed `IDialogService.ShowConfirmationAsync` call site in `src/KITT.Cms.Web.App/Components/ContentForm.razor.cs` still used the old `primaryText`/`secondaryText` parameter names and the old two-await `.Result` pattern — fixed to `primaryButton`/`secondaryButton` and the direct `DialogResult` return, matching the Phase 3 pattern applied elsewhere.
+- A genuine Phase 4 gap: `FluentDatePicker.Appearance` is typed `TextInputAppearance` (fixed with `.ToTextInputAppearance()`) while `FluentTimePicker.Appearance` is typed `ListAppearance` (no helper extension exists for this conversion — used the literal `ListAppearance.FilledDarker`, consistent with `FluentSelect`). These were left untouched in the original Phase 4 pass and only surfaced once the toast errors were cleared. Fixed in `ScheduleForm.razor`, `StreamingForm.razor`, `Pages/Streamings/StreamingDetail.razor`.
+
+**Build status after Phase 5 (and the fixes above)**: error count is now 21, and **100% of the remaining errors are Phase 6 scope** — `FluentButton`/`FluentAnchor` `Appearance="Appearance.X"` type mismatches (needs the `.ToButtonAppearance()` sweep) across `Channels.razor`, `ContentForm.razor`, `StreamingDetail.razor`, `Streamings/Index.razor`, `Proposals/Index.razor`; and a `FluentLabel Weight="FontWeight.Bold"` error in `ProposalDetailDialog.razor` (`FontWeight` doesn't exist as a type — needs the real `LabelWeight` enum). A handful of secondary "lambda not convertible to delegate type" errors are expected to resolve automatically once the button appearance mismatches are fixed.
+
 ## Remaining phases (not started)
 
 - **Phase 2** — Layout and navigation (`MainLayout.razor`, `NavMenu.razor`, `LoginDisplay.razor`).
-- **Phase 5** — Toast sanity pass / `INotificationService` migration for the remaining `IToastService`/`IMessageService` call sites: `Import.razor.cs`, `Schedule.razor.cs`, `StreamingDetail.razor.cs`, `Streamings/Index.razor.cs`, `Proposals/Index.razor.cs`.
-- **Phase 6** — Remaining component sweep (`FluentAnchor`, `FluentButton` appearance enums, `FluentCard`, icons, `FluentDataGrid` renames).
+- **Phase 6** — Remaining component sweep: `FluentButton`/`FluentAnchor` appearance enums (now confirmed as the only remaining compile blockers), `FluentLabel.Weight` → `LabelWeight`, `FluentCard`, icons, `FluentDataGrid` renames.
 - **Phase 7** — New bUnit test suites for the 5 Web App projects.

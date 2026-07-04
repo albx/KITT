@@ -101,7 +101,7 @@
                 <FluentGridItem Xs="12" Md="6">
                     <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.ScheduleDateLabel)]"
                                       @bind-Value="streaming.ScheduleDate"
-                                      Appearance="FluentInputAppearance.Filled"
+                                      Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                       Style="width:100%;"
                                       Required="true"
                                       Disabled="@isReadOnly" />
@@ -110,7 +110,7 @@
                 <FluentGridItem Xs="12" Md="3">
                     <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.StartingTimeLabel)]"
                                       @bind-Value="streaming.StartingTime"
-                                      Appearance="FluentInputAppearance.Filled"
+                                      Appearance="ListAppearance.FilledDarker"
                                       Style="width:100%;"
                                       Required="true"
                                       Disabled="@isReadOnly" />
@@ -119,7 +119,7 @@
                 <FluentGridItem Xs="12" Md="3">
                     <FluentTimePicker Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.EndingTimeLabel)]"
                                       @bind-Value="streaming.EndingTime"
-                                      Appearance="FluentInputAppearance.Filled"
+                                      Appearance="ListAppearance.FilledDarker"
                                       Style="width:100%;"
                                       Required="true"
                                       Disabled="@isReadOnly" />

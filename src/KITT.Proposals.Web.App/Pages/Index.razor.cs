@@ -19,7 +19,7 @@ public partial class Index
     public IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    public IToastService ToastService { get; set; } = default!;
+    public INotificationService NotificationService { get; set; } = default!;
 
     private ProposalsQueryModel query = new();
 
@@ -185,7 +185,7 @@ public partial class Index
         await DialogService.ShowDrawerAsync<ProposalDetailDialog>(new DialogOptions
         {
             Parameters = new Dictionary<string, object?> { [nameof(ProposalDetailDialog.Content)] = content },
-            Header = new DialogOptionsHeader { Title = proposal.Title },
+            Header = { Title = proposal.Title },
             Alignment = DialogAlignment.End,
             Width = "40em"
         });

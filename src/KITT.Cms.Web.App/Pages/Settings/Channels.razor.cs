@@ -53,7 +53,7 @@ public partial class Channels(
             {
                 Parameters = new Dictionary<string, object?> { [nameof(ChannelFormPanel.Content)] = panelModel },
                 Alignment = DialogAlignment.End,
-                Header = new DialogOptionsHeader { Title = localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelPanelTitle)] },
+                Header = { Title = localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelPanelTitle)] },
                 Width = "50em",
             });
 
@@ -83,7 +83,7 @@ public partial class Channels(
             {
                 Parameters = new Dictionary<string, object?> { [nameof(ChannelFormPanel.Content)] = panelModel },
                 Alignment = DialogAlignment.End,
-                Header = new DialogOptionsHeader { Title = localizer[nameof(Resources.Pages.Settings.Channels.EditChannelPanelTitle), channel.Name] },
+                Header = { Title = localizer[nameof(Resources.Pages.Settings.Channels.EditChannelPanelTitle), channel.Name] },
                 Width = "50em",
             });
 

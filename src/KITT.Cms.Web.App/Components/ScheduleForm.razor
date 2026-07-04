@@ -45,7 +45,7 @@
             <FluentGridItem Xs="12" Md="6">
                 <FluentDatePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.ScheduleDateLabel)]"
                                   @bind-Value="Model.ScheduleDate"
-                                  Appearance="FluentInputAppearance.Filled"
+                                  Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                   Style="width:100%;"
                                   Required="true"
                                   Id="streamingScheduleDate" />
@@ -54,7 +54,7 @@
             <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.StartingTimeLabel)]"
                                   @bind-Value="Model.StartingTime"
-                                  Appearance="FluentInputAppearance.Filled"
+                                  Appearance="ListAppearance.FilledDarker"
                                   Style="width:100%;"
                                   Required="true"
                                   Id="streamingStartTime" />
@@ -63,7 +63,7 @@
             <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="@Localizer[nameof(Resources.Components.ScheduleForm.EndingTimeLabel)]"
                                   @bind-Value="Model.EndingTime"
-                                  Appearance="FluentInputAppearance.Filled"
+                                  Appearance="ListAppearance.FilledDarker"
                                   Style="width:100%;"
                                   Required="true"
                                   Id="streamingEndTime" />

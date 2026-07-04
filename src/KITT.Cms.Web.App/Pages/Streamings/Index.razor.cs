@@ -15,7 +15,7 @@ public partial class Index
     public IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    public IToastService ToastService { get; set; } = default!;
+    public INotificationService NotificationService { get; set; } = default!;
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = default!;
@@ -96,13 +96,13 @@ public partial class Index
             try
             {
                 await Client.DeleteStreamingAsync(streaming.Id);
-                ToastService.ShowSuccess(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle]);
+                await NotificationService.ShowSuccessToastAsync(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingSuccessMessage), streamingTitle]);
 
                 await LoadStreamingsAsync(query);
             }
             catch
             {
-                ToastService.ShowError(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle]);
+                await NotificationService.ShowErrorToastAsync(Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingErrorMessage), streamingTitle]);
             }
         }
     }

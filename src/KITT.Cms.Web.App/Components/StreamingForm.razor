@@ -68,7 +68,7 @@
             <FluentGridItem Xs="12" Md="6">
                 <FluentDatePicker Label="Schedule date"
                                   @bind-Value="streaming.ScheduleDate"
-                                  Appearance="FluentInputAppearance.Filled"
+                                  Appearance="FluentInputAppearance.Filled.ToTextInputAppearance()"
                                   Style="width:100%;"
                                   Required="true" />
                 <FluentValidationMessage For="@(() => streaming.ScheduleDate)" />
@@ -76,7 +76,7 @@
             <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="Start time"
                                   @bind-Value="streaming.StartingTime"
-                                  Appearance="FluentInputAppearance.Filled"
+                                  Appearance="ListAppearance.FilledDarker"
                                   Style="width:100%;"
                                   Required="true" />
                 <FluentValidationMessage For="@(() => streaming.StartingTime)" />
@@ -84,7 +84,7 @@
             <FluentGridItem Xs="12" Md="3">
                 <FluentTimePicker Label="End time"
                                   @bind-Value="streaming.EndingTime"
-                                  Appearance="FluentInputAppearance.Filled"
+                                  Appearance="ListAppearance.FilledDarker"
                                   Style="width:100%;"
                                   Required="true" />
                 <FluentValidationMessage For="@(() => streaming.EndingTime)" />

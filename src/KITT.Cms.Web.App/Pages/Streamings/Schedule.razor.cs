@@ -10,8 +10,7 @@ namespace KITT.Cms.Web.App.Pages.Streamings;
 public partial class Schedule(
     IStreamingsClient client,
     NavigationManager navigation,
-    IToastService toastService,
-    IMessageService messageService)
+    INotificationService notificationService)
 {
     private StreamingForm.ViewModel model = new();
 
@@ -22,17 +21,16 @@ public partial class Schedule(
             var scheduleStreamingModel = ConvertToApiModel(model);
             await client.ScheduleStreamingAsync(scheduleStreamingModel);
 
-            toastService.ShowSuccess(
+            await notificationService.ShowSuccessToastAsync(
                 Localizer[nameof(Resources.Pages.Streamings.Schedule.StreamingScheduledSuccessfully), model.Title]);
 
             navigation.NavigateTo("/streamings");
         }
         catch (ApplicationException ex)
         {
-            await messageService.ShowMessageBarAsync(
-                ex.Message,
-                MessageIntent.Error,
-                SectionNames.MessagesTopSectionName);
+            await notificationService.ShowErrorBarAsync(
+                SectionNames.MessagesTopSectionName,
+                message: ex.Message);
         }
     }
 

@@ -18,7 +18,7 @@
     {
         await DialogService.ShowDrawerAsync<MessageEditorDialog>(new DialogOptions
         {
-            Header = new DialogOptionsHeader { Title = Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)] },
+            Header = { Title = Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)] },
             Alignment = DialogAlignment.End,
             Width = "50em"
         });
