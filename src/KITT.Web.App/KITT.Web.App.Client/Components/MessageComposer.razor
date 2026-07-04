@@ -16,10 +16,10 @@
 @code {
     private async Task OpenMessageEditorAsync()
     {
-        await DialogService.ShowPanelAsync<MessageEditorDialog>(new()
+        await DialogService.ShowDrawerAsync<MessageEditorDialog>(new DialogOptions
         {
-            Title = Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)],
-            Alignment = HorizontalAlignment.Right,
+            Header = new DialogOptionsHeader { Title = Localizer[nameof(Resources.Components.MessageComposer.MessageEditorDialogTitle)] },
+            Alignment = DialogAlignment.End,
             Width = "50em"
         });
     }

@@ -84,13 +84,12 @@ public partial class Index
         var streamingTitle = streaming.Title;
         string confirmText = Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmText), streamingTitle];
 
-        var confirm = await DialogService.ShowConfirmationAsync(
+        var result = await DialogService.ShowConfirmationAsync(
             confirmText,
-            primaryText: CommonLocalizer[nameof(KITT.Web.App.UI.Resources.Common.Confirm)],
-            secondaryText: CommonLocalizer[(nameof(KITT.Web.App.UI.Resources.Common.Cancel))],
+            primaryButton: CommonLocalizer[nameof(KITT.Web.App.UI.Resources.Common.Confirm)],
+            secondaryButton: CommonLocalizer[(nameof(KITT.Web.App.UI.Resources.Common.Cancel))],
             title: Localizer[nameof(Resources.Pages.Streamings.Index.DeleteStreamingConfirmTitle), streamingTitle]);
 
-        var result = await confirm.Result;
         if (!result.Cancelled)
         {
             try

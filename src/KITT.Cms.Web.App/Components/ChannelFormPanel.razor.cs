@@ -8,14 +8,11 @@ using Microsoft.FluentUI.AspNetCore.Components;
 namespace KITT.Cms.Web.App.Components;
 
 public partial class ChannelFormPanel(
-    IToastService toastService,
-    IStringLocalizer<Resources.Components.ChannelFormPanel> localizer) : IDialogContentComponent<ChannelFormPanel.ViewModel>
+    INotificationService notificationService,
+    IStringLocalizer<Resources.Components.ChannelFormPanel> localizer) : FluentDialogInstance
 {
     [Parameter]
     public ViewModel Content { get; set; } = new();
-
-    [CascadingParameter]
-    FluentDialog Dialog { get; set; } = default!;
 
     private EditContext context = default!;
 
@@ -35,6 +32,24 @@ public partial class ChannelFormPanel(
         context = new(Content.Model);
     }
 
+    protected override void OnInitializeDialog(DialogOptionsHeader header, DialogOptionsFooter footer)
+    {
+        footer.PrimaryAction.Label = localizer[nameof(Resources.Components.ChannelFormPanel.SaveButtonText)];
+        footer.SecondaryAction.Label = localizer[nameof(Resources.Components.ChannelFormPanel.CloseButtonText)];
+    }
+
+    protected override async Task OnActionClickedAsync(bool primary)
+    {
+        if (primary)
+        {
+            await SaveAsync();
+        }
+        else
+        {
+            await CloseAsync();
+        }
+    }
+
     private async Task SaveAsync()
     {
         saving = true;
@@ -48,13 +63,13 @@ public partial class ChannelFormPanel(
 
             await Content.OnChannelSave.InvokeAsync(Content.Model);
 
-            toastService.ShowSuccess(localizer[nameof(Resources.Components.ChannelFormPanel.ChannelSavedSuccessMessage)]);
+            await notificationService.ShowSuccessToastAsync(localizer[nameof(Resources.Components.ChannelFormPanel.ChannelSavedSuccessMessage)]);
 
-            await Dialog.CloseAsync(DialogResult.Ok(true));
+            await DialogInstance.CloseAsync(true);
         }
         catch
         {
-            toastService.ShowError(localizer[nameof(Resources.Components.ChannelFormPanel.ChannelSavedErrorMessage)]);
+            await notificationService.ShowErrorToastAsync(localizer[nameof(Resources.Components.ChannelFormPanel.ChannelSavedErrorMessage)]);
         }
         finally
         {
@@ -62,7 +77,7 @@ public partial class ChannelFormPanel(
         }
     }
 
-    private async Task CloseAsync() => await Dialog.CloseAsync(DialogResult.Cancel());
+    private async Task CloseAsync() => await DialogInstance.CloseAsync();
 
     public class ViewModel
     {

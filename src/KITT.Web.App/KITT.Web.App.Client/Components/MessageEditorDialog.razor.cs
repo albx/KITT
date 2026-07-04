@@ -7,11 +7,8 @@ namespace KITT.Web.App.Client.Components;
 
 public partial class MessageEditorDialog
 {
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
     [Inject]
-    public IToastService ToastService { get; set; } = default!;
+    public INotificationService NotificationService { get; set; } = default!;
 
     //[Inject]
     //public IMessagesClient Client { get; set; } = default!;
@@ -27,7 +24,25 @@ public partial class MessageEditorDialog
         context = new EditContext(model);
     }
 
-    private async Task CloseAsync() => await Dialog.CloseAsync();
+    protected override void OnInitializeDialog(DialogOptionsHeader header, DialogOptionsFooter footer)
+    {
+        footer.PrimaryAction.Label = LocalizerFor[nameof(Resources.Components.MessageEditorDialog.SendButtonText)];
+        footer.SecondaryAction.Label = LocalizerFor[nameof(Resources.Components.MessageEditorDialog.CloseButtonText)];
+    }
+
+    protected override async Task OnActionClickedAsync(bool primary)
+    {
+        if (primary)
+        {
+            await SendMessageAsync();
+        }
+        else
+        {
+            await CloseAsync();
+        }
+    }
+
+    private async Task CloseAsync() => await DialogInstance.CloseAsync();
 
     private async Task SendMessageAsync()
     {
@@ -42,8 +57,8 @@ public partial class MessageEditorDialog
 
             //await Client.SendMessageAsync(model);
 
-            ToastService.ShowSuccess(Localizer[nameof(Resources.Components.MessageEditorDialog.MessageSentSuccessMessage)]);
-            await Dialog.CloseAsync();
+            await NotificationService.ShowSuccessToastAsync(LocalizerFor[nameof(Resources.Components.MessageEditorDialog.MessageSentSuccessMessage)]);
+            await DialogInstance.CloseAsync();
         }
         finally
         {

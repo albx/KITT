@@ -182,15 +182,12 @@ public partial class Index
     private async Task OpenProposalDetailAsync(ProposalListModel.ProposalListItemModel proposal)
     {
         var content = new ProposalDetailDialog.InputModel(proposal.Id);
-        var dialog = await DialogService.ShowPanelAsync<ProposalDetailDialog>(
-            content,
-            new DialogParameters
-            {
-                Title = proposal.Title,
-                Alignment = HorizontalAlignment.Right,
-                Width = "40em"
-            });
-
-        await dialog.Result;
+        await DialogService.ShowDrawerAsync<ProposalDetailDialog>(new DialogOptions
+        {
+            Parameters = new Dictionary<string, object?> { [nameof(ProposalDetailDialog.Content)] = content },
+            Header = new DialogOptionsHeader { Title = proposal.Title },
+            Alignment = DialogAlignment.End,
+            Width = "40em"
+        });
     }
 }

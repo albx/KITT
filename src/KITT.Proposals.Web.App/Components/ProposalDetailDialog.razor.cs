@@ -31,6 +31,14 @@ public partial class ProposalDetailDialog
         }
     }
 
+    protected override void OnInitializeDialog(DialogOptionsHeader header, DialogOptionsFooter footer)
+    {
+        footer.PrimaryAction.Label = LocalizerFor[nameof(Resources.Components.ProposalDetailDialog.CloseButtonText)];
+        footer.SecondaryAction.Visible = false;
+    }
+
+    protected override async Task OnActionClickedAsync(bool primary) => await CloseAsync();
+
     private async Task CloseAsync() => await DialogInstance.CloseAsync();
 
     public record InputModel(

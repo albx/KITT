@@ -9,7 +9,7 @@ namespace KITT.Cms.Web.App.Pages.Settings;
 
 public partial class Channels(
     IDialogService dialogService, 
-    IToastService toastService,
+    INotificationService notificationService,
     IConnectedChannelsClient client,
     IStringLocalizer<Resources.Pages.Settings.Channels> localizer)
 {
@@ -49,18 +49,15 @@ public partial class Channels(
             OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, CreateNewChannelAsync)
         };
 
-        var dialog = await dialogService.ShowPanelAsync<ChannelFormPanel>(
-            panelModel,
-            new DialogParameters<ChannelFormPanel.ViewModel>()
+        var dialog = await dialogService.ShowDrawerAsync<ChannelFormPanel>(new DialogOptions
             {
-                Content = panelModel,
-                Alignment = HorizontalAlignment.Right,
-                Title = localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelPanelTitle)],
+                Parameters = new Dictionary<string, object?> { [nameof(ChannelFormPanel.Content)] = panelModel },
+                Alignment = DialogAlignment.End,
+                Header = new DialogOptionsHeader { Title = localizer[nameof(Resources.Pages.Settings.Channels.AddNewChannelPanelTitle)] },
                 Width = "50em",
             });
 
-        var result = await dialog.Result;
-        if (!result.Cancelled)
+        if (!dialog.Cancelled)
         {
             await LoadConnectedChannelsAsync();
         }
@@ -82,18 +79,15 @@ public partial class Channels(
             OnChannelSave = EventCallback.Factory.Create<ChannelModel>(this, UpdateChannelAsync)
         };
 
-        var dialog = await dialogService.ShowPanelAsync<ChannelFormPanel>(
-            panelModel,
-            new DialogParameters<ChannelFormPanel.ViewModel>()
+        var dialog = await dialogService.ShowDrawerAsync<ChannelFormPanel>(new DialogOptions
             {
-                Content = panelModel,
-                Alignment = HorizontalAlignment.Right,
-                Title = localizer[nameof(Resources.Pages.Settings.Channels.EditChannelPanelTitle), channel.Name],
+                Parameters = new Dictionary<string, object?> { [nameof(ChannelFormPanel.Content)] = panelModel },
+                Alignment = DialogAlignment.End,
+                Header = new DialogOptionsHeader { Title = localizer[nameof(Resources.Pages.Settings.Channels.EditChannelPanelTitle), channel.Name] },
                 Width = "50em",
             });
 
-        var result = await dialog.Result;
-        if (!result.Cancelled)
+        if (!dialog.Cancelled)
         {
             await LoadConnectedChannelsAsync();
         }
@@ -108,25 +102,23 @@ public partial class Channels(
     {
         var channelName = channel.Name;
 
-        var confirm = await dialogService.ShowConfirmationAsync(
+        var result = await dialogService.ShowConfirmationAsync(
             localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmMessage)],
             title: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmTitle), channelName],
-            primaryText: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmPrimaryButtonText)]);
-
-        var result = await confirm.Result;
+            primaryButton: localizer[nameof(Resources.Pages.Settings.Channels.DeleteChannelConfirmPrimaryButtonText)]);
 
         if (!result.Cancelled)
         {
             try
             {
                 await client.DeleteConnectedChannelAsync(channel);
-                toastService.ShowSuccess(localizer[nameof(Resources.Pages.Settings.Channels.DeletedChannelSuccessMessage), channelName]);
+                await notificationService.ShowSuccessToastAsync(localizer[nameof(Resources.Pages.Settings.Channels.DeletedChannelSuccessMessage), channelName]);
 
                 await LoadConnectedChannelsAsync();
             }
             catch 
             {
-                toastService.ShowError(localizer[nameof(Resources.Pages.Settings.Channels.DeletedChannelErrorMessage), channelName]);
+                await notificationService.ShowErrorToastAsync(localizer[nameof(Resources.Pages.Settings.Channels.DeletedChannelErrorMessage), channelName]);
             }
         }
     }
