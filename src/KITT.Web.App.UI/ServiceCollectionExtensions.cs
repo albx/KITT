@@ -7,7 +7,7 @@ public static class ServiceCollectionExtensions
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddDefaultServices()
+        public IServiceCollection AddCommonServices()
         {
             services.AddLocalization();
             services.AddFluentUIComponents(config =>

@@ -67,7 +67,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddDefaultServices();
+builder.Services.AddCommonServices();
 builder.Services.AddHttpForwarderWithServiceDiscovery();
 builder.Services.AddProblemDetails();
 

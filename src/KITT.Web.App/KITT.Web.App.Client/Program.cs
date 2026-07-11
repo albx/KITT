@@ -9,7 +9,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthenticationStateDeserialization();
 
-builder.Services.AddDefaultServices();
+builder.Services.AddCommonServices();
 
 builder.Services.AddCmsClients(builder.HostEnvironment.BaseAddress);
 builder.Services.AddProposalsClients(builder.HostEnvironment.BaseAddress);
