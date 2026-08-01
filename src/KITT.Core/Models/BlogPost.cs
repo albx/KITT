@@ -34,6 +34,7 @@ public class BlogPost : Content
             Title = title,
             Slug = slug,
             Abstract = @abstract,
+            Content = content,
             Status = ContentStatus.Draft,
             Seo = seo,
             UserId = userId
@@ -57,6 +58,7 @@ public class BlogPost : Content
             Title = title,
             Slug = slug,
             Abstract = @abstract,
+            Content = content,
             Seo = seo,
             UserId = userId
         };

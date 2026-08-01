@@ -3,18 +3,8 @@ using KITT.Telegram.Messages;
 
 namespace KITT.Core.Commands;
 
-public class StreamingCommands : IStreamingCommands
+public class StreamingCommands(KittDbContext context, StreamingValidator validator) : IStreamingCommands
 {
-    private readonly KittDbContext _context;
-
-    private readonly StreamingValidator _validator;
-
-    public StreamingCommands(KittDbContext context, StreamingValidator validator)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
-    }
-
     public async Task<Guid> ScheduleStreamingAsync(
         string userId, 
         string twitchChannel, 
@@ -51,10 +41,10 @@ public class StreamingCommands : IStreamingCommands
             streaming.SetSeoData(seo);
         }
 
-        _validator.ValidateForScheduleStreaming(streaming);
+        validator.ValidateForScheduleStreaming(streaming);
 
-        _context.Streamings.Add(streaming);
-        await _context.SaveChangesAsync();
+        context.Streamings.Add(streaming);
+        await context.SaveChangesAsync();
 
         return streaming.Id;
     }
@@ -72,7 +62,7 @@ public class StreamingCommands : IStreamingCommands
         string youtubeUrl, 
         Content.SeoData seo)
     {
-        var streaming = _context.Streamings.SingleOrDefault(s => s.Id == streamingId);
+        var streaming = context.Streamings.SingleOrDefault(s => s.Id == streamingId);
         if (streaming is null)
         {
             throw new ArgumentOutOfRangeException(nameof(streamingId));
@@ -93,21 +83,21 @@ public class StreamingCommands : IStreamingCommands
             streaming.SetSeoData(seo);
         }
 
-        _validator.ValidateForUpdateStreaming(streaming);
+        validator.ValidateForUpdateStreaming(streaming);
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task DeleteStreamingAsync(Guid streamingId)
     {
-        var streaming = _context.Streamings.SingleOrDefault(s => s.Id == streamingId);
+        var streaming = context.Streamings.SingleOrDefault(s => s.Id == streamingId);
         if (streaming is null)
         {
             throw new ArgumentOutOfRangeException(nameof(streamingId));
         }
 
-        _context.Streamings.Remove(streaming);
-        await _context.SaveChangesAsync();
+        context.Streamings.Remove(streaming);
+        await context.SaveChangesAsync();
     }
 
     public async Task<Guid> ImportStreamingAsync(
@@ -142,8 +132,8 @@ public class StreamingCommands : IStreamingCommands
             streaming.SetSeoData(seo);
         }
 
-        _context.Streamings.Add(streaming);
-        await _context.SaveChangesAsync();
+        context.Streamings.Add(streaming);
+        await context.SaveChangesAsync();
 
         return streaming.Id;
     }
