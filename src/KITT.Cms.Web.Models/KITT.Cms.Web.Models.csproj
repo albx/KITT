@@ -9,5 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\KITT.Cms.Settings\KITT.Cms.Settings.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
 </Project>

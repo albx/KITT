@@ -1,11 +1,11 @@
-﻿using KITT.Cms.Web.Api.Endpoints.Services;
+﻿using KITT.Cms.Web.Models;
 using KITT.Cms.Web.Models.Streamings;
 using KITT.Web.Shared.Security;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace KITT.Cms.Web.Api.Endpoints;
+namespace KITT.Cms.Web.Api.Streamings;
 
 public static class StreamingsEndpoints
 {
@@ -54,7 +54,7 @@ public static class StreamingsEndpoints
         ClaimsPrincipal user,
         int p = 1,
         int s = 10,
-        StreamingQueryModel.SortDirection sort = StreamingQueryModel.SortDirection.Descending,
+        SortDirection sort = SortDirection.Descending,
         string? q = null)
     {
         var userId = user.GetUserId();

@@ -1,4 +1,4 @@
-﻿namespace KITT.Core.ReadModels.Extensions;
+﻿namespace KITT.Core.ReadModels;
 
 public static class ContentExtensions
 {
@@ -11,9 +11,15 @@ public static class ContentExtensions
 
         public IQueryable<TContent> UnpublishedOnly() => source.Where(c => c.Status == Content.ContentStatus.Unpublished);
 
-        public IQueryable<TContent> OrderedByPublicationDate() => source.OrderBy(c => c.PublicationDate);
+        public IQueryable<TContent> OrderedByPublicationDate(bool ascending = true) 
+            => ascending ? source.OrderedByPublicationDateAscending() : source.OrderedByPublicationDateDescending();
+
+        private IQueryable<TContent> OrderedByPublicationDateAscending() => source.OrderBy(c => c.PublicationDate);
+
+        private IQueryable<TContent> OrderedByPublicationDateDescending() => source.OrderByDescending(c => c.PublicationDate);
 
         public IQueryable<TContent> WithSlug(string slug) => source.Where(c => c.Slug == slug);
+
+        public IQueryable<TContent> ByUserId(string userId) => source.Where(c => c.UserId == userId);
     }
-    
 }
