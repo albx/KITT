@@ -12,19 +12,29 @@ public static class BlogPostsEndpoints
         public IEndpointRouteBuilder MapBlogPostsEndpoints()
         {
             var blogPostsGroup = builder
-                .MapGroup("api/posts")
+                .MapGroup("api/blogposts")
                 .RequireAuthorization();
 
             blogPostsGroup
                 .MapGet("", GetAllBlogPosts)
                 .WithName(nameof(GetAllBlogPosts));
 
-            //blogPostsGroup
-            //    .MapGet("{id:guid}", GetBlogPostDetail)
-            //    .WithName(nameof(GetBlogPostDetail));
-            //blogPostsGroup
-            //    .MapPost("", CreateBlogPost)
-            //    .WithName(nameof(CreateBlogPost));
+            blogPostsGroup
+                .MapGet("{id:guid}", GetBlogPostDetail)
+                .WithName(nameof(GetBlogPostDetail));
+
+            blogPostsGroup
+                .MapPost("", PublishBlogPost)
+                .WithName(nameof(PublishBlogPost));
+
+            blogPostsGroup
+                .MapPost("draft", CreateDraftBlogPost)
+                .WithName(nameof(CreateDraftBlogPost));
+
+            blogPostsGroup
+                .MapPost("import", ImportBlogPost)
+                .WithName(nameof(ImportBlogPost));
+
             //blogPostsGroup
             //    .MapPut("{id:guid}", UpdateBlogPost)
             //    .WithName(nameof(UpdateBlogPost));
@@ -42,5 +52,53 @@ public static class BlogPostsEndpoints
 
         var model = await services.GetAllBlogPostsAsync(query, userId);
         return TypedResults.Ok(model);
+    }
+
+    private static async Task<Results<Ok<BlogPostDetailModel>, NotFound>> GetBlogPostDetail(
+        BlogPostsEndpointsServices services,
+        ClaimsPrincipal user,
+        Guid id)
+    {
+        var userId = user.GetUserId();
+        var model = await services.GetBlogPostDetailAsync(id, userId);
+        if (model is null)
+        {
+            return TypedResults.NotFound();
+        }
+
+        return TypedResults.Ok(model);
+    }
+
+    private static async Task<Results<CreatedAtRoute<PublishBlogPostModel>, BadRequest, ValidationProblem>> PublishBlogPost(
+        BlogPostsEndpointsServices services,
+        ClaimsPrincipal user,
+        PublishBlogPostModel model)
+    {
+        var userId = user.GetUserId();
+        var postId = await services.PublishBlogPostAsync(model, userId);
+
+        return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
+    }
+
+    private static async Task<Results<CreatedAtRoute<DraftBlogPostModel>, BadRequest, ValidationProblem>> CreateDraftBlogPost(
+        BlogPostsEndpointsServices services,
+        ClaimsPrincipal user,
+        DraftBlogPostModel model)
+    {
+        var userId = user.GetUserId();
+        var postId = await services.CreateDraftBlogPostAsync(model, userId);
+
+        return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
+    }
+
+    private static async Task<Results<CreatedAtRoute<ImportBlogPostModel>, BadRequest, ValidationProblem>> ImportBlogPost(
+        BlogPostsEndpointsServices services,
+        ClaimsPrincipal user,
+        ImportBlogPostModel model)
+    {
+        var userId = user.GetUserId();
+        var postId = await services.ImportBlogPostAsync(model, userId);
+
+        return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
     }
 }

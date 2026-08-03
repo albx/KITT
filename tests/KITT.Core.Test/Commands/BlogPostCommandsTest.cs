@@ -11,6 +11,10 @@ namespace KITT.Core.Test.Commands
 
         private static Content.SeoData ValidSeo() => new() { Title = "seo title", Description = "seo desc", Keywords = "kw" };
 
+        private static DateTime FakeCreationDate => new DateTime(2024, 1, 1, 10, 30, 0);
+
+        private static DateTime FakePublicationDate => new DateTime(2024, 1, 15, 14, 0, 0);
+
         public BlogPostCommandsTest(KittDbContextFixture fixture)
         {
             _fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
@@ -149,7 +153,15 @@ namespace KITT.Core.Test.Commands
         {
             var commands = new BlogPostCommands(_fixture.Context);
 
-            var postId = await commands.ImportPostAsync("title", "slug-import-1", "abstract", "content", ValidSeo(), "user1");
+            var postId = await commands.ImportPostAsync(
+                "title", 
+                "slug-import-1", 
+                "abstract", 
+                "content", 
+                FakeCreationDate,
+                FakePublicationDate,
+                ValidSeo(), 
+                "user1");
 
             Assert.NotEqual(Guid.Empty, postId);
         }
@@ -159,7 +171,15 @@ namespace KITT.Core.Test.Commands
         {
             var commands = new BlogPostCommands(_fixture.Context);
 
-            var postId = await commands.ImportPostAsync("title", "slug-import-2", "abstract", "content", ValidSeo(), "user1");
+            var postId = await commands.ImportPostAsync(
+                "title", 
+                "slug-import-2", 
+                "abstract", 
+                "content",
+                FakeCreationDate,
+                FakePublicationDate,
+                ValidSeo(), 
+                "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.NotNull(post);
@@ -170,7 +190,15 @@ namespace KITT.Core.Test.Commands
         {
             var commands = new BlogPostCommands(_fixture.Context);
 
-            var postId = await commands.ImportPostAsync("title", "slug-import-3", "abstract", "content", ValidSeo(), "user1");
+            var postId = await commands.ImportPostAsync(
+                "title", 
+                "slug-import-3", 
+                "abstract", 
+                "content",
+                FakeCreationDate,
+                FakePublicationDate,
+                ValidSeo(), 
+                "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.Equal(Content.ContentStatus.Published, post!.Status);
@@ -182,7 +210,15 @@ namespace KITT.Core.Test.Commands
             var seo = ValidSeo();
             var commands = new BlogPostCommands(_fixture.Context);
 
-            var postId = await commands.ImportPostAsync("my title", "slug-import-4", "my abstract", "my content", seo, "user1");
+            var postId = await commands.ImportPostAsync(
+                "my title", 
+                "slug-import-4", 
+                "my abstract", 
+                "my content",
+                FakeCreationDate,
+                FakePublicationDate,
+                seo, 
+                "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.Equal("my title", post!.Title);

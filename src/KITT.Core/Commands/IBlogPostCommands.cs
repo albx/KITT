@@ -6,7 +6,7 @@ public interface IBlogPostCommands
 
     Task<Guid> CreatePostAsDraftAsync(string title, string slug, string @abstract, string content, Content.SeoData seo, string userId);
 
-    Task<Guid> ImportPostAsync(string title, string slug, string @abstract, string content, Content.SeoData seo, string userId);
+    Task<Guid> ImportPostAsync(string title, string slug, string @abstract, string content, DateTime creationDate, DateTime publicationDate, Content.SeoData seo, string userId);
 
     Task UpdatePostAsync(Guid postId, string title, string @abstract, string content, Content.SeoData seo);
 }

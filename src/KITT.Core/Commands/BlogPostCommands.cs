@@ -20,9 +20,9 @@ public class BlogPostCommands(KittDbContext context) : IBlogPostCommands
         await context.SaveChangesAsync();
         return post.Id;
     }
-    public async Task<Guid> ImportPostAsync(string title, string slug, string @abstract, string content, SeoData seo, string userId)
+    public async Task<Guid> ImportPostAsync(string title, string slug, string @abstract, string content, DateTime creationDate, DateTime publicationDate, SeoData seo, string userId)
     {
-        var post = BlogPost.Publish(title, slug, @abstract, content, seo, userId);
+        var post = BlogPost.Import(title, slug, @abstract, content, creationDate, publicationDate, seo, userId);
         context.BlogPosts.Add(post);
         
         await context.SaveChangesAsync();
