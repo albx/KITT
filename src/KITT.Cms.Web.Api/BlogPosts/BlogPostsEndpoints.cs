@@ -1,6 +1,7 @@
 ﻿using KITT.Cms.Web.Models.BlogPosts;
 using KITT.Web.Shared.Security;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace KITT.Cms.Web.Api.BlogPosts;
@@ -35,9 +36,9 @@ public static class BlogPostsEndpoints
                 .MapPost("import", ImportBlogPost)
                 .WithName(nameof(ImportBlogPost));
 
-            //blogPostsGroup
-            //    .MapPut("{id:guid}", UpdateBlogPost)
-            //    .WithName(nameof(UpdateBlogPost));
+            blogPostsGroup
+                .MapPut("{id:guid}", UpdateBlogPost)
+                .WithName(nameof(UpdateBlogPost));
 
             return builder;
         }
@@ -72,7 +73,7 @@ public static class BlogPostsEndpoints
     private static async Task<Results<CreatedAtRoute<PublishBlogPostModel>, BadRequest, ValidationProblem>> PublishBlogPost(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
-        PublishBlogPostModel model)
+        [FromBody] PublishBlogPostModel model)
     {
         var userId = user.GetUserId();
         var postId = await services.PublishBlogPostAsync(model, userId);
@@ -83,7 +84,7 @@ public static class BlogPostsEndpoints
     private static async Task<Results<CreatedAtRoute<DraftBlogPostModel>, BadRequest, ValidationProblem>> CreateDraftBlogPost(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
-        DraftBlogPostModel model)
+        [FromBody] DraftBlogPostModel model)
     {
         var userId = user.GetUserId();
         var postId = await services.CreateDraftBlogPostAsync(model, userId);
@@ -94,11 +95,28 @@ public static class BlogPostsEndpoints
     private static async Task<Results<CreatedAtRoute<ImportBlogPostModel>, BadRequest, ValidationProblem>> ImportBlogPost(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
-        ImportBlogPostModel model)
+        [FromBody] ImportBlogPostModel model)
     {
         var userId = user.GetUserId();
         var postId = await services.ImportBlogPostAsync(model, userId);
 
         return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
+    }
+
+    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateBlogPost(
+        BlogPostsEndpointsServices services,
+        Guid id,
+        [FromBody] UpdateBlogPostModel model)
+    {
+        try
+        {
+            await services.UpdateBlogPostAsync(id, model);
+            return TypedResults.NoContent();
+        }
+        catch (InvalidOperationException)
+        {
+            return TypedResults.NotFound();
+        }
+        
     }
 }

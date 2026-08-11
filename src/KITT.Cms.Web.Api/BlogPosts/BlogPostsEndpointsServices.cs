@@ -1,4 +1,5 @@
-﻿using KITT.Cms.Web.Models;
+﻿using KITT.Cms.Web.Api.Mapping;
+using KITT.Cms.Web.Models;
 using KITT.Cms.Web.Models.BlogPosts;
 using KITT.Core.Commands;
 using KITT.Core.ReadModels;
@@ -67,12 +68,7 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             Id = post.Id,
             Content = post.Content,
             PostAbstract = post.Abstract,
-            Seo = new()
-            {
-                Title = post.Seo?.Title ?? string.Empty,
-                Description = post.Seo?.Description ?? string.Empty,
-                Keywords = post.Seo?.Keywords ?? string.Empty,
-            },
+            Seo = post.Seo.ToModel(),
             Slug = post.Slug,
             Title = post.Title,
         };
@@ -85,12 +81,7 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             model.Slug,
             model.PostAbstract,
             model.Content,
-            new()
-            {
-                Title = model.Seo.Title,
-                Description = model.Seo.Description,
-                Keywords = model.Seo.Keywords
-            },
+            model.Seo.ToEntity(),
             userId);
     }
 
@@ -101,12 +92,7 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             model.Slug,
             model.PostAbstract,
             model.Content,
-            new()
-            {
-                Title = model.Seo.Title,
-                Description = model.Seo.Description,
-                Keywords = model.Seo.Keywords
-            },
+            model.Seo.ToEntity(),
             userId);
     }
 
@@ -129,12 +115,17 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             model.Content,
             model.CreationDate.Value,
             model.PublicationDate.Value,
-            new()
-            {
-                Title = model.Seo.Title,
-                Description = model.Seo.Description,
-                Keywords = model.Seo.Keywords
-            },
+            model.Seo.ToEntity(),
             userId);
+    }
+
+    public Task UpdateBlogPostAsync(Guid postId, UpdateBlogPostModel model)
+    {
+        return commands.UpdatePostAsync(
+            postId,
+            model.Title,
+            model.PostAbstract,
+            model.Content,
+            model.Seo.ToEntity());
     }
 }

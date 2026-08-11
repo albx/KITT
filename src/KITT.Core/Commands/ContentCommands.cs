@@ -2,11 +2,16 @@
 
 public class ContentCommands(KittDbContext context) : IContentCommands
 {
-    public Task DeleteContentAsync(Guid contentId)
+    public async Task DeleteContentAsync(Guid contentId)
     {
-        return context.Contents
-            .Where(c => c.Id == contentId)
-            .ExecuteDeleteAsync();
+        var content = await context.Contents.SingleOrDefaultAsync(c => c.Id == contentId);
+        if (content is null)
+        {
+            throw new InvalidOperationException($"Content with ID {contentId} not found.");
+        }
+
+        context.Contents.Remove(content);
+        await context.SaveChangesAsync();
     }
 
     public async Task PublishContentAsync(Guid contentId, DateTime publicationDate)

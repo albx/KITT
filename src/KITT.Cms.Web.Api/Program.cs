@@ -8,6 +8,7 @@ using KITT.Cms.Settings;
 using KITT.Cms.Web.Api.Settings;
 using KITT.Cms.Web.Api.Streamings;
 using KITT.Cms.Web.Api.BlogPosts;
+using KITT.Cms.Web.Api.Contents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,8 @@ builder.Services.AddSingleton<IConnectedChannelsRepository, ConnectedChannelsRep
 builder.Services
     .AddScoped<StreamingsEndpointsServices>()
     .AddScoped<ChannelsEndpointsServices>()
-    .AddScoped<BlogPostsEndpointsServices>();
+    .AddScoped<BlogPostsEndpointsServices>()
+    .AddScoped<ContentsEndpointsServices>();
 
 builder.Services.AddProblemDetails();
 
@@ -70,6 +72,7 @@ app.UseStatusCodePages();
 app.MapDefaultEndpoints();
 
 app
+    .MapContentsEndpoints()
     .MapStreamingsEndpoints()
     .MapSettingsEndpoints()
     .MapBlogPostsEndpoints();
