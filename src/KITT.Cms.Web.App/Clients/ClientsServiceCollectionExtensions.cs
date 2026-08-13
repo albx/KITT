@@ -11,6 +11,7 @@ public static class ClientsServiceCollectionExtensions
         {
             services.AddHttpClient<IStreamingsClient, StreamingsHttpClient>(client => client.BaseAddress = new(apiBaseUrl));
             services.AddHttpClient<IConnectedChannelsClient, ConnectedChannelsHttpClient>(client => client.BaseAddress = new(apiBaseUrl));
+            services.AddHttpClient<IBlogClient, BlogHttpClient>(client => client.BaseAddress = new(apiBaseUrl));
 
             return services;
         }
