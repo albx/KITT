@@ -129,12 +129,9 @@
 
             <FluentGrid>
                 <FluentGridItem xs="12" md="12">
-                    <FluentTextArea Label="@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]"
-                                    @bind-Value="streaming.StreamingAbstract"
-                                    Appearance="FluentInputAppearance.Filled"
-                                    Rows="10"
-                                    Style="width:100%;"
-                                    Disabled="@isReadOnly" />
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Streamings.StreamingDetail.AbstractLabel)]</FluentLabel>
+                    <MarkdownEditor @bind-Value="streaming.StreamingAbstract" 
+                                    Readonly="@isReadOnly" />
                 </FluentGridItem>
             </FluentGrid>
         </ContentInfo>

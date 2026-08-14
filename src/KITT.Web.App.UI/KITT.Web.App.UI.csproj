@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorMarkdownEditor" Version="1.0.0" />
     <PackageReference Include="FluentUI.Blazor.Community.Components" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.11" />
