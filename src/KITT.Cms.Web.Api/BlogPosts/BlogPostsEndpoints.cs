@@ -70,7 +70,7 @@ public static class BlogPostsEndpoints
         return TypedResults.Ok(model);
     }
 
-    private static async Task<Results<CreatedAtRoute<PublishBlogPostModel>, BadRequest, ValidationProblem>> PublishBlogPost(
+    private static async Task<Results<CreatedAtRoute<BlogPostDetailModel>, BadRequest, ValidationProblem>> PublishBlogPost(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
         [FromBody] PublishBlogPostModel model)
@@ -78,10 +78,10 @@ public static class BlogPostsEndpoints
         var userId = user.GetUserId();
         var postId = await services.PublishBlogPostAsync(model, userId);
 
-        return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
+        return TypedResults.CreatedAtRoute(model.ToDetailModel(postId), nameof(GetBlogPostDetail), new { id = postId });
     }
 
-    private static async Task<Results<CreatedAtRoute<DraftBlogPostModel>, BadRequest, ValidationProblem>> CreateDraftBlogPost(
+    private static async Task<Results<CreatedAtRoute<BlogPostDetailModel>, BadRequest, ValidationProblem>> CreateDraftBlogPost(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
         [FromBody] DraftBlogPostModel model)
@@ -89,10 +89,10 @@ public static class BlogPostsEndpoints
         var userId = user.GetUserId();
         var postId = await services.CreateDraftBlogPostAsync(model, userId);
 
-        return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
+        return TypedResults.CreatedAtRoute(model.ToDetailModel(postId), nameof(GetBlogPostDetail), new { id = postId });
     }
 
-    private static async Task<Results<CreatedAtRoute<ImportBlogPostModel>, BadRequest, ValidationProblem>> ImportBlogPost(
+    private static async Task<Results<CreatedAtRoute<BlogPostDetailModel>, BadRequest, ValidationProblem>> ImportBlogPost(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
         [FromBody] ImportBlogPostModel model)
@@ -100,7 +100,7 @@ public static class BlogPostsEndpoints
         var userId = user.GetUserId();
         var postId = await services.ImportBlogPostAsync(model, userId);
 
-        return TypedResults.CreatedAtRoute(model, nameof(GetBlogPostDetail), new { id = postId });
+        return TypedResults.CreatedAtRoute(model.ToDetailModel(postId), nameof(GetBlogPostDetail), new { id = postId });
     }
 
     private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateBlogPost(
