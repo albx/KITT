@@ -71,6 +71,8 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             Seo = post.Seo.ToModel(),
             Slug = post.Slug,
             Title = post.Title,
+            CreationDate = post.CreationDate,
+            PublicationDate = post.PublicationDate
         };
     }
 

@@ -8,4 +8,6 @@ public interface IBlogClient
     Task<Result<BlogPostDetailModel>> SavePostDraftAsync(DraftBlogPostModel model);
 
     Task<Result<BlogPostDetailModel>> ImportPostAsync(ImportBlogPostModel model);
+
+    Task<Result<BlogPostDetailModel>> GetPostDetailAsync(Guid postId);
 }

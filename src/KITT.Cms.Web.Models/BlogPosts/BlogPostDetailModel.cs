@@ -16,4 +16,8 @@ public class BlogPostDetailModel
     public string Content { get; set; } = string.Empty;
 
     public SeoData Seo { get; set; } = new();
+
+    public DateTime CreationDate { get; set; }
+
+    public DateTime? PublicationDate { get; set; }
 }

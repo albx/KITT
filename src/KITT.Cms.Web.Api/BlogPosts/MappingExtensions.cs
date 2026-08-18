@@ -47,7 +47,9 @@ public static class MappingExtensions
                 Slug = model.Slug,
                 PostAbstract = model.PostAbstract,
                 Content = model.Content,
-                Seo = model.Seo
+                Seo = model.Seo,
+                CreationDate = model.CreationDate!.Value,
+                PublicationDate = model.PublicationDate!.Value,
             };
         }
     }
