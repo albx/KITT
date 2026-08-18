@@ -1,0 +1,78 @@
+﻿@page "/blog/import"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+
+<PageTitle>KITT - Write a blog posts</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    Write a blog post
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="blog">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ErrorBoundary>
+    <ContentForm TContent="ViewModel"
+                 Model="model"
+                 ContentTabTitle="Post"
+                 Context="post"
+                 OnCancel="Cancel"
+                 OnSave="SavePostAsync">
+        <ContentInfo>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="Title"
+                                     @bind-Value="post.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true" />
+                    <FluentValidationMessage For="@(() => post.Title)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="Slug"
+                                     @bind-Value="post.Slug"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true" />
+                    <FluentValidationMessage For="@(() => post.Slug)" />
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="Creation date"
+                                      @bind-Value="post.CreationDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true" />
+                    <FluentValidationMessage For="@(() => post.CreationDate)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="Publication date"
+                                      @bind-Value="post.PublicationDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true" />
+                    <FluentValidationMessage For="@(() => post.PublicationDate)" />
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentLabel>Abstract</FluentLabel>
+                    <MarkdownEditor @bind-Value="post.PostAbstract"
+                                    Rows="10" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentLabel>Content</FluentLabel>
+                    <MarkdownEditor @bind-Value="post.Content"
+                                    Rows="20" />
+                </FluentGridItem>
+            </FluentGrid>
+        </ContentInfo>
+    </ContentForm>
+</ErrorBoundary>

@@ -8,10 +8,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KITT.Cms.Web.App.Pages.Blog;
 
-public partial class Write(
+public partial class Import(
     IBlogClient client, 
-    NavigationManager navigationManager,
-    IToastService toastService,
+    NavigationManager navigationManager, 
+    IToastService toastService, 
     IMessageService messageService)
 {
     private ViewModel model = new();
@@ -20,24 +20,24 @@ public partial class Write(
 
     private async Task SavePostAsync()
     {
-        var draftModel = MapToDraftBlogPostModel(model);
-        var result = await client.SavePostDraftAsync(draftModel);
+        var importModel = MapToImportBlogPostModel(model);
+        var result = await client.ImportPostAsync(importModel);
 
         if (!result.Success)
         {
             await messageService.ShowMessageBarAsync(
-                "There was an error saving the post draft",
+                "There was an error importing the post",
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
 
             return;
         }
 
-        toastService.ShowSuccess("Post drafted successfully!");
+        toastService.ShowSuccess("Post imported successfully!");
         navigationManager.NavigateTo($"blog/post/{result.Content!.Id}");
     }
 
-    private static DraftBlogPostModel MapToDraftBlogPostModel(ViewModel model) 
+    private static ImportBlogPostModel MapToImportBlogPostModel(ViewModel model)
         => new()
         {
             Content = model.Content,
@@ -45,6 +45,8 @@ public partial class Write(
             Seo = model.Seo,
             Slug = model.Slug,
             Title = model.Title,
+            CreationDate = model.CreationDate,
+            PublicationDate = model.PublicationDate
         };
 
     public class ViewModel : ContentViewModel
@@ -54,6 +56,12 @@ public partial class Write(
 
         [Required]
         public string Slug { get; set; } = string.Empty;
+
+        [Required]
+        public DateTime? CreationDate { get; set; }
+
+        [Required]
+        public DateTime? PublicationDate { get; set; }
 
         [Required]
         public string PostAbstract { get; set; } = string.Empty;

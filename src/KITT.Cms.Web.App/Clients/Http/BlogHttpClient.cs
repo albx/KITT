@@ -8,6 +8,18 @@ public class BlogHttpClient(HttpClient httpClient) : IBlogClient
 {
     public string ApiResource { get; } = "/api/cms/blogposts";
 
+    public async Task<Result<BlogPostDetailModel>> ImportPostAsync(ImportBlogPostModel model)
+    {
+        var response = await httpClient.PostAsJsonAsync($"{ApiResource}/import", model);
+        if (!response.IsSuccessStatusCode)
+        {
+            return Result.Fail(FailureReasons.ClientError);
+        }
+
+        var post = await response.Content.ReadFromJsonAsync<BlogPostDetailModel>();
+        return post!;
+    }
+
     public async Task<Result<BlogPostDetailModel>> SavePostDraftAsync(DraftBlogPostModel model)
     {
         var response = await httpClient.PostAsJsonAsync($"{ApiResource}/draft", model);
