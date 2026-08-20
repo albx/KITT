@@ -13,11 +13,5 @@ public class UpdateBlogPostModel
     [Required]
     public string Content { get; set; } = string.Empty;
 
-    [Required]
-    public DateTime? CreationDate { get; set; }
-
-    [Required]
-    public DateTime? PublicationDate { get; set; }
-
     public SeoData Seo { get; set; } = new();
 }

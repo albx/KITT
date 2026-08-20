@@ -17,40 +17,39 @@ public partial class PostDetail(
     [Parameter]
     public Guid Id { get; set; }
 
-    private bool loading = false;
+    private bool isReadOnly = false;
 
     private ViewModel model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        loading = true;
-
-        try
-        {
-            var detailResult = await client.GetPostDetailAsync(Id);
-            if (!detailResult.Success)
-            {
-                string errorMessage = detailResult.FailureReason switch
-                {
-                    FailureReasons.ItemNotFound => "The requested blog post was not found.",
-                    _ => "There was an error retrieving the blog post details."
-                };
-
-                await messageService.ShowMessageBarAsync(
-                    errorMessage,
-                    MessageIntent.Error,
-                    SectionNames.MessagesTopSectionName);
-
-                return;
-            }
-
-            model = MapToViewModel(detailResult.Content!);
-        }
-        finally
-        {
-            loading = false;
-        }
+        isReadOnly = true;
+        await LoadBlogPostDetailAsync();
     }
+
+    private async Task LoadBlogPostDetailAsync()
+    {
+        var detailResult = await client.GetPostDetailAsync(Id);
+        if (!detailResult.Success)
+        {
+            string errorMessage = detailResult.FailureReason switch
+            {
+                FailureReasons.ItemNotFound => "The requested blog post was not found.",
+                _ => "There was an error retrieving the blog post details."
+            };
+
+            await messageService.ShowMessageBarAsync(
+                errorMessage,
+                MessageIntent.Error,
+                SectionNames.MessagesTopSectionName);
+
+            return;
+        }
+
+        model = MapToViewModel(detailResult.Content!);
+    }
+
+    private void EnableEditing() => isReadOnly = false;
 
     private static ViewModel MapToViewModel(BlogPostDetailModel model)
         => new()
@@ -70,9 +69,7 @@ public partial class PostDetail(
             Content = model.Content,
             PostAbstract = model.PostAbstract,
             Seo = model.Seo,
-            Title = model.Title,
-            CreationDate = model.CreationDate!.Value,
-            PublicationDate = model.PublicationDate
+            Title = model.Title
         };
 
     class ViewModel : ContentViewModel
@@ -88,10 +85,8 @@ public partial class PostDetail(
         [Required]
         public string Content { get; set; } = string.Empty;
 
-        [Required]
         public DateTime? CreationDate { get; set; }
 
-        [Required]
         public DateTime? PublicationDate { get; set; }
     }
 }
