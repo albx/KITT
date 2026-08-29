@@ -1,4 +1,5 @@
 using KITT.Cms.Web.App.Clients;
+using KITT.Cms.Web.App.Components;
 using KITT.Cms.Web.Models;
 using KITT.Cms.Web.Models.BlogPosts;
 using KITT.Web.App.UI;
@@ -20,6 +21,8 @@ public partial class PostDetail(
     private bool isReadOnly = false;
 
     private ViewModel model = new();
+
+    private ContentStatusControl.ViewModel contentStatus = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -47,6 +50,7 @@ public partial class PostDetail(
         }
 
         model = MapToViewModel(detailResult.Content!);
+        contentStatus = new(Id, detailResult.Content!.Status);
     }
 
     private void EnableEditing() => isReadOnly = false;

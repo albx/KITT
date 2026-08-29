@@ -1,5 +1,7 @@
 ﻿@page "/blog"
 
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+
 <PageTitle>KITT - My blog posts</PageTitle>
 
 <SectionContent SectionName="@SectionNames.PageTitleSectionName">
@@ -16,4 +18,57 @@
     </FluentAnchor>
 </SectionContent>
 
+<FluentDataGrid Items="posts"
+                Loading="loading">
+    <EmptyContent>
+        <FluentLabel>No posts yet!</FluentLabel>
+    </EmptyContent>
+    <LoadingContent>
+        <FluentProgress />
+    </LoadingContent>
+    <ChildContent>
+        <PropertyColumn Property="@(p => p.Title)" Title="Title" />
+        <PropertyColumn Property="@(p => p.Slug)" Title="Slug" />
+        <TemplateColumn Context="post"
+                        Title="Publication date"
+                        Style="height:auto;">
+            @(post.PublishedOn?.ToShortDateString() ?? "-")
+        </TemplateColumn>
+        <TemplateColumn Context="post"
+                        Title="Status"
+                        Style="height:auto;">
+            @post.Status
+        </TemplateColumn>
+        <TemplateColumn Context="post"
+                        Style="height:auto;">
+            <FluentStack Orientation="Orientation.Horizontal"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.End">
+                <FluentButton Appearance="Appearance.Accent"
+                              OnClick="@(() => OpenPostDetailPage(post))"
+                              aria-label="@CommonLocalizer[nameof(UI.Resources.Common.View)]"
+                              Id="@($"openPostDetail-{post.Id}")">
+                    <FluentIcon Color="Color.Fill" Value="@(new Icons.Filled.Size20.Eye())" />
+                </FluentButton>
+                <FluentTooltip Anchor="@($"openPostDetail-{post.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.View)]</FluentTooltip>
 
+                <FluentButton Appearance="Appearance.Outline"
+                              aria-label="@CommonLocalizer[nameof(UI.Resources.Common.Delete)]"
+                              Id="@($"deletePost-{post.Id}")">
+                    <FluentIcon Value="@(new Icons.Filled.Size20.Delete())" />
+                </FluentButton>
+                <FluentTooltip Anchor="@($"deletePost-{post.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</FluentTooltip>
+            </FluentStack>
+        </TemplateColumn>
+    </ChildContent>
+</FluentDataGrid>
+
+@* <FluentPaginator State="paginationState"
+                 CurrentPageIndexChanged="OnPageChangedAsync">
+    <SummaryTemplate>
+        @Localizer[nameof(Resources.Pages.Streamings.Index.PaginationItemsNumberText), paginationState.TotalItemCount!]
+    </SummaryTemplate>
+    <PaginationTextTemplate>
+        @Localizer[nameof(Resources.Pages.Streamings.Index.PageNumberLabel), query.Page, numberOfPages]
+    </PaginationTextTemplate>
+</FluentPaginator> *@

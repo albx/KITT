@@ -47,7 +47,7 @@ public static class BlogPostsEndpoints
     private static async Task<Ok<BlogPostListModel>> GetAllBlogPosts(
         BlogPostsEndpointsServices services,
         ClaimsPrincipal user,
-        [AsParameters] BlogPostsQueryModel query)
+        [AsParameters] BlogPostQueryParameters query)
     {
         var userId = user.GetUserId();
 

@@ -32,18 +32,29 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
 
         var skip = (query.Page - 1) * query.Size;
 
-        var posts = await postsQuery
-            .Select(p => new BlogPostListModel.BlogPostListItemModel
+        var rawPosts = await postsQuery
+            .Select(p => new
             {
-                Id = p.Id,
-                Title = p.Title,
-                Slug = p.Slug,
-                PublishedOn = p.PublicationDate,
-                Status = (ContentStatus)p.Status
+                p.Id,
+                p.Title,
+                p.Slug,
+                p.PublicationDate,
+                p.Status
             })
             .Skip(skip)
             .Take(query.Size)
             .ToArrayAsync();
+
+        // The enum-to-enum cast between the entity's ContentStatus and the model's ContentStatus
+        // cannot be translated to SQL, so the mapping is performed in memory after materialization.
+        var posts = rawPosts.Select(p => new BlogPostListModel.BlogPostListItemModel
+        {
+            Id = p.Id,
+            Title = p.Title,
+            Slug = p.Slug,
+            PublishedOn = p.PublicationDate,
+            Status = MapStatus(p.Status)
+        });
 
         return new()
         {
@@ -51,6 +62,14 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             Items = posts,
         };
     }
+
+    private static ContentStatus MapStatus(Core.Models.Content.ContentStatus status) => status switch
+    {
+        Core.Models.Content.ContentStatus.Draft => ContentStatus.Draft,
+        Core.Models.Content.ContentStatus.Published => ContentStatus.Published,
+        Core.Models.Content.ContentStatus.Unpublished => ContentStatus.Unpublished,
+        _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+    };
 
     public async Task<BlogPostDetailModel?> GetBlogPostDetailAsync(Guid postId, string userId)
     {
@@ -72,7 +91,8 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             Slug = post.Slug,
             Title = post.Title,
             CreationDate = post.CreationDate,
-            PublicationDate = post.PublicationDate
+            PublicationDate = post.PublicationDate,
+            Status = MapStatus(post.Status)
         };
     }
 

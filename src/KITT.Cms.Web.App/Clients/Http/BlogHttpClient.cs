@@ -9,6 +9,12 @@ public class BlogHttpClient(HttpClient httpClient) : IBlogClient
 {
     public string ApiResource { get; } = "/api/cms/blogposts";
 
+    public async Task<BlogPostListModel> GetBlogPostsAsync(BlogPostsQueryModel query)
+    {
+        var posts = await httpClient.GetFromJsonAsync<BlogPostListModel>($"{ApiResource}?{query.ToQueryString()}");
+        return posts ?? new();
+    }
+
     public async Task<Result<BlogPostDetailModel>> GetPostDetailAsync(Guid postId)
     {
         try

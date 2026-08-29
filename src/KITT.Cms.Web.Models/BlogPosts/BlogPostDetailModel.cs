@@ -20,4 +20,6 @@ public class BlogPostDetailModel
     public DateTime CreationDate { get; set; }
 
     public DateTime? PublicationDate { get; set; }
+
+    public ContentStatus Status { get; set; }
 }
