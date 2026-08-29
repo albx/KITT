@@ -1,23 +1,20 @@
 using KITT.Cms.Web.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Components;
 
-public partial class ContentStatusControl
+public partial class ContentStatusControl(IDialogService dialogService)
 {
     [Parameter]
     public ViewModel Content { get; set; } = default!;
 
-    private string contentStatusLabel = string.Empty;
-
-    protected override void OnParametersSet()
+    private async Task OpenPublishContentDialogAsync()
     {
-        contentStatusLabel = Content.Status switch
+        await dialogService.ShowDialogAsync<PublishContentDialog>(new()
         {
-            ContentStatus.Draft => "Publish",
-            ContentStatus.Published => "Remove from publish",
-            _ => string.Empty
-        };
+            Title = "Publish Content"
+        });
     }
 
     public record ViewModel(

@@ -1,0 +1,25 @@
+﻿@implements IDialogContentComponent
+
+<EditForm EditContext="context" role="form">
+    <DataAnnotationsValidator />
+
+    <FluentDialogBody>
+        <FluentDatePicker Label="Publication date"
+                          @bind-Value="model.PublicationDate"
+                          Required="true"
+                          Style="width:100%;"/>
+        <FluentValidationMessage For="@(() => model.PublicationDate)" />
+    </FluentDialogBody>
+    <FluentDialogFooter>
+        <FluentButton Type="ButtonType.Button"
+                      Appearance="Appearance.Accent"
+                      Loading="publishing">
+            Publish
+        </FluentButton>
+        <FluentButton Appearance="Appearance.Outline"
+                      Disabled="publishing"
+                      OnClick="CloseAsync">
+            Close
+        </FluentButton>
+    </FluentDialogFooter>
+</EditForm>

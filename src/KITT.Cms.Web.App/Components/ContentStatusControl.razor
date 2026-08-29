@@ -1,3 +1,7 @@
-﻿<FluentButton Appearance="Appearance.Accent">
-    @contentStatusLabel
-</FluentButton>
+﻿@if (Content.Status is ContentStatus.Draft)
+{
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="OpenPublishContentDialogAsync">
+        Publish
+    </FluentButton>
+}
