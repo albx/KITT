@@ -6,10 +6,15 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace KITT.Cms.Web.App.Components;
 
-public partial class PublishContentDialog(IContentClient client)
+public partial class PublishContentDialog(
+    IContentClient client,
+    IToastService toastService) : IDialogContentComponent<PublishContentDialog.ContentModel>
 {
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
+
+    [Parameter]
+    public ContentModel Content { get; set; } = default!;
 
     private PublishContentModel model = new();
 
@@ -23,4 +28,28 @@ public partial class PublishContentDialog(IContentClient client)
     }
 
     private async Task CloseAsync() => await Dialog.CloseAsync();
+
+    private async Task PublishContentAsync()
+    {
+        publishing = true;
+
+        if (!context.Validate())
+        {
+            return;
+        }
+
+        try
+        {
+            await client.PublishContentAsync(Content.Id, model);
+            toastService.ShowSuccess("Content published successfully!");
+
+            await CloseAsync();
+        }
+        finally
+        {
+            publishing = false;
+        }
+    }
+
+    public record ContentModel(Guid Id);
 }

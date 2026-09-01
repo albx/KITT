@@ -11,10 +11,12 @@ public partial class ContentStatusControl(IDialogService dialogService)
 
     private async Task OpenPublishContentDialogAsync()
     {
-        await dialogService.ShowDialogAsync<PublishContentDialog>(new()
-        {
-            Title = "Publish Content"
-        });
+        await dialogService.ShowDialogAsync<PublishContentDialog>(
+            new PublishContentDialog.ContentModel(Content.Id),
+            new()
+            {
+                Title = "Publish Content"
+            });
     }
 
     public record ViewModel(

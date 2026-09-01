@@ -1,4 +1,4 @@
-﻿@implements IDialogContentComponent
+﻿@implements IDialogContentComponent<PublishContentDialog.ContentModel>
 
 <EditForm EditContext="context" role="form">
     <DataAnnotationsValidator />
@@ -13,7 +13,8 @@
     <FluentDialogFooter>
         <FluentButton Type="ButtonType.Button"
                       Appearance="Appearance.Accent"
-                      Loading="publishing">
+                      Loading="publishing"
+                      OnClick="PublishContentAsync">
             Publish
         </FluentButton>
         <FluentButton Appearance="Appearance.Outline"
