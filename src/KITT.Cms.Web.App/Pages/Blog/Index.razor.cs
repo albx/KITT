@@ -6,8 +6,11 @@ using Microsoft.FluentUI.AspNetCore.Components;
 namespace KITT.Cms.Web.App.Pages.Blog;
 
 public partial class Index(
-    IBlogClient client,
-    NavigationManager navigationManager)
+    IBlogClient blogClient,
+    IContentClient contentClient,
+    NavigationManager navigationManager,
+    IToastService toastService,
+    IDialogService dialogService)
 {
     private BlogPostListModel model = new();
 
@@ -37,7 +40,7 @@ public partial class Index(
 
         try
         {
-            model = await client.GetBlogPostsAsync(query);
+            model = await blogClient.GetBlogPostsAsync(query);
             posts = model.Items.AsQueryable();
             await paginationState.SetTotalItemCountAsync(model.TotalItems);
         }
@@ -55,5 +58,31 @@ public partial class Index(
     private void OpenPostDetailPage(BlogPostListModel.BlogPostListItemModel post)
     {
         navigationManager.NavigateTo($"/blog/post/{post.Id}");
+    }
+
+    private async Task DeletePostAsync(BlogPostListModel.BlogPostListItemModel post)
+    {
+        var postTitle = post.Title;
+        string confirmText = $"You are going to delete the post {postTitle}. Are you sure?";
+
+        var confirm = await dialogService.ShowConfirmationAsync(
+            confirmText,
+            primaryText: CommonLocalizer[nameof(KITT.Web.App.UI.Resources.Common.Confirm)],
+            secondaryText: CommonLocalizer[(nameof(KITT.Web.App.UI.Resources.Common.Cancel))],
+            title: $"Deleting {postTitle}");
+
+        var result = await confirm.Result;
+        if (!result.Cancelled)
+        {
+            var deleteResult = await contentClient.DeleteContentAsync(post.Id);
+            if (!deleteResult.Success)
+            {
+                toastService.ShowError($"There was an error deleting post {postTitle}");
+                return;
+            }
+
+            toastService.ShowSuccess($"Post {postTitle} deleted successfully!");
+            await LoadPostsAsync();
+        }
     }
 }

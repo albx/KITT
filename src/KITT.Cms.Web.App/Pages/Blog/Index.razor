@@ -54,7 +54,8 @@
 
                 <FluentButton Appearance="Appearance.Outline"
                               aria-label="@CommonLocalizer[nameof(UI.Resources.Common.Delete)]"
-                              Id="@($"deletePost-{post.Id}")">
+                              Id="@($"deletePost-{post.Id}")"
+                              OnClick="@(() => DeletePostAsync(post))">
                     <FluentIcon Value="@(new Icons.Filled.Size20.Delete())" />
                 </FluentButton>
                 <FluentTooltip Anchor="@($"deletePost-{post.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</FluentTooltip>

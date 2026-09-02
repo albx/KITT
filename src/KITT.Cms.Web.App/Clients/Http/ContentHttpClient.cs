@@ -8,6 +8,15 @@ public class ContentHttpClient(HttpClient httpClient) : IContentClient
 {
     public string ApiResource { get; } = "/api/cms/contents";
 
+    public async Task<Result> DeleteContentAsync(Guid contentId)
+    {
+        var response = await  httpClient.DeleteAsync($"{ApiResource}/{contentId}");
+
+        return response.IsSuccessStatusCode
+            ? Result.Ok()
+            : Result.Fail(FailureReasons.ClientError);
+    }
+
     public async Task<Result> PublishContentAsync(Guid contentId, PublishContentModel model)
     {
         var response = await httpClient.PatchAsJsonAsync($"{ApiResource}/{contentId}/publish", model);
