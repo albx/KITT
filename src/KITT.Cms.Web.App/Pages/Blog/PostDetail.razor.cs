@@ -20,6 +20,8 @@ public partial class PostDetail(
 
     private bool isReadOnly = false;
 
+    private bool saving = false;
+
     private ViewModel model = new();
 
     private ContentStatusControl.ViewModel contentStatus = default!;
@@ -51,6 +53,37 @@ public partial class PostDetail(
 
         model = MapToViewModel(detailResult.Content!);
         contentStatus = new(Id, detailResult.Content!.Status);
+    }
+
+    private async Task CancelAsync()
+    {
+        isReadOnly = true;
+        await LoadBlogPostDetailAsync();
+    }
+
+    private async Task UpdatePostAsync(ViewModel content)
+    {
+        var model = MapToUpdateBlogPostModel(content);
+
+        var result = await client.UpdateBlogPostAsync(Id, model);
+        if (!result.Success)
+        {
+            await messageService.ShowMessageBarAsync(
+                "There was an error saving the blog post",
+                MessageIntent.Error,
+                SectionNames.MessagesTopSectionName);
+
+            return;
+        }
+
+        toastService.ShowSuccess("Blog post updated successfully!");
+        isReadOnly = true;
+    }
+
+    private async Task ReloadPublishedContent(ContentStatusControl.ContentPublishedModel publishedModel)
+    {
+        model.PublicationDate = publishedModel.PublicationDate;
+        contentStatus = contentStatus with { Status = ContentStatus.Published };
     }
 
     private void EnableEditing() => isReadOnly = false;

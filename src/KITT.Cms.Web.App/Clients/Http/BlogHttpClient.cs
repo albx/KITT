@@ -55,4 +55,13 @@ public class BlogHttpClient(HttpClient httpClient) : IBlogClient
         var post = await response.Content.ReadFromJsonAsync<BlogPostDetailModel>();
         return post!;
     }
+
+    public async Task<Result> UpdateBlogPostAsync(Guid postId, UpdateBlogPostModel model)
+    {
+        var response = await httpClient.PutAsJsonAsync($"{ApiResource}/{postId}", model);
+        
+        return response.IsSuccessStatusCode 
+            ? Result.Ok() 
+            : Result.Fail(FailureReasons.ClientError);
+    }
 }

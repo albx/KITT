@@ -12,4 +12,6 @@ public interface IBlogClient
     Task<Result<BlogPostDetailModel>> ImportPostAsync(ImportBlogPostModel model);
 
     Task<Result<BlogPostDetailModel>> GetPostDetailAsync(Guid postId);
+
+    Task<Result> UpdateBlogPostAsync(Guid postId, UpdateBlogPostModel model);
 }

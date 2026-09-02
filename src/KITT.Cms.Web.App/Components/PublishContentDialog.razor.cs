@@ -43,7 +43,7 @@ public partial class PublishContentDialog(
             await client.PublishContentAsync(Content.Id, model);
             toastService.ShowSuccess("Content published successfully!");
 
-            await CloseAsync();
+            await Dialog.CloseAsync(model);
         }
         finally
         {
