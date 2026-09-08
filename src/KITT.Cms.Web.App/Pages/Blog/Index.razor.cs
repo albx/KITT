@@ -26,11 +26,7 @@ public partial class Index(
 
     private Option<PostSortDirection>[] directions = [];
 
-    private Option<ContentStatus?>[] statuses = [
-        new() { Value = null, Text = "All" },
-        new() { Value = ContentStatus.Draft, Text = "Drafts only" },
-        new() { Value = ContentStatus.Published, Text = "Published only" }
-    ];
+    private Option<ContentStatus?>[] statuses = [];
 
     private Option<int>[] sizes = [
         new() { Value = 5, Text = "5" },
@@ -44,8 +40,14 @@ public partial class Index(
     protected override void OnInitialized()
     {
         directions = Enum.GetValues<PostSortDirection>()
-            .Select(v => new Option<PostSortDirection>() { Value = v, Text = v.ToString() })
+            .Select(v => new Option<PostSortDirection>() { Value = v, Text = Localizer[v.ToString()] })
             .ToArray();
+
+        statuses = [
+            new() { Value = null, Text = Localizer[nameof(Resources.Pages.Blog.Index.AllStatusFilterLabel)] },
+            new() { Value = ContentStatus.Draft, Text = Localizer[nameof(Resources.Pages.Blog.Index.DraftsOnlyFilterLabel)] },
+            new() { Value = ContentStatus.Published, Text = Localizer[nameof(Resources.Pages.Blog.Index.PublishedOnlyFilterLabel)] }
+        ];
 
         SetPaginationState();
     }
@@ -57,6 +59,8 @@ public partial class Index(
         try
         {
             model = await blogClient.GetBlogPostsAsync(query);
+            numberOfPages = (int)Math.Ceiling(model.TotalItems / (decimal)query.Size);
+
             posts = model.Items.AsQueryable();
             await paginationState.SetTotalItemCountAsync(model.TotalItems);
         }
@@ -85,13 +89,13 @@ public partial class Index(
     private async Task DeletePostAsync(BlogPostListModel.BlogPostListItemModel post)
     {
         var postTitle = post.Title;
-        string confirmText = $"You are going to delete the post {postTitle}. Are you sure?";
+        string confirmText = Localizer[nameof(Resources.Pages.Blog.Index.DeletePostConfirmText), postTitle];
 
         var confirm = await dialogService.ShowConfirmationAsync(
             confirmText,
             primaryText: CommonLocalizer[nameof(KITT.Web.App.UI.Resources.Common.Confirm)],
             secondaryText: CommonLocalizer[(nameof(KITT.Web.App.UI.Resources.Common.Cancel))],
-            title: $"Deleting {postTitle}");
+            title: Localizer[nameof(Resources.Pages.Blog.Index.DeletePostConfirmTitle), postTitle]);
 
         var result = await confirm.Result;
         if (!result.Cancelled)
@@ -99,11 +103,11 @@ public partial class Index(
             var deleteResult = await contentClient.DeleteContentAsync(post.Id);
             if (!deleteResult.Success)
             {
-                toastService.ShowError($"There was an error deleting post {postTitle}");
+                toastService.ShowError(Localizer[nameof(Resources.Pages.Blog.Index.DeletePostErrorMessage), postTitle]);
                 return;
             }
 
-            toastService.ShowSuccess($"Post {postTitle} deleted successfully!");
+            toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Blog.Index.DeletePostSuccessMessage), postTitle]);
             await LoadPostsAsync(query);
         }
     }

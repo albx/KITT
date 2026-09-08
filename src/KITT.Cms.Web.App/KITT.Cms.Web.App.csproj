@@ -36,6 +36,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StreamingStats.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\Blog\Index.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Index.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\Settings\Channels.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -81,6 +86,10 @@
     <EmbeddedResource Update="Resources\Components\StreamingStats.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StreamingStats.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\Index.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Settings\Channels.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
