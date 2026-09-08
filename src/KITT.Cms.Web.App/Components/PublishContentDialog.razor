@@ -1,10 +1,12 @@
 ﻿@implements IDialogContentComponent<PublishContentDialog.ContentModel>
 
+@inject IStringLocalizer<Resources.Components.PublishContentDialog> Localizer
+
 <EditForm EditContext="context" role="form">
     <DataAnnotationsValidator />
 
     <FluentDialogBody>
-        <FluentDatePicker Label="Publication date"
+        <FluentDatePicker Label="@Localizer[nameof(Resources.Components.PublishContentDialog.PublicationDateLabel)]"
                           @bind-Value="model.PublicationDate"
                           Required="true"
                           Style="width:100%;"/>
@@ -15,12 +17,12 @@
                       Appearance="Appearance.Accent"
                       Loading="publishing"
                       OnClick="PublishContentAsync">
-            Publish
+            @Localizer[nameof(Resources.Components.PublishContentDialog.PublishButtonLabel)]
         </FluentButton>
         <FluentButton Appearance="Appearance.Outline"
                       Disabled="publishing"
                       OnClick="CloseAsync">
-            Close
+            @Localizer[nameof(Resources.Components.PublishContentDialog.CloseButtonLabel)]
         </FluentButton>
     </FluentDialogFooter>
 </EditForm>

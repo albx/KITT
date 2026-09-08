@@ -26,6 +26,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChannelFormPanel.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\ContentStatusControl.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ContentStatusControl.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\PublishContentDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PublishContentDialog.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Components\ScheduleForm.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -87,6 +97,14 @@
     <EmbeddedResource Update="Resources\Components\ChannelFormPanel.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ChannelFormPanel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ContentStatusControl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentStatusControl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PublishContentDialog.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PublishContentDialog.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\ScheduleForm.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

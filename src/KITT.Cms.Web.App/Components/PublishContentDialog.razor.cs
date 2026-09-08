@@ -41,7 +41,7 @@ public partial class PublishContentDialog(
         try
         {
             await client.PublishContentAsync(Content.Id, model);
-            toastService.ShowSuccess("Content published successfully!");
+            toastService.ShowSuccess(Localizer[nameof(Resources.Components.PublishContentDialog.PublishContentSuccessMessage)]);
 
             await Dialog.CloseAsync(model);
         }

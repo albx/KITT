@@ -19,7 +19,7 @@ public partial class ContentStatusControl(IDialogService dialogService)
             new PublishContentDialog.ContentModel(Content.Id),
             new()
             {
-                Title = "Publish Content"
+                Title = Localizer[nameof(Resources.Components.ContentStatusControl.PublishDialogTitle)]
             });
 
         var result = await dialog.Result;
