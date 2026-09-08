@@ -26,14 +26,14 @@ public partial class Write(
         if (!result.Success)
         {
             await messageService.ShowMessageBarAsync(
-                "There was an error saving the post draft",
+                Localizer[nameof(Resources.Pages.Blog.Write.SaveDraftErrorMessage)],
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
 
             return;
         }
 
-        toastService.ShowSuccess("Post drafted successfully!");
+        toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Blog.Write.SaveDraftSuccessMessage)]);
         navigationManager.NavigateTo($"blog/post/{result.Content!.Id}");
     }
 

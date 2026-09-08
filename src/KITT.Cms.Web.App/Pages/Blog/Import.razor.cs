@@ -26,14 +26,14 @@ public partial class Import(
         if (!result.Success)
         {
             await messageService.ShowMessageBarAsync(
-                "There was an error importing the post",
+                Localizer[nameof(Resources.Pages.Blog.Import.ImportErrorMessage)],
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
 
             return;
         }
 
-        toastService.ShowSuccess("Post imported successfully!");
+        toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Blog.Import.ImportSuccessMessage)]);
         navigationManager.NavigateTo($"blog/post/{result.Content!.Id}");
     }
 

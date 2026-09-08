@@ -36,10 +36,25 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StreamingStats.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\Blog\Import.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Import.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\Blog\Index.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Index.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Blog\PostDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PostDetail.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Blog\Write.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Write.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Pages\Settings\Channels.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -87,9 +102,21 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StreamingStats.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\Import.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Import.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Blog\Index.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\PostDetail.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PostDetail.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\Write.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Write.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Settings\Channels.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

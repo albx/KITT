@@ -39,8 +39,8 @@ public partial class PostDetail(
         {
             string errorMessage = detailResult.FailureReason switch
             {
-                FailureReasons.ItemNotFound => "The requested blog post was not found.",
-                _ => "There was an error retrieving the blog post details."
+                FailureReasons.ItemNotFound => Localizer[nameof(Resources.Pages.Blog.PostDetail.PostNotFoundMessage)],
+                _ => Localizer[nameof(Resources.Pages.Blog.PostDetail.PostRetrieveGenericErrorMessage)]
             };
 
             await messageService.ShowMessageBarAsync(
@@ -69,14 +69,14 @@ public partial class PostDetail(
         if (!result.Success)
         {
             await messageService.ShowMessageBarAsync(
-                "There was an error saving the blog post",
+                Localizer[nameof(Resources.Pages.Blog.PostDetail.PostDetailSaveErrorMessage)],
                 MessageIntent.Error,
                 SectionNames.MessagesTopSectionName);
 
             return;
         }
 
-        toastService.ShowSuccess("Blog post updated successfully!");
+        toastService.ShowSuccess(Localizer[nameof(Resources.Pages.Blog.PostDetail.PostDetailSaveSuccessMessage)]);
         isReadOnly = true;
     }
 

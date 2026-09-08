@@ -1,11 +1,12 @@
 ﻿@page "/blog/post/{id:guid}"
 
 @inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Blog.PostDetail> Localizer
 
-<PageTitle>KITT - Post detail</PageTitle>
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Blog.PostDetail.PageTitle)]</PageTitle>
 
 <SectionContent SectionName="@SectionNames.PageTitleSectionName">
-    Post detail
+    @Localizer[nameof(Resources.Pages.Blog.PostDetail.PageTitle)]
 </SectionContent>
 <SectionContent SectionName="@SectionNames.ToolbarSectionName">
     @if (isReadOnly)
@@ -36,7 +37,7 @@
         <ContentInfo>
             <FluentGrid>
                 <FluentGridItem xs="12" md="6">
-                    <FluentTextField Label="Title"
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.TitleLabel)]"
                                      @bind-Value="post.Title"
                                      Appearance="FluentInputAppearance.Filled"
                                      Style="width:100%;"
@@ -45,7 +46,7 @@
                     <FluentValidationMessage For="@(() => post.Title)" />
                 </FluentGridItem>
                 <FluentGridItem xs="12" md="6">
-                    <FluentTextField Label="Slug"
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.SlugLabel)]"
                                      @bind-Value="post.Slug"
                                      Appearance="FluentInputAppearance.Filled"
                                      Style="width:100%;"
@@ -54,14 +55,14 @@
             </FluentGrid>
             <FluentGrid>
                 <FluentGridItem xs="12" md="6">
-                    <FluentDatePicker Label="Creation date"
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.CreationDateLabel)]"
                                       @bind-Value="post.CreationDate"
                                       Appearance="FluentInputAppearance.Filled"
                                       Style="width:100%;"
                                       Disabled="true"/>
                 </FluentGridItem>
                 <FluentGridItem xs="12" md="6">
-                    <FluentDatePicker Label="Publication date"
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.PublicationDateLabel)]"
                                       @bind-Value="post.PublicationDate"
                                       Appearance="FluentInputAppearance.Filled"
                                       Style="width:100%;"
@@ -70,7 +71,7 @@
             </FluentGrid>
             <FluentGrid>
                 <FluentGridItem xs="12" md="12">
-                    <FluentLabel>Abstract</FluentLabel>
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.PostDetail.AbstractLabel)]</FluentLabel>
                     <MarkdownEditor @bind-Value="post.PostAbstract"
                                     Rows="10"
                                     Readonly="isReadOnly" />
@@ -79,7 +80,7 @@
 
             <FluentGrid>
                 <FluentGridItem xs="12" md="12">
-                    <FluentLabel>Content</FluentLabel>
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.PostDetail.ContentLabel)]</FluentLabel>
                     <MarkdownEditor @bind-Value="post.Content"
                                     Rows="20"
                                     Readonly="isReadOnly" />
