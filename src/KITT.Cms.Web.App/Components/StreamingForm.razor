@@ -93,11 +93,9 @@
 
         <FluentGrid>
             <FluentGridItem xs="12" md="12">
-                <FluentTextArea Label="Abstract"
-                                @bind-Value="streaming.StreamingAbstract"
-                                Appearance="FluentInputAppearance.Filled"
-                                Rows="10"
-                                Style="width:100%;" />
+                <FluentLabel>Abstract</FluentLabel>
+                <MarkdownEditor @bind-Value="streaming.StreamingAbstract"
+                                Rows="10" />
             </FluentGridItem>
         </FluentGrid>
     </ContentInfo>

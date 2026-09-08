@@ -1,0 +1,148 @@
+﻿@page "/blog"
+
+@using PostSortDirection = KITT.Cms.Web.Models.SortDirection
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Blog.Index> Localizer
+
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Blog.Index.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Blog.Index.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="blog/write">
+        @Localizer[nameof(Resources.Pages.Blog.Index.WriteNewPostLabel)]
+    </FluentAnchor>
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="blog/import">
+        @Localizer[nameof(Resources.Pages.Blog.Index.ImportBlogPostLabel)]
+    </FluentAnchor>
+</SectionContent>
+
+<FluentStack Class="mb-3">
+    <EditForm Model="query" OnValidSubmit="SearchAsync" id="postsSearchForm" style="width:100%;">
+        <DataAnnotationsValidator />
+        
+        <FluentGrid>
+            <FluentGridItem xs="12" md="2">
+                <FluentSelect TOption="Option<PostSortDirection>"
+                              Items="directions"
+                              OptionValue="@(s => s.Value.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Label="@Localizer[nameof(Resources.Pages.Blog.Index.PostQueryOrderLabel)]"
+                              Value="@query.PublishSort.ToString()"
+                              ValueChanged="@(value => query.PublishSort = Enum.Parse<PostSortDirection>(value))"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%; min-width:auto;" />
+                <FluentValidationMessage For="@(() => query.PublishSort)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="2">
+                <FluentSelect TOption="Option<ContentStatus?>"
+                              Items="statuses"
+                              OptionValue="@(s => s.Value?.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Label="@Localizer[nameof(Resources.Pages.Blog.Index.StatusLabel)]"
+                              Value="@query.Status?.ToString()"
+                              ValueChanged="@(value => query.Status = value is null ? null : Enum.Parse<ContentStatus>(value))"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%; min-width:auto;" />
+                <FluentValidationMessage For="@(() => query.Status)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="8">
+                <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.Index.TitleLabel)]"
+                                 @bind-Value="query.Query"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;" />
+                <FluentValidationMessage For="@(() => query.Query)" />
+            </FluentGridItem>
+        </FluentGrid>
+        <FluentGrid>
+            <FluentGridItem xs="12" md="2">
+                <FluentSelect TOption="Option<int>"
+                              Items="sizes"
+                              OptionValue="@(s => s.Value.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Value="@query.Size.ToString()"
+                              ValueChanged="@(value => query.Size = int.Parse(value))"
+                              Label="@Localizer[nameof(Resources.Pages.Blog.Index.PostQuerySizeLabel)]"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%;min-width:auto;" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="2">
+                <FluentStack Orientation="Orientation.Horizontal"
+                             HorizontalAlignment="HorizontalAlignment.Start"
+                             VerticalAlignment="VerticalAlignment.Bottom"
+                             Style="height:100%;">
+                    <FluentButton Type="ButtonType.Submit"
+                                  Appearance="Appearance.Accent"
+                                  IconStart="@(new Icons.Regular.Size20.Search())">
+                        @Localizer[nameof(Resources.Pages.Blog.Index.SearchButtonLabel)]
+                    </FluentButton>
+                    <FluentButton Appearance="Appearance.Outline"
+                                  OnClick="ClearSearchAsync">
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Dismiss())" Color="Color.Accent" />
+                    </FluentButton>
+                </FluentStack>
+            </FluentGridItem>
+        </FluentGrid>
+    </EditForm>
+</FluentStack>
+<FluentDivider />
+
+<FluentDataGrid Items="posts"
+                Loading="loading">
+    <EmptyContent>
+        <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.Index.NoPostsFoundLabel)]</FluentLabel>
+    </EmptyContent>
+    <LoadingContent>
+        <FluentProgress />
+    </LoadingContent>
+    <ChildContent>
+        <PropertyColumn Property="@(p => p.Title)" Title="@Localizer[nameof(Resources.Pages.Blog.Index.TitleLabel)]" />
+        <PropertyColumn Property="@(p => p.Slug)" Title="@Localizer[nameof(Resources.Pages.Blog.Index.SlugLabel)]" />
+        <TemplateColumn Context="post"
+                        Title="@Localizer[nameof(Resources.Pages.Blog.Index.PublicationDateLabel)]"
+                        Style="height:auto;">
+            @(post.PublishedOn?.ToShortDateString() ?? "-")
+        </TemplateColumn>
+        <TemplateColumn Context="post"
+                        Title="@Localizer[nameof(Resources.Pages.Blog.Index.StatusLabel)]"
+                        Style="height:auto;">
+            @Localizer[post.Status.ToString()]
+        </TemplateColumn>
+        <TemplateColumn Context="post"
+                        Style="height:auto;">
+            <FluentStack Orientation="Orientation.Horizontal"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.End">
+                <FluentButton Appearance="Appearance.Accent"
+                              OnClick="@(() => OpenPostDetailPage(post))"
+                              aria-label="@CommonLocalizer[nameof(UI.Resources.Common.View)]"
+                              Id="@($"openPostDetail-{post.Id}")">
+                    <FluentIcon Color="Color.Fill" Value="@(new Icons.Filled.Size20.Eye())" />
+                </FluentButton>
+                <FluentTooltip Anchor="@($"openPostDetail-{post.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.View)]</FluentTooltip>
+
+                <FluentButton Appearance="Appearance.Outline"
+                              aria-label="@CommonLocalizer[nameof(UI.Resources.Common.Delete)]"
+                              Id="@($"deletePost-{post.Id}")"
+                              OnClick="@(() => DeletePostAsync(post))">
+                    <FluentIcon Value="@(new Icons.Filled.Size20.Delete())" />
+                </FluentButton>
+                <FluentTooltip Anchor="@($"deletePost-{post.Id}")">@CommonLocalizer[nameof(UI.Resources.Common.Delete)]</FluentTooltip>
+            </FluentStack>
+        </TemplateColumn>
+    </ChildContent>
+</FluentDataGrid>
+
+<FluentPaginator State="paginationState"
+                 CurrentPageIndexChanged="OnPageChangedAsync">
+    <SummaryTemplate>
+        @Localizer[nameof(Resources.Pages.Blog.Index.PaginationItemsNumberText), paginationState.TotalItemCount!]
+    </SummaryTemplate>
+    <PaginationTextTemplate>
+        @Localizer[nameof(Resources.Pages.Blog.Index.PageNumberLabel), query.Page, numberOfPages]
+    </PaginationTextTemplate>
+</FluentPaginator>

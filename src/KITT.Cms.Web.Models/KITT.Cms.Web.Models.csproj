@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OperationResultTools" Version="1.0.39" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\KITT.Cms.Settings\KITT.Cms.Settings.csproj" />
   </ItemGroup>
 

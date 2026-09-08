@@ -1,0 +1,79 @@
+﻿@page "/blog/import"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Blog.Import> Localizer
+
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Blog.Import.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Blog.Import.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="blog">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ErrorBoundary>
+    <ContentForm TContent="ViewModel"
+                 Model="model"
+                 ContentTabTitle="Post"
+                 Context="post"
+                 OnCancel="Cancel"
+                 OnSave="SavePostAsync">
+        <ContentInfo>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.Import.TitleLabel)]"
+                                     @bind-Value="post.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true" />
+                    <FluentValidationMessage For="@(() => post.Title)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.Import.SlugLabel)]"
+                                     @bind-Value="post.Slug"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true" />
+                    <FluentValidationMessage For="@(() => post.Slug)" />
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Blog.Import.CreationDateLabel)]"
+                                      @bind-Value="post.CreationDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true" />
+                    <FluentValidationMessage For="@(() => post.CreationDate)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Blog.Import.PublicationDateLabel)]"
+                                      @bind-Value="post.PublicationDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Required="true" />
+                    <FluentValidationMessage For="@(() => post.PublicationDate)" />
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.Import.AbstractLabel)]</FluentLabel>
+                    <MarkdownEditor @bind-Value="post.PostAbstract"
+                                    Rows="10" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.Import.ContentLabel)]</FluentLabel>
+                    <MarkdownEditor @bind-Value="post.Content"
+                                    Rows="20" />
+                </FluentGridItem>
+            </FluentGrid>
+        </ContentInfo>
+    </ContentForm>
+</ErrorBoundary>

@@ -4,8 +4,6 @@ public static class StreamingsExtensions
 {
     extension(IQueryable<Streaming> streamings)
     {
-        public IQueryable<Streaming> ByUserId(string userId) => streamings.Where(s => s.UserId == userId);
-
         public IQueryable<Streaming> OrderedBySchedule(bool ascending = true)
         {
             return ascending ?

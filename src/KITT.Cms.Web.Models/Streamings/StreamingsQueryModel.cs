@@ -28,10 +28,4 @@ public record StreamingQueryModel
 
         return string.Join("&", queryItems);
     }
-
-    public enum SortDirection
-    {
-        Ascending,
-        Descending
-    }
 }

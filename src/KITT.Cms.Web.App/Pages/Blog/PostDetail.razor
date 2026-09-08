@@ -1,0 +1,91 @@
+﻿@page "/blog/post/{id:guid}"
+
+@inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
+@inject IStringLocalizer<Resources.Pages.Blog.PostDetail> Localizer
+
+<PageTitle>KITT - @Localizer[nameof(Resources.Pages.Blog.PostDetail.PageTitle)]</PageTitle>
+
+<SectionContent SectionName="@SectionNames.PageTitleSectionName">
+    @Localizer[nameof(Resources.Pages.Blog.PostDetail.PageTitle)]
+</SectionContent>
+<SectionContent SectionName="@SectionNames.ToolbarSectionName">
+    @if (isReadOnly)
+    {
+        <FluentButton Appearance="Appearance.Outline"
+                      OnClick="EnableEditing">
+            @CommonLocalizer[nameof(UI.Resources.Common.Edit)]
+        </FluentButton>
+    }
+
+    <ContentStatusControl Content="contentStatus"
+                          OnContentPublished="ReloadPublishedContent" />
+
+    <FluentAnchor Appearance="Appearance.Accent"
+                  Href="blog">
+        @CommonLocalizer[nameof(UI.Resources.Common.Back)]
+    </FluentAnchor>
+</SectionContent>
+
+<ErrorBoundary>
+    <ContentForm TContent="ViewModel"
+                 Model="model"
+                 ContentTabTitle="Post"
+                 Context="post"
+                 ReadOnly="isReadOnly"
+                 OnCancel="CancelAsync"
+                 OnSave="UpdatePostAsync">
+        <ContentInfo>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.TitleLabel)]"
+                                     @bind-Value="post.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Required="true"
+                                     Disabled="isReadOnly"/>
+                    <FluentValidationMessage For="@(() => post.Title)" />
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentTextField Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.SlugLabel)]"
+                                     @bind-Value="post.Slug"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;"
+                                     Disabled="true"/>
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.CreationDateLabel)]"
+                                      @bind-Value="post.CreationDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Disabled="true"/>
+                </FluentGridItem>
+                <FluentGridItem xs="12" md="6">
+                    <FluentDatePicker Label="@Localizer[nameof(Resources.Pages.Blog.PostDetail.PublicationDateLabel)]"
+                                      @bind-Value="post.PublicationDate"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%;"
+                                      Disabled="true"/>
+                </FluentGridItem>
+            </FluentGrid>
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.PostDetail.AbstractLabel)]</FluentLabel>
+                    <MarkdownEditor @bind-Value="post.PostAbstract"
+                                    Rows="10"
+                                    Readonly="isReadOnly" />
+                </FluentGridItem>
+            </FluentGrid>
+
+            <FluentGrid>
+                <FluentGridItem xs="12" md="12">
+                    <FluentLabel>@Localizer[nameof(Resources.Pages.Blog.PostDetail.ContentLabel)]</FluentLabel>
+                    <MarkdownEditor @bind-Value="post.Content"
+                                    Rows="20"
+                                    Readonly="isReadOnly" />
+                </FluentGridItem>
+            </FluentGrid>
+        </ContentInfo>
+    </ContentForm>
+</ErrorBoundary>

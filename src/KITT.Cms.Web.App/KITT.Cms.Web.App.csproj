@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +26,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChannelFormPanel.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\ContentStatusControl.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ContentStatusControl.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\PublishContentDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PublishContentDialog.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Components\ScheduleForm.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -35,6 +45,26 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>StreamingStats.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Blog\Import.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Import.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Blog\Index.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Index.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Blog\PostDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PostDetail.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Blog\Write.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Write.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Pages\Settings\Channels.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -68,6 +98,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ChannelFormPanel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ContentStatusControl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentStatusControl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PublishContentDialog.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PublishContentDialog.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\ScheduleForm.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -81,6 +119,22 @@
     <EmbeddedResource Update="Resources\Components\StreamingStats.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StreamingStats.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\Import.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Import.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\Index.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\PostDetail.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PostDetail.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Blog\Write.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Write.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Settings\Channels.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

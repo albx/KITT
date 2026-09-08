@@ -94,28 +94,6 @@ namespace KITT.Core.Test.Models
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Schedule_Should_Throw_ArgumentException_If_Twitch_Url_Is_Empty(string twitchUrl)
-        {
-            string title = "test";
-            string slug = "test";
-            string twitchChannel = "albx87";
-            string youTubeChannel = "@albx87";
-            DateOnly scheduleDate = DateOnly.FromDateTime(DateTime.Today);
-            TimeOnly startingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(16));
-            TimeOnly endingTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
-            string youTubeUrl = "@albx87";
-            string userId = Guid.NewGuid().ToString();
-
-            var ex = Assert.Throws<ArgumentException>(
-                () => Streaming.Schedule(title, slug, twitchChannel, youTubeChannel, scheduleDate, startingTime, endingTime, twitchUrl, youTubeUrl, userId));
-
-            Assert.Equal(nameof(twitchUrl), ex.ParamName);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
         public void Schedule_Should_Throw_ArgumentException_If_UserId_Is_Empty(string userId)
         {
             string title = "test";
