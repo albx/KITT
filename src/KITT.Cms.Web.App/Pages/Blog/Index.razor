@@ -1,5 +1,7 @@
 ﻿@page "/blog"
 
+@using PostSortDirection = KITT.Cms.Web.Models.SortDirection
+
 @inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 
 <PageTitle>KITT - My blog posts</PageTitle>
@@ -17,6 +19,76 @@
         Import a blog post
     </FluentAnchor>
 </SectionContent>
+
+<FluentStack Class="mb-3">
+    <EditForm Model="query" OnValidSubmit="SearchAsync" id="postsSearchForm" style="width:100%;">
+        <DataAnnotationsValidator />
+        
+        <FluentGrid>
+            <FluentGridItem xs="12" md="2">
+                <FluentSelect TOption="Option<PostSortDirection>"
+                              Items="directions"
+                              OptionValue="@(s => s.Value.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Label="Order"
+                              Value="@query.PublishSort.ToString()"
+                              ValueChanged="@(value => query.PublishSort = Enum.Parse<PostSortDirection>(value))"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%; min-width:auto;" />
+                <FluentValidationMessage For="@(() => query.PublishSort)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="2">
+                <FluentSelect TOption="Option<ContentStatus?>"
+                              Items="statuses"
+                              OptionValue="@(s => s.Value?.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Label="Post status"
+                              Value="@query.Status?.ToString()"
+                              ValueChanged="@(value => query.Status = value is null ? null : Enum.Parse<ContentStatus>(value))"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%; min-width:auto;" />
+                <FluentValidationMessage For="@(() => query.Status)" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="8">
+                <FluentTextField Label="Title"
+                                 @bind-Value="query.Query"
+                                 Appearance="FluentInputAppearance.Filled"
+                                 Style="width:100%;" />
+                <FluentValidationMessage For="@(() => query.Query)" />
+            </FluentGridItem>
+        </FluentGrid>
+        <FluentGrid>
+            <FluentGridItem xs="12" md="2">
+                <FluentSelect TOption="Option<int>"
+                              Items="sizes"
+                              OptionValue="@(s => s.Value.ToString())"
+                              OptionText="@(s => s.Text)"
+                              Value="@query.Size.ToString()"
+                              ValueChanged="@(value => query.Size = int.Parse(value))"
+                              Label="Nr. of elements"
+                              Appearance="Appearance.Filled"
+                              Style="width:100%;min-width:auto;" />
+            </FluentGridItem>
+            <FluentGridItem xs="12" md="2">
+                <FluentStack Orientation="Orientation.Horizontal"
+                             HorizontalAlignment="HorizontalAlignment.Start"
+                             VerticalAlignment="VerticalAlignment.Bottom"
+                             Style="height:100%;">
+                    <FluentButton Type="ButtonType.Submit"
+                                  Appearance="Appearance.Accent"
+                                  IconStart="@(new Icons.Regular.Size20.Search())">
+                        Search
+                    </FluentButton>
+                    <FluentButton Appearance="Appearance.Outline"
+                                  OnClick="ClearSearchAsync">
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Dismiss())" Color="Color.Accent" />
+                    </FluentButton>
+                </FluentStack>
+            </FluentGridItem>
+        </FluentGrid>
+    </EditForm>
+</FluentStack>
+<FluentDivider />
 
 <FluentDataGrid Items="posts"
                 Loading="loading">
@@ -64,12 +136,12 @@
     </ChildContent>
 </FluentDataGrid>
 
-@* <FluentPaginator State="paginationState"
+<FluentPaginator State="paginationState"
                  CurrentPageIndexChanged="OnPageChangedAsync">
     <SummaryTemplate>
-        @Localizer[nameof(Resources.Pages.Streamings.Index.PaginationItemsNumberText), paginationState.TotalItemCount!]
+        @* @Localizer[nameof(Resources.Pages.Streamings.Index.PaginationItemsNumberText), paginationState.TotalItemCount!] *@
     </SummaryTemplate>
     <PaginationTextTemplate>
-        @Localizer[nameof(Resources.Pages.Streamings.Index.PageNumberLabel), query.Page, numberOfPages]
+        @* @Localizer[nameof(Resources.Pages.Streamings.Index.PageNumberLabel), query.Page, numberOfPages] *@
     </PaginationTextTemplate>
-</FluentPaginator> *@
+</FluentPaginator>
