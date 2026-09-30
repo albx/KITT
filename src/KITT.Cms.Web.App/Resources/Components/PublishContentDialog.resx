@@ -129,4 +129,7 @@
   <data name="PublishContentSuccessMessage" xml:space="preserve">
     <value>Content published successfully!</value>
   </data>
+  <data name="PublishContentErrorMessage" xml:space="preserve">
+    <value>An error occurred while publishing the content.</value>
+  </data>
 </root>

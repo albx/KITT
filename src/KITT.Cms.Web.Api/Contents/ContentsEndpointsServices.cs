@@ -5,9 +5,9 @@ namespace KITT.Cms.Web.Api.Contents;
 
 public class ContentsEndpointsServices(IContentCommands commands)
 {
-    public Task PublishContentAsync(Guid contentId, PublishContentModel model) 
-        => commands.PublishContentAsync(contentId, model.PublicationDate!.Value);
+    public Task PublishContentAsync(Guid contentId, PublishContentModel model, string userId) 
+        => commands.PublishContentAsync(contentId, model.PublicationDate!.Value, userId);
 
-    public Task DeleteContentAsync(Guid contentId) 
-        => commands.DeleteContentAsync(contentId);
+    public Task DeleteContentAsync(Guid contentId, string userId) 
+        => commands.DeleteContentAsync(contentId, userId);
 }

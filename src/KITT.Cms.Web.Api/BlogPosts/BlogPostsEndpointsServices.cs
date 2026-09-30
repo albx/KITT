@@ -141,13 +141,14 @@ public class BlogPostsEndpointsServices(IDatabase database, IBlogPostCommands co
             userId);
     }
 
-    public Task UpdateBlogPostAsync(Guid postId, UpdateBlogPostModel model)
+    public Task UpdateBlogPostAsync(Guid postId, UpdateBlogPostModel model, string userId)
     {
         return commands.UpdatePostAsync(
             postId,
             model.Title,
             model.PostAbstract,
             model.Content,
-            model.Seo.ToEntity());
+            model.Seo.ToEntity(),
+            userId);
     }
 }

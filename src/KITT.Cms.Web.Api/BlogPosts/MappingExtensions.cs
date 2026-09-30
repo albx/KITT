@@ -1,4 +1,5 @@
-﻿using KITT.Cms.Web.Models.BlogPosts;
+﻿using KITT.Cms.Web.Models;
+using KITT.Cms.Web.Models.BlogPosts;
 
 namespace KITT.Cms.Web.Api.BlogPosts;
 
@@ -48,8 +49,9 @@ public static class MappingExtensions
                 PostAbstract = model.PostAbstract,
                 Content = model.Content,
                 Seo = model.Seo,
+                Status = ContentStatus.Published,
                 CreationDate = model.CreationDate!.Value,
-                PublicationDate = model.PublicationDate!.Value,
+                PublicationDate = model.PublicationDate!.Value
             };
         }
     }

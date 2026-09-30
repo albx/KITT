@@ -31,16 +31,22 @@ public partial class PublishContentDialog(
 
     private async Task PublishContentAsync()
     {
-        publishing = true;
-
         if (!context.Validate())
         {
             return;
         }
 
+        publishing = true;
+
         try
         {
-            await client.PublishContentAsync(Content.Id, model);
+            var result = await client.PublishContentAsync(Content.Id, model);
+            if (!result.Success)
+            {
+                toastService.ShowError(Localizer[nameof(Resources.Components.PublishContentDialog.PublishContentErrorMessage)]);
+                return;
+            }
+
             toastService.ShowSuccess(Localizer[nameof(Resources.Components.PublishContentDialog.PublishContentSuccessMessage)]);
 
             await Dialog.CloseAsync(model);

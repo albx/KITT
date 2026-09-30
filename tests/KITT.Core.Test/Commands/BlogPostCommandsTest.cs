@@ -239,7 +239,20 @@ namespace KITT.Core.Test.Commands
             var nonExistentId = Guid.NewGuid();
 
             await Assert.ThrowsAsync<InvalidOperationException>(
-                () => commands.UpdatePostAsync(nonExistentId, "new title", "new abstract", "new content", ValidSeo()));
+                () => commands.UpdatePostAsync(nonExistentId, "new title", "new abstract", "new content", ValidSeo(), "user1"));
+        }
+
+        [Fact]
+        public async Task UpdatePostAsync_Should_Throw_InvalidOperationException_If_Post_Belongs_To_Another_User()
+        {
+            var commands = new BlogPostCommands(_fixture.Context);
+            var postId = await commands.CreatePostAsDraftAsync("title", "slug-upd-owner", "abstract", "content", ValidSeo(), "user1");
+
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                () => commands.UpdatePostAsync(postId, "new title", "new abstract", "new content", ValidSeo(), "user2"));
+
+            var post = _fixture.Context.BlogPosts.Find(postId);
+            Assert.Equal("title", post!.Title);
         }
 
         [Fact]
@@ -248,7 +261,7 @@ namespace KITT.Core.Test.Commands
             var commands = new BlogPostCommands(_fixture.Context);
             var postId = await commands.CreatePostAsDraftAsync("original title", "slug-upd-1", "abstract", "content", ValidSeo(), "user1");
 
-            await commands.UpdatePostAsync(postId, "updated title", "abstract", "content", ValidSeo());
+            await commands.UpdatePostAsync(postId, "updated title", "abstract", "content", ValidSeo(), "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.Equal("updated title", post!.Title);
@@ -260,7 +273,7 @@ namespace KITT.Core.Test.Commands
             var commands = new BlogPostCommands(_fixture.Context);
             var postId = await commands.CreatePostAsDraftAsync("title", "slug-upd-2", "original abstract", "content", ValidSeo(), "user1");
 
-            await commands.UpdatePostAsync(postId, "title", "updated abstract", "content", ValidSeo());
+            await commands.UpdatePostAsync(postId, "title", "updated abstract", "content", ValidSeo(), "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.Equal("updated abstract", post!.Abstract);
@@ -272,7 +285,7 @@ namespace KITT.Core.Test.Commands
             var commands = new BlogPostCommands(_fixture.Context);
             var postId = await commands.CreatePostAsDraftAsync("title", "slug-upd-3", "abstract", "original content", ValidSeo(), "user1");
 
-            await commands.UpdatePostAsync(postId, "title", "abstract", "updated content", ValidSeo());
+            await commands.UpdatePostAsync(postId, "title", "abstract", "updated content", ValidSeo(), "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.Equal("updated content", post!.Content);
@@ -285,7 +298,7 @@ namespace KITT.Core.Test.Commands
             var postId = await commands.CreatePostAsDraftAsync("title", "slug-upd-4", "abstract", "content", ValidSeo(), "user1");
             var updatedSeo = new Content.SeoData { Title = "new seo title", Description = "new desc", Keywords = "new kw" };
 
-            await commands.UpdatePostAsync(postId, "title", "abstract", "content", updatedSeo);
+            await commands.UpdatePostAsync(postId, "title", "abstract", "content", updatedSeo, "user1");
 
             var post = _fixture.Context.BlogPosts.Find(postId);
             Assert.Equal(updatedSeo, post!.Seo);

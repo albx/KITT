@@ -23,9 +23,12 @@ public partial class ContentStatusControl(IDialogService dialogService)
             });
 
         var result = await dialog.Result;
-        var publishedModel = result.Data as PublishContentModel;
+        if (result.Cancelled || result.Data is not PublishContentModel { PublicationDate: not null } publishedModel)
+        {
+            return;
+        }
 
-        await OnContentPublished.InvokeAsync(new(publishedModel!.PublicationDate!.Value));
+        await OnContentPublished.InvokeAsync(new(publishedModel.PublicationDate!.Value));
     }
 
     public record ViewModel(

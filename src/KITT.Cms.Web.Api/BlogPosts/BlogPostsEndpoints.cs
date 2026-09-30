@@ -105,12 +105,15 @@ public static class BlogPostsEndpoints
 
     private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateBlogPost(
         BlogPostsEndpointsServices services,
+        ClaimsPrincipal user,
         Guid id,
         [FromBody] UpdateBlogPostModel model)
     {
+        var userId = user.GetUserId();
+
         try
         {
-            await services.UpdateBlogPostAsync(id, model);
+            await services.UpdateBlogPostAsync(id, model, userId);
             return TypedResults.NoContent();
         }
         catch (InvalidOperationException)

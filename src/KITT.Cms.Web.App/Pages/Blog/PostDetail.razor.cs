@@ -24,7 +24,7 @@ public partial class PostDetail(
 
     private ViewModel model = new();
 
-    private ContentStatusControl.ViewModel contentStatus = default!;
+    private ContentStatusControl.ViewModel? contentStatus;
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,7 +83,11 @@ public partial class PostDetail(
     private async Task ReloadPublishedContent(ContentStatusControl.ContentPublishedModel publishedModel)
     {
         model.PublicationDate = publishedModel.PublicationDate;
-        contentStatus = contentStatus with { Status = ContentStatus.Published };
+        
+        if (contentStatus is not null)
+        {
+            contentStatus = contentStatus with { Status = ContentStatus.Published };
+        }        
     }
 
     private void EnableEditing() => isReadOnly = false;

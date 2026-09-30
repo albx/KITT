@@ -2,9 +2,9 @@
 
 public class ContentCommands(KittDbContext context) : IContentCommands
 {
-    public async Task DeleteContentAsync(Guid contentId)
+    public async Task DeleteContentAsync(Guid contentId, string userId)
     {
-        var content = await context.Contents.SingleOrDefaultAsync(c => c.Id == contentId);
+        var content = await context.Contents.ByUserId(userId).SingleOrDefaultAsync(c => c.Id == contentId);
         if (content is null)
         {
             throw new InvalidOperationException($"Content with ID {contentId} not found.");
@@ -14,9 +14,9 @@ public class ContentCommands(KittDbContext context) : IContentCommands
         await context.SaveChangesAsync();
     }
 
-    public async Task PublishContentAsync(Guid contentId, DateTime publicationDate)
+    public async Task PublishContentAsync(Guid contentId, DateTime publicationDate, string userId)
     {
-        var content = await context.Contents.SingleOrDefaultAsync(c => c.Id == contentId);
+        var content = await context.Contents.ByUserId(userId).SingleOrDefaultAsync(c => c.Id == contentId);
         if (content is null)
         {
             throw new InvalidOperationException($"Content with ID {contentId} not found.");

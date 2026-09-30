@@ -2,7 +2,7 @@
 
 public interface IContentCommands
 {
-    Task DeleteContentAsync(Guid contentId);
+    Task DeleteContentAsync(Guid contentId, string userId);
 
-    Task PublishContentAsync(Guid contentId, DateTime publicationDate);
+    Task PublishContentAsync(Guid contentId, DateTime publicationDate, string userId);
 }

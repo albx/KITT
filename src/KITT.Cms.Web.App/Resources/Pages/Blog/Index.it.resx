@@ -151,7 +151,7 @@
     <value>Nessun post trovato. Prova a fare un'altra ricerca</value>
   </data>
   <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} dirette</value>
+    <value>{0} post</value>
   </data>
   <data name="SlugLabel" xml:space="preserve">
     <value>URL</value>

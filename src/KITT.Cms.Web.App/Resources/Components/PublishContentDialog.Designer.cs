@@ -95,5 +95,14 @@ namespace KITT.Cms.Web.App.Resources.Components {
                 return ResourceManager.GetString("PublishContentSuccessMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while publishing the content..
+        /// </summary>
+        internal static string PublishContentErrorMessage {
+            get {
+                return ResourceManager.GetString("PublishContentErrorMessage", resourceCulture);
+            }
+        }
     }
 }

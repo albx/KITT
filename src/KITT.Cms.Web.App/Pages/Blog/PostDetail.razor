@@ -17,8 +17,11 @@
         </FluentButton>
     }
 
-    <ContentStatusControl Content="contentStatus"
-                          OnContentPublished="ReloadPublishedContent" />
+    @if (contentStatus is not null)
+    {
+        <ContentStatusControl Content="contentStatus"
+                              OnContentPublished="ReloadPublishedContent" />
+    }
 
     <FluentAnchor Appearance="Appearance.Accent"
                   Href="blog">

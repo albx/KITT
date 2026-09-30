@@ -151,7 +151,7 @@
     <value>No posts here. Try another search</value>
   </data>
   <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} streamings</value>
+    <value>{0} posts</value>
   </data>
   <data name="SlugLabel" xml:space="preserve">
     <value>Slug</value>

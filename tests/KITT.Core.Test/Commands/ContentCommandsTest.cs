@@ -16,7 +16,7 @@ namespace KITT.Core.Test.Commands
 
         #region DeleteContentAsync tests
 
-        [Fact(Skip = "ExecuteDeleteAsync is not supported by the EF Core InMemory provider. Requires a relational database provider.")]
+        [Fact]
         public async Task DeleteContentAsync_Should_Remove_Content_From_Database()
         {
             var post = BlogPost.CreateAsDraft("title", "slug-del-1", "abstract", "content",
@@ -29,21 +29,20 @@ namespace KITT.Core.Test.Commands
             });
 
             var commands = new ContentCommands(_fixture.Context);
-            await commands.DeleteContentAsync(post.Id);
+            await commands.DeleteContentAsync(post.Id, "user1");
 
             var found = _fixture.Context.Contents.Find(post.Id);
             Assert.Null(found);
         }
 
-        [Fact(Skip = "ExecuteDeleteAsync is not supported by the EF Core InMemory provider. Requires a relational database provider.")]
-        public async Task DeleteContentAsync_Should_Not_Throw_If_Content_Does_Not_Exist()
+        [Fact]
+        public async Task DeleteContentAsync_Should_Throw_InvalidOperationException_If_Content_Does_Not_Exist()
         {
             var commands = new ContentCommands(_fixture.Context);
             var nonExistentId = Guid.NewGuid();
 
-            var ex = await Record.ExceptionAsync(() => commands.DeleteContentAsync(nonExistentId));
-
-            Assert.Null(ex);
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                () => commands.DeleteContentAsync(nonExistentId, "user1"));
         }
 
         #endregion
@@ -57,7 +56,7 @@ namespace KITT.Core.Test.Commands
             var nonExistentId = Guid.NewGuid();
 
             await Assert.ThrowsAsync<InvalidOperationException>(
-                () => commands.PublishContentAsync(nonExistentId, DateTime.UtcNow));
+                () => commands.PublishContentAsync(nonExistentId, DateTime.UtcNow, "user1"));
         }
 
         [Fact]
@@ -73,7 +72,7 @@ namespace KITT.Core.Test.Commands
             });
 
             var commands = new ContentCommands(_fixture.Context);
-            await commands.PublishContentAsync(post.Id, DateTime.UtcNow);
+            await commands.PublishContentAsync(post.Id, DateTime.UtcNow, "user1");
 
             var updated = _fixture.Context.Contents.Find(post.Id);
             Assert.Equal(Content.ContentStatus.Published, updated!.Status);
@@ -93,7 +92,7 @@ namespace KITT.Core.Test.Commands
 
             var publicationDate = new DateTime(2025, 6, 1, 0, 0, 0, DateTimeKind.Utc);
             var commands = new ContentCommands(_fixture.Context);
-            await commands.PublishContentAsync(post.Id, publicationDate);
+            await commands.PublishContentAsync(post.Id, publicationDate, "user1");
 
             var updated = _fixture.Context.Contents.Find(post.Id);
             Assert.Equal(publicationDate, updated!.PublicationDate);

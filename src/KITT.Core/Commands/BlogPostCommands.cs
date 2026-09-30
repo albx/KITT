@@ -28,9 +28,9 @@ public class BlogPostCommands(KittDbContext context) : IBlogPostCommands
         await context.SaveChangesAsync();
         return post.Id;
     }
-    public async Task UpdatePostAsync(Guid postId, string title, string @abstract, string content, SeoData seo)
+    public async Task UpdatePostAsync(Guid postId, string title, string @abstract, string content, SeoData seo, string userId)
     {
-        var post = await context.BlogPosts.SingleOrDefaultAsync(p => p.Id == postId);
+        var post = await context.BlogPosts.SingleOrDefaultAsync(p => p.Id == postId && p.UserId == userId);
         if (post is null)
         {
             throw new InvalidOperationException($"Blog post {postId} not found");
