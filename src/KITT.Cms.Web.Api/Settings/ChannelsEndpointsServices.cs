@@ -2,7 +2,7 @@
 using KITT.Cms.Settings.Models;
 using KITT.Cms.Web.Models.Settings;
 
-namespace KITT.Cms.Web.Api.Endpoints.Services;
+namespace KITT.Cms.Web.Api.Settings;
 
 public class ChannelsEndpointsServices(IConnectedChannelsRepository connectedChannelsRepository)
 {

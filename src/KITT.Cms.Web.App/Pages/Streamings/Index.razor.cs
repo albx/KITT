@@ -2,6 +2,7 @@ using KITT.Cms.Web.App.Clients;
 using KITT.Cms.Web.Models.Streamings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using StreamingSortDirection = KITT.Cms.Web.Models.SortDirection;
 
 namespace KITT.Cms.Web.App.Pages.Streamings;
 
@@ -31,7 +32,7 @@ public partial class Index
 
     private PaginationState paginationState = new();
 
-    private Option<StreamingQueryModel.SortDirection>[] directions = [];
+    private Option<StreamingSortDirection>[] directions = [];
 
     private readonly Option<int>[] sizes = [
         new() { Value = 5, Text = "5" },
@@ -42,8 +43,8 @@ public partial class Index
 
     protected override void OnInitialized()
     {
-        directions = Enum.GetValues<StreamingQueryModel.SortDirection>()
-            .Select(v => new Option<StreamingQueryModel.SortDirection>() { Value = v, Text = Localizer[v.ToString()] })
+        directions = Enum.GetValues<StreamingSortDirection>()
+            .Select(v => new Option<StreamingSortDirection>() { Value = v, Text = Localizer[v.ToString()] })
             .ToArray();
 
         SetPaginationState();

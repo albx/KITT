@@ -17,7 +17,7 @@ namespace KITT.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("ProductVersion", "10.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -153,6 +153,17 @@ namespace KITT.Core.Migrations
                     b.ToTable("KITT_Settings", (string)null);
                 });
 
+            modelBuilder.Entity("KITT.Core.Models.BlogPost", b =>
+                {
+                    b.HasBaseType("KITT.Core.Models.Content");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("KITT_BlogPosts", (string)null);
+                });
+
             modelBuilder.Entity("KITT.Core.Models.Streaming", b =>
                 {
                     b.HasBaseType("KITT.Core.Models.Content");
@@ -213,6 +224,15 @@ namespace KITT.Core.Migrations
                         });
 
                     b.Navigation("Seo")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KITT.Core.Models.BlogPost", b =>
+                {
+                    b.HasOne("KITT.Core.Models.Content", null)
+                        .WithOne()
+                        .HasForeignKey("KITT.Core.Models.BlogPost", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

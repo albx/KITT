@@ -1,0 +1,9 @@
+﻿@inject IStringLocalizer<Resources.Components.ContentStatusControl> Localizer
+
+@if (Content.Status is ContentStatus.Draft)
+{
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="OpenPublishContentDialogAsync">
+        @Localizer[nameof(Resources.Components.ContentStatusControl.PublishLabel)]
+    </FluentButton>
+}

@@ -1,21 +1,18 @@
-﻿using KITT.Cms.Web.Models.Streamings;
+﻿using KITT.Cms.Web.Models;
+using KITT.Cms.Web.Models.Streamings;
 using KITT.Core.Commands;
 using KITT.Core.ReadModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace KITT.Cms.Web.Api.Endpoints.Services;
+namespace KITT.Cms.Web.Api.Streamings;
 
 public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands commands)
 {
-    public IDatabase Database { get; } = database ?? throw new ArgumentNullException(nameof(database));
-
-    public IStreamingCommands Commands { get; } = commands ?? throw new ArgumentNullException(nameof(commands));
-
-    public async Task<StreamingsListModel> GetAllStreamingsAsync(string userId, int page, int size, StreamingQueryModel.SortDirection sort, string? query)
+    public async Task<StreamingsListModel> GetAllStreamingsAsync(string userId, int page, int size, SortDirection sort, string? query)
     {
-        var ascending = sort == StreamingQueryModel.SortDirection.Ascending;
+        var ascending = sort == SortDirection.Ascending;
 
-        var streamingsQuery = Database.Streamings
+        var streamingsQuery = database.Streamings
             .ByUserId(userId)
             .OrderedBySchedule(ascending);
 
@@ -44,7 +41,7 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
 
     public async Task<StreamingDetailModel?> GetStreamingDetailAsync(Guid streamingId)
     {
-        var streaming = await Database.Streamings.SingleOrDefaultAsync(s => s.Id == streamingId);
+        var streaming = await database.Streamings.SingleOrDefaultAsync(s => s.Id == streamingId);
         if (streaming is null)
         {
             return null;
@@ -81,7 +78,7 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
             Keywords = model.Seo.Keywords
         };
 
-        return Commands.ImportStreamingAsync(
+        return commands.ImportStreamingAsync(
             userId,
             model.TwitchChannel,
             model.YouTubeChannel,
@@ -105,7 +102,7 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
             Keywords = model.Seo.Keywords
         };
 
-        return Commands.ScheduleStreamingAsync(
+        return commands.ScheduleStreamingAsync(
             userId,
             model.TwitchChannel,
             model.YouTubeChannel,
@@ -129,7 +126,7 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
             Keywords = model.Seo.Keywords
         };
 
-        return Commands.UpdateStreamingAsync(
+        return commands.UpdateStreamingAsync(
             streamingId,
             model.TwitchChannel,
             model.YouTubeChannel,
@@ -143,11 +140,11 @@ public class StreamingsEndpointsServices(IDatabase database, IStreamingCommands 
             seo);
     }
 
-    public Task DeleteStreamingAsync(Guid streamingId) => Commands.DeleteStreamingAsync(streamingId);
+    public Task DeleteStreamingAsync(Guid streamingId) => commands.DeleteStreamingAsync(streamingId);
 
     public async Task<StreamingStatsModel?> GetStreamingStatsAsync(string userId)
     {
-        var streamingsQuery = Database.Streamings
+        var streamingsQuery = database.Streamings
             .ByUserId(userId)
             .OrderedBySchedule();
 

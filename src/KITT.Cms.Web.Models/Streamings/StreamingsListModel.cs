@@ -4,7 +4,7 @@ public class StreamingsListModel
 {
     public int TotalItems { get; set; }
 
-    public IEnumerable<StreamingListItemModel> Items { get; set; } = Array.Empty<StreamingListItemModel>();
+    public IEnumerable<StreamingListItemModel> Items { get; set; } = [];
 
     public record StreamingListItemModel
     {

@@ -1,11 +1,10 @@
-﻿using KITT.Cms.Web.Api.Endpoints.Services;
-using KITT.Cms.Web.Models.Settings;
+﻿using KITT.Cms.Web.Models.Settings;
 using KITT.Web.Shared.Security;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace KITT.Cms.Web.Api.Endpoints;
+namespace KITT.Cms.Web.Api.Settings;
 
 public static class SettingsEndpoints
 {
