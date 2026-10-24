@@ -1,5 +1,7 @@
 ﻿@page "/streamings"
 
+@using StreamingSortDirection = KITT.Cms.Web.Models.SortDirection
+
 @inject IStringLocalizer<UI.Resources.Common> CommonLocalizer
 @inject IStringLocalizer<Resources.Pages.Streamings.Index> Localizer
 
@@ -25,13 +27,13 @@
 
         <FluentGrid>
             <FluentGridItem xs="12" md="2">
-                <FluentSelect TOption="Option<StreamingQueryModel.SortDirection>"
+                <FluentSelect TOption="Option<StreamingSortDirection>"
                               Items="directions"
                               OptionValue="@(s => s.Value.ToString())"
                               OptionText="@(s => s.Text)"
                               Label="@Localizer[nameof(Resources.Pages.Streamings.Index.StreamingQueryOrderLabel)]"
                               Value="@query.ScheduleSort.ToString()"
-                              ValueChanged="@(value => query.ScheduleSort = Enum.Parse<StreamingQueryModel.SortDirection>(value))"
+                              ValueChanged="@(value => query.ScheduleSort = Enum.Parse<StreamingSortDirection>(value))"
                               Appearance="Appearance.Filled"
                               Style="width:100%; min-width:auto;" />
                 <FluentValidationMessage For="@(() => query.ScheduleSort)" />

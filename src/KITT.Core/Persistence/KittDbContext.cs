@@ -17,6 +17,8 @@ public class KittDbContext : DbContext
 
     public DbSet<Rating> Ratings { get; set; }
 
+    public DbSet<BlogPost> BlogPosts { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

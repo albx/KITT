@@ -57,6 +57,54 @@ internal static class CmsEndpoints
                     GetScopes))
                 .RequireAuthorization();
 
+            builder.MapForwarder(
+                "api/cms/blogposts",
+                $"https+http://{ServiceNames.CmsApi}",
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/blogposts",
+                    GetScopes))
+                .RequireAuthorization();
+
+            builder.MapForwarder(
+                "api/cms/blogposts/{id}",
+                $"https+http://{ServiceNames.CmsApi}",
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/blogposts/{id}",
+                    GetScopes))
+                .RequireAuthorization();
+
+            builder.MapForwarder(
+                "api/cms/blogposts/draft",
+                $"https+http://{ServiceNames.CmsApi}",
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/blogposts/draft",
+                    GetScopes))
+                .RequireAuthorization();
+
+            builder.MapForwarder(
+                "api/cms/blogposts/import",
+                $"https+http://{ServiceNames.CmsApi}",
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/blogposts/import",
+                    GetScopes))
+                .RequireAuthorization();
+
+            builder.MapForwarder(
+                "api/cms/contents/{id}",
+                $"https+http://{ServiceNames.CmsApi}",
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/contents/{id}",
+                    GetScopes))
+                .RequireAuthorization();
+
+            builder.MapForwarder(
+                "api/cms/contents/{id}/publish",
+                $"https+http://{ServiceNames.CmsApi}",
+                transformBuilder => transformBuilder.ConfigureWithTargetPath(
+                    "/api/contents/{id}/publish",
+                    GetScopes))
+                .RequireAuthorization();
+
             return builder;
         }
     }

@@ -1,30 +1,21 @@
-﻿using KITT.Core.Persistence;
+using KITT.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace KITT.Core.Test.Fixtures
 {
-    public class StreamingCommandsFixture : IDisposable
+    public class KittDbContextFixture : IDisposable
     {
         private bool disposedValue;
 
-        private DbContextOptions<KittDbContext> contextOptions;
-
         public KittDbContext Context { get; }
 
-        public StreamingCommandsFixture()
-        {
-            BuildContextOptions();
-            Context = new KittDbContext(this.contextOptions);
-        }
-
-        private void BuildContextOptions()
+        public KittDbContextFixture()
         {
             var options = new DbContextOptionsBuilder<KittDbContext>()
-                .UseInMemoryDatabase(databaseName: "Kitt-InMemory")
+                .UseInMemoryDatabase(databaseName: $"Kitt-InMemory-{Guid.NewGuid()}")
                 .Options;
 
-            this.contextOptions = options;
+            Context = new KittDbContext(options);
         }
 
         public void PrepareData(Action<KittDbContext> onDataPreparing) => onDataPreparing.Invoke(Context);
